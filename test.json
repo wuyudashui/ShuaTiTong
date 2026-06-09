@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1,
+    "type": "single",
+    "question": "Java 中，以下哪个关键字用于定义接口？",
+    "options": {
+      "A": "class",
+      "B": "interface",
+      "C": "abstract",
+      "D": "implements"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "Java 中用 interface 关键字定义接口，class 定义类，abstract 定义抽象类，implements 用于实现接口。"
+  },
+  {
+    "id": 2,
+    "type": "single",
+    "question": "下列代码的输出结果是：\npublic class Test {\n    public static void main(String[] args) {\n        int x = 10;\n        int y = 3;\n        System.out.println(x / y);\n    }\n}",
+    "options": {
+      "A": "3.333",
+      "B": "3",
+      "C": "3.0",
+      "D": "编译错误"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "两个整数相除结果仍为整数，10/3 = 3（向下取整）。"
+  },
+  {
+    "id": 3,
+    "type": "single",
+    "question": "以下哪个集合类属于线程安全的？",
+    "options": {
+      "A": "ArrayList",
+      "B": "HashMap",
+      "C": "Vector",
+      "D": "LinkedList"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "Vector 是线程安全的，它的方法都用 synchronized 修饰。ArrayList、HashMap、LinkedList 都是非线程安全的。"
+  },
+  {
+    "id": 4,
+    "type": "judge",
+    "question": "Java 中 String 是不可变的（immutable）。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "String 类被 final 修饰，且内部字符数组也是 final 的，任何修改都会创建新对象。"
+  },
+  {
+    "id": 5,
+    "type": "judge",
+    "question": "Java 支持多继承，一个类可以 extends 多个父类。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "Java 只支持单继承，一个类只能有一个直接父类。多继承通过接口实现。"
+  },
+  {
+    "id": 6,
+    "type": "judge",
+    "question": "finally 块中的代码在任何情况下都会被执行。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "如果程序在执行 try/finally 之前就退出了（如 System.exit()），或者发生严重系统崩溃，finally 块不会执行。"
+  },
+  {
+    "id": 7,
+    "type": "multi",
+    "question": "以下哪些是 Java 的基本数据类型？",
+    "options": {
+      "A": "int",
+      "B": "String",
+      "C": "boolean",
+      "D": "double"
+    },
+    "answer": "ACD",
+    "difficulty": "易",
+    "explanation": "Java 有 8 种基本类型：byte、short、int、long、float、double、boolean、char。String 是引用类型。"
+  },
+  {
+    "id": 8,
+    "type": "multi",
+    "question": "以下哪些异常是运行时异常（RuntimeException）？",
+    "options": {
+      "A": "NullPointerException",
+      "B": "IOException",
+      "C": "ArrayIndexOutOfBoundsException",
+      "D": "ClassNotFoundException"
+    },
+    "answer": "AC",
+    "difficulty": "中",
+    "explanation": "NullPointerException 和 ArrayIndexOutOfBoundsException 继承 RuntimeException（非受检异常）。IOException 和 ClassNotFoundException 是受检异常。"
+  },
+  {
+    "id": 9,
+    "type": "fill",
+    "question": "请补全以下 Java Hello World 程序：\npublic class Hello {\n    public static void ______(1) main(String[] ______(2)) {\n        System.out.______(3)(\"Hello World\");\n    }\n}",
+    "options": {
+      "空1": "void",
+      "空2": "args",
+      "空3": "println"
+    },
+    "answer": "空1：void | 空2：args | 空3：println",
+    "difficulty": "易",
+    "explanation": "main 方法的返回类型是 void，参数是 String[] args，打印输出用 println。"
+  },
+  {
+    "id": 10,
+    "type": "fill",
+    "question": "补全单例模式的双重检查锁实现：\npublic class Singleton {\n    private ______(1) volatile Singleton instance;\n    \n    private Singleton() {}\n    \n    public static Singleton getInstance() {\n        if (instance == null) {\n            ______(2) (Singleton.class) {\n                if (instance == null) {\n                    instance = new ______(3)();\n                }\n            }\n        }\n        return instance;\n    }\n}",
+    "options": {
+      "空1": "static",
+      "空2": "synchronized",
+      "空3": "Singleton"
+    },
+    "answer": "空1：static | 空2：synchronized | 空3：Singleton",
+    "difficulty": "难",
+    "explanation": "单例模式需要 static 修饰实例变量，synchronized 同步代码块，new Singleton() 创建实例。"
+  }
+]
