@@ -1,0 +1,17 @@
+{
+  "name": "shuatitong",
+  "version": "1.0.0",
+  "private": true,
+  "description": "刷题通 - Interactive Quiz App",
+  "scripts": {
+    "build": "npx cap sync android",
+    "open": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/android": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.0.0"
+  }
+}
