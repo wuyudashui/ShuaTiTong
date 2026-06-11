@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>刷题通</title>
 <style>
+  /* ── Reset & Variables ── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --bg: #f5f7fa;
@@ -42,6 +43,7 @@
     transition: background .3s, color .3s;
   }
 
+  /* ── Layout ── */
   .app-header {
     background: var(--card-bg);
     border-bottom: 1px solid var(--border);
@@ -76,6 +78,7 @@
     padding: 20px 16px 40px;
   }
 
+  /* ── Buttons ── */
   button, .btn {
     cursor: pointer;
     font-size: .875rem;
@@ -103,6 +106,7 @@
   .btn-outline { background: transparent; border: 1px solid var(--border); }
   .hidden { display: none !important; }
 
+  /* ── Upload ── */
   .upload-area {
     background: var(--card-bg);
     border: 2px dashed var(--border);
@@ -119,6 +123,7 @@
     position: absolute; inset: 0; opacity: 0; cursor: pointer;
   }
 
+  /* ── Stats Bar ── */
   .stats-bar {
     display: flex;
     flex-wrap: wrap;
@@ -138,6 +143,7 @@
   }
   .stat-item .num { font-weight: 700; }
 
+  /* ── Type filter chips ── */
   .filter-bar {
     display: flex;
     gap: 6px;
@@ -163,6 +169,7 @@
     border-color: var(--primary);
   }
 
+  /* ── Question Card ── */
   .q-card {
     background: var(--card-bg);
     border: 1px solid var(--border);
@@ -209,6 +216,7 @@
     font-family: "JetBrains Mono", "Fira Code", monospace;
   }
 
+  /* ── Options ── */
   .options { display: flex; flex-direction: column; gap: 10px; }
   .option {
     display: flex;
@@ -243,6 +251,7 @@
   .dark .option.wrong     { border-color: var(--wrong);   background: #7f1d1d; }
   .dark .option.highlight { border-color: var(--correct); background: #14532d; }
 
+  /* multi checkbox */
   .option .cb {
     flex-shrink: 0;
     width: 22px; height: 22px;
@@ -257,6 +266,7 @@
   }
   .option.selected .cb { background: var(--primary); border-color: var(--primary); color: #fff; }
 
+  /* ── Fill blanks ── */
   .fill-blanks { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
   .fill-row {
     display: flex;
@@ -281,6 +291,7 @@
   .fill-row input.correct { border-color: var(--correct); }
   .fill-row input.wrong   { border-color: var(--wrong); }
 
+  /* ── Feedback ── */
   .feedback {
     margin-top: 16px;
     padding: 14px 18px;
@@ -294,8 +305,39 @@
   .feedback.wrong   { background: #fee2e2; border: 1px solid var(--wrong);   color: #991b1b; }
   .dark .feedback.correct { background: #14532d; color: #bbf7d0; }
   .dark .feedback.wrong   { background: #7f1d1d; color: #fecaca; }
-  .feedback .exp { margin-top: 8px; color: var(--text-secondary); }
+  .feedback.ai-exp { border-left: 3px solid #818cf8; background: var(--primary); color: #fff; }
+  .feedback.ai-exp #feedbackResult { color: #fff; }
+  .feedback.ai-exp .exp { color: rgba(255,255,255,.9); }
+  .feedback.ai-exp .exp strong, .feedback.ai-exp .exp h3, .feedback.ai-exp .exp h4 { color: #fff; }
+  .feedback.ai-exp .exp code { background: rgba(255,255,255,.15); color: #fff; }
+  .feedback.ai-exp .exp pre { background: rgba(0,0,0,.15); border-color: rgba(255,255,255,.2); }
+  .feedback.ai-exp .exp a { color: #fff; text-decoration: underline; }
+  .feedback.ai-exp .exp blockquote { border-left-color: rgba(255,255,255,.5); background: rgba(255,255,255,.08); }
+  .dark .feedback.ai-exp { background: #3730a3; }
+  .dark .feedback.ai-exp .exp code { background: rgba(255,255,255,.12); }
+  .feedback .exp { margin-top: 8px; color: var(--text-secondary); line-height: 1.7; }
+  .feedback .exp h3, .feedback .exp h4 { margin: 12px 0 6px; color: var(--text); font-size: 1rem; }
+  .feedback .exp h3 { font-size: 1.05rem; }
+  .feedback .exp ul, .feedback .exp ol { margin: 6px 0; padding-left: 22px; }
+  .feedback .exp li { margin: 3px 0; }
+  .feedback .exp code {
+    font-size: .85em; background: var(--tag-bg); padding: 1px 5px; border-radius: 4px;
+    font-family: "JetBrains Mono", "Fira Code", monospace;
+  }
+  .feedback .exp pre {
+    background: var(--tag-bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 16px; overflow-x: auto; margin: 10px 0; font-size: .85rem;
+  }
+  .feedback .exp pre code { background: none; padding: 0; border-radius: 0; }
+  .feedback .exp strong { font-weight: 700; color: var(--text); }
+  .feedback .exp hr { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+  .feedback .exp p { margin: 6px 0; }
+  .feedback .exp blockquote {
+    border-left: 3px solid var(--primary); padding: 6px 14px; margin: 8px 0;
+    background: var(--tag-bg); border-radius: 0 8px 8px 0;
+  }
 
+  /* ── Nav ── */
   .nav-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -304,6 +346,7 @@
     justify-content: center;
   }
 
+  /* ── Tab Bar ── */
   .tab-bar {
     display: flex;
     gap: 4px;
@@ -329,6 +372,7 @@
     color: #fff;
   }
 
+  /* ── Error Book ── */
   .empty-state {
     text-align: center;
     padding: 48px 20px;
@@ -360,8 +404,53 @@
     gap: 8px;
   }
 
+  /* ── Modal ── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,.4);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .modal {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px; max-width: 480px;
+    width: 100%; box-shadow: 0 8px 32px rgba(0,0,0,.15);
+    max-height: 90vh; overflow-y: auto;
+    transition: background .3s;
+  }
+  .modal h2 { font-size: 1.15rem; margin-bottom: 16px; }
+  .modal label { display: block; font-size: .85rem; font-weight: 600; margin: 14px 0 4px; }
+  .modal input, .modal select {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+    border-radius: 8px; font-size: .9rem; background: var(--bg);
+    color: var(--text); font-family: inherit;
+  }
+  .modal input:focus { outline: none; border-color: var(--primary); }
+  .modal .disclaimer {
+    font-size: .8rem; color: var(--text-secondary);
+    background: var(--tag-bg); padding: 10px 14px;
+    border-radius: 8px; margin: 16px 0; line-height: 1.5;
+  }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+
+  /* ── AI button states ── */
+  .btn-ai { background: #6366f1; color: #fff; border-color: #6366f1; }
+  .btn-ai:hover { background: #4f46e5; }
+  .btn-ai:disabled { opacity: .6; cursor: not-allowed; }
+  .dark .btn-ai { background: #818cf8; border-color: #818cf8; }
+  .dark .btn-ai:hover { background: #6366f1; }
+  .ai-loading::after {
+    content: ''; display: inline-block; width: 14px; height: 14px;
+    border: 2px solid transparent; border-top-color: currentColor;
+    border-radius: 50%; animation: spin .6s linear infinite;
+    margin-left: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Misc ── */
   .theme-btn { font-size: 1.1rem; padding: 8px 12px; }
 
+  /* ── Responsive ── */
   @media (max-width: 480px) {
     .container { padding: 12px 10px; }
     .q-card { padding: 16px; }
@@ -379,16 +468,19 @@
 </head>
 <body>
 
+<!-- ════ HEADER ════ -->
 <header class="app-header">
   <h1>📝 刷题通</h1>
   <div class="header-actions">
     <button class="theme-btn" id="themeBtn" title="切换主题">🌙</button>
+    <button id="settingsBtn" class="btn-sm btn-outline" title="AI 解析设置">⚙️</button>
     <button id="resetProgressBtn" class="btn-sm btn-outline" title="重置答题进度">🔄 重置</button>
   </div>
 </header>
 
 <div class="container">
 
+  <!-- ════ UPLOAD ════ -->
   <div class="upload-area" id="uploadArea">
     <div class="upload-btn-wrapper">
       <button class="btn-primary">📂 上传 JSON 题库</button>
@@ -397,11 +489,13 @@
     <p>已加载 <strong id="fileStatus">0</strong> 道题目（支持拖拽上传 JSON 文件）</p>
   </div>
 
+  <!-- ════ TAB BAR ════ -->
   <div class="tab-bar" id="tabBar">
     <button class="active" data-tab="practice">📖 刷题</button>
     <button data-tab="errorbook">❌ 错题本 (<span id="errorCount">0</span>)</button>
   </div>
 
+  <!-- ════ TYPE FILTER ════ -->
   <div class="filter-bar" id="filterBar">
     <button class="filter-chip active" data-type="all">全部</button>
     <button class="filter-chip" data-type="single">单选</button>
@@ -410,6 +504,7 @@
     <button class="filter-chip" data-type="fill">填空</button>
   </div>
 
+  <!-- ════ STATS ════ -->
   <div class="stats-bar" id="statsBar">
     <div class="stat-item">📊 进度: <span class="num" id="progressDisplay">0/0</span></div>
     <div class="stat-item" style="color:var(--correct)">✅ <span class="num" id="correctCount">0</span></div>
@@ -417,6 +512,7 @@
     <div class="stat-item">🎯 <span class="num" id="accuracyDisplay">0%</span></div>
   </div>
 
+  <!-- ════ PRACTICE VIEW ════ -->
   <div id="practiceView">
     <div class="q-card" id="questionCard">
       <div class="q-header">
@@ -435,12 +531,50 @@
     <div class="nav-buttons" id="navButtons">
       <button id="prevBtn" class="btn-outline">◀ 上一题</button>
       <button id="randomBtn" class="btn-outline">🎲 随机</button>
+      <button id="aiExplainBtn" class="btn-outline btn-ai">🤖 AI 解析</button>
       <button id="showAnswerBtn" class="btn-outline">💡 显示答案</button>
       <button id="nextBtn" class="btn-primary">下一题 ▶</button>
     </div>
   </div>
 
+  <!-- ════ ERROR BOOK VIEW ════ -->
   <div id="errorBookView" class="hidden"></div>
+
+  <!-- ════ SETTINGS MODAL ════ -->
+  <div id="settingsModal" class="modal-overlay hidden">
+    <div class="modal">
+      <h2>⚙️ AI 解析设置</h2>
+      <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:4px">调用大模型自动生成题目解析，需自行填写 API Key。</p>
+
+      <label>API 地址</label>
+      <input type="text" id="apiBaseUrl" placeholder="https://api.deepseek.com/v1">
+
+      <label>模型名称</label>
+      <select id="apiModelSelect" style="margin-bottom:0">
+        <option value="deepseek-v4-flash">deepseek-v4-flash</option>
+        <option value="deepseek-chat">deepseek-chat</option>
+        <option value="deepseek-reasoner">deepseek-reasoner</option>
+        <option value="deepseek-coder">deepseek-coder</option>
+        <option value="deepseek-v4-pro">deepseek-v4-pro</option>
+        <option value="">—— 自定义 ——</option>
+      </select>
+      <input type="text" id="apiModelCustom" placeholder="输入自定义模型名称" style="display:none;margin-top:6px">
+
+      <label>API Key</label>
+      <input type="password" id="apiKeyInput" placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+
+      <div class="disclaimer">
+        ⚠️ <strong>免责声明</strong>：API Key 仅存储在你本机的浏览器 localStorage 中，不会上传到任何第三方服务器。
+        请求直接由浏览器发送至你填写的 API 地址。请自行承担 API 调用产生的费用。
+        DeepSeek 官网：<a href="https://platform.deepseek.com/api_keys" target="_blank" style="color:var(--primary)">platform.deepseek.com</a>
+      </div>
+
+      <div class="modal-actions">
+        <button id="settingsCancelBtn" class="btn-outline">取消</button>
+        <button id="settingsSaveBtn" class="btn-primary">保存</button>
+      </div>
+    </div>
+  </div>
 
 </div>
 
@@ -448,8 +582,9 @@
 (function(){
   'use strict';
 
-  let questions = [];
-  let currentIndex = 0;
+  // ─── State ───
+  let questions = [];            // full question array
+  let currentIndex = 0;          // 0-based index into the *filtered* list
   let filterType = 'all';
   let correctCount = 0;
   let wrongCount = 0;
@@ -457,12 +592,19 @@
   let errorBook = {};
   let isDark = false;
   let answered = false;
+  // AI settings
+  let apiKey = '';
+  let apiBaseUrl = 'https://api.deepseek.com/v1';
+  let apiModel = 'deepseek-v4-flash';
+  let aiLoading = false;
 
+  // ─── Derived: filtered list ───
   function getFiltered() {
     if (filterType === 'all') return questions;
     return questions.filter(q => q.type === filterType);
   }
 
+  // ─── DOM refs ───
   const $ = id => document.getElementById(id);
   const fileInput    = $('fileInput');
   const fileStatus   = $('fileStatus');
@@ -490,8 +632,19 @@
   const nextBtn      = $('nextBtn');
   const randomBtn    = $('randomBtn');
   const showAnsBtn   = $('showAnswerBtn');
+  const aiExplainBtn = $('aiExplainBtn');
+  const settingsBtn  = $('settingsBtn');
+  const settingsModal= $('settingsModal');
+  const settingsCancelBtn = $('settingsCancelBtn');
+  const settingsSaveBtn   = $('settingsSaveBtn');
+  const apiBaseUrlInput   = $('apiBaseUrl');
+  const apiKeyInput       = $('apiKeyInput');
+  const apiModelSelect     = $('apiModelSelect');
+  const apiModelCustom     = $('apiModelCustom');
 
+  // ─── localStorage ───
   const LS_KEY = 'shuatitong_state';
+  const AI_KEY = 'shuatitong_ai_settings';
   function saveState() {
     try {
       localStorage.setItem(LS_KEY, JSON.stringify({
@@ -500,40 +653,98 @@
       }));
     } catch(e) {}
   }
-
   function loadState() {
     try {
       const raw = localStorage.getItem(LS_KEY);
       if (!raw) return false;
       const s = JSON.parse(raw);
       if (!s.questions || !s.questions.length) return false;
-      Object.assign(this, s);
+      questions = s.questions; filterType = s.filterType || 'all';
+      currentIndex = s.currentIndex || 0; correctCount = s.correctCount || 0;
+      wrongCount = s.wrongCount || 0; answeredMap = s.answeredMap || {};
+      errorBook = s.errorBook || {}; isDark = s.isDark || false;
       return true;
     } catch(e) { return false; }
   }
+  function loadAISettings() {
+    try {
+      const raw = localStorage.getItem(AI_KEY);
+      if (!raw) return;
+      const s = JSON.parse(raw);
+      apiKey = s.apiKey || ''; apiBaseUrl = s.apiBaseUrl || 'https://api.deepseek.com/v1';
+      apiModel = s.apiModel || 'deepseek-v4-flash';
+    } catch(e) {}
+  }
+  function saveAISettings() {
+    try { localStorage.setItem(AI_KEY, JSON.stringify({ apiKey, apiBaseUrl, apiModel })); } catch(e) {}
+  }
 
+  // ─── Theme ───
   function applyTheme() {
     document.documentElement.classList.toggle('dark', isDark);
     themeBtn.textContent = isDark ? '☀️' : '🌙';
   }
   themeBtn.addEventListener('click', () => { isDark = !isDark; applyTheme(); saveState(); });
 
+  // ─── Settings Modal ───
+  function openSettings() {
+    apiBaseUrlInput.value = apiBaseUrl;
+    apiKeyInput.value = apiKey;
+    // Set model select, use custom if not in options
+    const opts = [...apiModelSelect.options].map(o => o.value);
+    if (opts.includes(apiModel)) {
+      apiModelSelect.value = apiModel;
+      apiModelCustom.style.display = 'none';
+    } else {
+      apiModelSelect.value = '';
+      apiModelCustom.style.display = 'block';
+      apiModelCustom.value = apiModel;
+    }
+    settingsModal.classList.remove('hidden');
+  }
+  function closeSettings() { settingsModal.classList.add('hidden'); }
+  settingsBtn.addEventListener('click', openSettings);
+  settingsCancelBtn.addEventListener('click', closeSettings);
+  settingsModal.addEventListener('click', e => { if (e.target === settingsModal) closeSettings(); });
+  apiModelSelect.addEventListener('change', () => {
+    apiModelCustom.style.display = apiModelSelect.value === '' ? 'block' : 'none';
+  });
+  settingsSaveBtn.addEventListener('click', () => {
+    apiBaseUrl = apiBaseUrlInput.value.trim() || 'https://api.deepseek.com/v1';
+    apiModel = apiModelSelect.value || apiModelCustom.value.trim() || 'deepseek-v4-flash';
+    apiKey = apiKeyInput.value.trim();
+    saveAISettings();
+    closeSettings();
+  });
+
+  // ─── Upload ───
   function loadJSON(data) {
-    if (!Array.isArray(data) || !data.length) {
+    if (!Array.isArray(data) || data.length === 0) {
       alert('题库格式无效：需要包含题目的 JSON 数组。');
       return;
     }
-    questions = data; filterType = 'all'; currentIndex = 0;
-    correctCount = 0; wrongCount = 0; answeredMap = {}; errorBook = {}; answered = false;
+    questions = data;
+    filterType = 'all';
+    currentIndex = 0;
+    correctCount = 0;
+    wrongCount = 0;
+    answeredMap = {};
+    errorBook = {};
+    answered = false;
+    // Reset filter chips
     filterBar.querySelectorAll('.filter-chip').forEach(b => b.classList.toggle('active', b.dataset.type === 'all'));
-    updateUI(); saveState();
+    updateUI();
+    saveState();
   }
 
   fileInput.addEventListener('change', e => {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = ev => { try { loadJSON(JSON.parse(ev.target.result)); } catch(err) { alert('JSON 解析失败: ' + err.message); } };
+    reader.onload = ev => {
+      try { loadJSON(JSON.parse(ev.target.result)); }
+      catch(err) { alert('JSON 解析失败: ' + err.message); }
+    };
     reader.readAsText(file, 'UTF-8');
     fileInput.value = '';
   });
@@ -541,75 +752,126 @@
   uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
   uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
   uploadArea.addEventListener('drop', e => {
-    e.preventDefault(); uploadArea.classList.remove('dragover');
+    e.preventDefault();
+    uploadArea.classList.remove('dragover');
     const file = e.dataTransfer.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = ev => { try { loadJSON(JSON.parse(ev.target.result)); } catch(err) { alert('JSON 解析失败: ' + err.message); } };
+    reader.onload = ev => {
+      try { loadJSON(JSON.parse(ev.target.result)); }
+      catch(err) { alert('JSON 解析失败: ' + err.message); }
+    };
     reader.readAsText(file, 'UTF-8');
   });
 
+  // ─── Reset ───
   resetBtn.addEventListener('click', () => {
     if (!questions.length) return;
     if (!confirm('重置后将清除所有答题进度，确定继续？')) return;
-    correctCount = 0; wrongCount = 0; answeredMap = {}; errorBook = {}; answered = false;
-    currentIndex = 0; updateUI(); saveState();
+    correctCount = 0;
+    wrongCount = 0;
+    answeredMap = {};
+    errorBook = {};
+    answered = false;
+    currentIndex = 0;
+    updateUI();
+    saveState();
   });
 
+  // ─── Filter chips ───
   filterBar.addEventListener('click', e => {
     const btn = e.target.closest('.filter-chip');
-    if (!btn || btn.dataset.type === filterType) return;
-    filterType = btn.dataset.type;
-    filterBar.querySelectorAll('.filter-chip').forEach(b => b.classList.toggle('active', b.dataset.type === filterType));
-    currentIndex = 0; renderQuestion(); saveState();
+    if (!btn) return;
+    const t = btn.dataset.type;
+    if (t === filterType) return;
+    filterType = t;
+    filterBar.querySelectorAll('.filter-chip').forEach(b => b.classList.toggle('active', b.dataset.type === t));
+    currentIndex = 0;
+    renderQuestion();
+    saveState();
   });
 
+  // ─── Tab switching ───
   tabBar.addEventListener('click', e => {
     const btn = e.target.closest('button');
     if (!btn) return;
     tabBar.querySelectorAll('button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    practiceView.classList.toggle('hidden', btn.dataset.tab !== 'practice');
-    errorView.classList.toggle('hidden', btn.dataset.tab !== 'errorbook');
-    if (btn.dataset.tab === 'errorbook') renderErrorBook();
+    const tab = btn.dataset.tab;
+    practiceView.classList.toggle('hidden', tab !== 'practice');
+    errorView.classList.toggle('hidden', tab !== 'errorbook');
+    if (tab === 'errorbook') renderErrorBook();
   });
 
+  // ─── Render current question ───
   function renderQuestion() {
-    feedback.classList.remove('show', 'correct', 'wrong'); answered = false;
+    feedback.classList.remove('show', 'correct', 'wrong', 'ai-exp');
+    answered = false;
+
     const filtered = getFiltered();
+
     if (!questions.length || !filtered.length) {
       qNumber.textContent = '第 0 题 / 共 0 题';
       qTags.innerHTML = '';
       qText.textContent = !questions.length ? '请先上传题库文件。' : '当前筛选条件下无题目。';
-      optContainer.innerHTML = ''; fillContainer.classList.add('hidden'); optContainer.classList.remove('hidden');
-      progressDisp.textContent = '0/0'; return;
+      optContainer.innerHTML = '';
+      fillContainer.classList.add('hidden');
+      optContainer.classList.remove('hidden');
+      progressDisp.textContent = '0/0';
+      return;
     }
+
     if (currentIndex < 0) currentIndex = 0;
     if (currentIndex >= filtered.length) currentIndex = filtered.length - 1;
+
     const q = filtered[currentIndex];
-    progressDisp.textContent = `${currentIndex+1}/${filtered.length}`;
-    qNumber.textContent = `第 ${currentIndex+1} 题 / 共 ${filtered.length} 题`;
+    const total = filtered.length;
+    progressDisp.textContent = `${currentIndex+1}/${total}`;
+    qNumber.textContent = `第 ${currentIndex+1} 题 / 共 ${total} 题`;
+
     const typeLabels = { single:'单选', judge:'判断', multi:'多选', fill:'填空' };
-    qTags.innerHTML = `<span class="q-tag">${typeLabels[q.type] || q.type}</span><span class="q-tag">${q.difficulty || '中'}</span>`;
+    qTags.innerHTML = `
+      <span class="q-tag">${typeLabels[q.type] || q.type}</span>
+      <span class="q-tag">${q.difficulty || '中'}</span>
+    `;
+
     qText.textContent = q.question;
-    optContainer.innerHTML = ''; fillContainer.classList.add('hidden'); optContainer.classList.remove('hidden');
-    if (q.type === 'fill') renderFill(q);
-    else if (q.type === 'multi') renderMultiOptions(q);
-    else renderSingleOptions(q);
+    optContainer.innerHTML = '';
+    fillContainer.classList.add('hidden');
+    optContainer.classList.remove('hidden');
+
+    if (q.type === 'fill') {
+      renderFill(q);
+    } else if (q.type === 'multi') {
+      renderMultiOptions(q);
+    } else {
+      renderSingleOptions(q);
+    }
+
+    // Restore answered state from global answer map
     const prevResult = answeredMap[q.id];
     if (prevResult) {
-      answered = true; showCorrectAnswer(q);
-      feedback.classList.add('show', prevResult === 'correct' ? 'correct' : 'wrong');
-      feedbackRes.innerHTML = prevResult === 'correct' ? '✅ 回答正确！' : '❌ 回答错误';
-      explanation.textContent = q.explanation || autoExplanation(q);
+      answered = true;
+      showCorrectAnswer(q);
+      if (prevResult === 'correct') {
+        feedback.classList.add('show', 'correct');
+        feedbackRes.innerHTML = '✅ 回答正确！';
+      } else {
+        feedback.classList.add('show', 'wrong');
+        feedbackRes.innerHTML = '❌ 回答错误';
+      }
+      explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
     }
+
     updateStats();
   }
 
+  // ─── Single / Judge ───
   function renderSingleOptions(q) {
     const entries = Object.entries(q.options || {}).filter(([k,v]) => v !== '');
     entries.forEach(([key, text]) => {
-      const div = document.createElement('div'); div.className = 'option';
+      const div = document.createElement('div');
+      div.className = 'option';
       div.innerHTML = `<span class="letter">${key}</span><span class="text">${text}</span>`;
       div.addEventListener('click', () => handleSingleClick(q, key, entries));
       optContainer.appendChild(div);
@@ -617,155 +879,425 @@
   }
 
   function handleSingleClick(q, selected, entries) {
-    if (answered) return; answered = true;
-    const opts = optContainer.querySelectorAll('.option'); opts.forEach(el => el.classList.add('disabled'));
+    if (answered) return;
+    answered = true;
+    const opts = optContainer.querySelectorAll('.option');
+    opts.forEach(el => el.classList.add('disabled'));
     const isCorrect = selected === q.answer;
-    entries.forEach(([key], i) => { if (key === q.answer) opts[i].classList.add('correct'); if (key === selected && !isCorrect) opts[i].classList.add('wrong'); });
+    entries.forEach(([key], i) => {
+      if (key === q.answer) opts[i].classList.add('correct');
+      if (key === selected && !isCorrect) opts[i].classList.add('wrong');
+    });
     feedback.classList.add('show');
-    if (isCorrect) { feedback.classList.add('correct'); feedbackRes.innerHTML = '✅ 回答正确！'; correctCount++; answeredMap[q.id] = 'correct'; delete errorBook[q.id]; }
-    else { feedback.classList.add('wrong'); feedbackRes.innerHTML = '❌ 回答错误'; wrongCount++; answeredMap[q.id] = 'wrong'; errorBook[q.id] = true; }
-    explanation.textContent = q.explanation || autoExplanation(q);
-    updateStats(); saveState();
+    if (isCorrect) {
+      feedback.classList.add('correct');
+      feedbackRes.innerHTML = '✅ 回答正确！';
+      correctCount++;
+      answeredMap[q.id] = 'correct';
+      delete errorBook[q.id];
+    } else {
+      feedback.classList.add('wrong');
+      feedbackRes.innerHTML = '❌ 回答错误';
+      wrongCount++;
+      answeredMap[q.id] = 'wrong';
+      errorBook[q.id] = true;
+    }
+    explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
+    updateStats();
+    saveState();
   }
 
+  // ─── Multi-select ───
   function renderMultiOptions(q) {
     const entries = Object.entries(q.options || {}).filter(([k,v]) => v !== '');
     entries.forEach(([key, text]) => {
-      const div = document.createElement('div'); div.className = 'option';
+      const div = document.createElement('div');
+      div.className = 'option';
       div.innerHTML = `<span class="cb">✓</span><span class="letter">${key}</span><span class="text">${text}</span>`;
       div.addEventListener('click', () => { if (!answered) div.classList.toggle('selected'); });
       optContainer.appendChild(div);
     });
-    const sb = document.createElement('button'); sb.className = 'btn-primary'; sb.style.marginTop = '12px'; sb.textContent = '✓ 提交答案';
-    sb.addEventListener('click', () => handleMultiSubmit(q, entries)); optContainer.appendChild(sb);
+    const submitBtn = document.createElement('button');
+    submitBtn.className = 'btn-primary';
+    submitBtn.style.marginTop = '12px';
+    submitBtn.textContent = '✓ 提交答案';
+    submitBtn.addEventListener('click', () => handleMultiSubmit(q, entries));
+    optContainer.appendChild(submitBtn);
   }
 
   function handleMultiSubmit(q, entries) {
     if (answered) return;
     const opts = optContainer.querySelectorAll('.option');
-    const selected = []; opts.forEach((el, i) => { if (el.classList.contains('selected')) selected.push(entries[i][0]); });
-    if (!selected.length) { alert('请至少选择一个选项'); return; }
-    answered = true; opts.forEach(el => el.classList.add('disabled'));
-    const isCorrect = selected.sort().join('') === q.answer.toUpperCase().split('').sort().join('');
-    entries.forEach(([key], i) => { if (q.answer.includes(key)) opts[i].classList.add('highlight'); if (selected.includes(key) && !q.answer.includes(key)) opts[i].classList.add('wrong'); });
+    const selected = [];
+    opts.forEach((el, i) => {
+      if (el.classList.contains('selected')) selected.push(entries[i][0]);
+    });
+    if (selected.length === 0) { alert('请至少选择一个选项'); return; }
+    answered = true;
+    opts.forEach(el => el.classList.add('disabled'));
+    const correctAnswer = q.answer.toUpperCase().split('').sort().join('');
+    const userAnswer = selected.sort().join('');
+    const isCorrect = userAnswer === correctAnswer;
+    entries.forEach(([key], i) => {
+      if (q.answer.includes(key)) opts[i].classList.add('highlight');
+      if (selected.includes(key) && !q.answer.includes(key)) opts[i].classList.add('wrong');
+    });
     feedback.classList.add('show');
-    if (isCorrect) { feedback.classList.add('correct'); feedbackRes.innerHTML = '✅ 回答正确！'; correctCount++; answeredMap[q.id] = 'correct'; delete errorBook[q.id]; }
-    else { feedback.classList.add('wrong'); feedbackRes.innerHTML = `❌ 回答错误（正确答案：${q.answer}）`; wrongCount++; answeredMap[q.id] = 'wrong'; errorBook[q.id] = true; }
-    explanation.textContent = q.explanation || autoExplanation(q);
-    updateStats(); saveState();
+    if (isCorrect) {
+      feedback.classList.add('correct');
+      feedbackRes.innerHTML = '✅ 回答正确！';
+      correctCount++;
+      answeredMap[q.id] = 'correct';
+      delete errorBook[q.id];
+    } else {
+      feedback.classList.add('wrong');
+      feedbackRes.innerHTML = `❌ 回答错误（正确答案：${q.answer}）`;
+      wrongCount++;
+      answeredMap[q.id] = 'wrong';
+      errorBook[q.id] = true;
+    }
+    explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
+    updateStats();
+    saveState();
   }
 
+  // ─── Fill-in blanks ───
   function renderFill(q) {
-    optContainer.classList.add('hidden'); fillContainer.classList.remove('hidden'); fillContainer.innerHTML = '';
-    const blanks = q.options || {}; const keys = Object.keys(blanks);
-    if (!keys.length) { fillContainer.innerHTML = '<p style="color:var(--text-secondary)">无填空内容</p>'; return; }
+    optContainer.classList.add('hidden');
+    fillContainer.classList.remove('hidden');
+    fillContainer.innerHTML = '';
+    const blanks = q.options || {};
+    const keys = Object.keys(blanks);
+    if (!keys.length) {
+      fillContainer.innerHTML = '<p style="color:var(--text-secondary)">无填空内容</p>';
+      return;
+    }
     keys.forEach(key => {
-      const row = document.createElement('div'); row.className = 'fill-row';
+      const row = document.createElement('div');
+      row.className = 'fill-row';
       row.innerHTML = `<label>${key}</label><input type="text" placeholder="请输入答案" data-blank="${key}">`;
       fillContainer.appendChild(row);
     });
-    const sb = document.createElement('button'); sb.className = 'btn-primary'; sb.style.marginTop = '8px'; sb.textContent = '✓ 提交答案';
-    sb.addEventListener('click', () => handleFillSubmit(q)); fillContainer.appendChild(sb);
+    const submitBtn = document.createElement('button');
+    submitBtn.className = 'btn-primary';
+    submitBtn.style.marginTop = '8px';
+    submitBtn.textContent = '✓ 提交答案';
+    submitBtn.addEventListener('click', () => handleFillSubmit(q));
+    fillContainer.appendChild(submitBtn);
   }
 
   function handleFillSubmit(q) {
     if (answered) return;
     const inputs = fillContainer.querySelectorAll('input[data-blank]');
-    let allCorrect = true, details = '';
+    let allCorrect = true;
+    let details = '';
     inputs.forEach(inp => {
       const key = inp.dataset.blank;
-      const ok = inp.value.trim().toLowerCase() === (q.options[key] || '').trim().toLowerCase();
-      inp.classList.add(ok ? 'correct' : 'wrong'); inp.disabled = true;
-      if (!ok) { allCorrect = false; details += `${key}: 你的"${inp.value.trim()}" / 正确"${q.options[key]}"  `; }
+      const userAns = inp.value.trim();
+      const correctAns = (q.options[key] || '').trim();
+      const ok = userAns.toLowerCase() === correctAns.toLowerCase();
+      inp.classList.add(ok ? 'correct' : 'wrong');
+      inp.disabled = true;
+      if (!ok) { allCorrect = false; details += `${key}: 你的"${userAns}" / 正确"${correctAns}"  `; }
     });
-    answered = true; feedback.classList.add('show');
-    if (allCorrect) { feedback.classList.add('correct'); feedbackRes.innerHTML = '✅ 全部正确！'; correctCount++; answeredMap[q.id] = 'correct'; delete errorBook[q.id]; }
-    else { feedback.classList.add('wrong'); feedbackRes.innerHTML = `❌ 有错误：${details}`; wrongCount++; answeredMap[q.id] = 'wrong'; errorBook[q.id] = true; }
-    explanation.textContent = q.explanation || autoExplanation(q);
-    updateStats(); saveState();
+    answered = true;
+    feedback.classList.add('show');
+    if (allCorrect) {
+      feedback.classList.add('correct');
+      feedbackRes.innerHTML = '✅ 全部正确！';
+      correctCount++;
+      answeredMap[q.id] = 'correct';
+      delete errorBook[q.id];
+    } else {
+      feedback.classList.add('wrong');
+      feedbackRes.innerHTML = `❌ 有错误：${details}`;
+      wrongCount++;
+      answeredMap[q.id] = 'wrong';
+      errorBook[q.id] = true;
+    }
+    explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
+    updateStats();
+    saveState();
   }
 
+  // ─── Show Answer ───
   function showCorrectAnswer(q) {
     const opts = optContainer.querySelectorAll('.option');
-    if (q.type === 'fill') { fillContainer.querySelectorAll('input[data-blank]').forEach(inp => { inp.disabled = true; inp.value = q.options[inp.dataset.blank] || ''; inp.classList.add('correct'); }); return; }
+    if (q.type === 'fill') {
+      fillContainer.querySelectorAll('input[data-blank]').forEach(inp => {
+        inp.disabled = true;
+        inp.value = q.options[inp.dataset.blank] || '';
+        inp.classList.add('correct');
+      });
+      return;
+    }
     const entries = Object.entries(q.options || {}).filter(([k,v]) => v !== '');
-    if (q.type === 'multi') entries.forEach(([key], i) => { if (opts[i] && q.answer.includes(key)) opts[i].classList.add('highlight'); });
-    else entries.forEach(([key], i) => { if (opts[i] && key === q.answer) opts[i].classList.add('correct'); });
+    if (q.type === 'multi') {
+      entries.forEach(([key], i) => { if (opts[i] && q.answer.includes(key)) opts[i].classList.add('highlight'); });
+    } else {
+      entries.forEach(([key], i) => { if (opts[i] && key === q.answer) opts[i].classList.add('correct'); });
+    }
   }
 
   showAnsBtn.addEventListener('click', () => {
-    const filtered = getFiltered(); if (!filtered.length) return;
-    const q = filtered[currentIndex]; if (answered) return;
-    answered = true; wrongCount++; answeredMap[q.id] = 'wrong'; errorBook[q.id] = true;
+    const filtered = getFiltered();
+    if (!filtered.length) return;
+    const q = filtered[currentIndex];
+    if (answered) return;
+    answered = true;
+    wrongCount++;
+    answeredMap[q.id] = 'wrong';
+    errorBook[q.id] = true;
     optContainer.querySelectorAll('.option').forEach(el => el.classList.add('disabled'));
-    showCorrectAnswer(q); feedback.classList.add('show', 'wrong');
+    showCorrectAnswer(q);
+    feedback.classList.add('show', 'wrong');
     feedbackRes.innerHTML = `💡 已显示答案（正确答案：${q.answer}）`;
-    explanation.textContent = q.explanation || autoExplanation(q);
-    updateStats(); saveState();
+    explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
+    updateStats();
+    saveState();
   });
 
-  function autoExplanation(q) {
-    if (q.type === 'fill') return `参考答案：${Object.entries(q.options||{}).map(([k,v])=>`${k}：${v}`).join('；')}`;
-    if (q.type === 'judge') return `正确答案是 ${q.answer}（${q.answer === 'A' ? '正确' : '错误'}）`;
-    return q.options && q.options[q.answer] ? `正确答案是 ${q.answer}：${q.options[q.answer]}` : `正确答案是 ${q.answer}`;
+  // ─── AI Response formatter ───
+  // Converts LLM markdown output into safe HTML for display
+  function formatExplanation(text) {
+    if (!text) return '';
+    // 1. HTML-escape first (prevent XSS)
+    let h = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    // 2. Code blocks (```) — must happen before other inline patterns
+    h = h.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+      return `<pre><code>${code.trim()}</code></pre>`;
+    });
+    // 3. Headings: ### title / ## title / # title
+    h = h.replace(/^### (.+)$/gm, '<h4>$1</h4>');
+    h = h.replace(/^## (.+)$/gm, '<h3>$1</h3>');
+    h = h.replace(/^# (.+)$/gm, '<h3>$1</h3>');
+    // 4. Horizontal rule
+    h = h.replace(/^---$/gm, '<hr>');
+    // 5. Bold & italic
+    h = h.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+    h = h.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    h = h.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    // 6. Inline code
+    h = h.replace(/`([^`]+)`/g, '<code>$1</code>');
+    // 7. Unordered lists
+    h = h.replace(/^- (.+)$/gm, '<li>$1</li>');
+    h = h.replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
+    // 8. Ordered lists
+    h = h.replace(/^\d+\.\s(.+)$/gm, '<li>$1</li>');
+    // After list-item conversion, wrap consecutive <li> blocks
+    // (already handled by the unordered regex above catching both)
+    // 9. Blockquote
+    h = h.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+    // 10. Clean <br> after block tags
+    h = h.replace(/(<\/(?:li|ul|ol|blockquote|pre|h[34])>)\s*<br>/g, '$1');
+    // 11. Double newlines → paragraph breaks
+    h = h.replace(/\n\n+/g, '</p><p>');
+    // 12. Single newlines → <br>
+    h = h.replace(/\n/g, '<br>');
+    // 13. Clean <br> after </li> (leftover from step 12)
+    h = h.replace(/<\/li><br>/g, '</li>');
+    // 14. Wrap in paragraph if not already wrapped by block tags
+    if (!h.startsWith('<')) h = '<p>' + h;
+    if (!h.endsWith('>')) h = h + '</p>';
+    // Clean up nested <p> artifacts
+    h = h.replace(/<p><\/p>/g, '');
+    h = h.replace(/<\/p><p><\/p><p>/g, '</p><p>');
+    return h;
   }
 
-  prevBtn.addEventListener('click', () => { if (currentIndex > 0) { currentIndex--; renderQuestion(); saveState(); } });
-  nextBtn.addEventListener('click', () => { const f = getFiltered(); if (currentIndex < f.length-1) { currentIndex++; renderQuestion(); saveState(); } });
-  randomBtn.addEventListener('click', () => { const f = getFiltered(); if (f.length < 2) return; let idx; do { idx = Math.floor(Math.random()*f.length); } while (idx === currentIndex); currentIndex = idx; renderQuestion(); saveState(); });
+  // ─── Auto explanation ───
+  function autoExplanation(q) {
+    if (q.type === 'fill') {
+      const blanks = q.options || {};
+      return `参考答案：${Object.entries(blanks).map(([k,v]) => `${k}：${v}`).join('；')}`;
+    }
+    if (q.type === 'judge') return `正确答案是 ${q.answer}（${q.answer === 'A' ? '正确' : '错误'}）`;
+    const ansOption = q.options ? q.options[q.answer] : '';
+    return ansOption ? `正确答案是 ${q.answer}：${ansOption}` : `正确答案是 ${q.answer}`;
+  }
 
+  // ─── AI Explanation ───
+  async function fetchAIExplanation(q) {
+    if (!apiKey) {
+      openSettings();
+      return;
+    }
+    if (aiLoading) return;
+    aiLoading = true;
+    aiExplainBtn.disabled = true;
+    aiExplainBtn.classList.add('ai-loading');
+    aiExplainBtn.textContent = '🤖 解析中';
+
+    try {
+      // Build prompt
+      let prompt = `请为以下题目生成详细的答案解析。\n\n`;
+      prompt += `题目：${q.question}\n\n`;
+      const typeLabels = { single:'单选题', judge:'判断题', multi:'多选题', fill:'填空题' };
+      prompt += `题型：${typeLabels[q.type] || q.type}\n`;
+      if (q.type !== 'fill' && q.options) {
+        prompt += '选项：\n';
+        Object.entries(q.options).filter(([k,v]) => v).forEach(([k,v]) => { prompt += `${k}. ${v}\n`; });
+      }
+      if (q.type === 'fill') {
+        prompt += '参考答案：\n';
+        Object.entries(q.options || {}).filter(([k,v]) => v).forEach(([k,v]) => { prompt += `${k}：${v}\n`; });
+      } else {
+        prompt += `\n正确答案：${q.answer}\n`;
+      }
+      prompt += `\n请用中文给出详细的解析，包括：为什么这个答案正确、其他选项为什么错误（如适用）、相关知识点说明。`;
+
+      const baseUrl = apiBaseUrl.replace(/\/+$/, '');
+      const res = await fetch(`${baseUrl}/chat/completions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+        body: JSON.stringify({
+          model: apiModel,
+          messages: [
+            { role: 'system', content: '你是一个专业的编程课程助教，擅长用中文详细解析题目，帮助学生理解知识点。' },
+            { role: 'user', content: prompt }
+          ],
+          max_tokens: 1024,
+          temperature: 0.7
+        })
+      });
+      if (!res.ok) {
+        const err = await res.text();
+        throw new Error(`API 请求失败 (${res.status}): ${err}`);
+      }
+      const data = await res.json();
+      const content = data.choices?.[0]?.message?.content?.trim() || '未获取到解析内容。';
+
+      // Save to question and display
+      q.explanation = content;
+      // If feedback is visible, update it
+      feedback.classList.add('ai-exp');
+      if (feedback.classList.contains('show')) {
+        explanation.innerHTML = formatExplanation(content);
+      } else {
+        feedback.classList.add('show', 'correct');
+        feedbackRes.innerHTML = '🤖 AI 解析';
+        explanation.innerHTML = formatExplanation(content);
+      }
+      saveState();
+    } catch (err) {
+      feedback.classList.add('show', 'wrong');
+      feedbackRes.innerHTML = '❌ AI 解析失败';
+      explanation.innerHTML = formatExplanation(err.message || '网络错误，请检查 API 地址和 Key 是否正确。');
+    } finally {
+      aiLoading = false;
+      aiExplainBtn.disabled = false;
+      aiExplainBtn.classList.remove('ai-loading');
+      aiExplainBtn.textContent = '🤖 AI 解析';
+    }
+  }
+
+  aiExplainBtn.addEventListener('click', () => {
+    const filtered = getFiltered();
+    if (!filtered.length) return;
+    const q = filtered[currentIndex];
+    fetchAIExplanation(q);
+  });
+
+  // ─── Navigation ───
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) { currentIndex--; renderQuestion(); saveState(); }
+  });
+  nextBtn.addEventListener('click', () => {
+    const filtered = getFiltered();
+    if (currentIndex < filtered.length - 1) { currentIndex++; renderQuestion(); saveState(); }
+  });
+  randomBtn.addEventListener('click', () => {
+    const filtered = getFiltered();
+    if (filtered.length < 2) return;
+    let idx;
+    do { idx = Math.floor(Math.random() * filtered.length); } while (idx === currentIndex);
+    currentIndex = idx;
+    renderQuestion();
+    saveState();
+  });
+
+  // Keyboard shortcuts
   document.addEventListener('keydown', e => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-    if (e.key === 'ArrowLeft') prevBtn.click();
+    if (e.key === 'ArrowLeft')  prevBtn.click();
     if (e.key === 'ArrowRight') nextBtn.click();
     if (e.key === ' ' || e.key === 'Space') { e.preventDefault(); randomBtn.click(); }
   });
 
+  // ─── Stats ───
   function updateStats() {
     const filtered = getFiltered();
     progressDisp.textContent = `${filtered.length ? currentIndex+1 : 0}/${filtered.length}`;
-    correctDisp.textContent = correctCount; wrongDisp.textContent = wrongCount;
-    accuracyDisp.textContent = correctCount+wrongCount ? Math.round(correctCount/(correctCount+wrongCount)*100)+'%' : '0%';
-    errorCount.textContent = Object.keys(errorBook).length; fileStatus.textContent = questions.length;
+    correctDisp.textContent = correctCount;
+    wrongDisp.textContent = wrongCount;
+    const total = correctCount + wrongCount;
+    accuracyDisp.textContent = total ? Math.round(correctCount/total*100) + '%' : '0%';
+    errorCount.textContent = Object.keys(errorBook).length;
+    fileStatus.textContent = questions.length;
   }
 
-  function updateUI() { renderQuestion(); updateStats(); }
+  function updateUI() {
+    renderQuestion();
+    updateStats();
+  }
 
+  // ─── Error Book ───
   function renderErrorBook() {
     const ids = Object.keys(errorBook);
-    if (!ids.length) { errorView.innerHTML = '<div class="empty-state"><div class="icon">🎉</div><h3>暂无错题</h3><p>继续刷题，答错的题目会自动收集在这里。</p></div>'; return; }
-    const tl = { single:'单选', judge:'判断', multi:'多选', fill:'填空' };
+    if (!ids.length) {
+      errorView.innerHTML = `<div class="empty-state"><div class="icon">🎉</div><h3>暂无错题</h3><p>继续刷题，答错的题目会自动收集在这里。</p></div>`;
+      return;
+    }
+    const typeLabels = { single:'单选', judge:'判断', multi:'多选', fill:'填空' };
     let html = `<p style="margin-bottom:12px;color:var(--text-secondary)">共 ${ids.length} 道错题</p>`;
     ids.forEach(id => {
-      const q = questions.find(qq => String(qq.id) === String(id)); if (!q) return;
-      let ca = q.answer; if (q.type === 'fill') ca = Object.entries(q.options||{}).map(([k,v])=>`${k}:${v}`).join(' | '); else if (q.type === 'judge') ca += q.answer === 'A' ? '（正确）' : '（错误）';
-      html += `<div class="error-item" data-id="${q.id}"><div class="q-text-sm">${escapeHtml(q.question)}</div><div class="meta"><span>🏷 ${tl[q.type]||q.type}</span><span>📌 难度：${q.difficulty}</span><span>✅ 正确答案：${ca}</span></div></div>`;
+      const q = questions.find(qq => String(qq.id) === String(id));
+      if (!q) return;
+      let correctAns = q.answer;
+      if (q.type === 'fill') {
+        correctAns = Object.entries(q.options || {}).map(([k,v]) => `${k}:${v}`).join(' | ');
+      } else if (q.type === 'judge') {
+        correctAns += q.answer === 'A' ? '（正确）' : '（错误）';
+      }
+      html += `<div class="error-item" data-id="${q.id}"><div class="q-text-sm">${escapeHtml(q.question)}</div><div class="meta"><span>🏷 ${typeLabels[q.type] || q.type}</span><span>📌 难度：${q.difficulty}</span><span>✅ 正确答案：${correctAns}</span></div></div>`;
     });
     errorView.innerHTML = html;
     errorView.querySelectorAll('.error-item').forEach(el => {
       el.addEventListener('click', () => {
-        const qq = questions.find(qqq => qqq.id === parseInt(el.dataset.id)); if (!qq) return;
-        filterType = 'all'; filterBar.querySelectorAll('.filter-chip').forEach(b => b.classList.toggle('active', b.dataset.type === 'all'));
-        currentIndex = getFiltered().findIndex(fq => fq.id === qq.id); if (currentIndex < 0) currentIndex = 0;
-        tabBar.querySelector('[data-tab="practice"]').click(); renderQuestion(); saveState();
+        const id = parseInt(el.dataset.id);
+        const idx = questions.findIndex(q => q.id === id);
+        if (idx >= 0) {
+          // Auto-switch filter to include this question type
+          const q = questions[idx];
+          filterType = 'all';
+          filterBar.querySelectorAll('.filter-chip').forEach(b => b.classList.toggle('active', b.dataset.type === 'all'));
+          currentIndex = getFiltered().findIndex(fq => fq.id === q.id);
+          if (currentIndex < 0) currentIndex = 0;
+          tabBar.querySelector('[data-tab="practice"]').click();
+          renderQuestion();
+          saveState();
+        }
       });
     });
   }
 
-  function escapeHtml(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
-
-  function tryLoadBundledJSON() {
-    fetch('merged_questions.json').then(r => { if (!r.ok) throw Error(); return r.json(); }).then(data => {
-      if (Array.isArray(data) && data.length) { loadJSON(data); }
-    }).catch(() => {});
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
   }
 
+  // ─── Init ───
   function init() {
+    loadAISettings();
     const restored = loadState();
     if (restored && questions.length) {
       filterBar.querySelectorAll('.filter-chip').forEach(b => b.classList.toggle('active', b.dataset.type === filterType));
       applyTheme(); updateUI(); errorCount.textContent = Object.keys(errorBook).length;
-    } else { applyTheme(); updateStats(); tryLoadBundledJSON(); }
+    } else { applyTheme(); updateStats(); }
   }
 
   init();

@@ -1,6 +1,8 @@
 {
   "appId": "com.shuatitong.app",
   "appName": "刷题通",
+  "appVersion": "1.1.0",
+  "versionCode": 2,
   "webDir": "www",
   "bundledWebRuntime": false,
   "server": {
