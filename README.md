@@ -1,4 +1,4 @@
-# 📝 刷题通
+# 刷题通
 
 一个纯前端交互式刷题 Web 应用，支持单选、判断、多选、填空四种题型。可打包为 Android APK。
 
@@ -13,7 +13,7 @@
 
 ### APK 版（Android 手机）
 
-从 [Releases](https://github.com/wuyudashui/-/releases) 或 [Actions](https://github.com/wuyudashui/-/actions) 下载最新 APK，安装后打开即可使用（题库已内置）。
+从 [Releases](https://github.com/wuyudashui/ShuaTiTong/releases) 或 [Actions](https://github.com/wuyudashui/ShuaTiTong/actions) 下载最新 APK，安装后打开即可使用（题库已内置）。
 
 ## 功能
 
@@ -54,7 +54,7 @@
 ### `type` 取值
 
 | 值 | 题型 | 说明 |
-|----|------|------|
+| --- | --- | --- |
 | `single` | 单选 | 选项 A/B/C/D，点击即判对错 |
 | `judge` | 判断 | 选项固定为 A(正确) B(错误)，answer 填 A 或 B |
 | `multi` | 多选 | 勾选后统一提交，answer 填组合如 `"ACD"` |
@@ -97,7 +97,7 @@ cd android && ./gradlew assembleDebug
 
 ## 项目结构
 
-```
+```text
 ├── shuatitong.html              # 网页版（浏览器双击即用）
 ├── merged_questions.json        # 257 道题库
 ├── test.json                    # 测试用题库（含四种题型）
