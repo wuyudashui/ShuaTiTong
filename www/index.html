@@ -544,7 +544,7 @@
   <div id="settingsModal" class="modal-overlay hidden">
     <div class="modal">
       <h2>⚙️ AI 解析设置</h2>
-      <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:4px">调用大模型自动生成题目解析，需自行填写 API Key。</p>
+      <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:4px">调用大模型自动生成题目解析。使用 DeepSeek 需填写 API Key；使用本地模型（如 Ollama）可留空。</p>
 
       <label>API 地址</label>
       <input type="text" id="apiBaseUrl" placeholder="https://api.deepseek.com/v1">
@@ -565,8 +565,9 @@
 
       <div class="disclaimer">
         ⚠️ <strong>免责声明</strong>：API Key 仅存储在你本机的浏览器 localStorage 中，不会上传到任何第三方服务器。
-        请求直接由浏览器发送至你填写的 API 地址。请自行承担 API 调用产生的费用。
-        DeepSeek 官网：<a href="https://platform.deepseek.com/api_keys" target="_blank" style="color:var(--primary)">platform.deepseek.com</a>
+        DeepSeek 用户：请求直接由浏览器发送至 DeepSeek API。请自行承担 API 调用产生的费用。
+        本地模型用户：API Key 可留空，请求直接发到你填写的本地地址。DeepSeek 官网：
+        <a href="https://platform.deepseek.com/api_keys" target="_blank" style="color:var(--primary)">platform.deepseek.com</a>
       </div>
 
       <div class="modal-actions">
@@ -594,7 +595,7 @@
   let answered = false;
   // AI settings
   let apiKey = '';
-  let apiBaseUrl = 'https://api.deepseek.com/v1';
+  let apiBaseUrl = 'https://api.deepseek.com';
   let apiModel = 'deepseek-v4-flash';
   let aiLoading = false;
 
@@ -1121,10 +1122,6 @@
 
   // ─── AI Explanation ───
   async function fetchAIExplanation(q) {
-    if (!apiKey) {
-      openSettings();
-      return;
-    }
     if (aiLoading) return;
     aiLoading = true;
     aiExplainBtn.disabled = true;
@@ -1150,9 +1147,11 @@
       prompt += `\n请用中文给出详细的解析，包括：为什么这个答案正确、其他选项为什么错误（如适用）、相关知识点说明。`;
 
       const baseUrl = apiBaseUrl.replace(/\/+$/, '');
+      const headers = { 'Content-Type': 'application/json' };
+      if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
       const res = await fetch(`${baseUrl}/chat/completions`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+        headers,
         body: JSON.stringify({
           model: apiModel,
           messages: [
