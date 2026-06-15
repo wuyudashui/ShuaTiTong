@@ -122,6 +122,21 @@
   .upload-btn-wrapper input[type=file] {
     position: absolute; inset: 0; opacity: 0; cursor: pointer;
   }
+  .recent-files { margin-top: 14px; }
+  .recent-files summary { cursor: pointer; font-size: .85rem; color: var(--text-secondary); padding: 4px 0; }
+  .recent-files .recent-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .recent-files .recent-item {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px; background: var(--tag-bg); color: var(--tag-color);
+    border-radius: 6px; font-size: .82rem; cursor: pointer;
+    transition: opacity .15s; border: none;
+  }
+  .recent-files .recent-item:hover { opacity: .8; }
+  .recent-files .recent-item .del {
+    font-size: .7rem; opacity: .5; margin-left: 2px;
+    background: none; border: none; color: inherit; cursor: pointer; padding: 0 2px;
+  }
+  .recent-files .recent-item .del:hover { opacity: 1; }
 
   /* ── Stats Bar ── */
   .stats-bar {
@@ -488,6 +503,10 @@
     </div>
     <p>已加载 <strong id="fileStatus">0</strong> 道题目（支持拖拽上传 JSON 文件）</p>
   </div>
+  <details class="recent-files" id="recentFiles" open>
+    <summary>📁 最近打开</summary>
+    <div class="recent-list" id="recentList"></div>
+  </details>
 
   <!-- ════ TAB BAR ════ -->
   <div class="tab-bar" id="tabBar">
@@ -598,6 +617,8 @@
   let apiBaseUrl = 'https://api.deepseek.com';
   let apiModel = 'deepseek-v4-flash';
   let aiLoading = false;
+  // Recent files
+  let recentFiles = [];
 
   // ─── Derived: filtered list ───
   function getFiltered() {
@@ -610,6 +631,7 @@
   const fileInput    = $('fileInput');
   const fileStatus   = $('fileStatus');
   const uploadArea   = $('uploadArea');
+  const recentList   = $('recentList');
   const themeBtn     = $('themeBtn');
   const resetBtn     = $('resetProgressBtn');
   const tabBar       = $('tabBar');
@@ -646,6 +668,7 @@
   // ─── localStorage ───
   const LS_KEY = 'shuatitong_state';
   const AI_KEY = 'shuatitong_ai_settings';
+  const RECENT_KEY = 'shuatitong_recent';
   function saveState() {
     try {
       localStorage.setItem(LS_KEY, JSON.stringify({
@@ -678,6 +701,16 @@
   }
   function saveAISettings() {
     try { localStorage.setItem(AI_KEY, JSON.stringify({ apiKey, apiBaseUrl, apiModel })); } catch(e) {}
+  }
+  function saveRecent() {
+    try { localStorage.setItem(RECENT_KEY, JSON.stringify(recentFiles)); } catch(e) {}
+  }
+  function loadRecent() {
+    try {
+      const raw = localStorage.getItem(RECENT_KEY);
+      if (!raw) return;
+      recentFiles = JSON.parse(raw);
+    } catch(e) { recentFiles = []; }
   }
 
   // ─── Theme ───
@@ -719,7 +752,7 @@
   });
 
   // ─── Upload ───
-  function loadJSON(data) {
+  function loadJSON(data, fileName) {
     if (!Array.isArray(data) || data.length === 0) {
       alert('题库格式无效：需要包含题目的 JSON 数组。');
       return;
@@ -732,6 +765,15 @@
     answeredMap = {};
     errorBook = {};
     answered = false;
+    // Save to recent files
+    if (fileName) {
+      const name = fileName.replace(/\.json$/i, '');
+      recentFiles = recentFiles.filter(f => f.name !== name);
+      recentFiles.unshift({ name, questions: data, count: data.length, time: Date.now() });
+      if (recentFiles.length > 10) recentFiles.length = 10;
+      saveRecent();
+      renderRecentFiles();
+    }
     // Reset filter chips
     filterBar.querySelectorAll('.filter-chip').forEach(b => b.classList.toggle('active', b.dataset.type === 'all'));
     updateUI();
@@ -743,7 +785,7 @@
     if (!file) return;
     const reader = new FileReader();
     reader.onload = ev => {
-      try { loadJSON(JSON.parse(ev.target.result)); }
+      try { loadJSON(JSON.parse(ev.target.result), file.name); }
       catch(err) { alert('JSON 解析失败: ' + err.message); }
     };
     reader.readAsText(file, 'UTF-8');
@@ -759,10 +801,33 @@
     if (!file) return;
     const reader = new FileReader();
     reader.onload = ev => {
-      try { loadJSON(JSON.parse(ev.target.result)); }
+      try { loadJSON(JSON.parse(ev.target.result), file.name); }
       catch(err) { alert('JSON 解析失败: ' + err.message); }
     };
     reader.readAsText(file, 'UTF-8');
+  });
+
+  // ─── Recent files ───
+  function renderRecentFiles() {
+    if (!recentFiles.length) { recentList.innerHTML = ''; return; }
+    recentList.innerHTML = recentFiles.map((f, i) =>
+      `<button class="recent-item" data-idx="${i}">${f.name} (${f.count}题)` +
+      `<span class="del" data-idx="${i}" title="移除">✕</span></button>`
+    ).join('');
+  }
+  recentList.addEventListener('click', e => {
+    const del = e.target.closest('.del');
+    const item = e.target.closest('.recent-item');
+    if (!item) return;
+    const idx = parseInt(item.dataset.idx);
+    if (del) {
+      recentFiles.splice(idx, 1);
+      saveRecent();
+      renderRecentFiles();
+      return;
+    }
+    const f = recentFiles[idx];
+    if (f) loadJSON(f.questions);
   });
 
   // ─── Reset ───
@@ -1292,11 +1357,13 @@
   // ─── Init ───
   function init() {
     loadAISettings();
+    loadRecent();
     const restored = loadState();
     if (restored && questions.length) {
       filterBar.querySelectorAll('.filter-chip').forEach(b => b.classList.toggle('active', b.dataset.type === filterType));
       applyTheme(); updateUI(); errorCount.textContent = Object.keys(errorBook).length;
     } else { applyTheme(); updateStats(); }
+    renderRecentFiles();
   }
 
   init();
