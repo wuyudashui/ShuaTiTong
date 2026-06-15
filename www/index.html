@@ -507,6 +507,50 @@
     <summary>📁 最近打开</summary>
     <div class="recent-list" id="recentList"></div>
   </details>
+  <details class="recent-files" style="margin-top:8px">
+    <summary>📋 JSON 格式模版</summary>
+    <div style="margin-top:6px;font-size:.82rem;line-height:1.6;color:var(--text-secondary)">
+      <p>支持四种题型：<code>single</code>（单选）、<code>judge</code>（判断）、<code>multi</code>（多选）、<code>fill</code>（填空）</p>
+      <pre style="background:var(--filter-bg);padding:12px;border-radius:8px;overflow-x:auto;margin-top:6px;font-size:.78rem;line-height:1.5">[
+  {
+    "id": 1,
+    "type": "single",
+    "question": "题干文本",
+    "options": { "A": "选项A", "B": "选项B", "C": "选项C", "D": "选项D" },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "解析内容（可为空）"
+  },
+  {
+    "id": 2,
+    "type": "judge",
+    "question": "判断题目",
+    "options": { "A": "正确", "B": "错误" },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": ""
+  },
+  {
+    "id": 3,
+    "type": "multi",
+    "question": "多选题干",
+    "options": { "A": "选项A", "B": "选项B", "C": "选项C", "D": "选项D" },
+    "answer": "ACD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 4,
+    "type": "fill",
+    "question": "填空题干",
+    "options": { "空1": "答案1", "空2": "答案2" },
+    "answer": "",
+    "difficulty": "难",
+    "explanation": ""
+  }
+]</pre>
+    </div>
+  </details>
 
   <!-- ════ TAB BAR ════ -->
   <div class="tab-bar" id="tabBar">
