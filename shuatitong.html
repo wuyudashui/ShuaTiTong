@@ -719,7 +719,9 @@
         questions, filterType, currentIndex,
         correctCount, wrongCount, answeredMap, errorBook, isDark
       }));
-    } catch(e) {}
+    } catch(e) {
+      console.warn('刷题通: 保存进度失败，localStorage 可能已满', e);
+    }
   }
   function loadState() {
     try {
@@ -744,10 +746,10 @@
     } catch(e) {}
   }
   function saveAISettings() {
-    try { localStorage.setItem(AI_KEY, JSON.stringify({ apiKey, apiBaseUrl, apiModel })); } catch(e) {}
+    try { localStorage.setItem(AI_KEY, JSON.stringify({ apiKey, apiBaseUrl, apiModel })); } catch(e) { console.warn('刷题通: 保存 AI 设置失败', e); }
   }
   function saveRecent() {
-    try { localStorage.setItem(RECENT_KEY, JSON.stringify(recentFiles)); } catch(e) {}
+    try { localStorage.setItem(RECENT_KEY, JSON.stringify(recentFiles)); } catch(e) { console.warn('刷题通: 保存最近文件记录失败', e); }
   }
   function loadRecent() {
     try {
@@ -1046,11 +1048,12 @@
     answered = true;
     opts.forEach(el => el.classList.add('disabled'));
     const correctAnswer = q.answer.toUpperCase().split('').sort().join('');
-    const userAnswer = selected.sort().join('');
+    const userAnswer = selected.sort().join('').toUpperCase();
     const isCorrect = userAnswer === correctAnswer;
+    const answerUpper = q.answer.toUpperCase();
     entries.forEach(([key], i) => {
-      if (q.answer.includes(key)) opts[i].classList.add('highlight');
-      if (selected.includes(key) && !q.answer.includes(key)) opts[i].classList.add('wrong');
+      if (answerUpper.includes(key.toUpperCase())) opts[i].classList.add('highlight');
+      if (selected.includes(key) && !answerUpper.includes(key.toUpperCase())) opts[i].classList.add('wrong');
     });
     feedback.classList.add('show');
     if (isCorrect) {
@@ -1142,10 +1145,11 @@
       return;
     }
     const entries = Object.entries(q.options || {}).filter(([k,v]) => v !== '');
+    const answerUpper = q.answer.toUpperCase();
     if (q.type === 'multi') {
-      entries.forEach(([key], i) => { if (opts[i] && q.answer.includes(key)) opts[i].classList.add('highlight'); });
+      entries.forEach(([key], i) => { if (opts[i] && answerUpper.includes(key.toUpperCase())) opts[i].classList.add('highlight'); });
     } else {
-      entries.forEach(([key], i) => { if (opts[i] && key === q.answer) opts[i].classList.add('correct'); });
+      entries.forEach(([key], i) => { if (opts[i] && key.toUpperCase() === answerUpper) opts[i].classList.add('correct'); });
     }
   }
 
@@ -1192,24 +1196,28 @@
     h = h.replace(/\*(.+?)\*/g, '<em>$1</em>');
     // 6. Inline code
     h = h.replace(/`([^`]+)`/g, '<code>$1</code>');
-    // 7. Unordered lists
+    // 7. Ordered lists — process before unordered to prevent the <ul> regex from capturing them
+    h = h.replace(/^\d+\.\s(.+)$/gm, '<ol_li>$1</ol_li>');
+    h = h.replace(/((?:<ol_li>[\s\S]*?<\/ol_li>\n?)+)/g, (match) => {
+      const inner = match.replace(/<ol_li>/g, '<li>').replace(/<\/ol_li>/g, '</li>');
+      return '<!--OL-->' + inner + '<!--/OL-->';
+    });
+    // 8. Unordered lists
     h = h.replace(/^- (.+)$/gm, '<li>$1</li>');
     h = h.replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
-    // 8. Ordered lists
-    h = h.replace(/^\d+\.\s(.+)$/gm, '<li>$1</li>');
-    // After list-item conversion, wrap consecutive <li> blocks
-    // (already handled by the unordered regex above catching both)
-    // 9. Blockquote
+    // 9. Restore ordered list blocks (wrap in <ol>)
+    h = h.replace(/<!--OL-->([\s\S]*?)<!--\/OL-->/g, '<ol>$1</ol>');
+    // 10. Blockquote
     h = h.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
-    // 10. Clean <br> after block tags
+    // 11. Clean <br> after block tags
     h = h.replace(/(<\/(?:li|ul|ol|blockquote|pre|h[34])>)\s*<br>/g, '$1');
-    // 11. Double newlines → paragraph breaks
+    // 12. Double newlines → paragraph breaks
     h = h.replace(/\n\n+/g, '</p><p>');
-    // 12. Single newlines → <br>
+    // 13. Single newlines → <br>
     h = h.replace(/\n/g, '<br>');
-    // 13. Clean <br> after </li> (leftover from step 12)
+    // 14. Clean <br> after </li> (leftover from step 13)
     h = h.replace(/<\/li><br>/g, '</li>');
-    // 14. Wrap in paragraph if not already wrapped by block tags
+    // 15. Wrap in paragraph if not already wrapped by block tags
     if (!h.startsWith('<')) h = '<p>' + h;
     if (!h.endsWith('>')) h = h + '</p>';
     // Clean up nested <p> artifacts

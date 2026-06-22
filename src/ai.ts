@@ -1,0 +1,195 @@
+import type { Question } from './types';
+import { store } from './state';
+import { formatExplanation } from './format';
+import { TYPE_LABELS } from './types';
+
+export interface FillGradeResult {
+  blank: string;
+  correct: boolean;
+  feedback: string;
+}
+
+// ─── AI Fill Grading ───
+
+export async function gradeFillAnswer(
+  q: Question,
+  userAnswers: Record<string, string>,
+): Promise<{ results: FillGradeResult[]; overall: 'correct' | 'partial' | 'wrong' } | null> {
+  const { apiKey, apiBaseUrl, apiModel } = store.aiSettings;
+  const baseUrl = apiBaseUrl.replace(/\/+$/, '');
+  const blanks = Object.entries(q.options || {}).filter(([, v]) => v);
+
+  // Build user vs expected comparison
+  let blanksText = '';
+  const blankKeys: string[] = [];
+  blanks.forEach(([k, v]) => {
+    blankKeys.push(k);
+    blanksText += `${k}：用户答案「${userAnswers[k] || '(未作答)'}」  参考答案「${v}」\n`;
+  });
+
+  const prompt = `请判断以下填空题的用户答案是否正确。
+
+题目：${q.question}
+
+${blanksText}
+请对每个空判断：
+1. 用户答案是否与参考答案一致（考虑同义词、等价表述、合理的不同说法）
+2. 给出简短反馈
+
+请严格按以下 JSON 格式回复（不要包含其他内容）：
+{
+  "results": [
+    {"blank": "${blankKeys[0] || '空1'}", "correct": true或false, "feedback": "简短反馈"}
+  ],
+  "overall": "correct"或"partial"或"wrong"
+}`;
+
+  try {
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
+
+    const res = await fetch(`${baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        model: apiModel,
+        messages: [
+          { role: 'system', content: '你是一个严格的阅卷助手。只返回要求的 JSON 格式，不要添加额外说明。' },
+          { role: 'user', content: prompt },
+        ],
+        max_tokens: 512,
+        temperature: 0.1,
+      }),
+    });
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    const content = data.choices?.[0]?.message?.content?.trim() || '';
+    return parseGradeResponse(content, blankKeys);
+  } catch {
+    return null;
+  }
+}
+
+function parseGradeResponse(
+  content: string,
+  blankKeys: string[],
+): { results: FillGradeResult[]; overall: 'correct' | 'partial' | 'wrong' } {
+  // Extract JSON from response (handle ```json wrappers)
+  let jsonStr = content;
+  const jsonMatch = content.match(/\{[\s\S]*\}/);
+  if (jsonMatch) jsonStr = jsonMatch[0];
+
+  try {
+    const parsed = JSON.parse(jsonStr);
+    const results: FillGradeResult[] = (parsed.results || []).map((r: Record<string, unknown>, i: number) => ({
+      blank: (r.blank as string) || blankKeys[i] || '',
+      correct: !!r.correct,
+      feedback: (r.feedback as string) || (r.correct ? '正确' : '错误'),
+    }));
+    const overall = (parsed.overall as string) || 'wrong';
+    return {
+      results: results.length ? results : blankKeys.map(k => ({ blank: k, correct: false, feedback: '判分失败' })),
+      overall: (overall === 'correct' || overall === 'partial' || overall === 'wrong') ? overall : 'wrong',
+    };
+  } catch {
+    // Fallback: check for keywords
+    const hasCorrect = /正确|correct|对/.test(content.toLowerCase());
+    const hasWrong = /错误|wrong|错|不对/.test(content.toLowerCase());
+    const overall: 'correct' | 'partial' | 'wrong' = hasCorrect && !hasWrong ? 'correct' : hasWrong && !hasCorrect ? 'wrong' : 'partial';
+    const results = blankKeys.map(k => ({
+      blank: k,
+      correct: !hasWrong,
+      feedback: hasCorrect && !hasWrong ? 'AI 判断为正确' : 'AI 判断有误',
+    }));
+    return { results, overall };
+  }
+}
+
+// ─── AI Explanation ───
+
+export async function fetchAIExplanation(q: Question): Promise<void> {
+  if (store.aiLoading) return;
+  store.setAILoading(true);
+
+  const aiExplainBtn = document.getElementById('aiExplainBtn') as HTMLButtonElement;
+  const feedback = document.getElementById('feedback') as HTMLElement;
+  const feedbackRes = document.getElementById('feedbackResult') as HTMLElement;
+  const explanation = document.getElementById('explanationText') as HTMLElement;
+
+  if (aiExplainBtn) {
+    aiExplainBtn.disabled = true;
+    aiExplainBtn.classList.add('ai-loading');
+    aiExplainBtn.textContent = '🤖 解析中';
+  }
+
+  try {
+    const { apiKey, apiBaseUrl, apiModel } = store.aiSettings;
+    const baseUrl = apiBaseUrl.replace(/\/+$/, '');
+    let prompt = `请为以下题目生成详细的答案解析。\n\n`;
+    prompt += `题目：${q.question}\n\n`;
+    prompt += `题型：${TYPE_LABELS[q.type] || q.type}\n`;
+    if (q.type !== 'fill' && q.options) {
+      prompt += '选项：\n';
+      Object.entries(q.options).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}. ${v}\n`; });
+    }
+    if (q.type === 'fill') {
+      prompt += '参考答案：\n';
+      Object.entries(q.options || {}).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}：${v}\n`; });
+    } else {
+      prompt += `\n正确答案：${q.answer}\n`;
+    }
+    prompt += `\n请用中文给出详细的解析，包括：为什么这个答案正确、其他选项为什么错误（如适用）、相关知识点说明。`;
+
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
+
+    const res = await fetch(`${baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        model: apiModel,
+        messages: [
+          { role: 'system', content: '你是一个专业的编程课程助教，擅长用中文详细解析题目，帮助学生理解知识点。' },
+          { role: 'user', content: prompt },
+        ],
+        max_tokens: 1024,
+        temperature: 0.7,
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(`API 请求失败 (${res.status}): ${err}`);
+    }
+
+    const data = await res.json();
+    const content = data.choices?.[0]?.message?.content?.trim() || '未获取到解析内容。';
+
+    // Save to question and display
+    q.explanation = content;
+    feedback.classList.add('ai-exp');
+    if (feedback.classList.contains('show')) {
+      explanation.innerHTML = formatExplanation(content);
+    } else {
+      feedback.classList.add('show', 'correct');
+      feedbackRes.innerHTML = '🤖 AI 解析';
+      explanation.innerHTML = formatExplanation(content);
+    }
+    store.save();
+  } catch (err: unknown) {
+    feedback.classList.add('show', 'wrong');
+    feedbackRes.innerHTML = '❌ AI 解析失败';
+    explanation.innerHTML = formatExplanation(
+      err instanceof Error ? err.message : '网络错误，请检查 API 地址和 Key 是否正确。',
+    );
+  } finally {
+    store.setAILoading(false);
+    if (aiExplainBtn) {
+      aiExplainBtn.disabled = false;
+      aiExplainBtn.classList.remove('ai-loading');
+      aiExplainBtn.textContent = '🤖 AI 解析';
+    }
+  }
+}
