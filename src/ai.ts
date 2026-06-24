@@ -1,6 +1,6 @@
 import type { Question } from './types';
 import { store } from './state';
-import { formatExplanation } from './format';
+import { formatExplanation, autoExplanation } from './format';
 import { TYPE_LABELS } from './types';
 
 export interface FillGradeResult {
@@ -65,7 +65,12 @@ ${blanksText}
     if (!res.ok) return null;
 
     const data = await res.json();
-    const content = data.choices?.[0]?.message?.content?.trim() || '';
+    const content = (
+      data.choices?.[0]?.message?.content ||
+      data.choices?.[0]?.message?.reasoning_content ||
+      data.response ||
+      ''
+    ).toString().trim();
     return parseGradeResponse(content, blankKeys);
   } catch {
     return null;
@@ -210,10 +215,10 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
         body: JSON.stringify({
           model: apiModel,
           messages: [
-            { role: 'system', content: '你是一个简洁的纠错助手。对于选择题：每个错误选项单独一行指出错误原因。对于填空题：每个空单独一行。不要展开知识点，1-3句话即可。格式示例：\n❌ 选项A是错的，因为xxx\n❌ 选项C也是错的，因为xxx' },
+            { role: 'system', content: '你是一个极简纠错助手。逐行输出每个选项的判断，不要任何开场白和总结。格式：\n✅ 选项字母: 一句话说明为什么正确\n❌ 选项字母: 一句话说明为什么错误\n填空题：\n❌ 空1: 正确答案是xxx' },
             { role: 'user', content: prompt },
           ],
-          max_tokens: 256,
+          max_tokens: 512,
           temperature: 0.1,
         }),
       });
@@ -221,15 +226,24 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
       if (!res.ok) throw new Error(`API 请求失败 (${res.status})`);
 
       const data = await res.json();
-      const rawContent = data.choices?.[0]?.message?.content?.trim() || '';
-      if (!rawContent) throw new Error('AI 返回了空内容');
+      // Try content from various response formats (standard, reasoning models, etc.)
+      const rawContent = (
+        data.choices?.[0]?.message?.content ||
+        data.choices?.[0]?.message?.reasoning_content ||
+        data.response ||
+        ''
+      ).toString().trim();
+      if (!rawContent) {
+        console.warn('AI API 返回空内容，完整响应:', JSON.stringify(data).slice(0, 500));
+        throw new Error('AI 返回了空内容，请检查模型是否支持对话补全。');
+      }
 
       q.simpleExplanation = rawContent;
       showExplanationInline(q, rawContent, '🤖 AI 纠错');
       store.save();
     } catch (err: unknown) {
-      const errMsg = err instanceof Error ? err.message : '网络错误，请检查 API 地址和 Key 是否正确。';
-      showFeedbackError(errMsg);
+      // Fallback to local explanation on AI failure
+      showExplanationInline(q, autoExplanation(q) + '\n\n---\n⚠️ AI 纠错暂时不可用，以上为本地参考。', '⚠️ AI 纠错降级');
     } finally {
       store.setAILoading(false);
       if (aiExplainBtn) {
@@ -288,7 +302,12 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
     }
 
     const data = await res.json();
-    const rawContent = data.choices?.[0]?.message?.content?.trim() || '';
+    const rawContent = (
+      data.choices?.[0]?.message?.content ||
+      data.choices?.[0]?.message?.reasoning_content ||
+      data.response ||
+      ''
+    ).toString().trim();
 
     if (!rawContent) {
       throw new Error('AI 返回了解析内容为空，请重试或更换模型。');
@@ -303,11 +322,12 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
     }
     store.save();
   } catch (err: unknown) {
-    const errMsg = err instanceof Error ? err.message : '网络错误，请检查 API 地址和 Key 是否正确。';
+    // Fallback to local explanation on AI failure
+    const localContent = autoExplanation(q) + '\n\n---\n⚠️ AI 解析暂时不可用，以上为本地参考。';
     if (target?.type === 'drawer') {
-      target.body.innerHTML = formatExplanation(errMsg);
+      target.body.innerHTML = formatExplanation(localContent);
     } else {
-      showFeedbackError(errMsg);
+      showExplanationInline(q, localContent, '⚠️ AI 解析降级');
     }
   } finally {
     store.setAILoading(false);
@@ -317,15 +337,6 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
       aiExplainBtn.textContent = '🤖 AI 解析';
     }
   }
-}
-
-function showFeedbackError(errMsg: string): void {
-  const feedback = document.getElementById('feedback') as HTMLElement;
-  const feedbackRes = document.getElementById('feedbackResult') as HTMLElement;
-  const explanation = document.getElementById('explanationText') as HTMLElement;
-  feedback.classList.add('show', 'wrong');
-  feedbackRes.innerHTML = '<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> AI 纠错失败';
-  explanation.innerHTML = formatExplanation(errMsg);
 }
 
 function buildDetailedPrompt(q: Question): string {
@@ -347,26 +358,30 @@ function buildDetailedPrompt(q: Question): string {
 }
 
 function buildSimplePrompt(q: Question): string {
-  let prompt = '用户答错了以下题目，请直接指出错误。\n\n';
-  prompt += `题目：${q.question}\n\n`;
+  let prompt = '题目：' + q.question + '\n\n';
   if (q.type !== 'fill' && q.options) {
-    prompt += '选项：\n';
     Object.entries(q.options).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}. ${v}\n`; });
   }
-  if (q.type === 'fill') {
-    prompt += '参考答案：\n';
-    Object.entries(q.options || {}).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}：${v}\n`; });
-  } else {
-    prompt += `\n正确答案：${q.answer}\n`;
-  }
+  prompt += `\n正确答案：${q.answer}\n\n`;
   if (q.type === 'multi') {
-    prompt += '\n请逐一指出：哪些选项是用户多选的（选错了），哪些是漏选的（正确答案但用户没选）。每一个错误选项单独一行说明。';
+    const ansLetters = q.answer.split('').map(a => a.toUpperCase());
+    const allLetters = Object.keys(q.options || {}).filter(k => q.options?.[k]);
+    const wrongLetters = allLetters.filter(l => !ansLetters.includes(l.toUpperCase()));
+    prompt += '用户答错了这道多选题。请逐一判断每个选项：\n';
+    prompt += `- 正确选项（${ansLetters.join('、')}）：用✅ 开头，一句话说明为什么是正确的答案\n`;
+    prompt += `- 错误选项（${wrongLetters.join('、')}）：用❌ 开头，一句话说明为什么是错误答案\n`;
+    prompt += '按题目选项顺序输出，每行一个，不要让用户自己去判断哪些是正确哪些是错误。';
   } else if (q.type === 'fill') {
-    prompt += '\n请指出哪个空填错了，正确答案应该是什么。不要展开。';
+    prompt += '请逐空判断：用✅表示填对了，❌表示填错了，并给出正确答案。每行一个空。';
   } else if (q.type === 'judge') {
-    prompt += '\n请指出用户判断错误的原因。一句话即可。';
+    const correctAns = q.answer === 'A' ? '正确' : '错误';
+    prompt += `正确答案是${correctAns}。请判断：如果用户判断错误，用❌指出为什么；如果用户判断正确，用✅确认。`;
   } else {
-    prompt += '\n请逐一检查每个选项：如果该选项是错误的，单独一行指出为什么错误。正确答案的选项不需要说明。';
+    const ansLetter = q.answer.toUpperCase();
+    prompt += `正确答案是${ansLetter}。请依次判断每个选项：\n`;
+    prompt += '- ❌ 错误选项：一句话说明为什么错\n';
+    prompt += `- ✅ ${ansLetter}：一句话说明为什么是正确答案\n`;
+    prompt += '按选项顺序输出。';
   }
   return prompt;
 }
