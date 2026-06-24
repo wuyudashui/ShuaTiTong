@@ -13,6 +13,7 @@ import { initSettings } from './ui/settings';
 import { renderErrorBook, bindErrorBookClicks } from './ui/errorBook';
 import { renderThumbnails, handleThumbnailClick, setThumbnailJumpHandler } from './ui/questionGrid';
 import { showExamSetup, showExamResults, renderExamTypeTabs, bindExamTypeTabs, getCurrentSectionInfo } from './ui/examMode';
+import { CHECK, X, EYE, CLIPBOARD, BOOK_OPEN, REFRESH } from './icons';
 
 // ─── DOM refs ───
 const $ = (id: string) => document.getElementById(id)!;
@@ -130,16 +131,16 @@ const renderConfig: RenderConfig = {
         delete eb[q.id];
         store.state.errorBook = eb;
         feedback.classList.add('correct');
-        feedbackRes.innerHTML = '✅ 回答正确！';
+        feedbackRes.innerHTML = `<span class="svg-icon">${CHECK}</span> 回答正确！`;
       } else {
         store.update({ wrongCount: store.state.wrongCount + 1 });
         store.state.answeredMap[q.id] = 'wrong';
         store.state.errorBook = { ...store.state.errorBook, [q.id]: true };
 
         if (q.type === 'multi') {
-          feedbackRes.innerHTML = `❌ 回答错误（正确答案：${q.answer}）`;
+          feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误（正确答案：${q.answer}）`;
         } else {
-          feedbackRes.innerHTML = '❌ 回答错误';
+          feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误`;
         }
         feedback.classList.add('wrong');
       }
@@ -221,10 +222,10 @@ function renderQuestion(): void {
         dispatchShowAnswer(q);
         if (gd.isCorrect) {
           feedback.classList.add('show', 'correct');
-          feedbackRes.innerHTML = '✅ 回答正确';
+          feedbackRes.innerHTML = `<span class="svg-icon">${CHECK}</span> 回答正确`;
         } else {
           feedback.classList.add('show', 'wrong');
-          feedbackRes.innerHTML = `❌ 回答错误（你的答案：${gd.selected}，正确答案：${gd.correct}）`;
+          feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误（你的答案：${gd.selected}，正确答案：${gd.correct}）`;
         }
         explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
       }
@@ -282,12 +283,13 @@ function renderQuestion(): void {
   if (prevResult) {
     store.setAnswered(true);
     dispatchShowAnswer(q);
+    redoBtn.classList.remove('hidden');
     if (prevResult === 'correct') {
       feedback.classList.add('show', 'correct');
-      feedbackRes.innerHTML = '✅ 回答正确！';
+      feedbackRes.innerHTML = `<span class="svg-icon">${CHECK}</span> 回答正确！`;
     } else {
       feedback.classList.add('show', 'wrong');
-      feedbackRes.innerHTML = '❌ 回答错误';
+      feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误`;
     }
     explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
   }
@@ -322,14 +324,14 @@ function updateExamUI(): void {
   if (store.exam.graded) {
     const correct = Object.values(store.exam.gradeDetails).filter(d => d.isCorrect).length;
     examBanner.innerHTML = `
-      <span class="exam-progress">📋 答题回顾：${correct}/${total} 正确</span>
-      <button id="exitExamBtn" class="btn-sm" style="background:rgba(255,255,255,.2);border-color:transparent;color:#fff">✕ 退出</button>
+      <span class="exam-progress"><span class="svg-icon">${BOOK_OPEN}</span> 答题回顾：${correct}/${total} 正确</span>
+      <button id="exitExamBtn" class="btn-sm" style="background:rgba(255,255,255,.2);border-color:transparent;color:#fff"><span class="svg-icon">${X}</span>退出</button>
     `;
     submitExamBtn.classList.add('hidden');
   } else {
     examBanner.innerHTML = `
-      <span class="exam-progress">📝 模拟考：${answered}/${total} 已答</span>
-      <button id="exitExamBtn" class="btn-sm" style="background:rgba(255,255,255,.2);border-color:transparent;color:#fff">✕ 退出</button>
+      <span class="exam-progress"><span class="svg-icon">${CLIPBOARD}</span> 模拟考：${answered}/${total} 已答</span>
+      <button id="exitExamBtn" class="btn-sm" style="background:rgba(255,255,255,.2);border-color:transparent;color:#fff"><span class="svg-icon">${X}</span>退出</button>
     `;
     submitExamBtn.classList.remove('hidden');
   }
@@ -615,7 +617,7 @@ showAnsBtn.addEventListener('click', () => {
   optContainer.querySelectorAll('.option').forEach(el => el.classList.add('disabled'));
   dispatchShowAnswer(q);
   feedback.classList.add('show', 'wrong');
-  feedbackRes.innerHTML = `💡 已显示答案（正确答案：${q.answer}）`;
+  feedbackRes.innerHTML = `<span class="svg-icon">${EYE}</span> 已显示答案（正确答案：${q.answer}）`;
   explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
   updateStats();
   store.save();

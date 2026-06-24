@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>刷题通智能刷题学习软件 V1.0 — 用户操作手册</title>
+<style>
+  @page { size: A4; margin: 25mm 20mm 20mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif; font-size: 11pt; line-height: 1.7; color: #222; }
+  .cover { text-align: center; padding: 120px 40px 60px; page-break-after: always; }
+  .cover h1 { font-size: 24pt; margin-bottom: 20px; }
+  .cover h2 { font-size: 14pt; color: #555; font-weight: normal; margin-bottom: 40px; }
+  .cover .meta { font-size: 11pt; color: #777; margin-top: 60px; }
+  h1 { font-size: 18pt; margin: 30px 0 16px; padding-bottom: 8px; border-bottom: 2px solid #4f6ef7; }
+  h2 { font-size: 14pt; margin: 24px 0 12px; }
+  h3 { font-size: 12pt; margin: 18px 0 8px; }
+  p { margin: 8px 0; text-indent: 2em; }
+  p.no-indent { text-indent: 0; }
+  ul, ol { margin: 8px 0 8px 2em; }
+  li { margin: 4px 0; }
+  .page-break { page-break-before: always; }
+  .screenshot-box {
+    border: 2px dashed #ccc; border-radius: 8px; padding: 40px 20px;
+    text-align: center; margin: 16px 0; background: #f9f9f9;
+    color: #999; font-size: 10pt;
+  }
+  .screenshot-box::before { content: "【请插入截图】"; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+  th { background: #f0f4ff; }
+  code { background: #f0f0f0; padding: 1px 5px; border-radius: 3px; font-size: 10pt; }
+  .footer-note { margin-top: 40px; padding-top: 16px; border-top: 1px solid #ddd; font-size: 9pt; color: #888; text-align: center; }
+  .toc { page-break-after: always; }
+  .toc ul { list-style: none; margin: 16px 0; }
+  .toc li { padding: 6px 0; border-bottom: 1px dotted #eee; }
+  .toc a { color: #4f6ef7; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- ════════ COVER PAGE ════════ -->
+<div class="cover">
+  <h1>📝 刷题通智能刷题学习软件</h1>
+  <h2>用户操作手册</h2>
+  <p style="text-indent:0;margin-top:40px;font-size:12pt">版本：V1.0</p>
+  <p style="text-indent:0">更新日期：2026 年 6 月</p>
+  <div class="meta">
+    <p style="text-indent:0">版权所有 © 2026</p>
+    <p style="text-indent:0">保留所有权利</p>
+  </div>
+</div>
+
+<!-- ════════ TOC ════════ -->
+<div class="toc">
+  <h1>目录</h1>
+  <ul>
+    <li><a href="#s1">1. 软件概述</a></li>
+    <li><a href="#s2">2. 运行环境</a></li>
+    <li><a href="#s3">3. 软件安装</a></li>
+    <li><a href="#s4">4. 快速开始</a></li>
+    <li><a href="#s5">5. 功能介绍</a></li>
+    <li style="padding-left:2em"><a href="#s5.1">5.1 题库上传</a></li>
+    <li style="padding-left:2em"><a href="#s5.2">5.2 刷题模式</a></li>
+    <li style="padding-left:2em"><a href="#s5.3">5.3 四种题型</a></li>
+    <li style="padding-left:2em"><a href="#s5.4">5.4 题型筛选</a></li>
+    <li style="padding-left:2em"><a href="#s5.5">5.5 AI 解析</a></li>
+    <li style="padding-left:2em"><a href="#s5.6">5.6 错题本</a></li>
+    <li style="padding-left:2em"><a href="#s5.7">5.7 暗色模式</a></li>
+    <li style="padding-left:2em"><a href="#s5.8">5.8 键盘快捷键</a></li>
+	    <li style="padding-left:2em"><a href="#s5.9">5.9 模拟考试</a></li>
+    <li><a href="#s6">6. 数据管理</a></li>
+    <li><a href="#s7">7. 常见问题</a></li>
+  </ul>
+</div>
+
+<!-- ════════ 1 软件概述 ════════ -->
+<div class="page-break"></div>
+<h1 id="s1">1. 软件概述</h1>
+
+<p>刷题通是一款面向学生和编程学习者的交互式刷题 Web 应用程序。支持单选、判断、多选、填空四种题型，提供 AI 智能解析和错题自动收集功能，帮助用户高效巩固知识。</p>
+
+<p>软件为纯前端应用，所有数据存储在用户本地浏览器中，无需注册账号，无需后端服务器。支持通过 Capacitor 打包为 Android APK 安装包，也可直接通过浏览器使用。</p>
+
+<h2>1.1 核心功能</h2>
+<ul>
+  <li><strong>题库上传</strong>：通过点击选择或拖拽方式上传 JSON 格式题库文件</li>
+  <li><strong>四种题型刷题</strong>：单选、判断、多选、填空</li>
+  <li><strong>题型筛选</strong>：按题型分类刷题</li>
+    <li><strong>模拟考试</strong>：按题型分组随机抽题，选项打乱，统一判卷</li>
+  <li><strong>AI 智能解析</strong>：调用大语言模型自动生成题目解析</li>
+  <li><strong>错题本</strong>：自动收集答错题目，支持一键跳转复习</li>
+  <li><strong>答题统计</strong>：实时显示正确数、错误数、正确率</li>
+  <li><strong>暗色模式</strong>：护眼暗色主题切换</li>
+  <li><strong>进度持久化</strong>：自动保存答题进度，刷新不丢失</li>
+  <li><strong>键盘快捷键</strong>：← 上一题、→ 下一题、空格随机</li>
+</ul>
+
+<h2>1.2 技术架构</h2>
+<ul>
+  <li>前端框架：原生 TypeScript + Vite</li>
+  <li>数据持久化：localStorage</li>
+  <li>AI 接口：DeepSeek API（浏览器直接调用）</li>
+  <li>移动端打包：Capacitor v7（Android）</li>
+  <li>状态管理：发布-订阅模式（Store 类）</li>
+  <li>渲染策略：QuestionRenderer 接口（策略模式）</li>
+</ul>
+
+<!-- ════════ 2 运行环境 ════════ -->
+<div class="page-break"></div>
+<h1 id="s2">2. 运行环境</h1>
+
+<h2>2.1 Web 端（浏览器）</h2>
+<table>
+  <tr><th>项目</th><th>要求</th></tr>
+  <tr><td>浏览器</td><td>Chrome 80+、Edge 80+、Firefox 90+、Safari 14+</td></tr>
+  <tr><td>操作系统</td><td>Windows 10+、macOS 11+、Linux、Android、iOS</td></tr>
+  <tr><td>网络</td><td>基础使用无需网络；AI 解析功能需联网</td></tr>
+  <tr><td>存储</td><td>浏览器需启用 localStorage（默认开启）</td></tr>
+</table>
+
+<h2>2.2 Android 端</h2>
+<table>
+  <tr><th>项目</th><th>要求</th></tr>
+  <tr><td>系统版本</td><td>Android 8.0 (API 26) 及以上</td></tr>
+  <tr><td>存储空间</td><td>约 50 MB</td></tr>
+  <tr><td>屏幕</td><td>建议 4.7 英寸及以上</td></tr>
+</table>
+
+<!-- ════════ 3 安装 ════════ -->
+<div class="page-break"></div>
+<h1 id="s3">3. 软件安装</h1>
+
+<h2>3.1 浏览器访问（无需安装）</h2>
+<p>直接使用浏览器打开软件网址或本地 HTML 文件即可使用，无需任何安装步骤。</p>
+
+<h2>3.2 Android APK 安装</h2>
+<ol>
+  <li>获取 APK 安装包（通过 USB 传输或下载）</li>
+  <li>在 Android 设备上打开 APK 文件</li>
+  <li>如提示"未知来源应用"，前往设置中允许安装</li>
+  <li>安装完成后点击图标启动软件</li>
+</ol>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 3-1：APK 安装界面</p>
+
+<h2>3.3 首次启动</h2>
+<p>启动软件后，您将看到主界面，包含顶部功能栏、文件上传区、题型筛选栏、答题统计和题目卡片区域。此时界面为空，需要先上传题库文件才能开始刷题。</p>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 3-2：软件主界面</p>
+
+<!-- ════════ 4 快速开始 ════════ -->
+<div class="page-break"></div>
+<h1 id="s4">4. 快速开始</h1>
+
+<h2>4.1 准备题库文件</h2>
+<p>题库文件为 JSON 格式，结构如下：</p>
+
+<pre style="background:#f5f5f5;padding:12px;border-radius:6px;font-size:10pt;line-height:1.4;overflow-x:auto">
+[
+  {
+    "id": 1,
+    "type": "single",
+    "question": "题干文本",
+    "options": { "A": "选项A", "B": "选项B", "C": "选项C", "D": "选项D" },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "解析内容（可为空）"
+  }
+]
+</pre>
+
+<p>支持字段说明：</p>
+<table>
+  <tr><th>字段</th><th>必填</th><th>说明</th></tr>
+  <tr><td>id</td><td>是</td><td>题目唯一编号（数字）</td></tr>
+  <tr><td>type</td><td>是</td><td>题型：single（单选）、judge（判断）、multi（多选）、fill（填空）</td></tr>
+  <tr><td>question</td><td>是</td><td>题干内容</td></tr>
+  <tr><td>options</td><td>是</td><td>选项/填空，键值对格式</td></tr>
+  <tr><td>answer</td><td>是</td><td>正确答案。单选/判断填字母；多选填字母组合（如"ACD"）；填空留空</td></tr>
+  <tr><td>difficulty</td><td>否</td><td>难度：易、中、难</td></tr>
+  <tr><td>explanation</td><td>否</td><td>预先准备的解析文本</td></tr>
+</table>
+
+<h2>4.2 上传题库</h2>
+<ol>
+  <li>点击"📂 上传 JSON 题库"按钮，选择 JSON 文件</li>
+  <li>或将 JSON 文件拖拽到上传区域</li>
+  <li>上传成功后，页面将显示题目数量和答题统计</li>
+</ol>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 4-1：题库上传界面</p>
+
+<h2>4.3 开始答题</h2>
+<p>上传题库后，默认显示第一道题目。点击选项即可作答，系统会自动判分并显示解析。使用底部按钮切换题目。</p>
+
+<!-- ════════ 5 功能介绍 ════════ -->
+<div class="page-break"></div>
+<h1 id="s5">5. 功能介绍</h1>
+
+<h2 id="s5.1">5.1 题库上传</h2>
+
+<p><strong>点击上传：</strong>点击"📂 上传 JSON 题库"按钮，从文件管理器中选择 JSON 文件。上传后自动解析并加载题目。点击"📁 最近打开"可以快速重新加载已上传过的题库文件。</p>
+
+<p><strong>拖拽上传：</strong>将 JSON 文件拖拽到虚线框区域，松开即可自动上传。拖拽时上传区域会高亮反馈。</p>
+
+<p><strong>格式模板：</strong>点击"📋 JSON 格式模版"可展开查看完整的题库格式示例，方便用户按模板制作自己的题库。</p>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 5-1：最近文件列表与格式模板</p>
+
+<h2 id="s5.2">5.2 刷题模式</h2>
+
+<p>答题卡片上方显示题型标签和题目难度。点击选项即可作答，选择后系统立即判分：</p>
+<ul>
+  <li><strong>回答正确</strong>：选项边框变绿，反馈区显示"✅ 回答正确！"</li>
+  <li><strong>回答错误</strong>：选项边框变红，正确答案高亮显示，自动加入错题本</li>
+</ul>
+
+<p>底部导航栏提供以下按钮：</p>
+<ul>
+  <li><strong>◀ 上一题</strong>：切换到上一道题目</li>
+  <li><strong>🎲 随机</strong>：随机跳转一道题目</li>
+  <li><strong>🤖 AI 解析</strong>：调用 AI 生成当前题目的详细解析（需配置 API）</li>
+  <li><strong>💡 显示答案</strong>：直接显示正确答案（此题会计入错误统计）</li>
+  <li><strong>下一题 ▶</strong>：切换到下一道题目</li>
+</ul>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 5-2：答题界面</p>
+
+<p>页面顶部的统计栏实时显示：进度（当前题号/总题数）、正确数（绿色）、错误数（红色）、正确率。</p>
+
+<h2 id="s5.3">5.3 四种题型</h2>
+
+<h3>（一）单选题</h3>
+<p>点击选项字母或文字区域选择答案，选择后自动判分。选项左侧以圆形字母（A/B/C/D）标识。</p>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 5-3：单选题作答</p>
+
+<h3>（二）判断题</h3>
+<p>判断是对错题，选项固定为"正确"和"错误"（即 A/B 选项），点击即自动判分。逻辑与单选题相同。</p>
+
+<h3>（三）多选题</h3>
+<p>多选题支持选择多个选项，点击选项进行切换选择（选中项左侧复选框变为蓝色）。选择完成后点击"✓ 提交答案"按钮提交。判分时选项顺序不影响判分结果。</p>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 5-4：多选题作答</p>
+
+<h3>（四）填空题</h3>
+<p>填空题在文本框中输入答案，每个空对应一个输入框。填写完成后点击"✓ 提交答案"按钮。系统自动进行大小写不敏感匹配判分。答对的空变绿，答错的变红，同时显示正确答案。</p>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 5-5：填空题作答</p>
+
+<h2 id="s5.4">5.4 题型筛选</h2>
+
+<p>在题型筛选栏中，点击对应标签可筛选特定题型的题目：</p>
+<ul>
+  <li><strong>全部</strong>：显示所有题型</li>
+  <li><strong>单选</strong>：仅显示单选题</li>
+  <li><strong>多选</strong>：仅显示多选题</li>
+  <li><strong>判断</strong>：仅显示判断题</li>
+  <li><strong>填空</strong>：仅显示填空题</li>
+</ul>
+<p>筛选后题目导航和统计自动更新为当前筛选范围内的数据。切换筛选条件时，当前题号重置为第 1 题。</p>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 5-6：题型筛选栏</p>
+
+<h2 id="s5.5">5.5 AI 解析</h2>
+
+<h3>配置 AI 设置</h3>
+<p>点击顶部工具栏的"⚙️"按钮打开 AI 设置弹窗。配置以下参数：</p>
+<ul>
+  <li><strong>API 地址</strong>：DeepSeek API 地址（默认：https://api.deepseek.com/v1）</li>
+  <li><strong>模型名称</strong>：选择或自定义模型（如 deepseek-v4-flash）</li>
+  <li><strong>API Key</strong>：输入 DeepSeek API Key</li>
+</ul>
+
+<p>设置说明：API Key 仅存储在你本机的浏览器 localStorage 中，不会上传到任何第三方服务器。请求由浏览器直接发送至 DeepSeek API。</p>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 5-7：AI 解析设置界面</p>
+
+<h3>使用 AI 解析</h3>
+<p>在任意题目下点击"🤖 AI 解析"按钮，系统将自动调用大模型生成题目的详细解析。解析内容包括：正确答案解释、各选项分析（针对选择题）、相关知识点说明。解析结果以富文本形式展示，支持代码高亮、列表、引用等格式。AI 解析获得的题目说明会自动保存，下次查看同一题时可直接显示。</p>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 5-8：AI 解析结果展示</p>
+
+<h2 id="s5.6">5.6 错题本</h2>
+
+<p>点击顶部标签栏的"❌ 错题本"切换至错题本视图。错题本自动收集所有答错的题目，显示每道错题的题型、难度和正确答案。</p>
+
+<p><strong>功能特点：</strong></p>
+<ul>
+  <li>自动收集：答错的题目自动加入错题本</li>
+  <li>数量统计：标签栏中实时显示错题数量</li>
+  <li>点击跳转：点击任意错题项，自动跳转到该题目所在的刷题位置</li>
+  <li>清空机制：在刷题模式下回答正确后，对应题目自动从错题本移除</li>
+</ul>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 5-9：错题本视图</p>
+
+<h2 id="s5.7">5.7 暗色模式</h2>
+
+<p>点击顶部工具栏的"🌙"按钮可切换暗色/亮色模式。暗色模式采用深色背景（深蓝色系），降低屏幕亮度，适合在夜间或弱光环境下使用。切换后所有界面元素（包括统计栏、题目卡片、反馈区等）都会自动适配暗色主题。主题选择会自动保存，下次打开时保持上次的选择。</p>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 5-10：暗色模式界面</p>
+
+<h2 id="s5.8">5.8 键盘快捷键</h2>
+
+<table>
+  <tr><th>快捷键</th><th>功能</th></tr>
+  <tr><td>←（左箭头）</td><td>上一题</td></tr>
+  <tr><td>→（右箭头）</td><td>下一题</td></tr>
+  <tr><td>空格键</td><td>随机跳转一道题目</td></tr>
+</table>
+<p>注意：当输入框或文本编辑框获得焦点时，快捷键不会触发，避免干扰文字输入。</p>
+
+<h2 id="s5.9">5.9 模拟考试</h2>
+
+<p>模拟考试功能为用户提供接近真实考试的刷题体验。在考试模式下，系统会按题型分组，用户可选择每种题型抽取的题目数量，组卷后进行限时或不限时作答，最后统一提交判卷。</p>
+
+<h3>5.9.1 开始模拟考试</h3>
+<p>点击顶部工具栏的"📝 模拟考试"按钮，弹出考试设置弹窗。弹窗中按题型（单选、判断、多选、填空）列出题库中可用的题目数量。用户可调整每种题型希望抽取的题目数量，默认为该题型全部题目。点击"📋 全选"按钮可一键将所有题型设置为最大值。设置完成后点击"📝 开始考试"进入考试模式。</p>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 5-11：模拟考试设置界面</p>
+
+<h3>5.9.2 考试模式界面</h3>
+<p>进入考试模式后，界面会隐藏练习模式的标签栏和筛选栏，呈现干净的考试视图。顶部显示考试横幅（已答/总题数），题型标签页（如"单选（5题）""判断（3题）"等）可点击快速跳转到对应题型区域。每道题目的选项顺序会被随机打乱，防止记忆选项位置。</p>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 5-12：考试模式答题界面</p>
+
+<h3>5.9.3 答题与提交</h3>
+<p>在考试模式下，选择答案后不会立即显示对错，也不显示解析。用户可自由切换题目并修改答案。点击底部的"📝 提交试卷"按钮可提前交卷（无需答完所有题目）。提交后会显示成绩单，包含总分、正确数/错误数、正确率、各题型得分明细。</p>
+
+<div class="screenshot-box"></div>
+<p class="no-indent" style="text-align:center;color:#666;font-size:10pt">图 5-13：考试成绩单</p>
+
+<h3>5.9.4 答题回顾</h3>
+<p>在成绩单页面，点击"📋 逐题查看"按钮进入答题回顾模式。在此模式下，用户可以逐题查看自己的答案和正确答案对比，并查看题目解析。回顾模式中选项不再可点击修改。</p>
+
+
+
+<!-- ════════ 6 数据管理 ════════ -->
+<div class="page-break"></div>
+<h1 id="s6">6. 数据管理</h1>
+
+<h2>6.1 进度自动保存</h2>
+<p>所有答题进度（当前题目位置、正确/错误计数、错题本、答题记录）会自动保存到浏览器的 localStorage 中。关闭页面或重启浏览器后，重新打开软件即可恢复之前的答题进度。</p>
+
+<h2>6.2 手动重置进度</h2>
+<p>点击顶部工具栏的"🔄 重置"按钮，在弹出的确认框中点击"确定"后，将清除所有答题进度数据，包括正确/错误计数、答题记录和错题本。题库文件不会被删除。</p>
+
+<h2>6.3 数据清除</h2>
+<p>如需彻底清除所有数据（包括题库文件和 AI 设置），可通过浏览器设置清除该网站的 localStorage 数据。</p>
+
+<!-- ════════ 7 常见问题 ════════ -->
+<div class="page-break"></div>
+<h1 id="s7">7. 常见问题</h1>
+
+<h3>Q1：上传题库后没有显示题目？</h3>
+<p>请检查 JSON 格式是否正确，确保是一个数组（以 [ 开头），且每道题包含必需的字段（id、type、question、options、answer）。可参考页面上的 JSON 格式模板。</p>
+
+<h3>Q2：AI 解析无法使用？</h3>
+<p>请确认已在设置中正确填写 API 地址和 API Key。DeepSeek API Key 可前往 platform.deepseek.com 获取。如果使用本地模型（如 Ollama），API 地址需填写本地地址，API Key 可留空。</p>
+
+<h3>Q3：答题进度丢失？</h3>
+<p>请确认浏览器已启用 localStorage（默认开启）。清除浏览器缓存或 cookies 可能会导致数据丢失。建议定期导出题库以防丢失。</p>
+
+<h3>Q4：如何将软件安装到手机？</h3>
+<p>可通过 Capacitor 打包为 Android APK 安装包。在项目目录下依次执行 npm run build、npx cap sync android，然后在 Android Studio 中构建 APK。</p>
+
+<h3>Q5：支持哪些题型？</h3>
+<p>支持四种题型：单选（single）、判断（judge）、多选（multi）、填空（fill）。每种题型的作答方式和判分逻辑有所区别，详见第 5.3 节。</p>
+
+<h3>Q6：如何清除错题本？</h3>
+<p>在刷题模式下，答对的题目会自动从错题本移除。如需一次性清除所有错题，可使用"重置"功能，但这也会清除其他答题进度数据。</p>
+
+<h3>Q7：软件需要网络连接吗？</h3>
+<p>基础刷题功能完全离线可用。仅 AI 解析功能需要网络连接以调用远程 API。</p>
+
+<h3>Q8：模拟考试和普通刷题有什么区别？</h3>
+<p>模拟考试模式下，系统按题型分组随机抽题，选项顺序打乱，答题时不显示对错和解析，所有题目答完后统一提交判卷，生成成绩单。普通刷题模式则答题后立即判分显示解析。</p>
+
+<div style="text-align:center;margin-top:60px;padding-top:30px;border-top:1px solid #ddd">
+  <p style="text-indent:0;color:#666;font-size:10pt">—— 用户操作手册完 ——</p>
+</div>
+
+</body>
+</html>

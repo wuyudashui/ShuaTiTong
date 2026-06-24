@@ -2,6 +2,7 @@ import type { Question, QuestionType } from '../types';
 import { TYPE_LABELS } from '../types';
 import type { ExamSection } from '../types';
 import { store } from '../state';
+import { CLIPBOARD, CHECK, X, BAR_CHART, GRID, BOOK_OPEN, SEND } from '../icons';
 
 // Fisher-Yates shuffle
 function shuffle<T>(arr: T[]): T[] {
@@ -34,7 +35,7 @@ export function showExamSetup(questions: Question[]): void {
   overlay.id = 'examSetupModal';
   overlay.innerHTML = `
     <div class="modal">
-      <h2>📝 模拟考试设置</h2>
+      <h2><span class="svg-icon">${CLIPBOARD}</span>模拟考试设置</h2>
       <p style="color:var(--text-secondary);margin-bottom:16px">选择每种题型的题目数量，从题库中随机抽题组卷。</p>
       <div class="exam-type-config">
         ${TYPE_ORDER.filter(t => (typeCounts[t] || 0) > 0).map(type => `
@@ -49,11 +50,11 @@ export function showExamSetup(questions: Question[]): void {
         `).join('')}
       </div>
       <div style="margin-top:8px">
-        <button id="examSelectAllBtn" class="btn-sm btn-outline">📋 全选</button>
+        <button id="examSelectAllBtn" class="btn-sm btn-outline"><span class="svg-icon">${GRID}</span>全选</button>
       </div>
       <div class="modal-actions" style="margin-top:16px">
         <button id="examCancelBtn" class="btn-outline">取消</button>
-        <button id="examStartBtn" class="btn-primary">📝 开始考试</button>
+        <button id="examStartBtn" class="btn-primary"><span class="svg-icon">${SEND}</span>开始考试</button>
       </div>
     </div>
   `;
@@ -188,16 +189,16 @@ export function showExamResults(): void {
   overlay.className = 'modal-overlay';
   overlay.innerHTML = `
     <div class="modal exam-result-modal">
-      <h2>📊 模拟考试结果</h2>
+      <h2><span class="svg-icon">${BAR_CHART}</span>模拟考试结果</h2>
       <div class="exam-result-score">
         <span class="score-num">${correct}/${total}</span>
         <span class="score-pct">${rate}%</span>
       </div>
       <div class="exam-result-detail">
-        <div class="exam-result-stat"><span>✅ 正确</span><span class="num correct">${correct}</span></div>
-        <div class="exam-result-stat"><span>❌ 错误</span><span class="num wrong">${wrong}</span></div>
-        <div class="exam-result-stat"><span>📊 正确率</span><span class="num">${rate}%</span></div>
-        <div class="exam-result-stat"><span>📝 已作答</span><span class="num">${answered}/${total}</span></div>
+        <div class="exam-result-stat"><span><span class="svg-icon" style="width:16px;height:16px">${CHECK}</span>正确</span><span class="num correct">${correct}</span></div>
+        <div class="exam-result-stat"><span><span class="svg-icon" style="width:16px;height:16px">${X}</span>错误</span><span class="num wrong">${wrong}</span></div>
+        <div class="exam-result-stat"><span><span class="svg-icon" style="width:16px;height:16px">${BAR_CHART}</span>正确率</span><span class="num">${rate}%</span></div>
+        <div class="exam-result-stat"><span><span class="svg-icon" style="width:16px;height:16px">${CLIPBOARD}</span>已作答</span><span class="num">${answered}/${total}</span></div>
       </div>
       <div class="exam-result-detail" style="margin-top:8px;font-size:.85rem">
         ${exam.sections.map(s => {
@@ -210,8 +211,8 @@ export function showExamResults(): void {
         }).join('')}
       </div>
       <div class="modal-actions">
-        <button id="examResultReviewBtn" class="btn-outline">📋 逐题查看</button>
-        <button id="examResultExitBtn" class="btn-primary">✅ 完成</button>
+        <button id="examResultReviewBtn" class="btn-outline"><span class="svg-icon">${BOOK_OPEN}</span>逐题查看</button>
+        <button id="examResultExitBtn" class="btn-primary"><span class="svg-icon">${CHECK}</span>完成</button>
       </div>
     </div>
   `;

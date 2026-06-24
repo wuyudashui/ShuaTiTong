@@ -1,4 +1,5 @@
 import type { Question, QuestionRenderer, RenderConfig } from '../types';
+import { CLIPBOARD, BRAIN } from '../icons';
 import { gradeFillAnswer } from '../ai';
 
 export class FillRenderer implements QuestionRenderer {
@@ -35,8 +36,8 @@ export class FillRenderer implements QuestionRenderer {
     toggleRow.className = 'grade-toggle';
     toggleRow.innerHTML = `
       <span class="grade-toggle-label">判分方式：</span>
-      <button class="grade-opt active" data-mode="local">📋 本地判分</button>
-      <button class="grade-opt" data-mode="ai">🤖 AI 判分</button>
+      <button class="grade-opt active" data-mode="local"><span class="svg-icon">${CLIPBOARD}</span>本地判分</button>
+      <button class="grade-opt" data-mode="ai"><span class="svg-icon">${BRAIN}</span>AI 判分</button>
     `;
     toggleRow.querySelectorAll('.grade-opt').forEach(btn => {
       btn.addEventListener('click', () => {

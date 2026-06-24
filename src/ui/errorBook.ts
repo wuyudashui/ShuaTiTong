@@ -1,6 +1,7 @@
 import type { Question } from '../types';
 import { TYPE_LABELS } from '../types';
 import { escapeHtml } from '../format';
+import { CLIPBOARD, ALERT_CIRCLE, CHECK } from '../icons';
 
 export function renderErrorBook(
   errorBook: Record<number, boolean>,
@@ -8,12 +9,12 @@ export function renderErrorBook(
 ): string {
   const ids = Object.keys(errorBook);
   if (!ids.length) {
-    return `<div class="empty-state"><div class="icon">🎉</div><h3>暂无错题</h3><p>继续刷题，答错的题目会自动收集在这里。</p></div>`;
+    return `<div class="empty-state"><div class="icon"><span class="svg-icon" style="width:48px;height:48px">${CHECK}</span></div><h3>暂无错题</h3><p>继续刷题，答错的题目会自动收集在这里。</p></div>`;
   }
 
   let html = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
     <p style="margin:0;color:var(--text-secondary)">共 ${ids.length} 道错题</p>
-    <button id="redoWrongBtn" class="btn-sm btn-outline">📝 练习全部错题</button>
+    <button id="redoWrongBtn" class="btn-sm btn-outline"><span class="svg-icon">${CLIPBOARD}</span>练习全部错题</button>
   </div>`;
   ids.forEach(id => {
     const q = questions.find(qq => String(qq.id) === String(id));
@@ -25,7 +26,7 @@ export function renderErrorBook(
       correctAns += q.answer === 'A' ? '（正确）' : '（错误）';
     }
     const label = TYPE_LABELS[q.type] || q.type;
-    html += `<div class="error-item" data-id="${q.id}"><div class="q-text-sm">${escapeHtml(q.question)}</div><div class="meta"><span>🏷 ${label}</span><span>📌 难度：${q.difficulty}</span><span>✅ 正确答案：${correctAns}</span></div></div>`;
+    html += `<div class="error-item" data-id="${q.id}"><div class="q-text-sm">${escapeHtml(q.question)}</div><div class="meta"><span><span class="svg-icon" style="width:14px;height:14px">${ALERT_CIRCLE}</span>${label}</span><span>难度：${q.difficulty}</span><span><span class="svg-icon" style="width:14px;height:14px">${CHECK}</span>${correctAns}</span></div></div>`;
   });
 
   // Delegate click handling to caller after innerHTML assignment
