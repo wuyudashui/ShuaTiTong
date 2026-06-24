@@ -125,13 +125,11 @@ function showExplanationInline(q: Question, content: string, label?: string): vo
   const explanation = document.getElementById('explanationText') as HTMLElement;
 
   feedback.classList.add('ai-exp');
-  if (feedback.classList.contains('show')) {
-    explanation.innerHTML = formatExplanation(content);
-  } else {
-    feedback.classList.add('show', 'correct');
-    feedbackRes.innerHTML = label || '🤖 AI 解析';
-    explanation.innerHTML = formatExplanation(content);
+  if (!feedback.classList.contains('show')) {
+    feedback.classList.add('show');
   }
+  feedbackRes.innerHTML = label || '🤖 AI 解析';
+  explanation.innerHTML = formatExplanation(content);
 }
 
 function openDrawer(mode: 'detailed' | 'simple'): { body: HTMLElement; close: () => void } {
@@ -167,13 +165,6 @@ function initDisplay(mode: 'detailed' | 'simple'): DisplayTarget | null {
   return { type: 'drawer', ...drawer };
 }
 
-function displayContent(target: DisplayTarget, html: string): void {
-  if (target.type === 'drawer') {
-    target.body.innerHTML = html;
-  } else {
-    // inline — caller must have q context
-  }
-}
 
 export async function fetchAIExplanation(q: Question): Promise<void> {
   if (store.aiLoading) return;

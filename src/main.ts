@@ -62,6 +62,14 @@ function getCurrentQuestion(): Question | null {
   return filtered[store.state.currentIndex] ?? null;
 }
 
+/** Return the appropriate explanation based on current AI mode */
+function getExplanation(q: Question): string {
+  if (store.aiSettings.aiMode === 'simple') {
+    return q.simpleExplanation || autoExplanation(q);
+  }
+  return q.explanation || autoExplanation(q);
+}
+
 function performRedo(): void {
   const q = getCurrentQuestion();
   if (!q) return;
@@ -147,7 +155,7 @@ const renderConfig: RenderConfig = {
 
       store.setAnswered(true);
       feedback.classList.add('show');
-      explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
+      explanation.innerHTML = formatExplanation(getExplanation(q));
       redoBtn.classList.remove('hidden');
       updateStats();
       store.save();
@@ -291,7 +299,7 @@ function renderQuestion(): void {
       feedback.classList.add('show', 'wrong');
       feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误`;
     }
-    explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
+    explanation.innerHTML = formatExplanation(getExplanation(q));
   }
 
   updateThumbnails();
@@ -618,7 +626,7 @@ showAnsBtn.addEventListener('click', () => {
   dispatchShowAnswer(q);
   feedback.classList.add('show', 'wrong');
   feedbackRes.innerHTML = `<span class="svg-icon">${EYE}</span> 已显示答案（正确答案：${q.answer}）`;
-  explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
+  explanation.innerHTML = formatExplanation(getExplanation(q));
   updateStats();
   store.save();
   redoBtn.classList.remove('hidden');
@@ -687,6 +695,11 @@ function init(): void {
   initTheme(themeBtn);
   initSettings();
   renderRecentFiles();
+
+  // Set AI button text to match current mode
+  aiExplainBtn.innerHTML = store.aiSettings.aiMode === 'simple'
+    ? '<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.34-.64 2.61-1.74 3.39A4 4 0 0 1 16 13a4 4 0 0 1-2 3.46"/><path d="M12 2a4 4 0 0 0-4 4c0 1.34.64 2.61 1.74 3.39A4 4 0 0 0 8 13a4 4 0 0 0 2 3.46"/><path d="M12 22v-6"/><path d="M8 17c-2 0-4-1-4-4 0-1.5 1-2.5 2-3"/><path d="M16 17c2 0 4-1 4-4 0-1.5-1-2.5-2-3"/></svg></span>AI 纠错'
+    : '<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.34-.64 2.61-1.74 3.39A4 4 0 0 1 16 13a4 4 0 0 1-2 3.46"/><path d="M12 2a4 4 0 0 0-4 4c0 1.34.64 2.61 1.74 3.39A4 4 0 0 0 8 13a4 4 0 0 0 2 3.46"/><path d="M12 22v-6"/><path d="M8 17c-2 0-4-1-4-4 0-1.5 1-2.5 2-3"/><path d="M16 17c2 0 4-1 4-4 0-1.5-1-2.5-2-3"/></svg></span>AI 解析';
 
   // Click explanation to expand/collapse long content
   explanation.addEventListener('click', (e) => {
