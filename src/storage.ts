@@ -31,15 +31,16 @@ export function loadAppState(): AppState | null {
 export function loadAISettings(): AISettings {
   try {
     const raw = localStorage.getItem(AI_KEY);
-    if (!raw) return { apiKey: '', apiBaseUrl: 'https://api.deepseek.com', apiModel: 'deepseek-v4-flash' };
+    if (!raw) return { apiKey: '', apiBaseUrl: 'https://api.deepseek.com', apiModel: 'deepseek-v4-flash', aiMode: 'detailed' };
     const s = JSON.parse(raw);
     return {
       apiKey: s.apiKey || '',
       apiBaseUrl: s.apiBaseUrl || 'https://api.deepseek.com',
       apiModel: s.apiModel || 'deepseek-v4-flash',
+      aiMode: s.aiMode || 'detailed',
     };
   } catch (e) {
-    return { apiKey: '', apiBaseUrl: 'https://api.deepseek.com', apiModel: 'deepseek-v4-flash' };
+    return { apiKey: '', apiBaseUrl: 'https://api.deepseek.com', apiModel: 'deepseek-v4-flash', aiMode: 'detailed' };
   }
 }
 

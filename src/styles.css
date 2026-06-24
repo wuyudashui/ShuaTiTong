@@ -789,6 +789,35 @@ h1 .svg-icon, h2 .svg-icon, h3 .svg-icon {
 .ai-grade-item.wrong   { background: var(--wrong-bg); color: var(--wrong-text); }
 .ai-grade-blank { font-weight: 700; min-width: 36px; }
 
+/* ── AI mode toggle (settings) ── */
+.ai-mode-toggle {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.ai-mode-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card-bg);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: .85rem;
+  font-family: inherit;
+  font-weight: 500;
+  transition: all .15s;
+}
+.ai-mode-btn.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: transparent;
+}
+.ai-mode-btn:hover:not(.active) {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
 /* ── Multi hint, undo ── */
 .multi-hint { font-size: .82rem; color: var(--text-secondary); margin-top: 8px; }
 #undoBtn { background: var(--tag-bg); color: var(--text); }

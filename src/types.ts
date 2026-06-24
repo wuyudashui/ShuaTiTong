@@ -14,7 +14,10 @@ export interface Question {
   /** Correct answer. For multi, a concatenated string like "ACD" */
   answer: string;
   difficulty: Difficulty;
+  /** Detailed AI explanation */
   explanation: string;
+  /** Simple AI explanation (error-spotting only) */
+  simpleExplanation?: string;
 }
 
 // ─── App state ───
@@ -34,6 +37,7 @@ export interface AISettings {
   apiKey: string;
   apiBaseUrl: string;
   apiModel: string;
+  aiMode: 'detailed' | 'simple';
 }
 
 export interface RecentFileMeta {

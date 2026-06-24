@@ -113,8 +113,8 @@ function isMobile(): boolean {
   return window.innerWidth <= 768;
 }
 
-/** Show AI explanation inline (mobile fallback — old approach) */
-function showExplanationInline(q: Question, content: string): void {
+/** Show AI explanation inline */
+function showExplanationInline(q: Question, content: string, label?: string): void {
   const feedback = document.getElementById('feedback') as HTMLElement;
   const feedbackRes = document.getElementById('feedbackResult') as HTMLElement;
   const explanation = document.getElementById('explanationText') as HTMLElement;
@@ -124,20 +124,23 @@ function showExplanationInline(q: Question, content: string): void {
     explanation.innerHTML = formatExplanation(content);
   } else {
     feedback.classList.add('show', 'correct');
-    feedbackRes.innerHTML = '🤖 AI 解析';
+    feedbackRes.innerHTML = label || '🤖 AI 解析';
     explanation.innerHTML = formatExplanation(content);
   }
 }
 
-function openDrawer(): { body: HTMLElement; close: () => void } {
+function openDrawer(mode: 'detailed' | 'simple'): { body: HTMLElement; close: () => void } {
   const drawer = document.getElementById('aiDrawer')!;
   const overlay = document.getElementById('aiDrawerOverlay')!;
   const body = document.getElementById('aiDrawerBody')!;
   const closeBtn = document.getElementById('aiDrawerClose')!;
+  const header = drawer.querySelector('.ai-drawer-header span')!;
 
   drawer.classList.remove('hidden');
   overlay.classList.remove('hidden');
-  body.innerHTML = '<div class="ai-drawer-loading">⏳ 正在生成解析...</div>';
+  const loadingText = mode === 'simple' ? '⏳ 正在分析错误...' : '⏳ 正在生成解析...';
+  body.innerHTML = `<div class="ai-drawer-loading">${loadingText}</div>`;
+  header.innerHTML = `<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.34-.64 2.61-1.74 3.39A4 4 0 0 1 16 13a4 4 0 0 1-2 3.46"/><path d="M12 2a4 4 0 0 0-4 4c0 1.34.64 2.61 1.74 3.39A4 4 0 0 0 8 13a4 4 0 0 0 2 3.46"/><path d="M12 22v-6"/><path d="M8 17c-2 0-4-1-4-4 0-1.5 1-2.5 2-3"/><path d="M16 17c2 0 4-1 4-4 0-1.5-1-2.5-2-3"/></svg></span> ${mode === 'simple' ? 'AI 纠错' : 'AI 解析'}`;
 
   const close = () => {
     drawer.classList.add('hidden');
@@ -151,11 +154,11 @@ function openDrawer(): { body: HTMLElement; close: () => void } {
 
 type DisplayTarget = { type: 'drawer'; body: HTMLElement; close: () => void } | { type: 'inline' };
 
-function initDisplay(): DisplayTarget | null {
+function initDisplay(mode: 'detailed' | 'simple'): DisplayTarget | null {
   if (isMobile()) {
     return { type: 'inline' };
   }
-  const drawer = openDrawer();
+  const drawer = openDrawer(mode);
   return { type: 'drawer', ...drawer };
 }
 
@@ -171,16 +174,76 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
   if (store.aiLoading) return;
   store.setAILoading(true);
 
-  const target = initDisplay();
+  const mode = store.aiSettings.aiMode || 'detailed';
   const aiExplainBtn = document.getElementById('aiExplainBtn') as HTMLButtonElement;
 
   if (aiExplainBtn) {
     aiExplainBtn.disabled = true;
     aiExplainBtn.classList.add('ai-loading');
-    aiExplainBtn.textContent = '🤖 解析中';
+    aiExplainBtn.textContent = mode === 'simple' ? '🤖 纠错中' : '🤖 解析中';
   }
 
-  // If already cached, show immediately
+  // ── Simple mode: always inline, no drawer ──
+  if (mode === 'simple') {
+    if (q.simpleExplanation) {
+      showExplanationInline(q, q.simpleExplanation, '🤖 AI 纠错');
+      store.setAILoading(false);
+      if (aiExplainBtn) {
+        aiExplainBtn.disabled = false;
+        aiExplainBtn.classList.remove('ai-loading');
+        aiExplainBtn.textContent = '🤖 AI 纠错';
+      }
+      return;
+    }
+
+    try {
+      const { apiKey, apiBaseUrl, apiModel } = store.aiSettings;
+      const baseUrl = apiBaseUrl.replace(/\/+$/, '');
+      const prompt = buildSimplePrompt(q);
+
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
+
+      const res = await fetch(`${baseUrl}/chat/completions`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          model: apiModel,
+          messages: [
+            { role: 'system', content: '你是一个简洁的刷题助手。用户答错了题，请用1-3句话直接指出哪里错了，不要展开知识点，不要长篇解析。只回答错误原因。' },
+            { role: 'user', content: prompt },
+          ],
+          max_tokens: 256,
+          temperature: 0.1,
+        }),
+      });
+
+      if (!res.ok) throw new Error(`API 请求失败 (${res.status})`);
+
+      const data = await res.json();
+      const rawContent = data.choices?.[0]?.message?.content?.trim() || '';
+      if (!rawContent) throw new Error('AI 返回了空内容');
+
+      q.simpleExplanation = rawContent;
+      showExplanationInline(q, rawContent, '🤖 AI 纠错');
+      store.save();
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : '网络错误，请检查 API 地址和 Key 是否正确。';
+      showFeedbackError(errMsg);
+    } finally {
+      store.setAILoading(false);
+      if (aiExplainBtn) {
+        aiExplainBtn.disabled = false;
+        aiExplainBtn.classList.remove('ai-loading');
+        aiExplainBtn.textContent = '🤖 AI 纠错';
+      }
+    }
+    return;
+  }
+
+  // ── Detailed mode: drawer (desktop) or inline (mobile) ──
+  const target = initDisplay('detailed');
+
   if (q.explanation) {
     const html = formatExplanation(q.explanation);
     if (target?.type === 'drawer') {
@@ -200,20 +263,7 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
   try {
     const { apiKey, apiBaseUrl, apiModel } = store.aiSettings;
     const baseUrl = apiBaseUrl.replace(/\/+$/, '');
-    let prompt = `请为以下题目生成详细的答案解析。\n\n`;
-    prompt += `题目：${q.question}\n\n`;
-    prompt += `题型：${TYPE_LABELS[q.type] || q.type}\n`;
-    if (q.type !== 'fill' && q.options) {
-      prompt += '选项：\n';
-      Object.entries(q.options).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}. ${v}\n`; });
-    }
-    if (q.type === 'fill') {
-      prompt += '参考答案：\n';
-      Object.entries(q.options || {}).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}：${v}\n`; });
-    } else {
-      prompt += `\n正确答案：${q.answer}\n`;
-    }
-    prompt += `\n请用中文给出详细的解析，包括：为什么这个答案正确、其他选项为什么错误（如适用）、相关知识点说明。`;
+    const prompt = buildDetailedPrompt(q);
 
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
     if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
@@ -244,7 +294,6 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
       throw new Error('AI 返回了解析内容为空，请重试或更换模型。');
     }
 
-    // Save to question and display
     q.explanation = rawContent;
     const html = formatExplanation(rawContent);
     if (target?.type === 'drawer') {
@@ -258,12 +307,7 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
     if (target?.type === 'drawer') {
       target.body.innerHTML = formatExplanation(errMsg);
     } else {
-      const feedback = document.getElementById('feedback') as HTMLElement;
-      const feedbackRes = document.getElementById('feedbackResult') as HTMLElement;
-      const explanation = document.getElementById('explanationText') as HTMLElement;
-      feedback.classList.add('show', 'wrong');
-      feedbackRes.innerHTML = '<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> AI 解析失败';
-      explanation.innerHTML = formatExplanation(errMsg);
+      showFeedbackError(errMsg);
     }
   } finally {
     store.setAILoading(false);
@@ -273,4 +317,54 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
       aiExplainBtn.textContent = '🤖 AI 解析';
     }
   }
+}
+
+function showFeedbackError(errMsg: string): void {
+  const feedback = document.getElementById('feedback') as HTMLElement;
+  const feedbackRes = document.getElementById('feedbackResult') as HTMLElement;
+  const explanation = document.getElementById('explanationText') as HTMLElement;
+  feedback.classList.add('show', 'wrong');
+  feedbackRes.innerHTML = '<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> AI 纠错失败';
+  explanation.innerHTML = formatExplanation(errMsg);
+}
+
+function buildDetailedPrompt(q: Question): string {
+  let prompt = '请为以下题目生成详细的答案解析。\n\n';
+  prompt += `题目：${q.question}\n\n`;
+  prompt += `题型：${TYPE_LABELS[q.type] || q.type}\n`;
+  if (q.type !== 'fill' && q.options) {
+    prompt += '选项：\n';
+    Object.entries(q.options).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}. ${v}\n`; });
+  }
+  if (q.type === 'fill') {
+    prompt += '参考答案：\n';
+    Object.entries(q.options || {}).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}：${v}\n`; });
+  } else {
+    prompt += `\n正确答案：${q.answer}\n`;
+  }
+  prompt += `\n请用中文给出详细的解析，包括：为什么这个答案正确、其他选项为什么错误（如适用）、相关知识点说明。`;
+  return prompt;
+}
+
+function buildSimplePrompt(q: Question): string {
+  let prompt = '用户答错了以下题目，请直接指出错误在哪里（1-3句话）。\n\n';
+  prompt += `题目：${q.question}\n\n`;
+  if (q.type !== 'fill' && q.options) {
+    prompt += '选项：\n';
+    Object.entries(q.options).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}. ${v}\n`; });
+  }
+  if (q.type === 'fill') {
+    prompt += '参考答案：\n';
+    Object.entries(q.options || {}).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}：${v}\n`; });
+  } else {
+    prompt += `\n正确答案：${q.answer}\n`;
+  }
+  if (q.type === 'multi') {
+    prompt += '\n请指出用户是漏选了哪些正确选项，还是多选了哪些错误选项。不要展开知识点说明。';
+  } else if (q.type === 'fill') {
+    prompt += '\n请指出哪个空填错了，正确答案应该是什么。不要展开。';
+  } else {
+    prompt += '\n请指出用户可能错在哪里（概念混淆、审题不清等），不要展开知识点。';
+  }
+  return prompt;
 }
