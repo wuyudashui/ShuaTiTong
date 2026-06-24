@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>刷题通</title>
-  <script type="module" crossorigin src="./assets/index-Cr3pqUaQ.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-er7J_pwp.css">
+  <script type="module" crossorigin src="./assets/index-9l2Cqo3J.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-PKn-H0SE.css">
 </head>
 <body>
 
@@ -114,6 +114,7 @@
 
   <!-- ════ EXAM BANNER ════ -->
   <div id="examBanner" class="exam-banner hidden"></div>
+  <div id="examTypeTabs" class="exam-type-tabs hidden"></div>
 
   <!-- ════ PRACTICE VIEW ════ -->
   <div id="practiceView">
@@ -128,7 +129,6 @@
       <div class="feedback" id="feedback">
         <div id="feedbackResult"></div>
         <div class="exp" id="explanationText"></div>
-        <button id="undoBtn" class="btn-sm hidden" style="margin-top:8px">↩ 撤销作答</button>
       </div>
     </div>
 
@@ -137,6 +137,7 @@
       <button id="randomBtn" class="btn-outline">🎲 随机</button>
       <button id="aiExplainBtn" class="btn-outline btn-ai">🤖 AI 解析</button>
       <button id="showAnswerBtn" class="btn-outline">💡 显示答案</button>
+      <button id="redoBtn" class="btn-outline hidden">🔄 重做</button>
       <button id="nextBtn" class="btn-primary">下一题 ▶</button>
       <button id="submitExamBtn" class="btn-primary hidden">📊 交卷</button>
     </div>
@@ -183,6 +184,18 @@
   </div>
 
 </div>
+
+<!-- ════ AI EXPLANATION DRAWER ════ -->
+<div id="aiDrawer" class="ai-drawer hidden">
+  <div class="ai-drawer-header">
+    <span>🤖 AI 解析</span>
+    <button id="aiDrawerClose" class="ai-drawer-close">✕</button>
+  </div>
+  <div class="ai-drawer-body" id="aiDrawerBody">
+    <div class="ai-drawer-loading">⏳ 正在生成解析...</div>
+  </div>
+</div>
+<div id="aiDrawerOverlay" class="ai-drawer-overlay hidden"></div>
 
 </body>
 </html>

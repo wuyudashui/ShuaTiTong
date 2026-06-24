@@ -1,9 +1,9 @@
-import type { Question, AnswerResult } from '../types';
+import type { Question } from '../types';
 import { TYPE_LABELS } from '../types';
 
 export function renderThumbnails(
   questions: Question[],
-  answeredMap: Record<number, AnswerResult>,
+  answeredMap: Record<number, string>,
   currentOrigId: number,
 ): string {
   if (!questions.length) return '';
@@ -16,6 +16,8 @@ export function renderThumbnails(
     const result = answeredMap[q.id];
     if (result === 'correct') cls += ' correct';
     else if (result === 'wrong') cls += ' wrong';
+    // Exam mode: answers are stored as strings (e.g. "A", "ACD") — treat any non-empty as "answered"
+    else if (result && result !== '' && result !== 'correct' && result !== 'wrong') cls += ' correct';
 
     const label = TYPE_LABELS[q.type] || q.type;
     return `<div class="${cls}" data-index="${i}" data-qid="${q.id}" title="#${i + 1} [${label}] ${q.question.slice(0, 40)}">${i + 1}</div>`;

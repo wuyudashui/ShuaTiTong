@@ -53,7 +53,8 @@ export function formatExplanation(text: string): string {
   // Clean up nested <p> artifacts
   h = h.replace(/<p><\/p>/g, '');
   h = h.replace(/<\/p><p><\/p><p>/g, '</p><p>');
-  return h;
+
+  return `<div class="exp-content">${h}</div>`;
 }
 
 /**

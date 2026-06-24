@@ -51,7 +51,8 @@ export interface RenderConfig {
   feedback: HTMLElement;
   feedbackResult: HTMLElement;
   explanation: HTMLElement;
-  onAnswered: (result: { isCorrect: boolean }) => void;
+  examMode?: boolean;
+  onAnswered: (result: { isCorrect: boolean; selected?: string }) => void;
 }
 
 export interface QuestionRenderer {
@@ -64,12 +65,31 @@ export interface QuestionRenderer {
 
 // ─── Exam state ───
 
+export interface ExamGradedDetail {
+  selected: string;
+  correct: string;
+  isCorrect: boolean;
+}
+
+export interface ExamSection {
+  type: QuestionType;
+  label: string;
+  start: number;
+  end: number;
+}
+
 export interface ExamState {
   active: boolean;
   questions: Question[];
   currentIndex: number;
-  answers: Record<number, AnswerResult>;
+  /** In exam mode, stores selected answer string (e.g. "B" or "ACD") */
+  answers: Record<number, string>;
   total: number;
+  /** After grading, stores per-question grading details for review */
+  graded: boolean;
+  gradeDetails: Record<number, ExamGradedDetail>;
+  /** Type-based sections for grouped-by-type display */
+  sections: ExamSection[];
 }
 
 // ─── Type labels ───

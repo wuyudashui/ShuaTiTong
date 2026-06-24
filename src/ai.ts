@@ -109,19 +109,92 @@ function parseGradeResponse(
 
 // ─── AI Explanation ───
 
+function isMobile(): boolean {
+  return window.innerWidth <= 768;
+}
+
+/** Show AI explanation inline (mobile fallback — old approach) */
+function showExplanationInline(q: Question, content: string): void {
+  const feedback = document.getElementById('feedback') as HTMLElement;
+  const feedbackRes = document.getElementById('feedbackResult') as HTMLElement;
+  const explanation = document.getElementById('explanationText') as HTMLElement;
+
+  feedback.classList.add('ai-exp');
+  if (feedback.classList.contains('show')) {
+    explanation.innerHTML = formatExplanation(content);
+  } else {
+    feedback.classList.add('show', 'correct');
+    feedbackRes.innerHTML = '🤖 AI 解析';
+    explanation.innerHTML = formatExplanation(content);
+  }
+}
+
+function openDrawer(): { body: HTMLElement; close: () => void } {
+  const drawer = document.getElementById('aiDrawer')!;
+  const overlay = document.getElementById('aiDrawerOverlay')!;
+  const body = document.getElementById('aiDrawerBody')!;
+  const closeBtn = document.getElementById('aiDrawerClose')!;
+
+  drawer.classList.remove('hidden');
+  overlay.classList.remove('hidden');
+  body.innerHTML = '<div class="ai-drawer-loading">⏳ 正在生成解析...</div>';
+
+  const close = () => {
+    drawer.classList.add('hidden');
+    overlay.classList.add('hidden');
+  };
+  closeBtn.onclick = close;
+  overlay.onclick = close;
+
+  return { body, close };
+}
+
+type DisplayTarget = { type: 'drawer'; body: HTMLElement; close: () => void } | { type: 'inline' };
+
+function initDisplay(): DisplayTarget | null {
+  if (isMobile()) {
+    return { type: 'inline' };
+  }
+  const drawer = openDrawer();
+  return { type: 'drawer', ...drawer };
+}
+
+function displayContent(target: DisplayTarget, html: string): void {
+  if (target.type === 'drawer') {
+    target.body.innerHTML = html;
+  } else {
+    // inline — caller must have q context
+  }
+}
+
 export async function fetchAIExplanation(q: Question): Promise<void> {
   if (store.aiLoading) return;
   store.setAILoading(true);
 
+  const target = initDisplay();
   const aiExplainBtn = document.getElementById('aiExplainBtn') as HTMLButtonElement;
-  const feedback = document.getElementById('feedback') as HTMLElement;
-  const feedbackRes = document.getElementById('feedbackResult') as HTMLElement;
-  const explanation = document.getElementById('explanationText') as HTMLElement;
 
   if (aiExplainBtn) {
     aiExplainBtn.disabled = true;
     aiExplainBtn.classList.add('ai-loading');
     aiExplainBtn.textContent = '🤖 解析中';
+  }
+
+  // If already cached, show immediately
+  if (q.explanation) {
+    const html = formatExplanation(q.explanation);
+    if (target?.type === 'drawer') {
+      target.body.innerHTML = html;
+    } else {
+      showExplanationInline(q, q.explanation);
+    }
+    store.setAILoading(false);
+    if (aiExplainBtn) {
+      aiExplainBtn.disabled = false;
+      aiExplainBtn.classList.remove('ai-loading');
+      aiExplainBtn.textContent = '🤖 AI 解析';
+    }
+    return;
   }
 
   try {
@@ -154,7 +227,7 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
           { role: 'system', content: '你是一个专业的编程课程助教，擅长用中文详细解析题目，帮助学生理解知识点。' },
           { role: 'user', content: prompt },
         ],
-        max_tokens: 1024,
+        max_tokens: 2048,
         temperature: 0.7,
       }),
     });
@@ -165,25 +238,33 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
     }
 
     const data = await res.json();
-    const content = data.choices?.[0]?.message?.content?.trim() || '未获取到解析内容。';
+    const rawContent = data.choices?.[0]?.message?.content?.trim() || '';
+
+    if (!rawContent) {
+      throw new Error('AI 返回了解析内容为空，请重试或更换模型。');
+    }
 
     // Save to question and display
-    q.explanation = content;
-    feedback.classList.add('ai-exp');
-    if (feedback.classList.contains('show')) {
-      explanation.innerHTML = formatExplanation(content);
+    q.explanation = rawContent;
+    const html = formatExplanation(rawContent);
+    if (target?.type === 'drawer') {
+      target.body.innerHTML = html;
     } else {
-      feedback.classList.add('show', 'correct');
-      feedbackRes.innerHTML = '🤖 AI 解析';
-      explanation.innerHTML = formatExplanation(content);
+      showExplanationInline(q, rawContent);
     }
     store.save();
   } catch (err: unknown) {
-    feedback.classList.add('show', 'wrong');
-    feedbackRes.innerHTML = '❌ AI 解析失败';
-    explanation.innerHTML = formatExplanation(
-      err instanceof Error ? err.message : '网络错误，请检查 API 地址和 Key 是否正确。',
-    );
+    const errMsg = err instanceof Error ? err.message : '网络错误，请检查 API 地址和 Key 是否正确。';
+    if (target?.type === 'drawer') {
+      target.body.innerHTML = formatExplanation(errMsg);
+    } else {
+      const feedback = document.getElementById('feedback') as HTMLElement;
+      const feedbackRes = document.getElementById('feedbackResult') as HTMLElement;
+      const explanation = document.getElementById('explanationText') as HTMLElement;
+      feedback.classList.add('show', 'wrong');
+      feedbackRes.innerHTML = '❌ AI 解析失败';
+      explanation.innerHTML = formatExplanation(errMsg);
+    }
   } finally {
     store.setAILoading(false);
     if (aiExplainBtn) {

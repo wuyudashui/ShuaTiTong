@@ -37,3 +37,10 @@ export function destroyCurrent(): void {
     currentType = null;
   }
 }
+
+export function getCurrentRenderer(): QuestionRenderer | null {
+  if (currentType && RENDERER_MAP[currentType]) {
+    return RENDERER_MAP[currentType];
+  }
+  return null;
+}

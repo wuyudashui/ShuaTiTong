@@ -1,4 +1,6 @@
-import type { Question } from '../types';
+import type { Question, QuestionType } from '../types';
+import { TYPE_LABELS } from '../types';
+import type { ExamSection } from '../types';
 import { store } from '../state';
 
 // Fisher-Yates shuffle
@@ -11,36 +13,45 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-// ─── Exam setup modal ───
+const TYPE_ORDER: QuestionType[] = ['single', 'judge', 'multi', 'fill'];
+
+// ─── Exam setup modal (per-type count selection) ───
 
 export function showExamSetup(questions: Question[]): void {
-  if (!questions.length) {
-    alert('请先上传题库。');
+  if (questions.length === 0) {
+    alert('题库为空，无法组卷。');
     return;
   }
 
-  // Create modal dynamically
+  // Count by type
+  const typeCounts: Partial<Record<QuestionType, number>> = {};
+  for (const q of questions) {
+    typeCounts[q.type] = (typeCounts[q.type] || 0) + 1;
+  }
+
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
   overlay.id = 'examSetupModal';
   overlay.innerHTML = `
     <div class="modal">
       <h2>📝 模拟考试设置</h2>
-      <p style="color:var(--text-secondary);margin-bottom:16px">从题库中随机抽取题目组成模拟试卷。</p>
-      <label>题库共 <strong>${questions.length}</strong> 道题，抽取数量：</label>
-      <div class="exam-count-options">
-        ${[10, 20, 50].map(n =>
-          questions.length >= n
-            ? `<button class="exam-count-btn btn-outline" data-count="${n}">${n} 题</button>`
-            : ''
-        ).join('')}
-        <button class="exam-count-btn btn-outline" data-count="${questions.length}">全部 (${questions.length}题)</button>
+      <p style="color:var(--text-secondary);margin-bottom:16px">选择每种题型的题目数量，从题库中随机抽题组卷。</p>
+      <div class="exam-type-config">
+        ${TYPE_ORDER.filter(t => (typeCounts[t] || 0) > 0).map(type => `
+          <div class="exam-type-row">
+            <label>${TYPE_LABELS[type]}</label>
+            <div class="exam-type-controls">
+              <input type="number" class="exam-type-count" data-type="${type}"
+                min="0" max="${typeCounts[type]}" value="${typeCounts[type]}">
+              <span class="exam-type-total">/ ${typeCounts[type]} 题</span>
+            </div>
+          </div>
+        `).join('')}
       </div>
-      <div style="margin-top:12px">
-        <label>自定义数量：</label>
-        <input type="number" id="examCustomCount" min="1" max="${questions.length}" value="${Math.min(10, questions.length)}" style="width:100%">
+      <div style="margin-top:8px">
+        <button id="examSelectAllBtn" class="btn-sm btn-outline">📋 全选</button>
       </div>
-      <div class="modal-actions">
+      <div class="modal-actions" style="margin-top:16px">
         <button id="examCancelBtn" class="btn-outline">取消</button>
         <button id="examStartBtn" class="btn-primary">📝 开始考试</button>
       </div>
@@ -49,60 +60,128 @@ export function showExamSetup(questions: Question[]): void {
   document.body.appendChild(overlay);
 
   // Bind events
-  const countBtns = overlay.querySelectorAll<HTMLButtonElement>('.exam-count-btn');
-  const customInput = document.getElementById('examCustomCount') as HTMLInputElement;
-  let selectedCount = Math.min(10, questions.length);
+  const inputs = overlay.querySelectorAll<HTMLInputElement>('.exam-type-count');
 
-  countBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      countBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      selectedCount = parseInt(btn.dataset.count ?? '10');
-      customInput.value = String(selectedCount);
+  overlay.querySelector('#examSelectAllBtn')?.addEventListener('click', () => {
+    inputs.forEach(inp => {
+      inp.value = inp.max;
     });
-  });
-  // Default select first
-  const firstBtn = countBtns[0] as HTMLButtonElement | undefined;
-  if (firstBtn) firstBtn.classList.add('active');
-
-  customInput.addEventListener('input', () => {
-    countBtns.forEach(b => b.classList.remove('active'));
-    const v = parseInt(customInput.value);
-    if (!isNaN(v) && v > 0) selectedCount = Math.min(v, questions.length);
   });
 
   const close = () => { overlay.remove(); };
-
   overlay.querySelector('#examCancelBtn')?.addEventListener('click', close);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
 
   overlay.querySelector('#examStartBtn')?.addEventListener('click', () => {
-    const count = Math.max(1, Math.min(selectedCount, questions.length));
-    startExam(questions, count);
+    const counts: Partial<Record<QuestionType, number>> = {};
+    let total = 0;
+    for (const inp of inputs) {
+      const type = inp.dataset.type as QuestionType;
+      const val = parseInt(inp.value) || 0;
+      const max = parseInt(inp.max);
+      counts[type] = Math.max(0, Math.min(val, max));
+      total += counts[type]!;
+    }
+    if (total === 0) {
+      alert('请至少选择一道题目。');
+      return;
+    }
+    startExam(questions, counts as Record<QuestionType, number>);
     close();
   });
 }
 
-function startExam(questions: Question[], count: number): void {
-  const picked = shuffle(questions).slice(0, count);
-  store.startExam(picked);
+function startExam(
+  allQuestions: Question[],
+  counts: Record<QuestionType, number>,
+): void {
+  // Group by type and shuffle within each type
+  const grouped: Partial<Record<QuestionType, Question[]>> = {};
+  for (const q of allQuestions) {
+    if (!grouped[q.type]) grouped[q.type] = [];
+    grouped[q.type]!.push(q);
+  }
+  for (const type of TYPE_ORDER) {
+    if (grouped[type]) grouped[type] = shuffle(grouped[type]!);
+  }
 
-  // Switch to practice tab and trigger re-render
+  // Pick specified count from each type
+  const picked: Question[] = [];
+  const sections: ExamSection[] = [];
+
+  for (const type of TYPE_ORDER) {
+    const pool = grouped[type] || [];
+    const count = counts[type] || 0;
+    if (count <= 0 || pool.length === 0) continue;
+
+    const start = picked.length;
+    picked.push(...pool.slice(0, Math.min(count, pool.length)));
+    sections.push({
+      type,
+      label: TYPE_LABELS[type],
+      start,
+      end: picked.length,
+    });
+  }
+
+  if (picked.length === 0) {
+    alert('没有可用的题目。');
+    return;
+  }
+
+  store.startExam(picked, sections);
+
   const practiceTab = document.querySelector<HTMLElement>('[data-tab="practice"]');
   practiceTab?.click();
-
-  // Re-render will pick up exam mode
   window.dispatchEvent(new CustomEvent('exam-started'));
+}
+
+// ─── Render type tabs for exam navigation ───
+
+export function renderExamTypeTabs(container: HTMLElement): void {
+  const { sections, currentIndex } = store.exam;
+  const currentSection = sections.find(s => currentIndex >= s.start && currentIndex < s.end);
+
+  container.innerHTML = sections.map(s =>
+    `<button class="exam-type-tab ${s.type === currentSection?.type ? 'active' : ''}"
+             data-type="${s.type}">${s.label} (${s.end - s.start}题)</button>`
+  ).join('');
+}
+
+export function bindExamTypeTabs(container: HTMLElement, onNavigate: () => void): void {
+  container.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest('.exam-type-tab') as HTMLElement | null;
+    if (!btn) return;
+    const type = btn.dataset.type;
+    const section = store.exam.sections.find(s => s.type === type);
+    if (!section) return;
+    store.setExamIndex(section.start);
+    onNavigate();
+  });
+}
+
+// ─── Get current section info for display ───
+
+export function getCurrentSectionInfo(): { label: string; idx: number; total: number } | null {
+  const { sections, currentIndex } = store.exam;
+  const section = sections.find(s => currentIndex >= s.start && currentIndex < s.end);
+  if (!section) return null;
+  return {
+    label: section.label,
+    idx: currentIndex - section.start + 1,
+    total: section.end - section.start,
+  };
 }
 
 // ─── Exam results ───
 
 export function showExamResults(): void {
   const { exam } = store;
+  const result = store.gradeExam();
   const total = exam.total;
   const answered = Object.keys(exam.answers).length;
-  const correct = Object.values(exam.answers).filter(a => a === 'correct').length;
-  const wrong = answered - correct;
+  const correct = result.correct;
+  const wrong = result.wrong;
   const rate = total > 0 ? Math.round((correct / total) * 100) : 0;
 
   const overlay = document.createElement('div');
@@ -119,6 +198,16 @@ export function showExamResults(): void {
         <div class="exam-result-stat"><span>❌ 错误</span><span class="num wrong">${wrong}</span></div>
         <div class="exam-result-stat"><span>📊 正确率</span><span class="num">${rate}%</span></div>
         <div class="exam-result-stat"><span>📝 已作答</span><span class="num">${answered}/${total}</span></div>
+      </div>
+      <div class="exam-result-detail" style="margin-top:8px;font-size:.85rem">
+        ${exam.sections.map(s => {
+          let secCorrect = 0;
+          for (let i = s.start; i < s.end; i++) {
+            if (result.details[exam.questions[i].id]?.isCorrect) secCorrect++;
+          }
+          const secTotal = s.end - s.start;
+          return `<div class="exam-result-stat"><span>${s.label}</span><span class="num">${secCorrect}/${secTotal}</span></div>`;
+        }).join('')}
       </div>
       <div class="modal-actions">
         <button id="examResultReviewBtn" class="btn-outline">📋 逐题查看</button>
@@ -138,16 +227,13 @@ export function showExamResults(): void {
 
   overlay.querySelector('#examResultReviewBtn')?.addEventListener('click', () => {
     overlay.remove();
-    const firstWrong = exam.questions.findIndex(q => exam.answers[q.id] === 'wrong');
-    if (firstWrong >= 0) {
-      store.setExamIndex(firstWrong);
-      window.dispatchEvent(new CustomEvent('exam-started'));
-    }
+    store.markExamGraded(result.details);
+    const firstWrong = exam.questions.findIndex(q => result.details[q.id]?.isCorrect === false);
+    store.setExamIndex(firstWrong >= 0 ? firstWrong : 0);
+    window.dispatchEvent(new CustomEvent('exam-started'));
   });
 
   overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) {
-      overlay.remove();
-    }
+    if (e.target === overlay) overlay.remove();
   });
 }

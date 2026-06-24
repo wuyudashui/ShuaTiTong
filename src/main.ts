@@ -4,7 +4,7 @@ import { TYPE_LABELS } from './types';
 import { store } from './state';
 import { getFiltered } from './filter';
 import { formatExplanation, autoExplanation } from './format';
-import { renderQuestion as dispatchRender, showAnswer as dispatchShowAnswer } from './renderers/index';
+import { renderQuestion as dispatchRender, showAnswer as dispatchShowAnswer, getCurrentRenderer } from './renderers/index';
 import type { RenderConfig } from './types';
 import { fetchAIExplanation } from './ai';
 import { applyTheme } from './ui/theme';
@@ -12,7 +12,7 @@ import { initTheme } from './ui/theme';
 import { initSettings } from './ui/settings';
 import { renderErrorBook, bindErrorBookClicks } from './ui/errorBook';
 import { renderThumbnails, handleThumbnailClick, setThumbnailJumpHandler } from './ui/questionGrid';
-import { showExamSetup, showExamResults } from './ui/examMode';
+import { showExamSetup, showExamResults, renderExamTypeTabs, bindExamTypeTabs, getCurrentSectionInfo } from './ui/examMode';
 
 // ─── DOM refs ───
 const $ = (id: string) => document.getElementById(id)!;
@@ -49,32 +49,51 @@ const thumbToggleBtn  = $('thumbToggleBtn');
 const thumbGrid       = $('thumbGrid');
 const thumbInfo       = $('thumbInfo');
 const examBanner      = $('examBanner');
+const examTypeTabs    = $('examTypeTabs');
 const submitExamBtn   = $('submitExamBtn');
-const undoBtn         = $('undoBtn');
+const redoBtn         = $('redoBtn');
 
-// ─── Undo state ───
-let undoInfo: { qId: number; prevCorrect: number; prevWrong: number; isExam: boolean } | null = null;
+function getCurrentQuestion(): Question | null {
+  if (store.exam.active) {
+    return store.exam.questions[store.exam.currentIndex] ?? null;
+  }
+  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook);
+  return filtered[store.state.currentIndex] ?? null;
+}
 
-function performUndo(): void {
-  if (!undoInfo) return;
-  if (undoInfo.isExam) {
-    delete store.exam.answers[undoInfo.qId];
+function performRedo(): void {
+  const q = getCurrentQuestion();
+  if (!q) return;
+
+  if (store.exam.active) {
+    delete store.exam.answers[q.id];
   } else {
-    store.update({ correctCount: undoInfo.prevCorrect, wrongCount: undoInfo.prevWrong });
-    const s = store.state;
-    delete s.answeredMap[undoInfo.qId];
-    if (s.errorBook[undoInfo.qId]) { const eb = { ...s.errorBook }; delete eb[undoInfo.qId]; s.errorBook = eb; }
+    const prevResult = store.state.answeredMap[q.id];
+    if (!prevResult) return;
+
+    if (prevResult === 'correct') {
+      store.update({ correctCount: Math.max(0, store.state.correctCount - 1) });
+    } else {
+      store.update({ wrongCount: Math.max(0, store.state.wrongCount - 1) });
+    }
+
+    delete store.state.answeredMap[q.id];
+    if (store.state.errorBook[q.id]) {
+      const eb = { ...store.state.errorBook };
+      delete eb[q.id];
+      store.state.errorBook = eb;
+    }
     store.save();
   }
-  undoInfo = null;
-  undoBtn.classList.add('hidden');
+
+  redoBtn.classList.add('hidden');
   feedback.classList.remove('show', 'correct', 'wrong', 'ai-exp');
   store.setAnswered(false);
   updateStats();
   renderQuestion();
 }
 
-undoBtn.addEventListener('click', performUndo);
+redoBtn.addEventListener('click', performRedo);
 
 // ─── Render config (passed to renderers) ───
 const renderConfig: RenderConfig = {
@@ -83,34 +102,26 @@ const renderConfig: RenderConfig = {
   feedback,
   feedbackResult: feedbackRes,
   explanation,
+  get examMode() { return store.exam.active; },
   onAnswered: (result) => {
     if (store.exam.active) {
+      // ── Exam mode: store answer silently, no feedback ──
       const q = store.exam.questions[store.exam.currentIndex];
-      if (!q || store.exam.answers[q.id]) return;
-      undoInfo = { qId: q.id, prevCorrect: 0, prevWrong: 0, isExam: true };
-      store.recordExamAnswer(q.id, result.isCorrect ? 'correct' : 'wrong');
-      if (result.isCorrect) {
-        feedback.classList.add('correct');
-        feedbackRes.innerHTML = '✅ 回答正确！';
-      } else {
-        if (q.type === 'multi') {
-          feedbackRes.innerHTML = `❌ 回答错误（正确答案：${q.answer}）`;
-        } else {
-          feedbackRes.innerHTML = '❌ 回答错误';
-        }
-        feedback.classList.add('wrong');
-      }
-      store.setAnswered(true);
-      feedback.classList.add('show');
-      explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
-      undoBtn.classList.remove('hidden');
-      updateStats();
-      updateExamUI();
-    } else {
-      const q = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook)[store.state.currentIndex];
       if (!q) return;
 
-      undoInfo = { qId: q.id, prevCorrect: store.state.correctCount, prevWrong: store.state.wrongCount, isExam: false };
+      if (result.selected) {
+        store.recordExamAnswer(q.id, result.selected);
+      } else {
+        delete store.exam.answers[q.id];
+      }
+
+      updateExamUI();
+      updateStats();
+      updateThumbnails();
+    } else {
+      // ── Practice mode: immediate feedback ──
+      const q = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook)[store.state.currentIndex];
+      if (!q) return;
 
       if (result.isCorrect) {
         store.update({ correctCount: store.state.correctCount + 1 });
@@ -136,7 +147,7 @@ const renderConfig: RenderConfig = {
       store.setAnswered(true);
       feedback.classList.add('show');
       explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
-      undoBtn.classList.remove('hidden');
+      redoBtn.classList.remove('hidden');
       updateStats();
       store.save();
     }
@@ -147,8 +158,7 @@ const renderConfig: RenderConfig = {
 function renderQuestion(): void {
   feedback.classList.remove('show', 'correct', 'wrong', 'ai-exp');
   store.setAnswered(false);
-  undoBtn.classList.add('hidden');
-  undoInfo = null;
+  redoBtn.classList.add('hidden');
 
   // ─── Exam mode path ───
   if (store.exam.active) {
@@ -167,8 +177,21 @@ function renderQuestion(): void {
     const q = examQs[idx];
     const total = examQs.length;
 
-    progressDisp.textContent = `${idx + 1}/${total}`;
-    qNumber.textContent = `第 ${idx + 1} 题 / 共 ${total} 题（模拟考）`;
+    // Render type tabs
+    examTypeTabs.classList.remove('hidden');
+    renderExamTypeTabs(examTypeTabs);
+    bindExamTypeTabs(examTypeTabs, () => renderQuestion());
+
+    // Show section progress
+    const secInfo = getCurrentSectionInfo();
+    const overallText = `总 ${idx + 1}/${total}`;
+    if (secInfo) {
+      progressDisp.textContent = `${secInfo.label} ${secInfo.idx}/${secInfo.total} · ${overallText}`;
+      qNumber.textContent = `[${secInfo.label}] 第 ${secInfo.idx} 题（共 ${secInfo.total} 题）· 模拟考`;
+    } else {
+      progressDisp.textContent = `${idx + 1}/${total}`;
+      qNumber.textContent = `第 ${idx + 1} 题 / 共 ${total} 题（模拟考）`;
+    }
     qTags.innerHTML = `
       <span class="q-tag">${TYPE_LABELS[q.type as keyof typeof TYPE_LABELS] || q.type}</span>
       <span class="q-tag">${q.difficulty || '中'}</span>
@@ -181,19 +204,30 @@ function renderQuestion(): void {
 
     dispatchRender(q, renderConfig);
 
-    // Restore answered state
-    const prevResult = store.exam.answers[q.id];
-    if (prevResult) {
-      store.setAnswered(true);
-      dispatchShowAnswer(q);
-      if (prevResult === 'correct') {
-        feedback.classList.add('show', 'correct');
-        feedbackRes.innerHTML = '✅ 回答正确！';
-      } else {
-        feedback.classList.add('show', 'wrong');
-        feedbackRes.innerHTML = '❌ 回答错误';
+    // Restore previously selected answer in exam mode (silent, no feedback)
+    const prevAnswer = store.exam.answers[q.id];
+    if (prevAnswer) {
+      const renderer = getCurrentRenderer();
+      if (renderer && 'restoreSelected' in renderer) {
+        (renderer as any).restoreSelected(prevAnswer);
       }
-      explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
+    }
+
+    // Show feedback when reviewing graded exam
+    if (store.exam.graded) {
+      const gd = store.exam.gradeDetails[q.id];
+      if (gd) {
+        store.setAnswered(true);
+        dispatchShowAnswer(q);
+        if (gd.isCorrect) {
+          feedback.classList.add('show', 'correct');
+          feedbackRes.innerHTML = '✅ 回答正确';
+        } else {
+          feedback.classList.add('show', 'wrong');
+          feedbackRes.innerHTML = `❌ 回答错误（你的答案：${gd.selected}，正确答案：${gd.correct}）`;
+        }
+        explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
+      }
     }
 
     updateThumbnails();
@@ -266,21 +300,40 @@ function renderQuestion(): void {
 function updateExamUI(): void {
   if (!store.exam.active) {
     examBanner.classList.add('hidden');
+    examTypeTabs.classList.add('hidden');
     submitExamBtn.classList.add('hidden');
     randomBtn.classList.remove('hidden');
     showAnsBtn.classList.remove('hidden');
+    aiExplainBtn.classList.remove('hidden');
+    tabBar.classList.remove('hidden');
+    filterBar.classList.remove('hidden');
     return;
   }
+
+  // Clean dedicated exam view: hide practice-mode UI
+  tabBar.classList.add('hidden');
+  filterBar.classList.add('hidden');
+  aiExplainBtn.classList.add('hidden');
 
   examBanner.classList.remove('hidden');
   const answered = store.examAnsweredCount;
   const total = store.exam.total;
-  const correct = store.examCorrectCount;
-  examBanner.innerHTML = `
-    <span class="exam-progress">📝 模拟考：${answered}/${total} 已答</span>
-    <span class="exam-info">✅ ${correct} 正确 · ❌ ${answered - correct} 错误</span>
-    <button id="exitExamBtn" class="btn-sm" style="background:rgba(255,255,255,.2);border-color:transparent;color:#fff">✕ 退出</button>
-  `;
+
+  if (store.exam.graded) {
+    const correct = Object.values(store.exam.gradeDetails).filter(d => d.isCorrect).length;
+    examBanner.innerHTML = `
+      <span class="exam-progress">📋 答题回顾：${correct}/${total} 正确</span>
+      <button id="exitExamBtn" class="btn-sm" style="background:rgba(255,255,255,.2);border-color:transparent;color:#fff">✕ 退出</button>
+    `;
+    submitExamBtn.classList.add('hidden');
+  } else {
+    examBanner.innerHTML = `
+      <span class="exam-progress">📝 模拟考：${answered}/${total} 已答</span>
+      <button id="exitExamBtn" class="btn-sm" style="background:rgba(255,255,255,.2);border-color:transparent;color:#fff">✕ 退出</button>
+    `;
+    submitExamBtn.classList.remove('hidden');
+  }
+
   examBanner.querySelector('#exitExamBtn')?.addEventListener('click', () => {
     if (confirm('确定退出模拟考试？进度将丢失。')) {
       store.exitExam();
@@ -288,8 +341,6 @@ function updateExamUI(): void {
     }
   });
 
-  // Show submit button when all answered
-  submitExamBtn.classList.toggle('hidden', answered < total);
   randomBtn.classList.add('hidden');
   showAnsBtn.classList.add('hidden');
 }
@@ -301,7 +352,11 @@ function updateThumbnails(): void {
   const currentQ = store.exam.active
     ? store.exam.questions[store.exam.currentIndex]
     : (qs.length ? qs[store.state.currentIndex] : null);
-  const answerMap = store.exam.active ? store.exam.answers : store.state.answeredMap;
+  const answerMap = store.exam.active
+    ? (store.exam.graded
+        ? Object.fromEntries(Object.entries(store.exam.gradeDetails).map(([id, d]) => [id, d.isCorrect ? 'correct' : 'wrong']))
+        : store.exam.answers)
+    : store.state.answeredMap;
   thumbGrid.innerHTML = renderThumbnails(qs, answerMap, currentQ?.id ?? -1);
   thumbInfo.textContent = `共 ${qs.length} 题`;
 }
@@ -310,11 +365,18 @@ function updateThumbnails(): void {
 function updateStats(): void {
   if (store.exam.active) {
     const answered = store.examAnsweredCount;
-    const correct = store.examCorrectCount;
     const total = store.exam.total;
-    correctDisp.textContent = String(correct);
-    wrongDisp.textContent = String(answered - correct);
-    accuracyDisp.textContent = answered ? Math.round((correct / answered) * 100) + '%' : '0%';
+    if (store.exam.graded) {
+      const correct = Object.values(store.exam.gradeDetails).filter(d => d.isCorrect).length;
+      const wrong = total - correct;
+      correctDisp.textContent = String(correct);
+      wrongDisp.textContent = String(wrong);
+      accuracyDisp.textContent = total ? Math.round((correct / total) * 100) + '%' : '0%';
+    } else {
+      correctDisp.textContent = '-';
+      wrongDisp.textContent = '-';
+      accuracyDisp.textContent = answered ? `${answered}/${total}` : '0/0';
+    }
     errorCount.textContent = String(Object.keys(store.state.errorBook).length);
     fileStatus.textContent = String(store.state.questions.length);
   } else {
@@ -557,6 +619,7 @@ showAnsBtn.addEventListener('click', () => {
   explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
   updateStats();
   store.save();
+  redoBtn.classList.remove('hidden');
 });
 
 // ─── Exam button ───
@@ -623,6 +686,13 @@ function init(): void {
   initSettings();
   renderRecentFiles();
 
+  // Click explanation to expand/collapse long content
+  explanation.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const content = target.closest('.exp-content');
+    if (content) content.classList.toggle('expanded');
+  });
+
   // Thumbnail grid click handler (bound once)
   setThumbnailJumpHandler((idx) => {
     if (store.exam.active) {
@@ -643,9 +713,13 @@ function init(): void {
     const practiceTab = tabBar.querySelector('[data-tab="practice"]') as HTMLElement;
     practiceTab?.click();
     examBanner.classList.add('hidden');
+    examTypeTabs.classList.add('hidden');
     submitExamBtn.classList.add('hidden');
     randomBtn.classList.remove('hidden');
     showAnsBtn.classList.remove('hidden');
+    aiExplainBtn.classList.remove('hidden');
+    tabBar.classList.remove('hidden');
+    filterBar.classList.remove('hidden');
     renderQuestion();
     store.save();
   });

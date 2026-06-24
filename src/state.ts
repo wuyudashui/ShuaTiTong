@@ -1,7 +1,6 @@
-import type { AppState, QuestionType, Question, AnswerResult, ExamState } from './types';
+import type { AppState, QuestionType, Question, ExamState, ExamGradedDetail, ExamSection, AISettings, RecentFileMeta } from './types';
 import { getFiltered } from './filter';
 import { saveAppState, loadAppState, saveAISettings, loadAISettings, saveRecentFiles, loadRecentFiles } from './storage';
-import type { AISettings, RecentFileMeta } from './types';
 
 // ─── Default state ───
 
@@ -29,7 +28,7 @@ class Store {
   private _answered = false;
   private _aiLoading = false;
   private _thumbOpen = false;
-  private _exam: ExamState = { active: false, questions: [], currentIndex: 0, answers: {}, total: 0 };
+  private _exam: ExamState = { active: false, questions: [], currentIndex: 0, answers: {}, total: 0, graded: false, gradeDetails: {}, sections: [] };
   private listeners: Set<Listener> = new Set();
 
   constructor() {
@@ -70,7 +69,7 @@ class Store {
 
   // ─── Computed ───
 
-  get filtered(): import('./types').Question[] {
+  get filtered(): Question[] {
     return getFiltered(this._state.questions, this._state.filterType);
   }
 
@@ -107,30 +106,52 @@ class Store {
 
   // ─── Exam mode ───
 
-  startExam(questions: Question[]): void {
-    this._exam = { active: true, questions, currentIndex: 0, answers: {}, total: questions.length };
+  startExam(questions: Question[], sections: ExamSection[]): void {
+    this._exam = { active: true, questions, currentIndex: 0, answers: {}, total: questions.length, graded: false, gradeDetails: {}, sections };
     this._answered = false;
   }
 
   exitExam(): void {
-    this._exam = { active: false, questions: [], currentIndex: 0, answers: {}, total: 0 };
+    this._exam = { active: false, questions: [], currentIndex: 0, answers: {}, total: 0, graded: false, gradeDetails: {}, sections: [] };
     this._answered = false;
+  }
+
+  markExamGraded(details: Record<number, { selected: string; correct: string; isCorrect: boolean }>): void {
+    this._exam.graded = true;
+    this._exam.gradeDetails = details;
   }
 
   setExamIndex(i: number): void {
     this._exam.currentIndex = i;
   }
 
-  recordExamAnswer(qid: number, result: AnswerResult): void {
-    this._exam.answers[qid] = result;
+  recordExamAnswer(qid: number, selected: string): void {
+    this._exam.answers[qid] = selected;
   }
 
   get examAnsweredCount(): number {
     return Object.keys(this._exam.answers).length;
   }
 
-  get examCorrectCount(): number {
-    return Object.values(this._exam.answers).filter(a => a === 'correct').length;
+  /** Grade all exam answers at once: returns { correct, wrong, details } */
+  gradeExam(): { correct: number; wrong: number; details: Record<number, ExamGradedDetail> } {
+    const details: Record<number, ExamGradedDetail> = {};
+    let correct = 0;
+    let wrong = 0;
+
+    const eq = (a: string, b: string) =>
+      a.toUpperCase() === b.toUpperCase();
+    const eqMulti = (a: string, b: string) =>
+      a.split('').sort().join('').toUpperCase() === b.split('').sort().join('').toUpperCase();
+
+    for (const q of this._exam.questions) {
+      const selected = this._exam.answers[q.id] || '';
+      const isCorrect = q.type === 'multi' ? eqMulti(selected, q.answer) : eq(selected, q.answer);
+      isCorrect ? correct++ : wrong++;
+      details[q.id] = { selected, correct: q.answer, isCorrect };
+    }
+
+    return { correct, wrong, details };
   }
 
   // ─── Pub/sub ───
