@@ -210,7 +210,7 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
         body: JSON.stringify({
           model: apiModel,
           messages: [
-            { role: 'system', content: '你是一个简洁的刷题助手。用户答错了题，请用1-3句话直接指出哪里错了，不要展开知识点，不要长篇解析。只回答错误原因。' },
+            { role: 'system', content: '你是一个简洁的纠错助手。对于选择题：每个错误选项单独一行指出错误原因。对于填空题：每个空单独一行。不要展开知识点，1-3句话即可。格式示例：\n❌ 选项A是错的，因为xxx\n❌ 选项C也是错的，因为xxx' },
             { role: 'user', content: prompt },
           ],
           max_tokens: 256,
@@ -347,7 +347,7 @@ function buildDetailedPrompt(q: Question): string {
 }
 
 function buildSimplePrompt(q: Question): string {
-  let prompt = '用户答错了以下题目，请直接指出错误在哪里（1-3句话）。\n\n';
+  let prompt = '用户答错了以下题目，请直接指出错误。\n\n';
   prompt += `题目：${q.question}\n\n`;
   if (q.type !== 'fill' && q.options) {
     prompt += '选项：\n';
@@ -360,11 +360,13 @@ function buildSimplePrompt(q: Question): string {
     prompt += `\n正确答案：${q.answer}\n`;
   }
   if (q.type === 'multi') {
-    prompt += '\n请指出用户是漏选了哪些正确选项，还是多选了哪些错误选项。不要展开知识点说明。';
+    prompt += '\n请逐一指出：哪些选项是用户多选的（选错了），哪些是漏选的（正确答案但用户没选）。每一个错误选项单独一行说明。';
   } else if (q.type === 'fill') {
     prompt += '\n请指出哪个空填错了，正确答案应该是什么。不要展开。';
+  } else if (q.type === 'judge') {
+    prompt += '\n请指出用户判断错误的原因。一句话即可。';
   } else {
-    prompt += '\n请指出用户可能错在哪里（概念混淆、审题不清等），不要展开知识点。';
+    prompt += '\n请逐一检查每个选项：如果该选项是错误的，单独一行指出为什么错误。正确答案的选项不需要说明。';
   }
   return prompt;
 }
