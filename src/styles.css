@@ -930,6 +930,11 @@ h1 .svg-icon, h2 .svg-icon, h3 .svg-icon {
   .exam-type-row { flex-direction: column; align-items: flex-start; gap: 6px; }
   .header-actions .btn-sm { padding: 5px 8px; font-size: .78rem; }
   .header-actions .btn-sm .svg-icon { width: 16px; height: 16px; }
+  .exam-history-item { flex-wrap: wrap; }
+  .exam-history-actions { width: 100%; justify-content: flex-end; margin-top: 4px; }
+  .exam-history-date { font-size: .75rem; }
+  .exam-history-score { font-size: .82rem; }
+  .exam-history-redo { font-size: .75rem; padding: 2px 8px; }
 }
 
 /* ── Exam type tabs ── */
@@ -1005,3 +1010,51 @@ h1 .svg-icon, h2 .svg-icon, h3 .svg-icon {
   font-size: .82rem;
   color: var(--text-secondary);
 }
+
+/* ── Exam history ── */
+.exam-history {
+  margin: 8px 0;
+  font-size: .85rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+.exam-history[open] { padding-bottom: 6px; }
+.exam-history summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.exam-history-list { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.exam-history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: var(--filter-bg);
+  border-radius: var(--radius-sm);
+  gap: 8px;
+}
+.exam-history-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.exam-history-date { font-size: .8rem; color: var(--text-secondary); white-space: nowrap; }
+.exam-history-score { font-weight: 700; color: var(--primary); font-size: .9rem; }
+.exam-history-wrong { font-size: .82rem; color: var(--wrong); }
+.exam-history-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.exam-history-redo { font-size: .78rem; padding: 3px 10px; white-space: nowrap; }
+.exam-history-del {
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: none; background: transparent; color: var(--text-secondary);
+  cursor: pointer; border-radius: 4px; font-size: .85rem;
+  transition: background .15s, color .15s;
+}
+.exam-history-del:hover { background: var(--wrong-bg); color: var(--wrong); }

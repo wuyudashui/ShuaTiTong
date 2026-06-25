@@ -1,10 +1,30 @@
-import type { AppState, AISettings, RecentFileMeta } from './types';
+import type { AppState, AISettings, RecentFileMeta, ExamRecord } from './types';
 
 const LS_KEY = 'shuatitong_state';
 const AI_KEY = 'shuatitong_ai_settings';
 const RECENT_KEY = 'shuatitong_recent';
 
 // ─── App state ───
+
+const EXAM_RECORDS_KEY = 'shuatitong_exam_records';
+
+export function saveExamRecords(records: ExamRecord[]): void {
+  try {
+    localStorage.setItem(EXAM_RECORDS_KEY, JSON.stringify(records));
+  } catch (e) {
+    console.warn('刷题通: 保存考试记录失败', e);
+  }
+}
+
+export function loadExamRecords(): ExamRecord[] {
+  try {
+    const raw = localStorage.getItem(EXAM_RECORDS_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw) as ExamRecord[];
+  } catch (e) {
+    return [];
+  }
+}
 
 export function saveAppState(state: AppState): void {
   try {

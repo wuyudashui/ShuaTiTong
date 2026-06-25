@@ -1,6 +1,6 @@
-import type { AppState, QuestionType, Question, ExamState, ExamGradedDetail, ExamSection, AISettings, RecentFileMeta } from './types';
+import type { AppState, QuestionType, Question, ExamState, ExamGradedDetail, ExamSection, AISettings, RecentFileMeta, ExamRecord } from './types';
 import { getFiltered } from './filter';
-import { saveAppState, loadAppState, saveAISettings, loadAISettings, saveRecentFiles, loadRecentFiles } from './storage';
+import { saveAppState, loadAppState, saveAISettings, loadAISettings, saveRecentFiles, loadRecentFiles, saveExamRecords, loadExamRecords } from './storage';
 
 // ─── Default state ───
 
@@ -14,6 +14,7 @@ export function createDefaultState(): AppState {
     answeredMap: {},
     errorBook: {},
     isDark: false,
+    examErrorFilter: [],
   };
 }
 
@@ -25,16 +26,18 @@ class Store {
   private _state: AppState;
   private _aiSettings: AISettings;
   private _recentFiles: RecentFileMeta[] = [];
+  private _examRecords: ExamRecord[] = [];
   private _answered = false;
   private _aiLoading = false;
   private _thumbOpen = false;
-  private _exam: ExamState = { active: false, questions: [], currentIndex: 0, answers: {}, total: 0, graded: false, gradeDetails: {}, sections: [] };
+  private _exam: ExamState = { active: false, questions: [], currentIndex: 0, answers: {}, answerDisplay: {}, total: 0, graded: false, gradeDetails: {}, sections: [] };
   private listeners: Set<Listener> = new Set();
 
   constructor() {
     this._state = createDefaultState();
     this._aiSettings = loadAISettings();
     this._recentFiles = loadRecentFiles();
+    this._examRecords = loadExamRecords();
   }
 
   // ─── State accessors ───
@@ -49,6 +52,10 @@ class Store {
 
   get recentFiles(): RecentFileMeta[] {
     return this._recentFiles;
+  }
+
+  get examRecords(): ExamRecord[] {
+    return this._examRecords;
   }
 
   get answered(): boolean {
@@ -70,7 +77,7 @@ class Store {
   // ─── Computed ───
 
   get filtered(): Question[] {
-    return getFiltered(this._state.questions, this._state.filterType);
+    return getFiltered(this._state.questions, this._state.filterType, this._state.errorBook, this._state.examErrorFilter);
   }
 
   // ─── State mutations ───
@@ -107,12 +114,12 @@ class Store {
   // ─── Exam mode ───
 
   startExam(questions: Question[], sections: ExamSection[]): void {
-    this._exam = { active: true, questions, currentIndex: 0, answers: {}, total: questions.length, graded: false, gradeDetails: {}, sections };
+    this._exam = { active: true, questions, currentIndex: 0, answers: {}, answerDisplay: {}, total: questions.length, graded: false, gradeDetails: {}, sections };
     this._answered = false;
   }
 
   exitExam(): void {
-    this._exam = { active: false, questions: [], currentIndex: 0, answers: {}, total: 0, graded: false, gradeDetails: {}, sections: [] };
+    this._exam = { active: false, questions: [], currentIndex: 0, answers: {}, answerDisplay: {}, total: 0, graded: false, gradeDetails: {}, sections: [] };
     this._answered = false;
   }
 
@@ -125,8 +132,9 @@ class Store {
     this._exam.currentIndex = i;
   }
 
-  recordExamAnswer(qid: number, selected: string): void {
+  recordExamAnswer(qid: number, selected: string, selectedDisplay?: string): void {
     this._exam.answers[qid] = selected;
+    if (selectedDisplay) this._exam.answerDisplay[qid] = selectedDisplay;
   }
 
   get examAnsweredCount(): number {
@@ -152,6 +160,33 @@ class Store {
     }
 
     return { correct, wrong, details };
+  }
+
+  /** Add exam result to history (max 5) */
+  addExamRecord(record: ExamRecord): void {
+    this._examRecords.unshift(record);
+    if (this._examRecords.length > 5) this._examRecords.length = 5;
+    saveExamRecords(this._examRecords);
+  }
+
+  deleteExamRecord(id: string): void {
+    this._examRecords = this._examRecords.filter(r => r.id !== id);
+    saveExamRecords(this._examRecords);
+  }
+
+  // ─── Exam error review ───
+
+  startExamErrorReview(wrongIds: number[]): void {
+    this._state.examErrorFilter = wrongIds;
+    this._state.filterType = 'exam-review';
+    this._state.currentIndex = 0;
+    this._answered = false;
+  }
+
+  exitExamErrorReview(): void {
+    this._state.examErrorFilter = [];
+    this._state.filterType = 'all';
+    this.save();
   }
 
   // ─── Pub/sub ───

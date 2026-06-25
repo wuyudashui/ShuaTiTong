@@ -58,7 +58,7 @@ function getCurrentQuestion(): Question | null {
   if (store.exam.active) {
     return store.exam.questions[store.exam.currentIndex] ?? null;
   }
-  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook);
+  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
   return filtered[store.state.currentIndex] ?? null;
 }
 
@@ -76,6 +76,7 @@ function performRedo(): void {
 
   if (store.exam.active) {
     delete store.exam.answers[q.id];
+    delete store.exam.answerDisplay[q.id];
   } else {
     const prevResult = store.state.answeredMap[q.id];
     if (!prevResult) return;
@@ -119,9 +120,10 @@ const renderConfig: RenderConfig = {
       if (!q) return;
 
       if (result.selected) {
-        store.recordExamAnswer(q.id, result.selected);
+        store.recordExamAnswer(q.id, result.selected, result.selectedDisplay);
       } else {
         delete store.exam.answers[q.id];
+        delete store.exam.answerDisplay[q.id];
       }
 
       updateExamUI();
@@ -129,7 +131,7 @@ const renderConfig: RenderConfig = {
       updateThumbnails();
     } else {
       // ── Practice mode: immediate feedback ──
-      const q = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook)[store.state.currentIndex];
+      const q = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter)[store.state.currentIndex];
       if (!q) return;
 
       if (result.isCorrect) {
@@ -233,7 +235,8 @@ function renderQuestion(): void {
           feedbackRes.innerHTML = `<span class="svg-icon">${CHECK}</span> 回答正确`;
         } else {
           feedback.classList.add('show', 'wrong');
-          feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误（你的答案：${gd.selected}，正确答案：${gd.correct}）`;
+          const displayAns = store.exam.answerDisplay[q.id] || gd.selected;
+          feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误（你的答案：${displayAns}，正确答案：${gd.correct}）`;
         }
         explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
       }
@@ -245,9 +248,29 @@ function renderQuestion(): void {
     return;
   }
 
+  // ─── Exam review banner ───
+  if (store.state.filterType === 'exam-review') {
+    examBanner.classList.remove('hidden');
+    const wrongTotal = store.state.examErrorFilter.length;
+    examBanner.innerHTML = `
+      <span class="exam-progress"><span class="svg-icon">${REFRESH}</span> 考试错题重练（共 ${wrongTotal} 题）</span>
+      <button id="exitReviewBtn" class="btn-sm" style="background:rgba(255,255,255,.2);border-color:transparent;color:#fff"><span class="svg-icon">${X}</span>退出</button>
+    `;
+    examBanner.querySelector('#exitReviewBtn')?.addEventListener('click', () => {
+      store.exitExamErrorReview();
+      setActiveFilterType('all');
+      renderExamHistory();
+      renderQuestion();
+      store.save();
+    });
+  } else {
+    examBanner.classList.add('hidden');
+    examBanner.innerHTML = '';
+  }
+
   // ─── Normal mode ───
   const { questions, currentIndex, answeredMap, filterType } = store.state;
-  const filtered = getFiltered(questions, filterType, store.state.errorBook);
+  const filtered = getFiltered(questions, filterType, store.state.errorBook, store.state.examErrorFilter);
 
   if (!questions.length || !filtered.length) {
     qNumber.textContent = '第 0 题 / 共 0 题';
@@ -358,7 +381,7 @@ function updateExamUI(): void {
 // ─── Thumbnails ───
 function updateThumbnails(): void {
   if (!store.thumbOpen) return;
-  const qs = store.exam.active ? store.exam.questions : getFiltered(store.state.questions, store.state.filterType, store.state.errorBook);
+  const qs = store.exam.active ? store.exam.questions : getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
   const currentQ = store.exam.active
     ? store.exam.questions[store.exam.currentIndex]
     : (qs.length ? qs[store.state.currentIndex] : null);
@@ -391,7 +414,7 @@ function updateStats(): void {
     fileStatus.textContent = String(store.state.questions.length);
   } else {
     const { questions, currentIndex, correctCount, wrongCount, answeredMap, errorBook, filterType } = store.state;
-    const filtered = getFiltered(questions, filterType, store.state.errorBook);
+    const filtered = getFiltered(questions, filterType, store.state.errorBook, store.state.examErrorFilter);
     progressDisp.textContent = `${filtered.length ? currentIndex + 1 : 0}/${filtered.length}`;
     correctDisp.textContent = String(correctCount);
     wrongDisp.textContent = String(wrongCount);
@@ -422,6 +445,7 @@ function loadJSON(data: Question[], fileName?: string): void {
     wrongCount: 0,
     answeredMap: {},
     errorBook: {},
+    examErrorFilter: [],
   });
   store.setAnswered(false);
   // Exit exam mode on new file load
@@ -514,6 +538,7 @@ resetBtn.addEventListener('click', () => {
   if (!store.state.questions.length) return;
   if (!confirm('重置后将清除所有答题进度，确定继续？')) return;
   if (store.exam.active) store.exitExam();
+  if (store.state.filterType === 'exam-review') store.exitExamErrorReview();
   store.update({ correctCount: 0, wrongCount: 0, answeredMap: {}, errorBook: {}, currentIndex: 0 });
   store.setAnswered(false);
   updateUI();
@@ -527,6 +552,8 @@ filterBar.addEventListener('click', e => {
   if (!btn) return;
   const t = btn.dataset.type ?? '';
   if (t === store.state.filterType) return;
+  // Exit exam error review when switching to another filter
+  if (store.state.filterType === 'exam-review') store.exitExamErrorReview();
   store.update({ filterType: t as typeof store.state.filterType, currentIndex: 0 });
   setActiveFilterType(t);
   renderQuestion();
@@ -592,7 +619,7 @@ nextBtn.addEventListener('click', () => {
       renderQuestion();
     }
   } else {
-    const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook);
+    const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
     if (store.state.currentIndex < filtered.length - 1) {
       store.update({ currentIndex: store.state.currentIndex + 1 });
       renderQuestion();
@@ -603,7 +630,7 @@ nextBtn.addEventListener('click', () => {
 
 randomBtn.addEventListener('click', () => {
   if (store.exam.active) return;
-  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook);
+  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
   if (filtered.length < 2) return;
   let idx: number;
   do { idx = Math.floor(Math.random() * filtered.length); } while (idx === store.state.currentIndex);
@@ -614,7 +641,7 @@ randomBtn.addEventListener('click', () => {
 
 // ─── Show Answer ───
 showAnsBtn.addEventListener('click', () => {
-  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook);
+  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
   if (!filtered.length) return;
   const q = filtered[store.state.currentIndex];
   if (store.answered) return;
@@ -634,7 +661,7 @@ showAnsBtn.addEventListener('click', () => {
 
 // ─── Exam button ───
 examBtn.addEventListener('click', () => {
-  const qs = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook);
+  const qs = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
   showExamSetup(qs);
 });
 
@@ -653,7 +680,7 @@ submitExamBtn.addEventListener('click', () => {
 
 // ─── AI Explain ───
 aiExplainBtn.addEventListener('click', () => {
-  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook);
+  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
   if (!filtered.length) return;
   const q = filtered[store.state.currentIndex];
   fetchAIExplanation(q);
@@ -689,6 +716,58 @@ document.addEventListener('keydown', e => {
     if (submitBtn) { e.preventDefault(); (submitBtn as HTMLButtonElement).click(); }
   }
 });
+
+// ─── Exam History ───
+function renderExamHistory(): void {
+  const container = document.getElementById('examHistoryList');
+  const details = document.getElementById('examHistory') as HTMLElement;
+  if (!container || !details) return;
+
+  const records = store.examRecords;
+  if (!records.length) {
+    details.classList.add('hidden');
+    return;
+  }
+  details.classList.remove('hidden');
+
+  container.innerHTML = records.map(r => {
+    const date = new Date(r.date);
+    const dateStr = `${date.getMonth() + 1}/${date.getDate()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    return `<div class="exam-history-item">
+      <div class="exam-history-info">
+        <span class="exam-history-date">${dateStr}</span>
+        <span class="exam-history-score">${r.correct}/${r.total} (${r.total ? Math.round(r.correct / r.total * 100) : 0}%)</span>
+        <span class="exam-history-wrong">错${r.wrong}题</span>
+      </div>
+      <div class="exam-history-actions">
+        ${r.wrong > 0 ? `<button class="exam-history-redo btn-sm btn-outline" data-id="${r.id}"><span class="svg-icon">${REFRESH}</span>错题重练</button>` : ''}
+        <button class="exam-history-del btn-sm" data-id="${r.id}"><span class="svg-icon">${X}</span></button>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Bind events
+  container.querySelectorAll('.exam-history-redo').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = (btn as HTMLElement).dataset.id!;
+      const record = store.examRecords.find(r => r.id === id);
+      if (!record || !record.wrongIds.length) return;
+      store.startExamErrorReview(record.wrongIds);
+      renderExamHistory();
+      renderQuestion();
+      setActiveFilterType('exam-review');
+    });
+  });
+  container.querySelectorAll('.exam-history-del').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = (btn as HTMLElement).dataset.id!;
+      store.deleteExamRecord(id);
+      renderExamHistory();
+    });
+  });
+}
 
 // ─── Init ───
 function init(): void {
@@ -735,11 +814,13 @@ function init(): void {
     aiExplainBtn.classList.remove('hidden');
     tabBar.classList.remove('hidden');
     filterBar.classList.remove('hidden');
+    renderExamHistory();
     renderQuestion();
     store.save();
   });
 
   const restored = store.restore();
+  renderExamHistory();
   if (restored && store.state.questions.length) {
     setActiveFilterType(store.state.filterType);
     applyTheme();

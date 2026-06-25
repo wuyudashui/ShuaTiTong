@@ -1,4 +1,4 @@
-import type { Question, QuestionType } from '../types';
+import type { Question, QuestionType, ExamRecord } from '../types';
 import { TYPE_LABELS } from '../types';
 import type { ExamSection } from '../types';
 import { store } from '../state';
@@ -184,6 +184,29 @@ export function showExamResults(): void {
   const correct = result.correct;
   const wrong = result.wrong;
   const rate = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+  // Save exam record (only if at least 1 question was answered)
+  if (answered > 0) {
+    const wrongIds = Object.entries(result.details)
+      .filter(([, d]) => !d.isCorrect)
+      .map(([id]) => Number(id));
+    const record: ExamRecord = {
+      id: Date.now().toString(),
+      date: Date.now(),
+      correct,
+      wrong,
+      total,
+      wrongIds,
+      sections: exam.sections.map(s => {
+        let secCorrect = 0;
+        for (let i = s.start; i < s.end; i++) {
+          if (result.details[exam.questions[i].id]?.isCorrect) secCorrect++;
+        }
+        return { label: s.label, correct: secCorrect, total: s.end - s.start };
+      }),
+    };
+    store.addExamRecord(record);
+  }
 
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';

@@ -89,9 +89,13 @@ export class MultiRenderer implements QuestionRenderer {
     const { optContainer, onAnswered } = config;
     const opts = optContainer.querySelectorAll('.option');
     const selected: string[] = [];
+    const selectedDisplay: string[] = [];
 
     opts.forEach((el, i) => {
-      if (el.classList.contains('selected')) selected.push(this.entries[i]?.[0] ?? '');
+      if (el.classList.contains('selected')) {
+        selected.push(this.entries[i]?.[0] ?? '');
+        selectedDisplay.push(String.fromCharCode(65 + i));
+      }
     });
 
     if (selected.length === 0) {
@@ -99,7 +103,7 @@ export class MultiRenderer implements QuestionRenderer {
       return;
     }
 
-    onAnswered({ isCorrect: false, selected: selected.sort().join('') });
+    onAnswered({ isCorrect: false, selected: selected.sort().join(''), selectedDisplay: selectedDisplay.sort().join('') });
   }
 
   showAnswer(q: Question): void {

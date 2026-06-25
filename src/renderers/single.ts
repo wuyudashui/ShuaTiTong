@@ -28,12 +28,12 @@ export class SingleRenderer implements QuestionRenderer {
       div.className = 'option';
       if (this.examMode && key === this.selectedKey) div.classList.add('selected');
       div.innerHTML = `<span class="letter">${display}</span><span class="text">${text}</span>`;
-      div.addEventListener('click', () => this.handleClick(q, key, config));
+      div.addEventListener('click', () => this.handleClick(q, key, display, config));
       config.optContainer.appendChild(div);
     });
   }
 
-  private handleClick(q: Question, originalKey: string, config: RenderConfig): void {
+  private handleClick(q: Question, originalKey: string, displayLetter: string, config: RenderConfig): void {
     if (!this.examMode) {
       // ── Practice mode: immediate feedback ──
       if (this.handled) return;
@@ -77,7 +77,7 @@ export class SingleRenderer implements QuestionRenderer {
           opts[i]?.classList.remove('selected');
         }
       });
-      onAnswered({ isCorrect: false, selected: originalKey });
+      onAnswered({ isCorrect: false, selected: originalKey, selectedDisplay: displayLetter });
     }
   }
 

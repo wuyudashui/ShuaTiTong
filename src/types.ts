@@ -31,6 +31,18 @@ export interface AppState {
   answeredMap: Record<number, AnswerResult>;
   errorBook: Record<number, boolean>;
   isDark: boolean;
+  /** Question IDs to show when filterType is 'exam-review' */
+  examErrorFilter: number[];
+}
+
+export interface ExamRecord {
+  id: string;
+  date: number;
+  correct: number;
+  wrong: number;
+  total: number;
+  wrongIds: number[];
+  sections: { label: string; correct: number; total: number }[];
 }
 
 export interface AISettings {
@@ -56,7 +68,7 @@ export interface RenderConfig {
   feedbackResult: HTMLElement;
   explanation: HTMLElement;
   examMode?: boolean;
-  onAnswered: (result: { isCorrect: boolean; selected?: string }) => void;
+  onAnswered: (result: { isCorrect: boolean; selected?: string; selectedDisplay?: string }) => void;
 }
 
 export interface QuestionRenderer {
@@ -86,8 +98,10 @@ export interface ExamState {
   active: boolean;
   questions: Question[];
   currentIndex: number;
-  /** In exam mode, stores selected answer string (e.g. "B" or "ACD") */
+  /** In exam mode, stores selected answer string (e.g. "B" or "ACD") — original keys for grading */
   answers: Record<number, string>;
+  /** Maps question id to the display letter(s) the user saw (shuffled labels) */
+  answerDisplay: Record<number, string>;
   total: number;
   /** After grading, stores per-question grading details for review */
   graded: boolean;
