@@ -920,8 +920,8 @@ h1 .svg-icon, h2 .svg-icon, h3 .svg-icon {
   .option { padding: 11px 14px; }
   .app-header { padding: 10px 14px; }
   .app-header h1 { font-size: 1.05rem; }
-  .nav-buttons { gap: 6px; }
-  .nav-buttons button { flex: 1; justify-content: center; min-width: 0; }
+  .nav-buttons { gap: 5px; }
+  .nav-buttons button { flex: 1; justify-content: center; min-width: 0; font-size: .75rem; padding: 6px 6px; gap: 3px; overflow: hidden; text-overflow: ellipsis; }
   .tab-bar button { font-size: .78rem; padding: 8px 4px; }
   .stats-bar { gap: 6px; }
   .stat-item { padding: 4px 10px; font-size: .8rem; }
