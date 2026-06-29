@@ -249,11 +249,43 @@ export function exportQuestions(): void {
     alert('题库为空，无需导出。');
     return;
   }
-  const blob = new Blob([JSON.stringify(questions, null, 2)], { type: 'application/json' });
+  const jsonStr = JSON.stringify(questions, null, 2);
+  const blob = new Blob([jsonStr], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
+
+  // Try navigator.share (mobile) first
+  if (navigator.share && navigator.canShare) {
+    const file = new File([blob], 'exported_questions.json', { type: 'application/json' });
+    if (navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], title: '刷题通题库' }).catch(() => {});
+      URL.revokeObjectURL(url);
+      return;
+    }
+  }
+
+  // Fallback: create download link
   const a = document.createElement('a');
   a.href = url;
   a.download = 'exported_questions.json';
+  document.body.appendChild(a);
   a.click();
-  URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+  // 2nd fallback: if download didn't work (mobile WebView), show as text
+  setTimeout(() => {
+    try {
+      const link = document.querySelector('a[download="exported_questions.json"]');
+      if (!link && !navigator.share) {
+        const ta = document.createElement('textarea');
+        ta.value = jsonStr;
+        ta.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;font-size:12px';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        alert('导出内容已全选，请复制后粘贴到文件中保存。点击确定关闭。');
+        document.body.removeChild(ta);
+      }
+    } catch (_) {}
+  }, 500);
 }
