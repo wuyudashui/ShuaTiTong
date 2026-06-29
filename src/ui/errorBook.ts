@@ -1,6 +1,6 @@
 import type { Question } from '../types';
 import { TYPE_LABELS } from '../types';
-import { escapeHtml } from '../format';
+import { escapeHtml, renderText } from '../format';
 import { CLIPBOARD, ALERT_CIRCLE, CHECK } from '../icons';
 
 export function renderErrorBook(
@@ -26,7 +26,7 @@ export function renderErrorBook(
       correctAns += q.answer === 'A' ? '（正确）' : '（错误）';
     }
     const label = TYPE_LABELS[q.type] || q.type;
-    html += `<div class="error-item" data-id="${q.id}"><div class="q-text-sm">${escapeHtml(q.question)}</div><div class="meta"><span><span class="svg-icon" style="width:14px;height:14px">${ALERT_CIRCLE}</span>${label}</span><span>难度：${q.difficulty}</span><span><span class="svg-icon" style="width:14px;height:14px">${CHECK}</span>${correctAns}</span></div></div>`;
+    html += `<div class="error-item" data-id="${q.id}"><div class="q-text-sm">${renderText(q.question)}</div><div class="meta"><span><span class="svg-icon" style="width:14px;height:14px">${ALERT_CIRCLE}</span>${label}</span><span>难度：${q.difficulty}</span><span><span class="svg-icon" style="width:14px;height:14px">${CHECK}</span>${correctAns}</span></div></div>`;
   });
 
   // Delegate click handling to caller after innerHTML assignment

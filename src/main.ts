@@ -1,9 +1,10 @@
 import './styles.css';
+import 'katex/dist/katex.min.css';
 import type { Question } from './types';
 import { TYPE_LABELS } from './types';
 import { store } from './state';
 import { getFiltered } from './filter';
-import { formatExplanation, autoExplanation } from './format';
+import { formatExplanation, autoExplanation, renderText } from './format';
 import { renderQuestion as dispatchRender, showAnswer as dispatchShowAnswer, getCurrentRenderer } from './renderers/index';
 import type { RenderConfig } from './types';
 import { fetchAIExplanation } from './ai';
@@ -12,8 +13,10 @@ import { initTheme } from './ui/theme';
 import { initSettings } from './ui/settings';
 import { renderErrorBook, bindErrorBookClicks } from './ui/errorBook';
 import { renderThumbnails, handleThumbnailClick, setThumbnailJumpHandler } from './ui/questionGrid';
-import { showExamSetup, showExamResults, renderExamTypeTabs, bindExamTypeTabs, getCurrentSectionInfo } from './ui/examMode';
-import { CHECK, X, EYE, CLIPBOARD, BOOK_OPEN, REFRESH } from './icons';
+import { showExamSetup, showExamResults, renderExamTypeTabs, onExamTypeTabClick, getCurrentSectionInfo } from './ui/examMode';
+import { showEditModal, exportQuestions } from './ui/editor';
+import { showAdaptModal } from './ui/adapt';
+import { CHECK, X, EYE, CLIPBOARD, BOOK_OPEN, REFRESH, EDIT, DOWNLOAD, CODE } from './icons';
 
 // ─── DOM refs ───
 const $ = (id: string) => document.getElementById(id)!;
@@ -45,6 +48,7 @@ const nextBtn         = $('nextBtn');
 const randomBtn       = $('randomBtn');
 const showAnsBtn      = $('showAnswerBtn');
 const aiExplainBtn    = $('aiExplainBtn') as HTMLButtonElement;
+const aiSimplifyBtn   = $('aiSimplifyBtn') as HTMLButtonElement;
 const examBtn         = $('examBtn');
 const thumbToggleBtn  = $('thumbToggleBtn');
 const thumbGrid       = $('thumbGrid');
@@ -58,16 +62,16 @@ function getCurrentQuestion(): Question | null {
   if (store.exam.active) {
     return store.exam.questions[store.exam.currentIndex] ?? null;
   }
+  if (store.state.filterType === 'adapted') {
+    return store.adapted.questions[store.state.currentIndex] ?? null;
+  }
   const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
   return filtered[store.state.currentIndex] ?? null;
 }
 
 /** Return the appropriate explanation based on current AI mode */
 function getExplanation(q: Question): string {
-  if (store.aiSettings.aiMode === 'simple') {
-    return q.simpleExplanation || autoExplanation(q);
-  }
-  return q.explanation || autoExplanation(q);
+  return q.explanation || q.simpleExplanation || autoExplanation(q);
 }
 
 function performRedo(): void {
@@ -166,6 +170,8 @@ const renderConfig: RenderConfig = {
 };
 
 // ─── Render current question ───
+let activeQuestionId = -1;
+
 function renderQuestion(): void {
   feedback.classList.remove('show', 'correct', 'wrong', 'ai-exp');
   store.setAnswered(false);
@@ -188,10 +194,9 @@ function renderQuestion(): void {
     const q = examQs[idx];
     const total = examQs.length;
 
-    // Render type tabs
+    // Render type tabs (listener bound once in init)
     examTypeTabs.classList.remove('hidden');
     renderExamTypeTabs(examTypeTabs);
-    bindExamTypeTabs(examTypeTabs, () => renderQuestion());
 
     // Show section progress
     const secInfo = getCurrentSectionInfo();
@@ -207,7 +212,7 @@ function renderQuestion(): void {
       <span class="q-tag">${TYPE_LABELS[q.type as keyof typeof TYPE_LABELS] || q.type}</span>
       <span class="q-tag">${q.difficulty || '中'}</span>
     `;
-    qText.textContent = q.question;
+    qText.innerHTML = renderText(q.question);
     optContainer.innerHTML = '';
     fillContainer.innerHTML = '';
     fillContainer.classList.add('hidden');
@@ -268,6 +273,47 @@ function renderQuestion(): void {
     examBanner.innerHTML = '';
   }
 
+  // ─── Adapted mode ───
+  if (store.state.filterType === 'adapted') {
+    const adaptedQs = store.adapted.questions;
+    if (!adaptedQs.length) {
+      qNumber.textContent = '第 0 题 / 共 0 题';
+      qTags.innerHTML = '';
+      qText.textContent = '无改编题。请先在开发者模式中使用「改编」功能生成。';
+      optContainer.innerHTML = '';
+      fillContainer.classList.add('hidden');
+      optContainer.classList.remove('hidden');
+      progressDisp.textContent = '0/0';
+      updateThumbnails();
+      return;
+    }
+    let idx = store.state.currentIndex;
+    if (idx < 0) idx = 0;
+    if (idx >= adaptedQs.length) idx = adaptedQs.length - 1;
+    if (idx !== store.state.currentIndex) store.update({ currentIndex: idx });
+
+    const q = adaptedQs[idx];
+    const total = adaptedQs.length;
+    progressDisp.textContent = `${idx + 1}/${total}`;
+    qNumber.textContent = `第 ${idx + 1} 题 / 共 ${total} 题（改编题）`;
+
+    qTags.innerHTML = `
+      <span class="q-tag">${TYPE_LABELS[q.type as keyof typeof TYPE_LABELS] || q.type}</span>
+      <span class="q-tag">${q.difficulty || '中'}</span>
+    `;
+
+    qText.innerHTML = renderText(q.question);
+    optContainer.innerHTML = '';
+    fillContainer.innerHTML = '';
+    fillContainer.classList.add('hidden');
+    optContainer.classList.remove('hidden');
+
+    dispatchRender(q, renderConfig);
+    updateThumbnails();
+    updateStats();
+    return;
+  }
+
   // ─── Normal mode ───
   const { questions, currentIndex, answeredMap, filterType } = store.state;
   const filtered = getFiltered(questions, filterType, store.state.errorBook, store.state.examErrorFilter);
@@ -299,8 +345,21 @@ function renderQuestion(): void {
     <span class="q-tag">${TYPE_LABELS[q.type as keyof typeof TYPE_LABELS] || q.type}</span>
     <span class="q-tag">${q.difficulty || '中'}</span>
   `;
+  if (store.aiSettings.devMode) {
+    qTags.innerHTML += `<button class="edit-q-btn" data-id="${q.id}" title="编辑题目"><span class="svg-icon">${EDIT}</span></button>`;
+  }
 
-  qText.textContent = q.question;
+  qText.innerHTML = renderText(q.question);
+  // Bind edit button
+  if (store.aiSettings.devMode) {
+    const editBtn = qTags.querySelector('.edit-q-btn');
+    if (editBtn) {
+      editBtn.addEventListener('click', () => {
+        const q = getCurrentQuestion();
+        if (q) showEditModal(q, -1, () => renderQuestion());
+      });
+    }
+  }
   optContainer.innerHTML = '';
   fillContainer.innerHTML = '';
   fillContainer.classList.add('hidden');
@@ -338,6 +397,7 @@ function updateExamUI(): void {
     randomBtn.classList.remove('hidden');
     showAnsBtn.classList.remove('hidden');
     aiExplainBtn.classList.remove('hidden');
+    aiSimplifyBtn.classList.remove('hidden');
     tabBar.classList.remove('hidden');
     filterBar.classList.remove('hidden');
     return;
@@ -347,6 +407,7 @@ function updateExamUI(): void {
   tabBar.classList.add('hidden');
   filterBar.classList.add('hidden');
   aiExplainBtn.classList.add('hidden');
+  aiSimplifyBtn.classList.add('hidden');
 
   examBanner.classList.remove('hidden');
   const answered = store.examAnsweredCount;
@@ -381,7 +442,11 @@ function updateExamUI(): void {
 // ─── Thumbnails ───
 function updateThumbnails(): void {
   if (!store.thumbOpen) return;
-  const qs = store.exam.active ? store.exam.questions : getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
+  const qs = store.exam.active
+    ? store.exam.questions
+    : store.state.filterType === 'adapted'
+      ? store.adapted.questions
+      : getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
   const currentQ = store.exam.active
     ? store.exam.questions[store.exam.currentIndex]
     : (qs.length ? qs[store.state.currentIndex] : null);
@@ -395,6 +460,15 @@ function updateThumbnails(): void {
 }
 
 // ─── Stats ───
+function clearAdapt(): void {
+  store.clearAdapt();
+  if (store.state.filterType === 'adapted') {
+    store.update({ filterType: 'all', currentIndex: 0 });
+    setActiveFilterType('all');
+    renderQuestion();
+  }
+}
+
 function updateStats(): void {
   if (store.exam.active) {
     const answered = store.examAnsweredCount;
@@ -410,6 +484,16 @@ function updateStats(): void {
       wrongDisp.textContent = '-';
       accuracyDisp.textContent = answered ? `${answered}/${total}` : '0/0';
     }
+    errorCount.textContent = String(Object.keys(store.state.errorBook).length);
+    fileStatus.textContent = String(store.state.questions.length);
+  } else if (store.state.filterType === 'adapted') {
+    const adaptedQs = store.adapted.questions;
+    const idx = store.state.currentIndex;
+    progressDisp.textContent = `${adaptedQs.length ? idx + 1 : 0}/${adaptedQs.length}`;
+    correctDisp.textContent = String(store.state.correctCount);
+    wrongDisp.textContent = String(store.state.wrongCount);
+    const total = store.state.correctCount + store.state.wrongCount;
+    accuracyDisp.textContent = total ? Math.round((store.state.correctCount / total) * 100) + '%' : '0%';
     errorCount.textContent = String(Object.keys(store.state.errorBook).length);
     fileStatus.textContent = String(store.state.questions.length);
   } else {
@@ -546,18 +630,20 @@ resetBtn.addEventListener('click', () => {
 });
 
 // ─── Filter chips ───
-filterBar.addEventListener('click', e => {
+function handleFilterClick(t: string): void {
   if (store.exam.active) return;
-  const btn = (e.target as HTMLElement).closest('.filter-chip') as HTMLElement | null;
-  if (!btn) return;
-  const t = btn.dataset.type ?? '';
   if (t === store.state.filterType) return;
-  // Exit exam error review when switching to another filter
   if (store.state.filterType === 'exam-review') store.exitExamErrorReview();
   store.update({ filterType: t as typeof store.state.filterType, currentIndex: 0 });
   setActiveFilterType(t);
   renderQuestion();
   store.save();
+}
+
+filterBar.addEventListener('click', e => {
+  const btn = (e.target as HTMLElement).closest('.filter-chip') as HTMLElement | null;
+  if (!btn) return;
+  handleFilterClick(btn.dataset.type ?? '');
 });
 
 // ─── Tab switching ───
@@ -679,11 +765,21 @@ submitExamBtn.addEventListener('click', () => {
 });
 
 // ─── AI Explain ───
-aiExplainBtn.addEventListener('click', () => {
+function getCurrentForAI(): Question | null {
+  if (store.exam.active) return null;
+  if (store.state.filterType === 'adapted') return store.adapted.questions[store.state.currentIndex] ?? null;
   const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
-  if (!filtered.length) return;
-  const q = filtered[store.state.currentIndex];
-  fetchAIExplanation(q);
+  return filtered[store.state.currentIndex] ?? null;
+}
+
+aiExplainBtn.addEventListener('click', () => {
+  const q = getCurrentForAI();
+  if (q) fetchAIExplanation(q);
+});
+
+aiSimplifyBtn.addEventListener('click', () => {
+  const q = getCurrentForAI();
+  if (q) fetchAIExplanation(q, true);
 });
 
 // ─── Keyboard shortcuts ───
@@ -775,10 +871,70 @@ function init(): void {
   initSettings();
   renderRecentFiles();
 
-  // Set AI button text to match current mode
-  aiExplainBtn.innerHTML = store.aiSettings.aiMode === 'simple'
-    ? '<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.34-.64 2.61-1.74 3.39A4 4 0 0 1 16 13a4 4 0 0 1-2 3.46"/><path d="M12 2a4 4 0 0 0-4 4c0 1.34.64 2.61 1.74 3.39A4 4 0 0 0 8 13a4 4 0 0 0 2 3.46"/><path d="M12 22v-6"/><path d="M8 17c-2 0-4-1-4-4 0-1.5 1-2.5 2-3"/><path d="M16 17c2 0 4-1 4-4 0-1.5-1-2.5-2-3"/></svg></span>AI 纠错'
-    : '<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.34-.64 2.61-1.74 3.39A4 4 0 0 1 16 13a4 4 0 0 1-2 3.46"/><path d="M12 2a4 4 0 0 0-4 4c0 1.34.64 2.61 1.74 3.39A4 4 0 0 0 8 13a4 4 0 0 0 2 3.46"/><path d="M12 22v-6"/><path d="M8 17c-2 0-4-1-4-4 0-1.5 1-2.5 2-3"/><path d="M16 17c2 0 4-1 4-4 0-1.5-1-2.5-2-3"/></svg></span>AI 解析';
+  // ─── Dev mode toggle ───
+  const devModeBtn = document.createElement('button');
+  devModeBtn.className = 'btn-sm btn-outline';
+  devModeBtn.id = 'devModeBtn';
+  devModeBtn.title = '开发者模式';
+  devModeBtn.innerHTML = `<span class="svg-icon">${CODE}</span>开发`;
+  const exportBtn = document.createElement('button');
+  exportBtn.className = 'btn-sm btn-outline';
+  exportBtn.id = 'exportBtn';
+  exportBtn.title = '导出题库 JSON';
+  exportBtn.innerHTML = `<span class="svg-icon">${DOWNLOAD}</span>导出`;
+  exportBtn.style.display = 'none';
+
+  const adaptBtn = document.createElement('button');
+  adaptBtn.className = 'btn-sm';
+  adaptBtn.id = 'adaptBtn';
+  adaptBtn.title = 'AI 改编题型';
+  adaptBtn.style.cssText = 'background:#6366f1;color:#fff;border-color:transparent;display:none';
+  adaptBtn.innerHTML = `<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.34-.64 2.61-1.74 3.39A4 4 0 0 1 16 13a4 4 0 0 1-2 3.46"/><path d="M12 2a4 4 0 0 0-4 4c0 1.34.64 2.61 1.74 3.39A4 4 0 0 0 8 13a4 4 0 0 0 2 3.46"/><path d="M12 22v-6"/><path d="M8 17c-2 0-4-1-4-4 0-1.5 1-2.5 2-3"/><path d="M16 17c2 0 4-1 4-4 0-1.5-1-2.5-2-3"/></svg></span>改编</button>`;
+
+  const headerActions = document.querySelector('.header-actions');
+  if (headerActions) {
+    headerActions.appendChild(devModeBtn);
+    headerActions.appendChild(adaptBtn);
+    headerActions.appendChild(exportBtn);
+  }
+
+  adaptBtn.addEventListener('click', showAdaptModal);
+
+  function updateDevModeUI(): void {
+    const isDev = !!store.aiSettings.devMode;
+    devModeBtn.classList.toggle('active', isDev);
+    adaptBtn.style.display = isDev ? '' : 'none';
+    exportBtn.style.display = isDev ? '' : 'none';
+    // Add/remove adapted filter chip
+    const existing = filterBar.querySelector('.filter-chip[data-type="adapted"]');
+    if (isDev && !existing) {
+      const chip = document.createElement('button');
+      chip.className = 'filter-chip';
+      chip.dataset.type = 'adapted';
+      chip.innerHTML = `<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>改编`;
+      filterBar.appendChild(chip);
+      chip.addEventListener('click', () => handleFilterClick(chip.dataset.type!));
+    } else if (!isDev && existing) {
+      existing.remove();
+      if (store.state.filterType === 'adapted') {
+        store.update({ filterType: 'all', currentIndex: 0 });
+      }
+    }
+    renderQuestion();
+  }
+
+  devModeBtn.addEventListener('click', () => {
+    store.updateAISettings({ devMode: !store.aiSettings.devMode });
+    updateDevModeUI();
+  });
+  exportBtn.addEventListener('click', exportQuestions);
+
+  // Apply initial dev mode state
+  if (store.aiSettings.devMode) {
+    devModeBtn.classList.add('active');
+    adaptBtn.style.display = '';
+    exportBtn.style.display = '';
+  }
 
   // Click explanation to expand/collapse long content
   explanation.addEventListener('click', (e) => {
@@ -799,9 +955,21 @@ function init(): void {
   });
   thumbGrid.addEventListener('click', (e) => handleThumbnailClick(e.target as HTMLElement));
 
+  // Exam type tabs: single delegation, never rebound
+  examTypeTabs.addEventListener('click', (e) => {
+    onExamTypeTabClick(e);
+    renderQuestion();
+  });
+
   // Exam state change listeners
   window.addEventListener('exam-started', () => {
     renderQuestion();
+  });
+  window.addEventListener('adapt-done', () => {
+    setActiveFilterType('adapted');
+    store.update({ filterType: 'adapted', currentIndex: 0 });
+    renderQuestion();
+    store.save();
   });
   window.addEventListener('exam-exited', () => {
     const practiceTab = tabBar.querySelector('[data-tab="practice"]') as HTMLElement;
@@ -812,6 +980,7 @@ function init(): void {
     randomBtn.classList.remove('hidden');
     showAnsBtn.classList.remove('hidden');
     aiExplainBtn.classList.remove('hidden');
+    aiSimplifyBtn.classList.remove('hidden');
     tabBar.classList.remove('hidden');
     filterBar.classList.remove('hidden');
     renderExamHistory();

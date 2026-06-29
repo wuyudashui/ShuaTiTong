@@ -75,7 +75,7 @@ export class FillRenderer implements QuestionRenderer {
       inputs.forEach(inp => {
         const key = inp.dataset.blank ?? '';
         const userAns = userAnswers[key] || '';
-        const correctAns = (q.options[key] || '').trim();
+        const correctAns = (q.options[key] as string | undefined || '').trim();
         const ok = userAns.toLowerCase() === correctAns.toLowerCase();
         inp.classList.add(ok ? 'correct' : 'wrong');
         if (!ok) allCorrect = false;
@@ -106,7 +106,7 @@ export class FillRenderer implements QuestionRenderer {
       inputs.forEach(inp => {
         const key = inp.dataset.blank ?? '';
         const userAns = userAnswers[key] || '';
-        const correctAns = (q.options[key] || '').trim();
+        const correctAns = (q.options[key] as string | undefined || '').trim();
         const ok = userAns.toLowerCase() === correctAns.toLowerCase();
         inp.classList.add(ok ? 'correct' : 'wrong');
         if (!ok) allCorrect = false;
@@ -145,7 +145,7 @@ export class FillRenderer implements QuestionRenderer {
     const inputs = document.querySelectorAll<HTMLInputElement>('#fillContainer input[data-blank]');
     inputs.forEach(inp => {
       inp.disabled = true;
-      inp.value = q.options[inp.dataset.blank ?? ''] || '';
+      inp.value = (q.options[inp.dataset.blank ?? ''] as string | undefined) || '';
       inp.classList.add('correct');
     });
   }

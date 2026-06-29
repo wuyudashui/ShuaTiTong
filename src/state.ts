@@ -1,4 +1,4 @@
-import type { AppState, QuestionType, Question, ExamState, ExamGradedDetail, ExamSection, AISettings, RecentFileMeta, ExamRecord } from './types';
+import type { AppState, QuestionType, Question, ExamState, ExamGradedDetail, ExamSection, AISettings, RecentFileMeta, ExamRecord, AdaptedState, AdaptMode } from './types';
 import { getFiltered } from './filter';
 import { saveAppState, loadAppState, saveAISettings, loadAISettings, saveRecentFiles, loadRecentFiles, saveExamRecords, loadExamRecords } from './storage';
 
@@ -20,8 +20,6 @@ export function createDefaultState(): AppState {
 
 // ─── Store ───
 
-type Listener = () => void;
-
 class Store {
   private _state: AppState;
   private _aiSettings: AISettings;
@@ -31,7 +29,7 @@ class Store {
   private _aiLoading = false;
   private _thumbOpen = false;
   private _exam: ExamState = { active: false, questions: [], currentIndex: 0, answers: {}, answerDisplay: {}, total: 0, graded: false, gradeDetails: {}, sections: [] };
-  private listeners: Set<Listener> = new Set();
+  private _adapted: AdaptedState = { questions: [], originalIds: [], mode: 'fill' };
 
   constructor() {
     this._state = createDefaultState();
@@ -74,6 +72,18 @@ class Store {
     return this._exam;
   }
 
+  get adapted(): AdaptedState {
+    return this._adapted;
+  }
+
+  startAdapt(questions: Question[], originalIds: number[], mode: AdaptMode): void {
+    this._adapted = { questions, originalIds, mode };
+  }
+
+  clearAdapt(): void {
+    this._adapted = { questions: [], originalIds: [], mode: 'fill' };
+  }
+
   // ─── Computed ───
 
   get filtered(): Question[] {
@@ -84,7 +94,6 @@ class Store {
 
   update(partial: Partial<AppState>): void {
     this._state = { ...this._state, ...partial };
-    this.notify();
   }
 
   setAnswered(v: boolean): void {
@@ -189,17 +198,6 @@ class Store {
     this.save();
   }
 
-  // ─── Pub/sub ───
-
-  subscribe(fn: Listener): () => void {
-    this.listeners.add(fn);
-    return () => this.listeners.delete(fn);
-  }
-
-  private notify(): void {
-    for (const fn of this.listeners) fn();
-  }
-
   // ─── Persistence ───
 
   save(): void {
@@ -211,7 +209,6 @@ class Store {
     if (!saved) return false;
     this._state = saved;
     this._answered = false;
-    this.notify();
     return true;
   }
 }

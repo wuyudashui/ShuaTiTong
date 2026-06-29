@@ -6,6 +6,7 @@ export function getFiltered(
   errorBook?: Record<number, boolean>,
   examErrorFilter?: number[],
 ): Question[] {
+  if (filterType === 'adapted') return [];
   if (filterType === 'exam-review') {
     if (!examErrorFilter || !examErrorFilter.length) return [];
     return questions.filter(q => examErrorFilter.includes(q.id));

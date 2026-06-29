@@ -2,17 +2,8 @@ import type { Question, QuestionType, ExamRecord } from '../types';
 import { TYPE_LABELS } from '../types';
 import type { ExamSection } from '../types';
 import { store } from '../state';
+import { shuffleArray } from '../utils';
 import { CLIPBOARD, CHECK, X, BAR_CHART, GRID, BOOK_OPEN, SEND } from '../icons';
-
-// Fisher-Yates shuffle
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
 
 const TYPE_ORDER: QuestionType[] = ['single', 'judge', 'multi', 'fill'];
 
@@ -103,7 +94,7 @@ function startExam(
     grouped[q.type]!.push(q);
   }
   for (const type of TYPE_ORDER) {
-    if (grouped[type]) grouped[type] = shuffle(grouped[type]!);
+    if (grouped[type]) grouped[type] = shuffleArray(grouped[type]!);
   }
 
   // Pick specified count from each type
@@ -149,16 +140,13 @@ export function renderExamTypeTabs(container: HTMLElement): void {
   ).join('');
 }
 
-export function bindExamTypeTabs(container: HTMLElement, onNavigate: () => void): void {
-  container.addEventListener('click', (e) => {
-    const btn = (e.target as HTMLElement).closest('.exam-type-tab') as HTMLElement | null;
-    if (!btn) return;
-    const type = btn.dataset.type;
-    const section = store.exam.sections.find(s => s.type === type);
-    if (!section) return;
-    store.setExamIndex(section.start);
-    onNavigate();
-  });
+export function onExamTypeTabClick(e: MouseEvent): void {
+  const btn = (e.target as HTMLElement).closest('.exam-type-tab') as HTMLElement | null;
+  if (!btn) return;
+  const type = btn.dataset.type;
+  const section = store.exam.sections.find(s => s.type === type);
+  if (!section) return;
+  store.setExamIndex(section.start);
 }
 
 // ─── Get current section info for display ───

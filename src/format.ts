@@ -1,4 +1,5 @@
-import type { Question } from './types';
+import type { Question, ContentBlock } from './types';
+import katex from 'katex';
 
 /**
  * Convert LLM markdown output into safe HTML for display.
@@ -69,9 +70,101 @@ export function autoExplanation(q: Question): string {
     return `正确答案是 ${q.answer}（${q.answer === 'A' ? '正确' : '错误'}）`;
   }
   const ansOption = q.options ? q.options[q.answer] : '';
-  return ansOption
-    ? `正确答案是 ${q.answer}：${ansOption}`
+  const displayText = Array.isArray(ansOption)
+    ? ansOption.map(b => b.c).join('')
+    : ansOption;
+  return displayText
+    ? `正确答案是 ${q.answer}：${displayText}`
     : `正确答案是 ${q.answer}`;
+}
+
+/**
+ * Convert ContentBlock[] or plain string to plain text (for AI prompts, etc.).
+ * Strips all markup — extracts text content only.
+ */
+export function contentBlocksToText(input: ContentBlock[] | string | undefined | null): string {
+  if (!input) return '';
+  if (Array.isArray(input)) {
+    return input.map(b => b.c).join('');
+  }
+  return input;
+}
+
+/**
+ * Render structured content blocks into HTML.
+ */
+function renderBlocks(blocks: ContentBlock[]): string {
+  return blocks.map(b => {
+    switch (b.t) {
+      case 'text':
+        return escapeHtml(b.c).replace(/\n/g, '<br>');
+      case 'f':
+        try {
+          return katex.renderToString(b.c, { displayMode: b.d ?? false, throwOnError: false });
+        } catch {
+          return `<span class="katex-error">${escapeHtml(b.c)}</span>`;
+        }
+      case 'code':
+        return `<pre><code>${escapeHtml(b.c)}</code></pre>`;
+      case 'image':
+        return `<img src="${escapeHtml(b.c)}" alt="${escapeHtml(b.alt || '')}" loading="lazy">`;
+      default:
+        return '';
+    }
+  }).join('');
+}
+
+/**
+ * Render question/option text: escape HTML, then process images and KaTeX formulas.
+ * Accepts both structured ContentBlock[] and legacy plain text.
+ */
+export function renderText(str: ContentBlock[] | string): string {
+  if (Array.isArray(str)) return renderBlocks(str);
+  if (!str) return '';
+
+  // 1. HTML-escape first (XSS prevention)
+  let h = str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // 2. Protect inline code `...` from being processed
+  const codeBlocks: string[] = [];
+  h = h.replace(/`([^`]+)`/g, (_, code) => {
+    const idx = codeBlocks.length;
+    codeBlocks.push(code);
+    return `§CODE${idx}§`;
+  });
+
+  // 3. Markdown images: ![alt](url)
+  h = h.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
+
+  // 4. KaTeX block formulas $$...$$
+  h = h.replace(/\$\$([\s\S]+?)\$\$/g, (_, formula) => {
+    try {
+      return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
+    } catch {
+      return `<span class="katex-error">$$${formula}$$</span>`;
+    }
+  });
+
+  // 5. KaTeX inline formulas $...$
+  // Only match $ that are not adjacent to digits (avoid $100)
+  h = h.replace(/(?<=^|[^$\d])\$([^$\n]+?)\$(?=[^$\d]|$)/g, (_, formula) => {
+    try {
+      return katex.renderToString(formula.trim(), { displayMode: false, throwOnError: false });
+    } catch {
+      return `<span class="katex-error">$${formula}$</span>`;
+    }
+  });
+
+  // 6. Restore protected code blocks
+  h = h.replace(/§CODE(\d+)§/g, (_, idx) => `<code>${codeBlocks[parseInt(idx)]}</code>`);
+
+  // 7. Newlines to <br>
+  h = h.replace(/\n/g, '<br>');
+
+  return h;
 }
 
 /**

@@ -1,9 +1,10 @@
-import type { Question, QuestionRenderer, RenderConfig } from '../types';
+import type { Question, QuestionRenderer, RenderConfig, ContentBlock } from '../types';
 import { shuffleArray } from '../utils';
+import { renderText } from '../format';
 
 export class MultiRenderer implements QuestionRenderer {
   readonly type = 'multi' as const;
-  private entries: [string, string][] = [];
+  private entries: [string, string | ContentBlock[]][] = [];
   private handled = false;
   private examMode = false;
   private optContainer: HTMLElement | null = null;
@@ -24,7 +25,7 @@ export class MultiRenderer implements QuestionRenderer {
       const display = this.examMode ? String.fromCharCode(65 + i) : key;
       const div = document.createElement('div');
       div.className = 'option';
-      div.innerHTML = `<span class="cb">✓</span><span class="letter">${display}</span><span class="text">${text}</span>`;
+      div.innerHTML = `<span class="cb">✓</span><span class="letter">${display}</span><span class="text">${renderText(text)}</span>`;
       div.addEventListener('click', () => {
         // In practice mode, block after answered. In graded review, always block.
         if (this.handled) return;

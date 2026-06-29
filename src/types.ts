@@ -4,13 +4,22 @@ export type QuestionType = 'single' | 'multi' | 'judge' | 'fill';
 export type Difficulty = '易' | '中' | '难';
 export type AnswerResult = 'correct' | 'wrong';
 
+/** Structured content block for rendering text, formulas, code, and images. */
+export type ContentBlock =
+  | { t: 'text';  c: string }
+  | { t: 'f';     c: string; d?: boolean }
+  | { t: 'code';  c: string }
+  | { t: 'image'; c: string; alt?: string };
+
 export interface Question {
   id: number;
   type: QuestionType;
-  question: string;
+  /** Question content as structured blocks (new) or plain text (legacy) */
+  question: ContentBlock[] | string;
   /** Options keyed by letter (A/B/C/D) for single/multi/judge,
-   *  or keyed by blank name (空1/空2) for fill */
-  options: Record<string, string>;
+   *  or keyed by blank name (空1/空2) for fill.
+   *  Values can be structured blocks or plain text. */
+  options: Record<string, ContentBlock[] | string>;
   /** Correct answer. For multi, a concatenated string like "ACD" */
   answer: string;
   difficulty: Difficulty;
@@ -22,10 +31,18 @@ export interface Question {
 
 // ─── App state ───
 
+export type AdaptMode = 'fill' | 'single-to-multi';
+
+export interface AdaptedState {
+  questions: Question[];
+  originalIds: number[];
+  mode: AdaptMode;
+}
+
 export interface AppState {
   questions: Question[];
   currentIndex: number;
-  filterType: QuestionType | 'all' | 'wrong';
+  filterType: QuestionType | 'all' | 'wrong' | 'exam-review' | 'adapted';
   correctCount: number;
   wrongCount: number;
   answeredMap: Record<number, AnswerResult>;
@@ -49,7 +66,7 @@ export interface AISettings {
   apiKey: string;
   apiBaseUrl: string;
   apiModel: string;
-  aiMode: 'detailed' | 'simple';
+  devMode?: boolean;
 }
 
 export interface RecentFileMeta {

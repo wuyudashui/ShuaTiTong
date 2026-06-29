@@ -1,9 +1,10 @@
-import type { Question, QuestionType, QuestionRenderer, RenderConfig } from '../types';
+import type { Question, QuestionType, QuestionRenderer, RenderConfig, ContentBlock } from '../types';
 import { shuffleArray } from '../utils';
+import { renderText } from '../format';
 
 export class SingleRenderer implements QuestionRenderer {
   type: QuestionType = 'single';
-  private entries: [string, string][] = [];
+  private entries: [string, string | ContentBlock[]][] = [];
   private handled = false;
   private selectedKey: string | null = null;
   private optContainer: HTMLElement | null = null;
@@ -27,7 +28,7 @@ export class SingleRenderer implements QuestionRenderer {
       const div = document.createElement('div');
       div.className = 'option';
       if (this.examMode && key === this.selectedKey) div.classList.add('selected');
-      div.innerHTML = `<span class="letter">${display}</span><span class="text">${text}</span>`;
+      div.innerHTML = `<span class="letter">${display}</span><span class="text">${renderText(text)}</span>`;
       div.addEventListener('click', () => this.handleClick(q, key, display, config));
       config.optContainer.appendChild(div);
     });

@@ -1,6 +1,6 @@
 import type { Question } from './types';
 import { store } from './state';
-import { formatExplanation, autoExplanation } from './format';
+import { formatExplanation, autoExplanation, contentBlocksToText } from './format';
 import { TYPE_LABELS } from './types';
 
 export interface FillGradeResult {
@@ -24,12 +24,12 @@ export async function gradeFillAnswer(
   const blankKeys: string[] = [];
   blanks.forEach(([k, v]) => {
     blankKeys.push(k);
-    blanksText += `${k}：用户答案「${userAnswers[k] || '(未作答)'}」  参考答案「${v}」\n`;
+    blanksText += `${k}：用户答案「${userAnswers[k] || '(未作答)'}」  参考答案「${contentBlocksToText(v)}」\n`;
   });
 
   const prompt = `请判断以下填空题的用户答案是否正确。
 
-题目：${q.question}
+题目：${contentBlocksToText(q.question)}
 
 ${blanksText}
 请对每个空判断：
@@ -166,29 +166,35 @@ function initDisplay(mode: 'detailed' | 'simple'): DisplayTarget | null {
 }
 
 
-export async function fetchAIExplanation(q: Question): Promise<void> {
+function setBtnState(id: string, loading: boolean, text: string): void {
+  const btn = document.getElementById(id) as HTMLButtonElement | null;
+  if (!btn) return;
+  btn.disabled = loading;
+  if (loading) {
+    btn.classList.add('ai-loading');
+  } else {
+    btn.classList.remove('ai-loading');
+  }
+}
+
+export async function fetchAIExplanation(q: Question, simple = false): Promise<void> {
   if (store.aiLoading) return;
   store.setAILoading(true);
 
-  const mode = store.aiSettings.aiMode || 'detailed';
-  const aiExplainBtn = document.getElementById('aiExplainBtn') as HTMLButtonElement;
+  const btnId = simple ? 'aiSimplifyBtn' : 'aiExplainBtn';
+  const loadingText = simple ? '🤖 纠错中' : '🤖 解析中';
+  const doneText = simple ? '🤖 AI 纠错' : '🤖 AI 解析';
+  const label = simple ? '🤖 AI 纠错' : '🤖 AI 解析';
+  const fallbackLabel = simple ? '⚠️ AI 纠错降级' : '⚠️ AI 解析降级';
 
-  if (aiExplainBtn) {
-    aiExplainBtn.disabled = true;
-    aiExplainBtn.classList.add('ai-loading');
-    aiExplainBtn.textContent = mode === 'simple' ? '🤖 纠错中' : '🤖 解析中';
-  }
+  setBtnState(btnId, true, loadingText);
 
-  // ── Simple mode: always inline, no drawer ──
-  if (mode === 'simple') {
+  if (simple) {
+    // ── Simple mode: inline ──
     if (q.simpleExplanation) {
-      showExplanationInline(q, q.simpleExplanation, '🤖 AI 纠错');
+      showExplanationInline(q, q.simpleExplanation, label);
       store.setAILoading(false);
-      if (aiExplainBtn) {
-        aiExplainBtn.disabled = false;
-        aiExplainBtn.classList.remove('ai-loading');
-        aiExplainBtn.textContent = '🤖 AI 纠错';
-      }
+      setBtnState(btnId, false, doneText);
       return;
     }
 
@@ -217,7 +223,6 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
       if (!res.ok) throw new Error(`API 请求失败 (${res.status})`);
 
       const data = await res.json();
-      // Try content from various response formats (standard, reasoning models, etc.)
       const rawContent = (
         data.choices?.[0]?.message?.content ||
         data.choices?.[0]?.message?.reasoning_content ||
@@ -230,23 +235,18 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
       }
 
       q.simpleExplanation = rawContent;
-      showExplanationInline(q, rawContent, '🤖 AI 纠错');
+      showExplanationInline(q, rawContent, label);
       store.save();
     } catch (err: unknown) {
-      // Fallback to local explanation on AI failure
-      showExplanationInline(q, autoExplanation(q) + '\n\n---\n⚠️ AI 纠错暂时不可用，以上为本地参考。', '⚠️ AI 纠错降级');
+      showExplanationInline(q, autoExplanation(q) + '\n\n---\n⚠️ AI 纠错暂时不可用，以上为本地参考。', fallbackLabel);
     } finally {
       store.setAILoading(false);
-      if (aiExplainBtn) {
-        aiExplainBtn.disabled = false;
-        aiExplainBtn.classList.remove('ai-loading');
-        aiExplainBtn.textContent = '🤖 AI 纠错';
-      }
+      setBtnState(btnId, false, doneText);
     }
     return;
   }
 
-  // ── Detailed mode: drawer (desktop) or inline (mobile) ──
+  // ── Detailed mode ──
   const target = initDisplay('detailed');
 
   if (q.explanation) {
@@ -257,11 +257,7 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
       showExplanationInline(q, q.explanation);
     }
     store.setAILoading(false);
-    if (aiExplainBtn) {
-      aiExplainBtn.disabled = false;
-      aiExplainBtn.classList.remove('ai-loading');
-      aiExplainBtn.textContent = '🤖 AI 解析';
-    }
+    setBtnState(btnId, false, doneText);
     return;
   }
 
@@ -313,34 +309,29 @@ export async function fetchAIExplanation(q: Question): Promise<void> {
     }
     store.save();
   } catch (err: unknown) {
-    // Fallback to local explanation on AI failure
     const localContent = autoExplanation(q) + '\n\n---\n⚠️ AI 解析暂时不可用，以上为本地参考。';
     if (target?.type === 'drawer') {
       target.body.innerHTML = formatExplanation(localContent);
     } else {
-      showExplanationInline(q, localContent, '⚠️ AI 解析降级');
+      showExplanationInline(q, localContent, fallbackLabel);
     }
   } finally {
     store.setAILoading(false);
-    if (aiExplainBtn) {
-      aiExplainBtn.disabled = false;
-      aiExplainBtn.classList.remove('ai-loading');
-      aiExplainBtn.textContent = '🤖 AI 解析';
-    }
+    setBtnState(btnId, false, doneText);
   }
 }
 
 function buildDetailedPrompt(q: Question): string {
   let prompt = '请为以下题目生成详细的答案解析。\n\n';
-  prompt += `题目：${q.question}\n\n`;
+  prompt += `题目：${contentBlocksToText(q.question)}\n\n`;
   prompt += `题型：${TYPE_LABELS[q.type] || q.type}\n`;
   if (q.type !== 'fill' && q.options) {
     prompt += '选项：\n';
-    Object.entries(q.options).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}. ${v}\n`; });
+    Object.entries(q.options).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}. ${contentBlocksToText(v)}\n`; });
   }
   if (q.type === 'fill') {
     prompt += '参考答案：\n';
-    Object.entries(q.options || {}).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}：${v}\n`; });
+    Object.entries(q.options || {}).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}：${contentBlocksToText(v)}\n`; });
   } else {
     prompt += `\n正确答案：${q.answer}\n`;
   }
@@ -349,9 +340,9 @@ function buildDetailedPrompt(q: Question): string {
 }
 
 function buildSimplePrompt(q: Question): string {
-  let prompt = '题目：' + q.question + '\n\n';
+  let prompt = '题目：' + contentBlocksToText(q.question) + '\n\n';
   if (q.type !== 'fill' && q.options) {
-    Object.entries(q.options).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}. ${v}\n`; });
+    Object.entries(q.options).filter(([, v]) => v).forEach(([k, v]) => { prompt += `${k}. ${contentBlocksToText(v)}\n`; });
   }
   prompt += `\n正确答案：${q.answer}\n\n`;
   if (q.type === 'multi') {
