@@ -5,7 +5,7 @@
   "description": "刷题通 - Interactive Quiz App",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && sed -i 's/crossorigin //g' www/index.html",
     "preview": "vite preview",
     "cap:sync": "vite build && npx cap sync android",
     "cap:open": "npx cap open android"

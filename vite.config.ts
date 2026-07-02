@@ -6,5 +6,7 @@ export default defineConfig({
     outDir: 'www',
     assetsInlineLimit: 0,
     minify: true,
+    cssCodeSplit: false,
+    modulePreload: false,
   },
 });

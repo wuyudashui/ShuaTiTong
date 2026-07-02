@@ -572,6 +572,7 @@ h1 .svg-icon, h2 .svg-icon, h3 .svg-icon {
   margin-top: 8px;
   justify-content: center;
 }
+.nav-buttons button { min-width: 0; flex-shrink: 1; }
 /* Primary nav button stands out with more emphasis */
 .nav-buttons .btn-primary {
   padding: 8px 20px;
