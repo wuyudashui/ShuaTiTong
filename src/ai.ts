@@ -15,7 +15,7 @@ export async function gradeFillAnswer(
   q: Question,
   userAnswers: Record<string, string>,
 ): Promise<{ results: FillGradeResult[]; overall: 'correct' | 'partial' | 'wrong' } | null> {
-  const { apiKey, apiBaseUrl, apiModel } = store.aiSettings;
+  const { apiKey, apiBaseUrl, apiModel } = store.getApiConfig(store.aiSettings.modelForAI || 'remote');
   const baseUrl = apiBaseUrl.replace(/\/+$/, '');
   const blanks = Object.entries(q.options || {}).filter(([, v]) => v);
 
@@ -199,7 +199,7 @@ export async function fetchAIExplanation(q: Question, simple = false): Promise<v
     }
 
     try {
-      const { apiKey, apiBaseUrl, apiModel } = store.aiSettings;
+      const { apiKey, apiBaseUrl, apiModel } = store.getApiConfig(store.aiSettings.modelForAI || 'remote');
       const baseUrl = apiBaseUrl.replace(/\/+$/, '');
       const prompt = buildSimplePrompt(q);
 
@@ -262,7 +262,7 @@ export async function fetchAIExplanation(q: Question, simple = false): Promise<v
   }
 
   try {
-    const { apiKey, apiBaseUrl, apiModel } = store.aiSettings;
+    const { apiKey, apiBaseUrl, apiModel } = store.getApiConfig(store.aiSettings.modelForAI || 'remote');
     const baseUrl = apiBaseUrl.replace(/\/+$/, '');
     const prompt = buildDetailedPrompt(q);
 

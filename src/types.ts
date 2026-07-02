@@ -50,6 +50,8 @@ export interface AppState {
   isDark: boolean;
   /** Question IDs to show when filterType is 'exam-review' */
   examErrorFilter: number[];
+  /** Full-text search query */
+  searchQuery: string;
 }
 
 export interface ExamRecord {
@@ -62,10 +64,30 @@ export interface ExamRecord {
   sections: { label: string; correct: number; total: number }[];
 }
 
+export type ModelPrefer = 'remote' | 'local';
+export type UserTier = 'guest' | 'premium' | 'root';
+
 export interface AISettings {
+  /* ── Remote model (cloud API) ── */
   apiKey: string;
   apiBaseUrl: string;
   apiModel: string;
+  /* ── Local model (Ollama etc.) ── */
+  localApiKey?: string;
+  localApiBaseUrl?: string;
+  localApiModel?: string;
+  /* ── Feature-to-model mapping ── */
+  modelForAI?: ModelPrefer;     // AI 解析/纠错
+  modelForAdapt?: ModelPrefer;  // AI 改编
+  modelForParse?: ModelPrefer;  // AI 解析导入
+  /* ── Account ── */
+  userTier?: UserTier;         // guest / premium / root
+  premiumPassword?: string;    // local password to unlock premium
+  /* ── Sync (root only) ── */
+  syncToken?: string;
+  syncUsername?: string;
+  syncServer?: string;
+  /* ── Dev mode ── */
   devMode?: boolean;
 }
 

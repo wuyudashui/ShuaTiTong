@@ -15,6 +15,7 @@ export function createDefaultState(): AppState {
     errorBook: {},
     isDark: false,
     examErrorFilter: [],
+    searchQuery: '',
   };
 }
 
@@ -46,6 +47,22 @@ class Store {
 
   get aiSettings(): AISettings {
     return this._aiSettings;
+  }
+
+  /** Get API connection parameters for a given model preference */
+  getApiConfig(prefer: 'remote' | 'local' = 'remote'): { apiKey: string; apiBaseUrl: string; apiModel: string } {
+    if (prefer === 'local' && this._aiSettings.localApiBaseUrl) {
+      return {
+        apiKey: this._aiSettings.localApiKey || '',
+        apiBaseUrl: this._aiSettings.localApiBaseUrl,
+        apiModel: this._aiSettings.localApiModel || 'qwen2.5',
+      };
+    }
+    return {
+      apiKey: this._aiSettings.apiKey,
+      apiBaseUrl: this._aiSettings.apiBaseUrl,
+      apiModel: this._aiSettings.apiModel,
+    };
   }
 
   get recentFiles(): RecentFileMeta[] {
@@ -87,7 +104,7 @@ class Store {
   // ─── Computed ───
 
   get filtered(): Question[] {
-    return getFiltered(this._state.questions, this._state.filterType, this._state.errorBook, this._state.examErrorFilter);
+    return getFiltered(this._state.questions, this._state.filterType, this._state.errorBook, this._state.examErrorFilter, this._state.searchQuery);
   }
 
   // ─── State mutations ───

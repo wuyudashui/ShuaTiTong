@@ -64,7 +64,7 @@ export function formatExplanation(text: string): string {
 export function autoExplanation(q: Question): string {
   if (q.type === 'fill') {
     const blanks = q.options || {};
-    return `参考答案：${Object.entries(blanks).map(([k, v]) => `${k}：${v}`).join('；')}`;
+    return `参考答案：${Object.entries(blanks).map(([k, v]) => `${k}：${contentBlocksToText(v)}`).join('；')}`;
   }
   if (q.type === 'judge') {
     return `正确答案是 ${q.answer}（${q.answer === 'A' ? '正确' : '错误'}）`;

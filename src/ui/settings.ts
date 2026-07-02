@@ -5,14 +5,28 @@ export function initSettings(): void {
   const openBtn = document.getElementById('settingsBtn');
   const cancelBtn = document.getElementById('settingsCancelBtn');
   const saveBtn = document.getElementById('settingsSaveBtn');
+
   const baseUrlInput = document.getElementById('apiBaseUrl') as HTMLInputElement;
   const keyInput = document.getElementById('apiKeyInput') as HTMLInputElement;
   const modelSelect = document.getElementById('apiModelSelect') as HTMLSelectElement;
   const modelCustom = document.getElementById('apiModelCustom') as HTMLInputElement;
+
+  // Local model fields
+  const localBaseUrlInput = document.getElementById('localApiBaseUrl') as HTMLInputElement;
+  const localKeyInput = document.getElementById('localApiKey') as HTMLInputElement;
+  const localModelInput = document.getElementById('localApiModel') as HTMLInputElement;
+
+  // Feature mapping
+  const modelForAISelect = document.getElementById('modelForAI') as HTMLSelectElement;
+  const modelForAdaptSelect = document.getElementById('modelForAdapt') as HTMLSelectElement;
+  const modelForParseSelect = document.getElementById('modelForParse') as HTMLSelectElement;
+
   if (!modal || !openBtn || !cancelBtn || !saveBtn) return;
 
   function open(): void {
     const s = store.aiSettings;
+
+    // Remote
     baseUrlInput.value = s.apiBaseUrl;
     keyInput.value = s.apiKey;
     const opts = [...modelSelect.options].map(o => o.value);
@@ -24,12 +38,21 @@ export function initSettings(): void {
       modelCustom.style.display = 'block';
       modelCustom.value = s.apiModel;
     }
+
+    // Local
+    localBaseUrlInput.value = s.localApiBaseUrl || '';
+    localKeyInput.value = s.localApiKey || '';
+    localModelInput.value = s.localApiModel || '';
+
+    // Feature mapping
+    modelForAISelect.value = s.modelForAI || 'remote';
+    modelForAdaptSelect.value = s.modelForAdapt || 'remote';
+    modelForParseSelect.value = s.modelForParse || 'remote';
+
     modal.classList.remove('hidden');
   }
 
-  function close(): void {
-    modal.classList.add('hidden');
-  }
+  function close(): void { modal.classList.add('hidden'); }
 
   openBtn.addEventListener('click', open);
   cancelBtn.addEventListener('click', close);
@@ -41,9 +64,18 @@ export function initSettings(): void {
 
   saveBtn.addEventListener('click', () => {
     store.updateAISettings({
+      // Remote
       apiBaseUrl: baseUrlInput.value.trim() || 'https://api.deepseek.com/v1',
       apiModel: modelSelect.value || modelCustom.value.trim() || 'deepseek-v4-flash',
       apiKey: keyInput.value.trim(),
+      // Local
+      localApiBaseUrl: localBaseUrlInput.value.trim() || '',
+      localApiKey: localKeyInput.value.trim() || '',
+      localApiModel: localModelInput.value.trim() || '',
+      // Feature mapping
+      modelForAI: modelForAISelect.value as any || 'remote',
+      modelForAdapt: modelForAdaptSelect.value as any || 'remote',
+      modelForParse: modelForParseSelect.value as any || 'remote',
     });
     close();
   });

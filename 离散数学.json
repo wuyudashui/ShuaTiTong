@@ -1,0 +1,3833 @@
+[
+  {
+    "id": 1,
+    "type": "judge",
+    "question": [
+      {
+        "t": "text",
+        "c": "\"5能被2整除\"，这是一个命题"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "正确"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "错误"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 2,
+    "type": "judge",
+    "question": [
+      {
+        "t": "text",
+        "c": "\"这朵花真好看呀！\"，这是一个命题。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "正确"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "错误"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 3,
+    "type": "judge",
+    "question": [
+      {
+        "t": "text",
+        "c": "\"雪是黑色的当且仅当太阳从东方升起\"，这是一个命题。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "正确"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "错误"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 4,
+    "type": "judge",
+    "question": [
+      {
+        "t": "text",
+        "c": "\"太阳系以外的星球上有生物\"，这是一个命题。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "正确"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "错误"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 5,
+    "type": "judge",
+    "question": [
+      {
+        "t": "text",
+        "c": "\"全体起立！\"，这是一个命题。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "正确"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "错误"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 6,
+    "type": "judge",
+    "question": [
+      {
+        "t": "text",
+        "c": "\"4是2的倍数或是3的倍数\"，这是一个命题。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "正确"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "错误"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 7,
+    "type": "judge",
+    "question": [
+      {
+        "t": "text",
+        "c": "\"x+5>0\"，这是一个命题。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "正确"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "错误"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 8,
+    "type": "judge",
+    "question": [
+      {
+        "t": "text",
+        "c": "\"4是偶数且是奇数\"，这是一个命题。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "正确"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "错误"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 9,
+    "type": "judge",
+    "question": [
+      {
+        "t": "text",
+        "c": "\"李明和王华是同学\"，这是一个命题。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "正确"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "错误"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 10,
+    "type": "judge",
+    "question": [
+      {
+        "t": "text",
+        "c": "设A，B，C，D为任意集合，则命题\"若A⊆C且B⊆D，则有A×B⊆C×D\"是真命题"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "正确"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "错误"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 11,
+    "type": "judge",
+    "question": [
+      {
+        "t": "text",
+        "c": "设A，B，C，D为任意集合，则命题\"若A×B⊆C×D，则有A⊆C且B⊆D\"是真命题"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "正确"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "错误"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 12,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "命题公式p→(p∨q∨r)的类型是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "非重言式的可满足式"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "矛盾式"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "重言式"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "未定"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 13,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "命题公式(p→¬p)→¬p的类型是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "矛盾式"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "重言式"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "非重言式的可满足式"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "未定"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 14,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "命题公式¬(p→q)∧q的类型是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "重言式"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "非重言式的可满足式"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "矛盾式"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "未定"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 15,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "命题公式(¬p→q)→(q→¬p)的类型是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "非重言式的可满足式"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "矛盾式"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "重言式"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "未定"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 16,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "命题公式(p∧¬p)→q的类型是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "重言式"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "未定"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "非重言式的可满足式"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "矛盾式"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 17,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "命题公式"
+      },
+      {
+        "t": "f",
+        "c": "(p \\lor \\neg p) \\to ((q \\land \\neg q) \\land \\neg r)"
+      },
+      {
+        "t": "text",
+        "c": "的类型是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "矛盾式"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "重言式"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "非重言式的可满足式"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "未定"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 18,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "命题公式"
+      },
+      {
+        "t": "f",
+        "c": "(p \\to q) \\to \\neg (p \\lor q)"
+      },
+      {
+        "t": "text",
+        "c": "的类型是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "矛盾式"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "重言式"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "非重言式的可满足式"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "未定"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 19,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "命题公式"
+      },
+      {
+        "t": "f",
+        "c": "((p \\to q) \\land (q \\to r)) \\to (p \\to r)"
+      },
+      {
+        "t": "text",
+        "c": "的类型是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "矛盾式"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "重言式"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "非重言式的可满足式"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "未定"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 20,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "命题公式"
+      },
+      {
+        "t": "f",
+        "c": "((p \\lor q) \\to r) \\to s"
+      },
+      {
+        "t": "text",
+        "c": "的类型是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "矛盾式"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "重言式"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "非重言式的可满足式"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "未定"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 21,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "命题公式"
+      },
+      {
+        "t": "f",
+        "c": "(p \\lor (q \\land r)) \\to (p \\land q \\land r)"
+      },
+      {
+        "t": "text",
+        "c": "的主析取范式是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "f",
+          "c": "m_0 \\lor m_1 \\lor m_2 \\lor m_7"
+        }
+      ],
+      "B": [
+        {
+          "t": "f",
+          "c": "m_3 \\lor m_4 \\lor m_5 \\lor m_6"
+        }
+      ],
+      "C": [
+        {
+          "t": "f",
+          "c": "m_0 \\lor m_3 \\lor m_4 \\lor m_6"
+        }
+      ],
+      "D": [
+        {
+          "t": "f",
+          "c": "m_0 \\lor m_1 \\lor m_2 \\lor m_5 \\lor m_7"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 22,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "命题公式"
+      },
+      {
+        "t": "f",
+        "c": "(\\neg p \\to q) \\to (\\neg q \\lor p)"
+      },
+      {
+        "t": "text",
+        "c": "的主合取范式是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "f",
+          "c": "M_0 \\land M_1"
+        }
+      ],
+      "B": [
+        {
+          "t": "f",
+          "c": "M_0"
+        }
+      ],
+      "C": [
+        {
+          "t": "f",
+          "c": "M_1"
+        }
+      ],
+      "D": [
+        {
+          "t": "f",
+          "c": "M_2 \\land M_3"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 23,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "命题公式"
+      },
+      {
+        "t": "f",
+        "c": "\\neg (p \\to q) \\land q \\land r"
+      },
+      {
+        "t": "text",
+        "c": "的成真赋值是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "000,001,010,011,100,101,111"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "无成真赋值,公式为矛盾式"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "公式为重言式,所有赋值均为真"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "000,010,011"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 24,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "令"
+      },
+      {
+        "t": "f",
+        "c": "F(x)"
+      },
+      {
+        "t": "text",
+        "c": "：x是鸟；"
+      },
+      {
+        "t": "f",
+        "c": "G(x)"
+      },
+      {
+        "t": "text",
+        "c": "：x会飞翔。则“鸟都会飞翔”这个命题可符号化为（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "f",
+          "c": "\\exists x(F(x) \\to G(x))"
+        }
+      ],
+      "B": [
+        {
+          "t": "f",
+          "c": "\\exists x(F(x) \\land G(x))"
+        }
+      ],
+      "C": [
+        {
+          "t": "f",
+          "c": "\\forall x(F(x) \\to G(x))"
+        }
+      ],
+      "D": [
+        {
+          "t": "f",
+          "c": "\\forall x(F(x) \\land G(x))"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 25,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "令"
+      },
+      {
+        "t": "f",
+        "c": "F(x)"
+      },
+      {
+        "t": "text",
+        "c": "：x是人；"
+      },
+      {
+        "t": "f",
+        "c": "G(x)"
+      },
+      {
+        "t": "text",
+        "c": "：x爱吃糖。则“并不是所有的人都爱吃糖”这个命题可符号化为（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "f",
+          "c": "\\neg \\forall x(F(x) \\to G(x))"
+        }
+      ],
+      "B": [
+        {
+          "t": "f",
+          "c": "\\neg \\forall x(F(x) \\to G(x))"
+        }
+      ],
+      "C": [
+        {
+          "t": "f",
+          "c": "\\forall x(F(x) \\to \\neg G(x))"
+        }
+      ],
+      "D": [
+        {
+          "t": "f",
+          "c": "\\forall x(F(x) \\land \\neg G(x))"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 26,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "令"
+      },
+      {
+        "t": "f",
+        "c": "F(x)"
+      },
+      {
+        "t": "text",
+        "c": "：x是人；"
+      },
+      {
+        "t": "f",
+        "c": "G(x)"
+      },
+      {
+        "t": "text",
+        "c": "：x爱看小说。则“有人爱看小说”这个命题可符号化为（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "f",
+          "c": "\\exists x(F(x)\\to G(x))"
+        }
+      ],
+      "B": [
+        {
+          "t": "f",
+          "c": "\\exists x(F(x)\\land G(x))"
+        }
+      ],
+      "C": [
+        {
+          "t": "f",
+          "c": "\\forall x(F(x)\\land G(x))"
+        }
+      ],
+      "D": [
+        {
+          "t": "f",
+          "c": "\\forall x(F(x)\\to G(x))"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 27,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "令"
+      },
+      {
+        "t": "f",
+        "c": "F(x)"
+      },
+      {
+        "t": "text",
+        "c": "：x是人；"
+      },
+      {
+        "t": "f",
+        "c": "G(x)"
+      },
+      {
+        "t": "text",
+        "c": "：x爱看电影。则“没有不爱看电影的人”这个命题可符号化为（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "f",
+          "c": "\\exists x(F(x)\\to G(x))"
+        }
+      ],
+      "B": [
+        {
+          "t": "f",
+          "c": "\\forall x(F(x)\\land \\neg G(x))"
+        }
+      ],
+      "C": [
+        {
+          "t": "f",
+          "c": "\\exists x(F(x)\\land G(x))"
+        }
+      ],
+      "D": [
+        {
+          "t": "f",
+          "c": "\\neg \\exists x(F(x)\\land \\neg G(x))"
+        }
+      ]
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 28,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "命题: "
+      },
+      {
+        "t": "f",
+        "c": "\\exists xF(x)"
+      },
+      {
+        "t": "text",
+        "c": "，其中F(x): "
+      },
+      {
+        "t": "f",
+        "c": "5x=1"
+      },
+      {
+        "t": "text",
+        "c": "，此命题在下列个体域中为假命题（）\n(1) 自然数集合N（N中含0）\n(2) 整数集合Z\n(3) 实数集合R"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "(1)和(2)"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "(1)和(3)"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "(2)和(3)"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "(1),(2)和(3)都是"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 29,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "谓词公式"
+      },
+      {
+        "t": "f",
+        "c": "\\forall x\\exists y(x\\cdot y=0)"
+      },
+      {
+        "t": "text",
+        "c": "在下列哪个个体域中真值为1（ ）\n(1) 实数集合R\n(2) 整数集合Z\n(3) 正整数集合Z+\n(4) R-{0}（非零实数集合）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "(1)和(2)"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "(1)和(3)"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "(2)和(3)"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "(3)和(4)"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 30,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "谓词公式"
+      },
+      {
+        "t": "f",
+        "c": "\\exists x\\forall y(x\\cdot y=0)"
+      },
+      {
+        "t": "text",
+        "c": "在下列哪个个体域中真值为1（ ）\n(1) 实数集合R\n(2) 整数集合Z\n(3) 正整数集合Z+\n(4) R-{0}（非零实数集合）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "(1)和(3)"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "(2)和(3)"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "(1)和(2)"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "(3)和(4)"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 31,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "谓词公式"
+      },
+      {
+        "t": "f",
+        "c": "\\forall x\\exists y(x\\cdot y=1)"
+      },
+      {
+        "t": "text",
+        "c": "在下列哪个个体域中真值为1（ ）\n(1) 实数集合R\n(2) 整数集合Z\n(3) 正整数集合Z+\n(4) R-{0}（非零实数集合）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "(1),(2)和(3)"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "(1)和(4)"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "(4)"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "(3)"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 32,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "谓词公式"
+      },
+      {
+        "t": "f",
+        "c": "\\exists x\\forall y(x\\cdot y=1)"
+      },
+      {
+        "t": "text",
+        "c": "在下列哪个个体域中真值为1（ ）\n(1) 实数集合R\n(2) 整数集合Z\n(3) 正整数集合Z+\n(4) R-{0}（非零实数集合）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "(1)"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "(2)"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "(3)"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "(1),(2),(3),(4)都不是"
+        }
+      ]
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 33,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "谓词公式"
+      },
+      {
+        "t": "f",
+        "c": "\\forall x\\exists y(x\\cdot y=x)"
+      },
+      {
+        "t": "text",
+        "c": "在下列哪个个体域中真值为1（ ）\n(1) 实数集合R\n(2) 整数集合Z\n(3) 正整数集合Z+\n(4) R-{0}（非零实数集合）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "(1)和(2)"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "(3)和(4)"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "全部都不是"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "全部都是"
+        }
+      ]
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 34,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "谓词公式"
+      },
+      {
+        "t": "f",
+        "c": "\\exists x\\forall y(x\\cdot y=x)"
+      },
+      {
+        "t": "text",
+        "c": "在下列哪个个体域中真值为1（ ）\n(1) 实数集合R\n(2) 整数集合Z\n(3) 正整数集合Z+\n(4) R-{0}（非零实数集合）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "(1)和(2)"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "(3)和(4)"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "(1)和(3)"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "(2)和(4)"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 35,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "设解释为: 个体域D={-2,3,6},a=3,一元谓词F(x):x≤3，G(x):x>5，R(x):x≤7，在此解释下，下面各式的真值为1的有（ ）\n(1) "
+      },
+      {
+        "t": "f",
+        "c": "\\exists x(F(x)\\land G(x))"
+      },
+      {
+        "t": "text",
+        "c": "\n(2) "
+      },
+      {
+        "t": "f",
+        "c": "\\forall x(R(x)\\to F(x))\\lor G(a)"
+      },
+      {
+        "t": "text",
+        "c": "\n(3) "
+      },
+      {
+        "t": "f",
+        "c": "\\exists x(F(x)\\lor G(x))"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "(1)"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "(2)"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "(3)"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "(1)和(2)"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 36,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "从集合分类的角度看,命题公式可分为( )"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "永真式、矛盾式"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "永真式、可满足式、矛盾式"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "可满足式、矛盾式"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "永真式、可满足式"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 37,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "集合A={1,2,3}，令R={<1,1>,<2,2>,<3,3>,<1,2>}，则R具有（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "自反性"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "反自反性"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "对称性"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "传递性"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 38,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "设集合A={a，b，c}，令关系 R={<b，c>，<c，b>}，则R具有（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "自反性"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "对称性"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "反自反性"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "传递性"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 39,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "集合A={1，2，3，4，5，6，7，8}，等价关系R={<x，y>|x≡y(mod 3)}，A在R下的商集A/R=（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "{{1,4,7},{2,5,8},{3,6}}"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "{1,4,7,2,5,8,3,6}"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "{1,2,3}"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "{{1},{2},{3}}"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 40,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "设集合A={a，b，c，d，e}，偏序关系R的哈斯图下图所示，则元素的关系不正确的是（ ）<img src='https://up.zaixiankaoshi.com/999999/ai_import/bb66b716caa85c3937c3c96c8b790c6b.jpg' alt=''>"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "c ≤ d"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "a ≤ e"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "a < c"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "d ≤ e"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 41,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "已知A,B是集合 |A |=15，|B |=10，|A∪B |=20，则 |A∩B | =（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "10"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "5"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "20"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "13"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 42,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "集合X={a，b，c，d，e}，Y={1，2，3，4}，f从X到Y的映射，其中f(a)=2，f(b)=4,f(c)=1,f(d)=3,f(e)=4,则f是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "双射"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "满射"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "单射"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "不是单射也不是满射"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 43,
+    "type": "multi",
+    "question": [
+      {
+        "t": "text",
+        "c": "下列命题中，（ ）是真命题。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "若2+2=4,则3+3=6"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "若2+2=4,则3+3≠6"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "若2+2≠4,则3+3=6"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "若2+2≠4,则3+3≠6"
+        }
+      ]
+    },
+    "answer": "AD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 44,
+    "type": "multi",
+    "question": [
+      {
+        "t": "text",
+        "c": "取个体域为整数集，给定下列各式，真命题的为（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "∀x∃y(x.y=0)"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "∀x∃y(x.y=1)"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "∃y∃x(x.y=2)"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "x-y=-y+x"
+        }
+      ]
+    },
+    "answer": "AC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 45,
+    "type": "multi",
+    "question": [
+      {
+        "t": "text",
+        "c": "取个体域为整数集，给定下列各式，真命题的为（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "f",
+          "c": "\\forall x\\exists y(x\\cdot y=0)"
+        }
+      ],
+      "B": [
+        {
+          "t": "f",
+          "c": "\\forall x\\exists y(x\\cdot y=1)"
+        }
+      ],
+      "C": [
+        {
+          "t": "f",
+          "c": "\\exists y\\exists x(x\\cdot y=2)"
+        }
+      ],
+      "D": [
+        {
+          "t": "f",
+          "c": "x-y=-y+x"
+        }
+      ]
+    },
+    "answer": "AC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 46,
+    "type": "multi",
+    "question": [
+      {
+        "t": "text",
+        "c": "设"
+      },
+      {
+        "t": "f",
+        "c": "S = \\{\\Phi, \\{1\\}, \\{1, 2\\}\\}"
+      },
+      {
+        "t": "text",
+        "c": "，则有（ ）"
+      },
+      {
+        "t": "f",
+        "c": "\\in S"
+      },
+      {
+        "t": "text",
+        "c": "。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "f",
+          "c": "\\{1, 2\\}"
+        }
+      ],
+      "B": [
+        {
+          "t": "f",
+          "c": "1"
+        }
+      ],
+      "C": [
+        {
+          "t": "f",
+          "c": "1, 2"
+        }
+      ],
+      "D": [
+        {
+          "t": "f",
+          "c": "\\Phi, \\{1\\}"
+        }
+      ]
+    },
+    "answer": "AD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 47,
+    "type": "multi",
+    "question": [
+      {
+        "t": "f",
+        "c": "S1=\\Phi"
+      },
+      {
+        "t": "text",
+        "c": "，"
+      },
+      {
+        "t": "f",
+        "c": "S2 = \\{\\Phi\\}"
+      },
+      {
+        "t": "text",
+        "c": "，"
+      },
+      {
+        "t": "f",
+        "c": "S3=P(\\{\\Phi\\})"
+      },
+      {
+        "t": "text",
+        "c": "，"
+      },
+      {
+        "t": "f",
+        "c": "S4=P(\\Phi)"
+      },
+      {
+        "t": "text",
+        "c": "，下列是真命题的有（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "f",
+          "c": "S2\\in S4"
+        }
+      ],
+      "B": [
+        {
+          "t": "f",
+          "c": "S1\\subseteq S3"
+        }
+      ],
+      "C": [
+        {
+          "t": "f",
+          "c": "S4\\subseteq S2"
+        }
+      ],
+      "D": [
+        {
+          "t": "f",
+          "c": "S4\\in S3"
+        }
+      ]
+    },
+    "answer": "BD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 48,
+    "type": "multi",
+    "question": [
+      {
+        "t": "text",
+        "c": "笛卡尔积运算具有如下性质（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "f",
+          "c": "A\\times\\Phi=\\Phi\\times B=\\Phi"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "当"
+        },
+        {
+          "t": "f",
+          "c": "A\\neq B"
+        },
+        {
+          "t": "text",
+          "c": "且A,B都不是空集时,"
+        },
+        {
+          "t": "f",
+          "c": "A\\times B\\neq B\\times A"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "当A,B,C都不是空集时,"
+        },
+        {
+          "t": "f",
+          "c": "(A\\times B)\\times C\\neq A\\times (B\\times C)"
+        }
+      ],
+      "D": [
+        {
+          "t": "f",
+          "c": "A\\times (B\\cap C)=(A\\times B)\\cap (A\\times C)"
+        }
+      ]
+    },
+    "answer": "BCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 49,
+    "type": "multi",
+    "question": [
+      {
+        "t": "text",
+        "c": "集合"
+      },
+      {
+        "t": "f",
+        "c": "A=\\{1, 2, 3, 4, 5, 6, 7, 8\\}"
+      },
+      {
+        "t": "text",
+        "c": "，等价关系"
+      },
+      {
+        "t": "f",
+        "c": "R=\\{(x, y)|x\\equiv y\\pmod 3\\}"
+      },
+      {
+        "t": "text",
+        "c": "，关于等价类"
+      },
+      {
+        "t": "f",
+        "c": "[x]"
+      },
+      {
+        "t": "text",
+        "c": "，如下结论正确的是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "f",
+          "c": "[1]=[4]=[7]=\\{1,4,7\\}"
+        }
+      ],
+      "B": [
+        {
+          "t": "f",
+          "c": "[2]=[5]=[8]=\\{2,5,8\\}"
+        }
+      ],
+      "C": [
+        {
+          "t": "f",
+          "c": "[3]=[6]=\\{3,6\\}"
+        }
+      ],
+      "D": [
+        {
+          "t": "f",
+          "c": "[1]=[2]=[3]=\\{1,2,3\\}"
+        }
+      ]
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 50,
+    "type": "multi",
+    "question": [
+      {
+        "t": "text",
+        "c": "集合"
+      },
+      {
+        "t": "f",
+        "c": "A=\\{a, b, c, d\\}"
+      },
+      {
+        "t": "text",
+        "c": "，下列子集族是A的划分的是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "f",
+          "c": "\\{\\{a\\}, \\{b, c\\}, \\{d\\}\\}"
+        }
+      ],
+      "B": [
+        {
+          "t": "f",
+          "c": "\\{\\{a, b\\}, \\{c\\}, \\{a, d\\}\\}"
+        }
+      ],
+      "C": [
+        {
+          "t": "f",
+          "c": "\\{\\{a, b, c, d\\}\\}"
+        }
+      ],
+      "D": [
+        {
+          "t": "f",
+          "c": "\\{\\Phi, \\{a, b\\}, \\{c, d\\}\\}"
+        }
+      ]
+    },
+    "answer": "AC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 51,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "有100个程序员，其中47名熟悉C语言，35名熟悉Java语言，23名熟悉两种语言，那么，有____人对两种语言都不熟悉。（请填入阿拉伯数字）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "41"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 52,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "在1和1000之间不能被5或6，也不能被8整除的数的个数是____（请填入阿拉伯数字）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "600"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 53,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "某班有25个学生，其中14人会打篮球，12人会打排球，6人会打篮球和排球，5人会打篮球和网球，还有2人会打这3种球，而6个会打网球的人都会打另外一种球（指篮球或排球），则不会打这3种球的人数是____个（填入阿拉伯数字）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "5"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 54,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "一个班里有50个学生，在第一次考试中有26人得5分，在第二次考试中有21人得5分，如果两次考试中都没得5分的有17人，那么两次考试都得5分的有____人（填入阿拉伯数字）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "14"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 55,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "设集合"
+      },
+      {
+        "t": "f",
+        "c": "A=\\{\\{1\\}, 1\\}"
+      },
+      {
+        "t": "text",
+        "c": "，则幂集"
+      },
+      {
+        "t": "f",
+        "c": "P(A)"
+      },
+      {
+        "t": "text",
+        "c": "的基数"
+      },
+      {
+        "t": "f",
+        "c": "|P(A)|="
+      },
+      {
+        "t": "text",
+        "c": "____（请填入阿拉伯数字）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "4"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 56,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "集合"
+      },
+      {
+        "t": "f",
+        "c": "A=\\{a, b\\}"
+      },
+      {
+        "t": "text",
+        "c": "，集合"
+      },
+      {
+        "t": "f",
+        "c": "B=\\{0, 1, 2\\}"
+      },
+      {
+        "t": "text",
+        "c": "，则A和B的笛卡尔积的基数"
+      },
+      {
+        "t": "f",
+        "c": "|A\\times B|"
+      },
+      {
+        "t": "text",
+        "c": "是____（请填写阿拉伯数字）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "6"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 57,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "集合"
+      },
+      {
+        "t": "f",
+        "c": "A=\\{a, b\\}"
+      },
+      {
+        "t": "text",
+        "c": "，则幂集"
+      },
+      {
+        "t": "f",
+        "c": "P(A)"
+      },
+      {
+        "t": "text",
+        "c": "和A的笛卡尔积的基数"
+      },
+      {
+        "t": "f",
+        "c": "|P(A)\\times A|"
+      },
+      {
+        "t": "text",
+        "c": "是____（请填写阿拉伯数字）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "8"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 58,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "设"
+      },
+      {
+        "t": "f",
+        "c": "S=\\{1, 2\\}"
+      },
+      {
+        "t": "text",
+        "c": "，则S上可以定义____个不同的二元关系，其中有____个等价关系。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "4"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "2"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 59,
+    "type": "judge",
+    "question": [
+      {
+        "t": "text",
+        "c": "有向图D的邻接矩阵如下，则它是强连通图（ ）\n"
+      },
+      {
+        "t": "f",
+        "c": "\\begin{bmatrix}0 & 1 & 1\\\\0 & 0 & 1\\\\0 & 1 & 0\\end{bmatrix}"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "正确"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "错误"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 60,
+    "type": "judge",
+    "question": [
+      {
+        "t": "text",
+        "c": "两个图的邻接矩阵如下，则这两个图是同构的（ ）\n"
+      },
+      {
+        "t": "f",
+        "c": "\\begin{bmatrix}0 & 1 & 1 & 1\\\\1 & 0 & 1 & 1\\\\1 & 1 & 0 & 0\\\\1 & 1 & 0 & 0\\end{bmatrix}"
+      },
+      {
+        "t": "text",
+        "c": " 和 "
+      },
+      {
+        "t": "f",
+        "c": "\\begin{bmatrix}0 & 1 & 1 & 1\\\\1 & 1 & 0 & 1\\\\1 & 1 & 0 & 1\\\\1 & 0 & 1 & 0\\end{bmatrix}"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "正确"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "错误"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 61,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "以下可以成为一个图的度数序列的是（）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "3, 3, 2, 3"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "5, 2, 3, 1, 4"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "4, 4, 3, 1, 0"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "3, 4, 3, 4, 1"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 62,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "下列个组数中，哪个不能构成无向简单图的度数序列（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "1, 1, 1, 2, 3"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "2, 2, 2, 2, 2"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "1, 3, 3, 3"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "3, 3, 3, 3"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 63,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "设有向简单图D的度数列为（2, 2, 3, 3），入度列为（0, 0, 2, 3），则D的出度列为（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "2, 2, 1, 0"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "2, 2, 5, 6"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "0, 0, 1, 0"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "1, 2, 2, 1"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 64,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "无向图有16条边，每个顶点都是2度顶点，则它有（ ）顶点"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "8"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "15"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "16"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "17"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 65,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "无向图有21条边，3个4度顶点，其余的都是3度顶点，则图有（ ）顶点。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "10"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "11"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "12"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "13"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 66,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "一个3阶有向图的度序列是2, 2, 4，入度序列是2, 0, 2，出度序列是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "4, 2, 6"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "0, 1, 3"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "0, 2, 2"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "2, 1, 1"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 67,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "在一个无向图中有6条边，3度顶点和5度顶点各1个，其余顶点都是2度点，该图有的顶点个数是:（）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "3"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "4"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "5"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "6"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 68,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "下图中，（ ）是欧拉图。<img src='https://up.zaixiankaoshi.com/999999/ai_import/93dbd4fce2612f69bb21ad7a2bb03d8d.jpg' alt=''><img src='https://up.zaixiankaoshi.com/999999/ai_import/33172c9ecd7cc5cc45e1114a5aa27284.jpg' alt=''><img src='https://up.zaixiankaoshi.com/999999/ai_import/ad92c73512079e87a74948e367ec2553.jpg' alt=''><img src='https://up.zaixiankaoshi.com/999999/ai_import/d8236a9efdb3aa73757612e2a14366c8.jpg' alt=''>"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "A"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "B"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "C"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "D"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 69,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "设图G的邻接矩阵为\n"
+      },
+      {
+        "t": "f",
+        "c": "\\begin{bmatrix}\n0 & 1 & 1 & 0 & 0 \\\\\n1 & 0 & 0 & 1 & 1 \\\\\n1 & 0 & 0 & 0 & 0 \\\\\n0 & 1 & 0 & 0 & 1 \\\\\n0 & 1 & 0 & 1 & 0\n\\end{bmatrix}"
+      },
+      {
+        "t": "text",
+        "c": "\n则G的边数是（）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "3"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "4"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "5"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "6"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 70,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "已知图G的邻接矩阵为\n"
+      },
+      {
+        "t": "f",
+        "c": "\\begin{bmatrix}\n0 & 1 & 0 & 1 & 1 \\\\\n1 & 0 & 0 & 0 & 1 \\\\\n0 & 0 & 0 & 1 & 1 \\\\\n1 & 0 & 1 & 0 & 1 \\\\\n1 & 1 & 1 & 1 & 0\n\\end{bmatrix}"
+      },
+      {
+        "t": "text",
+        "c": "\n则G有（）."
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "5点,8边"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "6点,7边"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "6点,8边"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "5点,7边"
+        }
+      ]
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 71,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "设有向图（a）、（b）、（c）与（d）如图四所示，则下列结论成立的是（）.<img src='https://up.zaixiankaoshi.com/999999/ai_import/4dc816c7fb34a36727d78dde5b8cb852.jpg' alt=''>"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "(a)是强连通的"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "(b)是强连通的"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "(c)是强连通的"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "(d)是强连通的"
+        }
+      ]
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 72,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "设G是连通平面图，有v个结点，e条边，r个面，则r=（）。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "e—v + 2"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "v + e—2"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "e—v—2"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "e + v + 2"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 73,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "无向图G存在欧拉通路，当且仅当（）。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "G中所有结点的度数全为偶数"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "G中至多有两个奇数度结点"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "G连通且所有结点的度数全为偶数"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "G连通且至多有两个奇数度结点"
+        }
+      ]
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 74,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "在自然数集N上，下列哪种运算是可结合的？（）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "a*b=a-b"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "a*b=max{a,b}"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "a*b=a+2b"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "a*b=|a-b|"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 75,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "下面给出的集合中，哪一个不是前缀码（）."
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "{a, ab, 110, a1b11}"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "{01, 001, 000, 1}"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "{1, 2, 00, 01, 0210}"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "{12, 11, 101, 002, 0011}"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 76,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "具有6个顶点，12条边的连通简单平面图中，每个面都是由( )条边围成？"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "2"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "4"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "3"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "5"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 77,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "在有n个顶点的连通图中，其边数（ ）。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "最多有n-1条"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "至少有n-1条"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "最多有n条"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "至少有n条"
+        }
+      ]
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 78,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "一棵树有2个2度顶点，1个3度顶点，3个4度顶点，则其1度顶点为（ ）。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "5"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "7"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "8"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "9"
+        }
+      ]
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 79,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "若一棵完全二元（叉）树有2n-1个顶点，则它（ ）片树叶。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "n"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "2n"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "n-1"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "2"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 80,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "下面的运算表中，幺元是（ ）。<img src='https://up.zaixiankaoshi.com/999999/ai_import/9e01bf59c79f5a1d50e5b5769d974340.jpg' alt=''>"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "a"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "b"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "c"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "d"
+        }
+      ]
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 81,
+    "type": "single",
+    "question": [
+      {
+        "t": "text",
+        "c": "有无向图如下所示，则节点a到其他节点的最短路径长度是（ ）\n选项的括号内数字为路径长度。<img src='https://up.zaixiankaoshi.com/999999/ai_import/697a41c918da94af600ce437423acf24.jpg' alt=''>"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "a(0), b(4), c(2), d(9), e(12), f(15)"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "a(0), b(4), c(2), d(8), e(12), f(11)"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "a(0), b(3), c(2), d(8), e(12), f(10)"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "a(0), b(3), c(2), d(9), e(12), f(10)"
+        }
+      ]
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 82,
+    "type": "multi",
+    "question": [
+      {
+        "t": "text",
+        "c": "下列各组数种，能构成无向图的度数列的是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "1,1,1,2,3"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "2,2,2,2,2"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "3,3,3,3"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "1,2,3,4,5"
+        }
+      ]
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 83,
+    "type": "multi",
+    "question": [
+      {
+        "t": "text",
+        "c": "24条边，各顶点的度数是相同的，则图可能有（ ）个顶点。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "4"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "3"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "16"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "12"
+        }
+      ]
+    },
+    "answer": "ABD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 84,
+    "type": "multi",
+    "question": [
+      {
+        "t": "text",
+        "c": "在整数模6加群<Z6，⊕>中，以下关于k阶元的叙述正确的是（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "2和4是3阶元"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "3是2阶元"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "1和5是6阶元"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "0不是k阶元"
+        }
+      ]
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 85,
+    "type": "multi",
+    "question": [
+      {
+        "t": "text",
+        "c": "整数加群G=<Z, +>是循环群，七中生成元有：（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "1"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "-1"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "0"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "2"
+        }
+      ]
+    },
+    "answer": "AB",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 86,
+    "type": "multi",
+    "question": [
+      {
+        "t": "text",
+        "c": "整数的模6加群G=<Z6, ⊕>是循环群，其生成元有（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "1"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "2"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "3"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "5"
+        }
+      ]
+    },
+    "answer": "AD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 87,
+    "type": "multi",
+    "question": [
+      {
+        "t": "text",
+        "c": "设G=3Z={3z|z∈Z}，G上的运算是普通加法，则G的生成元有（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "1"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "2"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "3"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "-3"
+        }
+      ]
+    },
+    "answer": "CD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 88,
+    "type": "multi",
+    "question": [
+      {
+        "t": "text",
+        "c": "以下哪些是Klein四元群G={e, a, b, c}的生成子群（ ）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "={e}"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "={e, a}"
+        }
+      ],
+      "C": [
+        {
+          "t": "text",
+          "c": "={e, b}"
+        }
+      ],
+      "D": [
+        {
+          "t": "text",
+          "c": "={e, c}"
+        }
+      ]
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 89,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "已知图G有10条边，4个度数为3的顶点，其余顶点的度数均小于等于2，则G中至少有____个顶点"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "4"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 90,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "35条边，每个顶点的度数至少为3的图最多有____顶点。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "14"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 91,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "无向图G=<V, E>，V={a, b, c, d}，E={(a, b), (a, c), (a, d), (b, c)}，该图的补图有____条边。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "2"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 92,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "图如下所示，则从A点到F点的最短路径长度是____（请填入阿拉伯数字）。<img src='https://up.zaixiankaoshi.com/999999/ai_import/c155d9377943b01c199667e9963f25a7.jpg' alt=''>"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "2"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 93,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "已知图G中有1个1度结点，2个2度结点，3个3度结点，4个4度结点，则G的边数是____，（填写阿拉伯数字）。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "15"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 94,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "设A={2,4,6}，A上的二元运算*定义为：a*b=max{a,b}，则在独异点<A,*>中，单位元是____，零元是____。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "2"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "6"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 95,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "设A={3,6,9}，A上的二元运算*定义为：a*b=min{a,b}，则在独异点<A,*>中，单位元是____，零元是____。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "9"
+        }
+      ],
+      "B": [
+        {
+          "t": "text",
+          "c": "3"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 96,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "设无向图G有18条边且每个顶点的度数都是3，则图G有____个顶点。"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "12"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 97,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "设Z+={x|x∈Z∧x>0}，*表示求两个数的最小公倍数，则4*6=____"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "12"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 98,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "下图给出了某工程各工序之间的优先关系和各工序所需的时间，则节点V4的最早开始时间是：____（请填入阿拉伯数字）。<img src='https://up.zaixiankaoshi.com/999999/ai_import/3f79e46a3c4e4bc510a63ff95e10bf79.jpg' alt=''>"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "5"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 99,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "<Z3, ⊕>是整数模3加群，则2的3次幂为：____（填入阿拉伯数字）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "0"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 100,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "<Z，+>是整数上的加群，则-2的-3次幂为：______（填入阿拉伯数字）"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "6"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 101,
+    "type": "fill",
+    "question": [
+      {
+        "t": "text",
+        "c": "设G={a,b},<P(A),⊕>构成群，其中⊕为集合的对称差，则群方程X⊕{a,b}={b}的解为X={(______)}注：在圆括号中列出元素，若有多个元素，以半角逗号分隔"
+      }
+    ],
+    "options": {
+      "A": [
+        {
+          "t": "text",
+          "c": "a"
+        }
+      ]
+    },
+    "answer": "",
+    "difficulty": "中",
+    "explanation": ""
+  }
+]

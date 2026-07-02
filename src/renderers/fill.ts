@@ -1,6 +1,7 @@
 import type { Question, QuestionRenderer, RenderConfig } from '../types';
 import { CLIPBOARD, BRAIN } from '../icons';
 import { gradeFillAnswer } from '../ai';
+import { contentBlocksToText } from '../format';
 
 export class FillRenderer implements QuestionRenderer {
   readonly type = 'fill' as const;
@@ -75,7 +76,7 @@ export class FillRenderer implements QuestionRenderer {
       inputs.forEach(inp => {
         const key = inp.dataset.blank ?? '';
         const userAns = userAnswers[key] || '';
-        const correctAns = (q.options[key] as string | undefined || '').trim();
+        const correctAns = contentBlocksToText(q.options[key]).trim();
         const ok = userAns.toLowerCase() === correctAns.toLowerCase();
         inp.classList.add(ok ? 'correct' : 'wrong');
         if (!ok) allCorrect = false;
@@ -106,7 +107,7 @@ export class FillRenderer implements QuestionRenderer {
       inputs.forEach(inp => {
         const key = inp.dataset.blank ?? '';
         const userAns = userAnswers[key] || '';
-        const correctAns = (q.options[key] as string | undefined || '').trim();
+        const correctAns = contentBlocksToText(q.options[key]).trim();
         const ok = userAns.toLowerCase() === correctAns.toLowerCase();
         inp.classList.add(ok ? 'correct' : 'wrong');
         if (!ok) allCorrect = false;
@@ -145,7 +146,7 @@ export class FillRenderer implements QuestionRenderer {
     const inputs = document.querySelectorAll<HTMLInputElement>('#fillContainer input[data-blank]');
     inputs.forEach(inp => {
       inp.disabled = true;
-      inp.value = (q.options[inp.dataset.blank ?? ''] as string | undefined) || '';
+      inp.value = contentBlocksToText(q.options[inp.dataset.blank ?? '']);
       inp.classList.add('correct');
     });
   }

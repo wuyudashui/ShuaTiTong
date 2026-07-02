@@ -16,6 +16,8 @@ import { renderThumbnails, handleThumbnailClick, setThumbnailJumpHandler } from 
 import { showExamSetup, showExamResults, renderExamTypeTabs, onExamTypeTabClick, getCurrentSectionInfo } from './ui/examMode';
 import { showEditModal, exportQuestions } from './ui/editor';
 import { showAdaptModal } from './ui/adapt';
+import { parseFile, showParseConfirm } from './parsers/index';
+import { showDevLogin, isAtLeast } from './ui/login';
 import { CHECK, X, EYE, CLIPBOARD, BOOK_OPEN, REFRESH, EDIT, DOWNLOAD, CODE } from './icons';
 
 // ─── DOM refs ───
@@ -556,15 +558,45 @@ function setActiveFilterType(type: string): void {
   );
 }
 
-fileInput.addEventListener('change', e => {
+async function handleFileUpload(file: File): Promise<void> {
+  const ext = file.name.split('.').pop()?.toLowerCase() || '';
+  try {
+    const buffer = await file.arrayBuffer();
+    if (ext === 'xlsx' || ext === 'xls') {
+      document.getElementById('uploadArea')?.classList.add('dragover');
+      const qs = await parseFile(buffer, file.name);
+      if (qs && qs.length > 0) loadJSON(qs, file.name.replace(/\.[^.]+$/, ''));
+      return;
+    }
+    if (ext === 'docx') {
+      const action = await showParseConfirm(file);
+      if (action !== 'parse') return;
+      document.getElementById('uploadArea')?.classList.add('dragover');
+      const qs = await parseFile(buffer, file.name);
+      if (qs && qs.length > 0) loadJSON(qs, file.name.replace(/\.[^.]+$/, ''));
+      return;
+    }
+  } catch (err) {
+    alert('解析失败: ' + (err as Error).message);
+  } finally {
+    document.getElementById('uploadArea')?.classList.remove('dragover');
+  }
+}
+
+fileInput.addEventListener('change', async e => {
   const file = (e.target as HTMLInputElement).files?.[0];
   if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    try { loadJSON(JSON.parse(ev.target?.result as string), file.name); }
-    catch (err) { alert('JSON 解析失败: ' + (err as Error).message); }
-  };
-  reader.readAsText(file, 'UTF-8');
+  const ext = file.name.split('.').pop()?.toLowerCase() || '';
+  if (ext === 'json') {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try { loadJSON(JSON.parse(ev.target?.result as string), file.name); }
+      catch (err) { alert('JSON 解析失败: ' + (err as Error).message); }
+    };
+    reader.readAsText(file, 'UTF-8');
+  } else {
+    handleFileUpload(file);
+  }
   fileInput.value = '';
 });
 
@@ -583,12 +615,17 @@ uploadArea.addEventListener('drop', e => {
   uploadArea.classList.remove('dragover');
   const file = e.dataTransfer?.files[0];
   if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    try { loadJSON(JSON.parse(ev.target?.result as string), file.name); }
-    catch (err) { alert('JSON 解析失败: ' + (err as Error).message); }
-  };
-  reader.readAsText(file, 'UTF-8');
+  const ext = file.name.split('.').pop()?.toLowerCase() || '';
+  if (ext === 'json') {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try { loadJSON(JSON.parse(ev.target?.result as string), file.name); }
+      catch (err) { alert('JSON 解析失败: ' + (err as Error).message); }
+    };
+    reader.readAsText(file, 'UTF-8');
+  } else {
+    handleFileUpload(file);
+  }
 });
 
 // ─── Recent files ───
@@ -891,30 +928,52 @@ function init(): void {
   adaptBtn.style.cssText = 'background:#6366f1;color:#fff;border-color:transparent;display:none';
   adaptBtn.innerHTML = `<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.34-.64 2.61-1.74 3.39A4 4 0 0 1 16 13a4 4 0 0 1-2 3.46"/><path d="M12 2a4 4 0 0 0-4 4c0 1.34.64 2.61 1.74 3.39A4 4 0 0 0 8 13a4 4 0 0 0 2 3.46"/><path d="M12 22v-6"/><path d="M8 17c-2 0-4-1-4-4 0-1.5 1-2.5 2-3"/><path d="M16 17c2 0 4-1 4-4 0-1.5-1-2.5-2-3"/></svg></span>改编</button>`;
 
+  const aiDebugBtn = document.createElement('button');
+  aiDebugBtn.className = 'btn-sm btn-outline';
+  aiDebugBtn.id = 'aiDebugBtn';
+  aiDebugBtn.title = 'AI 调试';
+  aiDebugBtn.innerHTML = '<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>AI</span>';
+  aiDebugBtn.style.display = 'none';
+  aiDebugBtn.addEventListener('click', () => import('./ui/aidebug').then(m => m.showAIDebug()));
+
+  const syncBtn = document.createElement('button');
+  syncBtn.className = 'btn-sm btn-outline';
+  syncBtn.id = 'syncBtn';
+  syncBtn.title = '数据同步';
+  syncBtn.innerHTML = '<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></span>同步';
+  syncBtn.style.display = 'none';
+  syncBtn.addEventListener('click', () => import('./ui/sync').then(m => m.showSyncModal()));
   const headerActions = document.querySelector('.header-actions');
   if (headerActions) {
     headerActions.appendChild(devModeBtn);
     headerActions.appendChild(adaptBtn);
+    headerActions.appendChild(aiDebugBtn);
+    headerActions.appendChild(syncBtn);
     headerActions.appendChild(exportBtn);
   }
 
   adaptBtn.addEventListener('click', showAdaptModal);
 
   function updateDevModeUI(): void {
-    const isDev = !!store.aiSettings.devMode;
-    devModeBtn.classList.toggle('active', isDev);
-    adaptBtn.style.display = isDev ? '' : 'none';
-    exportBtn.style.display = isDev ? '' : 'none';
+    const tier = store.aiSettings.userTier || 'guest';
+    const isOn = !!store.aiSettings.devMode;
+    const isRoot = tier === 'root';
+    devModeBtn.classList.toggle('active', isOn);
+    adaptBtn.style.display = isOn ? '' : 'none';
+    aiDebugBtn.style.display = isOn ? '' : 'none';
+    exportBtn.style.display = isOn ? '' : 'none';
+    // Sync only for root
+    const sb = document.getElementById('syncBtn'); if (sb) sb.style.display = (isRoot && isOn) ? '' : 'none';
     // Add/remove adapted filter chip
     const existing = filterBar.querySelector('.filter-chip[data-type="adapted"]');
-    if (isDev && !existing) {
+    if (isOn && !existing) {
       const chip = document.createElement('button');
       chip.className = 'filter-chip';
       chip.dataset.type = 'adapted';
       chip.innerHTML = `<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>改编`;
       filterBar.appendChild(chip);
       chip.addEventListener('click', () => handleFilterClick(chip.dataset.type!));
-    } else if (!isDev && existing) {
+    } else if (!isOn && existing) {
       existing.remove();
       if (store.state.filterType === 'adapted') {
         store.update({ filterType: 'all', currentIndex: 0 });
@@ -922,19 +981,21 @@ function init(): void {
     }
     renderQuestion();
   }
+  function showDevLoginModal(): void {
+    if (store.aiSettings.devMode) {
+      store.updateAISettings({ devMode: false });
+      updateDevModeUI();
+    } else {
+      showDevLogin(() => updateDevModeUI());
+    }
+  }
 
-  devModeBtn.addEventListener('click', () => {
-    store.updateAISettings({ devMode: !store.aiSettings.devMode });
-    updateDevModeUI();
-  });
+  devModeBtn.addEventListener('click', showDevLoginModal);
+  exportBtn.addEventListener('click', exportQuestions);
   exportBtn.addEventListener('click', exportQuestions);
 
   // Apply initial dev mode state
-  if (store.aiSettings.devMode) {
-    devModeBtn.classList.add('active');
-    adaptBtn.style.display = '';
-    exportBtn.style.display = '';
-  }
+  updateDevModeUI();
 
   // Click explanation to expand/collapse long content
   explanation.addEventListener('click', (e) => {

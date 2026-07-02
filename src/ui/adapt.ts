@@ -70,7 +70,7 @@ async function callAI(
   prompt: string,
   systemPrompt: string,
 ): Promise<string | null> {
-  const { apiKey, apiBaseUrl, apiModel } = store.aiSettings;
+  const { apiKey, apiBaseUrl, apiModel } = store.getApiConfig(store.aiSettings.modelForAdapt || 'remote');
   const baseUrl = apiBaseUrl.replace(/\/+$/, '');
   try {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
