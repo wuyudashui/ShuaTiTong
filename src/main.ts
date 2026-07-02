@@ -902,9 +902,24 @@ function renderExamHistory(): void {
   });
 }
 
+// ─── Global error handler for mobile debugging ───
+window.addEventListener('unhandledrejection', (e) => {
+  document.body.innerHTML = `<div style="padding:20px;color:red;font-size:14px">
+    <h2>JS Error</h2>
+    <pre>${e.reason?.stack || e.reason}</pre>
+  </div>`;
+});
+window.addEventListener('error', (e) => {
+  document.body.innerHTML = `<div style="padding:20px;color:red;font-size:14px">
+    <h2>JS Error</h2>
+    <pre>${e.error?.stack || e.message || e}</pre>
+  </div>`;
+});
+
 // ─── Init ───
 function init(): void {
-  initTheme(themeBtn);
+  try {
+    initTheme(themeBtn);
   initSettings();
   renderRecentFiles();
 
@@ -1060,6 +1075,12 @@ function init(): void {
     applyTheme();
     updateStats();
   }
-}
+  } catch (e) {
+      document.body.innerHTML = `<div style="padding:20px;color:red;font-size:14px;font-family:monospace">
+        <h2>Init Error</h2>
+        <pre>${(e as Error).stack || (e as Error).message || e}</pre>
+      </div>`;
+    }
+  }
 
-init();
+  init();
