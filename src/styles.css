@@ -967,7 +967,7 @@ h1 .svg-icon, h2 .svg-icon, h3 .svg-icon {
 
 /* ── Responsive ── */
 @media (max-width: 480px) {
-  .container { padding: 12px 10px; }
+  .container { padding: 12px 10px 130px; }
   .q-card { padding: 14px; }
   .q-text { font-size: .95rem; line-height: 1.6; }
   .q-header { margin-bottom: 12px; padding-bottom: 10px; }
