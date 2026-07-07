@@ -150,11 +150,11 @@ export function renderText(str: ContentBlock[] | string): string {
 
   // 5. KaTeX inline formulas $...$
   // Only match $ that are not adjacent to digits (avoid $100)
-  h = h.replace(/(?<=^|[^$\d])\$([^$\n]+?)\$(?=[^$\d]|$)/g, (_, formula) => {
+  h = h.replace(/(^|[^$\d])\$([^$\n]+?)\$(?=[^$\d]|$)/g, (_, before, formula) => {
     try {
-      return katex.renderToString(formula.trim(), { displayMode: false, throwOnError: false });
+      return before + katex.renderToString(formula.trim(), { displayMode: false, throwOnError: false });
     } catch {
-      return `<span class="katex-error">$${formula}$</span>`;
+      return before + `<span class="katex-error">$${formula}$</span>`;
     }
   });
 

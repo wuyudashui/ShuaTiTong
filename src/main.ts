@@ -1105,7 +1105,6 @@ function init(): void {
 
   devModeBtn.addEventListener('click', showDevLoginModal);
   exportBtn.addEventListener('click', exportQuestions);
-  exportBtn.addEventListener('click', exportQuestions);
 
   // Apply initial dev mode state
   updateDevModeUI();
