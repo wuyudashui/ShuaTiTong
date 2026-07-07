@@ -1,6 +1,7 @@
 import type { Question, ContentBlock } from '../types';
 import { store } from '../state';
 import { renderText } from '../format';
+import { getFiltered } from '../filter';
 
 // ─── Image upload helpers ───
 
@@ -264,12 +265,25 @@ export function showInsertModal(): void {
     return;
   }
 
+  // Calculate global and relative position
+  const filtered = getFiltered(questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
+  const currentQ = filtered[store.state.currentIndex];
+  const globalIdx = currentQ ? questions.indexOf(currentQ) : -1;
+  const defaultPos = globalIdx >= 0 ? globalIdx + 1 : questions.length;
+  const typeLabel = store.state.filterType !== 'all' ? ({ single: '单选', multi: '多选', judge: '判断', fill: '填空' } as any)[store.state.filterType] || store.state.filterType : '';
+
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
   overlay.id = 'insertModal';
   overlay.innerHTML = `
     <div class="modal edit-modal">
       <h2>✏️ 插入新题目</h2>
+
+      <label style="margin-top:0">插入位置</label>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <input type="number" id="insPosition" class="edit-input" value="${defaultPos}" min="0" max="${questions.length}" style="width:80px">
+        <span style="font-size:.82rem;color:var(--text-secondary)">/ 共 ${questions.length} 题（全局第 ${defaultPos} 位${typeLabel ? `，当前${typeLabel}第 ${store.state.currentIndex + 1} 题` : ''}）</span>
+      </div>
 
       <label style="margin-top:0">题型</label>
       <select id="insType" class="edit-input">
@@ -509,13 +523,443 @@ export function showInsertModal(): void {
       explanation: '',
     };
 
-    const insertAt = store.state.currentIndex + 1;
+    const posInput = overlay.querySelector('#insPosition') as HTMLInputElement;
+    const insertAt = Math.min(Math.max(0, parseInt(posInput.value) || (store.state.currentIndex + 1)), questions.length);
     questions.splice(insertAt, 0, newQ);
-    store.update({ currentIndex: insertAt });
+    store.save();
+    // Jump to the new question in the current filtered view
+    const filtered = getFiltered(questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
+    const newIdx = filtered.findIndex(q => q.id === newQ.id);
+    store.update({ currentIndex: newIdx >= 0 ? newIdx : 0 });
     store.save();
     close();
     // Trigger re-render
     window.dispatchEvent(new CustomEvent('question-inserted'));
+  });
+}
+
+// ─── Full ContentBlock editor for root users ───
+
+export function showFullEditModal(q: Question, index: number, onSaved: () => void): void {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'fullEditModal';
+
+  const blocks: ContentBlock[] = Array.isArray(q.question) ? [...q.question] : [{ t: 'text', c: q.question }];
+
+  function renderBlocksHTML(): string {
+    return blocks.map((b, i) => {
+      const typeOptions = ['text', 'f', 'code', 'image'].map(t =>
+        `<option value="${t}" ${b.t === t ? 'selected' : ''}>${({ text: '文本', f: '公式', code: '代码', image: '图片' })[t] || t}</option>`
+      ).join('');
+
+      let contentEditor = '';
+      if (b.t === 'image') {
+        contentEditor = `
+          <div class="full-edit-image">
+            <img src="${escapeHtml(b.c)}" style="max-width:120px;max-height:80px;border-radius:4px;object-fit:cover">
+            <div style="display:flex;gap:4px;margin-top:4px">
+              <input type="file" accept="image/*" class="full-edit-img-upload" data-idx="${i}" style="font-size:.78rem;flex:1">
+              <input type="text" class="full-edit-img-alt" data-idx="${i}" value="${escapeHtml(b.alt || '')}" placeholder="alt文本" style="width:80px;font-size:.78rem;padding:2px 4px;border:1px solid var(--border);border-radius:4px;background:var(--card-bg);color:var(--text)">
+            </div>
+          </div>`;
+      } else if (b.t === 'f') {
+        contentEditor = `
+          <textarea class="full-edit-content" data-idx="${i}" rows="2" style="font-family:monospace">${escapeHtml(b.c)}</textarea>
+          <label style="font-size:.78rem;display:flex;align-items:center;gap:4px;margin:4px 0 0">
+            <input type="checkbox" class="full-edit-displaymode" data-idx="${i}" ${(b as any).d ? 'checked' : ''}> 显示模式 (displayMode)
+          </label>`;
+      } else {
+        contentEditor = `<textarea class="full-edit-content" data-idx="${i}" rows="${b.t === 'code' ? 4 : 2}" style="${b.t === 'code' ? 'font-family:monospace' : ''}">${escapeHtml(b.c)}</textarea>`;
+      }
+
+      return `<div class="full-edit-block" data-idx="${i}">
+        <div class="full-edit-block-header">
+          <select class="full-edit-type" data-idx="${i}">${typeOptions}</select>
+          <div class="full-edit-actions">
+            <button class="full-edit-insert" data-idx="${i}" title="在此后插入">＋</button>
+            <button class="full-edit-moveup" data-idx="${i}" title="上移" ${i === 0 ? 'disabled' : ''}>↑</button>
+            <button class="full-edit-movedown" data-idx="${i}" title="下移" ${i === blocks.length - 1 ? 'disabled' : ''}>↓</button>
+            <button class="full-edit-del" data-idx="${i}" title="删除">✕</button>
+          </div>
+        </div>
+        <div class="full-edit-content-area">${contentEditor}</div>
+      </div>`;
+    }).join('');
+  }
+
+  let addBlockHandler: (() => void) | null = null;
+
+  function updateUI(): void {
+    const itemsContainer = overlay.querySelector('#fullEditBlockItems');
+    if (itemsContainer) {
+      itemsContainer.innerHTML = renderBlocksHTML();
+    }
+    const countEl = overlay.querySelector('.full-edit-block-count');
+    if (countEl) countEl.textContent = `内容块 (${blocks.length}个)`;
+    bindBlockEvents();
+    // Re-bind add block button via delegation to avoid stale references
+    const addBtn = overlay.querySelector('#fullEditAddBlock');
+    if (addBtn && addBlockHandler) {
+      const newBtn = addBtn.cloneNode(true) as HTMLElement;
+      newBtn.id = 'fullEditAddBlock';
+      addBtn.parentNode?.replaceChild(newBtn, addBtn);
+      newBtn.addEventListener('click', addBlockHandler);
+    }
+  }
+
+  function showAddBlockPicker(): void {
+    const picker = document.createElement('div');
+    picker.style.cssText = 'position:absolute;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:4px;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:100';
+
+    const types = [
+      { t: 'text', label: '文本' },
+      { t: 'f', label: '公式' },
+      { t: 'code', label: '代码' },
+      { t: 'image', label: '图片' },
+    ];
+
+    types.forEach(({ t, label }) => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-sm btn-outline';
+      btn.textContent = label;
+      btn.style.cssText = 'display:block;width:100%;margin:2px 0;text-align:left';
+      btn.addEventListener('click', () => {
+        if (t === 'image') {
+          const fileInput = document.createElement('input');
+          fileInput.type = 'file';
+          fileInput.accept = 'image/*';
+          fileInput.onchange = async () => {
+            const file = fileInput.files?.[0];
+            if (!file) return;
+            try {
+              const dataUrl = await readFileAsDataURL(file);
+              blocks.push({ t: 'image', c: dataUrl, alt: file.name });
+              updateUI();
+            } catch { alert('图片读取失败'); }
+          };
+          fileInput.click();
+        } else if (t === 'f') {
+          blocks.push({ t: 'f', c: '', d: false });
+          updateUI();
+        } else if (t === 'code') {
+          blocks.push({ t: 'code', c: '' });
+          updateUI();
+        } else {
+          blocks.push({ t: 'text', c: '' });
+          updateUI();
+        }
+        picker.remove();
+      });
+      picker.appendChild(btn);
+    });
+
+    const addBtn = overlay.querySelector('#fullEditAddBlock')!;
+    const rect = addBtn.getBoundingClientRect();
+    picker.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+    picker.style.left = (rect.left + window.scrollX) + 'px';
+
+    const closePicker = (e: MouseEvent) => {
+      if (!picker.contains(e.target as Node) && e.target !== addBtn) {
+        picker.remove();
+        document.removeEventListener('click', closePicker);
+      }
+    };
+    setTimeout(() => document.addEventListener('click', closePicker), 0);
+
+    document.body.appendChild(picker);
+  }
+
+  function showInsertBlockPicker(pos: number): void {
+    const picker = document.createElement('div');
+    picker.style.cssText = 'position:absolute;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:4px;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:100';
+
+    const types = [
+      { t: 'text', label: '文本' },
+      { t: 'f', label: '公式' },
+      { t: 'code', label: '代码' },
+      { t: 'image', label: '图片' },
+    ];
+
+    types.forEach(({ t, label }) => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-sm btn-outline';
+      btn.textContent = label;
+      btn.style.cssText = 'display:block;width:100%;margin:2px 0;text-align:left';
+      btn.addEventListener('click', () => {
+        if (t === 'image') {
+          const fileInput = document.createElement('input');
+          fileInput.type = 'file';
+          fileInput.accept = 'image/*';
+          fileInput.onchange = async () => {
+            const file = fileInput.files?.[0];
+            if (!file) return;
+            try {
+              const dataUrl = await readFileAsDataURL(file);
+              blocks.splice(pos, 0, { t: 'image', c: dataUrl, alt: file.name });
+              updateUI();
+            } catch { alert('图片读取失败'); }
+          };
+          fileInput.click();
+        } else if (t === 'f') {
+          blocks.splice(pos, 0, { t: 'f', c: '', d: false });
+          updateUI();
+        } else if (t === 'code') {
+          blocks.splice(pos, 0, { t: 'code', c: '' });
+          updateUI();
+        } else {
+          blocks.splice(pos, 0, { t: 'text', c: '' });
+          updateUI();
+        }
+        picker.remove();
+      });
+      picker.appendChild(btn);
+    });
+
+    // Position the picker near the clicked block
+    const blockEl = overlay.querySelector(`.full-edit-block[data-idx="${pos > 0 ? pos - 1 : 0}"]`);
+    if (blockEl) {
+      const rect = blockEl.getBoundingClientRect();
+      picker.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+      picker.style.left = (rect.left + window.scrollX) + 'px';
+    } else {
+      picker.style.top = '50%';
+      picker.style.left = '50%';
+    }
+
+    const closePicker = (e: MouseEvent) => {
+      if (!picker.contains(e.target as Node)) {
+        picker.remove();
+        document.removeEventListener('click', closePicker);
+      }
+    };
+    setTimeout(() => document.addEventListener('click', closePicker), 0);
+
+    document.body.appendChild(picker);
+  }
+
+  function bindBlockEvents(): void {
+    // Type change
+    overlay.querySelectorAll('.full-edit-type').forEach(sel => {
+      sel.addEventListener('change', () => {
+        const idx = parseInt((sel as HTMLElement).dataset.idx!);
+        const newType = (sel as HTMLSelectElement).value;
+        const oldBlock = blocks[idx];
+        // Convert block preserving content if possible
+        if (newType === 'image') {
+          blocks[idx] = { t: 'image', c: oldBlock.c || '', alt: '' };
+        } else if (newType === 'f') {
+          blocks[idx] = { t: 'f', c: oldBlock.c || '', d: false };
+        } else if (newType === 'code') {
+          blocks[idx] = { t: 'code', c: oldBlock.c || '' };
+        } else {
+          blocks[idx] = { t: 'text', c: oldBlock.c || '' };
+        }
+        updateUI();
+      });
+    });
+
+    // Content change
+    overlay.querySelectorAll('.full-edit-content').forEach(ta => {
+      ta.addEventListener('input', () => {
+        const idx = parseInt((ta as HTMLElement).dataset.idx!);
+        blocks[idx].c = (ta as HTMLTextAreaElement).value;
+      });
+    });
+
+    // Display mode checkbox (formula)
+    overlay.querySelectorAll('.full-edit-displaymode').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const idx = parseInt((cb as HTMLElement).dataset.idx!);
+        if (blocks[idx].t === 'f') {
+          (blocks[idx] as any).d = (cb as HTMLInputElement).checked;
+        }
+      });
+    });
+
+    // Image upload
+    overlay.querySelectorAll('.full-edit-img-upload').forEach(input => {
+      input.addEventListener('change', async () => {
+        const idx = parseInt((input as HTMLElement).dataset.idx!);
+        const file = (input as HTMLInputElement).files?.[0];
+        if (!file) return;
+        try {
+          const dataUrl = await readFileAsDataURL(file);
+          const oldAlt = blocks[idx].t === 'image' ? (blocks[idx] as any).alt : '';
+          blocks[idx] = { t: 'image', c: dataUrl, alt: oldAlt || file.name };
+          updateUI();
+        } catch { alert('图片读取失败'); }
+      });
+    });
+
+    // Alt text change
+    overlay.querySelectorAll('.full-edit-img-alt').forEach(input => {
+      input.addEventListener('input', () => {
+        const idx = parseInt((input as HTMLElement).dataset.idx!);
+        if (blocks[idx].t === 'image') {
+          (blocks[idx] as any).alt = (input as HTMLInputElement).value;
+        }
+      });
+    });
+
+    // Move up
+    overlay.querySelectorAll('.full-edit-moveup').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt((btn as HTMLElement).dataset.idx!);
+        if (idx > 0) {
+          [blocks[idx - 1], blocks[idx]] = [blocks[idx], blocks[idx - 1]];
+          updateUI();
+        }
+      });
+    });
+
+    // Move down
+    overlay.querySelectorAll('.full-edit-movedown').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt((btn as HTMLElement).dataset.idx!);
+        if (idx < blocks.length - 1) {
+          [blocks[idx], blocks[idx + 1]] = [blocks[idx + 1], blocks[idx]];
+          updateUI();
+        }
+      });
+    });
+
+    // Delete
+    overlay.querySelectorAll('.full-edit-del').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt((btn as HTMLElement).dataset.idx!);
+        if (blocks.length <= 1) { alert('至少保留一个内容块'); return; }
+        blocks.splice(idx, 1);
+        updateUI();
+      });
+    });
+
+    // Insert after
+    overlay.querySelectorAll('.full-edit-insert').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idx = parseInt((btn as HTMLElement).dataset.idx!);
+        showInsertBlockPicker(idx + 1);
+      });
+    });
+  }
+
+  const isFill = q.type === 'fill';
+
+  overlay.innerHTML = `
+    <div class="modal" style="max-width:700px">
+      <h2><span class="svg-icon">✏️</span>编辑题目 #${q.id}</h2>
+
+      <div id="fullEditBlockContainer">
+        <div class="full-edit-block-count" style="font-size:.82rem;color:var(--text-secondary);margin-bottom:8px;font-weight:600">内容块 (${blocks.length}个)</div>
+        <div id="fullEditBlockItems">${renderBlocksHTML()}</div>
+        <button id="fullEditAddBlock" class="btn-sm btn-outline" style="margin:8px 0 12px">＋ 添加内容块</button>
+      </div>
+
+      ${isFill ? '' : `
+      <label>选项</label>
+      <div class="edit-options">
+        ${Object.entries(q.options || {}).map(([k, v]) => {
+          const optText = Array.isArray(v) ? v.map(b => b.c).join('') : v;
+          return `<div class="edit-opt-row">
+            <span class="edit-opt-key">${k}</span>
+            <textarea class="edit-input edit-opt" data-key="${k}" rows="2">${escapeHtml(optText)}</textarea>
+            <button class="edit-opt-del" data-key="${k}" title="删除此选项">✕</button>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="edit-add-opt">
+        <input type="text" id="fullEditNewOptKey" class="edit-input" placeholder="新选项字母" maxlength="1" style="width:50px">
+        <textarea id="fullEditNewOptVal" class="edit-input" placeholder="选项内容" rows="1" style="flex:1"></textarea>
+        <button id="fullEditAddOptBtn" class="btn-sm btn-outline">+ 添加选项</button>
+      </div>
+      `}
+
+      <label>正确答案</label>
+      <input type="text" id="fullEditAnswer" class="edit-input" value="${escapeHtml(q.answer)}" ${isFill ? 'placeholder="填空可留空"' : ''}>
+
+      <label>难度</label>
+      <select id="fullEditDifficulty" class="edit-input">
+        <option value="易" ${q.difficulty === '易' ? 'selected' : ''}>易</option>
+        <option value="中" ${q.difficulty === '中' || !q.difficulty ? 'selected' : ''}>中</option>
+        <option value="难" ${q.difficulty === '难' ? 'selected' : ''}>难</option>
+      </select>
+
+      <div class="modal-actions">
+        <button id="fullEditCancelBtn" class="btn-outline">取消</button>
+        <button id="fullEditSaveBtn" class="btn-primary">✏️ 保存修改</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  // ─── Bind events ───
+
+  const close = () => overlay.remove();
+  overlay.querySelector('#fullEditCancelBtn')?.addEventListener('click', close);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+
+  bindBlockEvents();
+
+  // Add block handler (reference stored for re-binding in updateUI)
+  addBlockHandler = showAddBlockPicker;
+  overlay.querySelector('#fullEditAddBlock')?.addEventListener('click', addBlockHandler);
+
+  // Add option
+  overlay.querySelector('#fullEditAddOptBtn')?.addEventListener('click', () => {
+    const keyInput = overlay.querySelector('#fullEditNewOptKey') as HTMLInputElement;
+    const valInput = overlay.querySelector('#fullEditNewOptVal') as HTMLTextAreaElement;
+    const key = keyInput.value.trim().toUpperCase();
+    if (!key || !/^[A-H]$/.test(key)) { alert('选项字母需为 A-H'); return; }
+    if (q.options[key]) { alert(`选项 ${key} 已存在`); return; }
+    const optDiv = overlay.querySelector('.edit-options');
+    const row = document.createElement('div');
+    row.className = 'edit-opt-row';
+    row.innerHTML = `
+      <span class="edit-opt-key">${key}</span>
+      <textarea class="edit-input edit-opt" data-key="${key}" rows="2">${escapeHtml(valInput.value)}</textarea>
+      <button class="edit-opt-del" data-key="${key}" title="删除此选项">✕</button>
+    `;
+    optDiv?.appendChild(row);
+    row.querySelector('.edit-opt-del')?.addEventListener('click', () => row.remove());
+    keyInput.value = '';
+    valInput.value = '';
+  });
+
+  // Delete option buttons
+  overlay.querySelectorAll('.edit-opt-del').forEach(btn => {
+    btn.addEventListener('click', () => {
+      (btn as HTMLElement).closest('.edit-opt-row')?.remove();
+    });
+  });
+
+  // Save
+  overlay.querySelector('#fullEditSaveBtn')?.addEventListener('click', () => {
+    // Collect options
+    const newOptions: Record<string, ContentBlock[] | string> = {};
+    overlay.querySelectorAll('.edit-opt').forEach(el => {
+      const ta = el as HTMLTextAreaElement;
+      const key = ta.dataset.key!;
+      const val = ta.value;
+      if (val.trim()) {
+        newOptions[key] = [{ t: 'text', c: val }];
+      }
+    });
+
+    // Answer & difficulty
+    const answer = (overlay.querySelector('#fullEditAnswer') as HTMLInputElement).value.trim();
+    const difficulty = (overlay.querySelector('#fullEditDifficulty') as HTMLSelectElement).value as any;
+
+    // Apply changes
+    q.question = blocks;
+    if (Object.keys(newOptions).length > 0) q.options = newOptions;
+    q.answer = answer;
+    q.difficulty = difficulty;
+
+    store.save();
+    close();
+    onSaved();
   });
 }
 

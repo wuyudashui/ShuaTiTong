@@ -21,6 +21,9 @@ export function initSettings(): void {
   const modelForAdaptSelect = document.getElementById('modelForAdapt') as HTMLSelectElement;
   const modelForParseSelect = document.getElementById('modelForParse') as HTMLSelectElement;
 
+  // Preferences
+  const autoNextCheck = document.getElementById('autoNextCheck') as HTMLInputElement;
+
   if (!modal || !openBtn || !cancelBtn || !saveBtn) return;
 
   function open(): void {
@@ -49,6 +52,9 @@ export function initSettings(): void {
     modelForAdaptSelect.value = s.modelForAdapt || 'remote';
     modelForParseSelect.value = s.modelForParse || 'remote';
 
+    // Preferences
+    if (autoNextCheck) autoNextCheck.checked = s.autoNext ?? false;
+
     modal.classList.remove('hidden');
   }
 
@@ -76,6 +82,8 @@ export function initSettings(): void {
       modelForAI: modelForAISelect.value as any || 'remote',
       modelForAdapt: modelForAdaptSelect.value as any || 'remote',
       modelForParse: modelForParseSelect.value as any || 'remote',
+      // Preferences
+      autoNext: autoNextCheck ? autoNextCheck.checked : false,
     });
     close();
   });

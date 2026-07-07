@@ -269,8 +269,12 @@ export function showAdaptModal(): void {
     });
   });
 
-  overlay.querySelector('.adapt-scope-btn')?.addEventListener('click', () => {
-    // For now just use filtered
+  overlay.querySelectorAll('.adapt-scope-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      overlay.querySelectorAll('.adapt-scope-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentScope = (btn as HTMLElement).dataset.scope as string;
+    });
   });
 
   const close = () => overlay.remove();

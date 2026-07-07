@@ -14,7 +14,7 @@ import { initSettings } from './ui/settings';
 import { renderErrorBook, bindErrorBookClicks } from './ui/errorBook';
 import { renderThumbnails, handleThumbnailClick, setThumbnailJumpHandler } from './ui/questionGrid';
 import { showExamSetup, showExamResults, renderExamTypeTabs, onExamTypeTabClick, getCurrentSectionInfo } from './ui/examMode';
-import { showEditModal, exportQuestions } from './ui/editor';
+import { showEditModal, showFullEditModal, showInsertModal, exportQuestions } from './ui/editor';
 import { showAdaptModal } from './ui/adapt';
 import { parseFile, showParseConfirm } from './parsers/index';
 import { showDevLogin, isAtLeast } from './ui/login';
@@ -67,7 +67,7 @@ function getCurrentQuestion(): Question | null {
   if (store.state.filterType === 'adapted') {
     return store.adapted.questions[store.state.currentIndex] ?? null;
   }
-  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
+  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
   return filtered[store.state.currentIndex] ?? null;
 }
 
@@ -137,7 +137,7 @@ const renderConfig: RenderConfig = {
       updateThumbnails();
     } else {
       // ── Practice mode: immediate feedback ──
-      const q = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter)[store.state.currentIndex];
+      const q = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery)[store.state.currentIndex];
       if (!q) return;
 
       if (result.isCorrect) {
@@ -167,6 +167,11 @@ const renderConfig: RenderConfig = {
       redoBtn.classList.remove('hidden');
       updateStats();
       store.save();
+
+      // Auto-advance on correct answer
+      if (result.isCorrect && store.aiSettings.autoNext) {
+        setTimeout(() => nextBtn.click(), 200);
+      }
     }
   },
 };
@@ -205,10 +210,10 @@ function renderQuestion(): void {
     const overallText = `总 ${idx + 1}/${total}`;
     if (secInfo) {
       progressDisp.textContent = `${secInfo.label} ${secInfo.idx}/${secInfo.total} · ${overallText}`;
-      qNumber.textContent = `[${secInfo.label}] 第 ${secInfo.idx} 题（共 ${secInfo.total} 题）· 模拟考`;
+      qNumber.textContent = `[${secInfo.label}] 第 ${secInfo.idx} 题（共 ${secInfo.total} 题）· 模拟考 #${q.id}`;
     } else {
       progressDisp.textContent = `${idx + 1}/${total}`;
-      qNumber.textContent = `第 ${idx + 1} 题 / 共 ${total} 题（模拟考）`;
+      qNumber.textContent = `第 ${idx + 1} 题 / 共 ${total} 题（模拟考 #${q.id}）`;
     }
     qTags.innerHTML = `
       <span class="q-tag">${TYPE_LABELS[q.type as keyof typeof TYPE_LABELS] || q.type}</span>
@@ -289,7 +294,7 @@ function renderQuestion(): void {
       updateThumbnails();
       return;
     }
-    let idx = store.state.currentIndex;
+let idx = store.state.currentIndex;
     if (idx < 0) idx = 0;
     if (idx >= adaptedQs.length) idx = adaptedQs.length - 1;
     if (idx !== store.state.currentIndex) store.update({ currentIndex: idx });
@@ -297,7 +302,7 @@ function renderQuestion(): void {
     const q = adaptedQs[idx];
     const total = adaptedQs.length;
     progressDisp.textContent = `${idx + 1}/${total}`;
-    qNumber.textContent = `第 ${idx + 1} 题 / 共 ${total} 题（改编题）`;
+    qNumber.textContent = `第 ${idx + 1} 题 / 共 ${total} 题（改编题${q.id ? ' #'+q.id : ''}）`;
 
     qTags.innerHTML = `
       <span class="q-tag">${TYPE_LABELS[q.type as keyof typeof TYPE_LABELS] || q.type}</span>
@@ -318,7 +323,7 @@ function renderQuestion(): void {
 
   // ─── Normal mode ───
   const { questions, currentIndex, answeredMap, filterType } = store.state;
-  const filtered = getFiltered(questions, filterType, store.state.errorBook, store.state.examErrorFilter);
+  const filtered = getFiltered(questions, filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
 
   if (!questions.length || !filtered.length) {
     qNumber.textContent = '第 0 题 / 共 0 题';
@@ -341,7 +346,7 @@ function renderQuestion(): void {
   const q = filtered[idx];
   const total = filtered.length;
   progressDisp.textContent = `${idx + 1}/${total}`;
-  qNumber.textContent = `第 ${idx + 1} 题 / 共 ${total} 题`;
+  qNumber.textContent = `第 ${idx + 1} 题 / 共 ${total} 题（#${q.id}）`;
 
   qTags.innerHTML = `
     <span class="q-tag">${TYPE_LABELS[q.type as keyof typeof TYPE_LABELS] || q.type}</span>
@@ -349,6 +354,7 @@ function renderQuestion(): void {
   `;
   if (store.aiSettings.devMode) {
     qTags.innerHTML += `<button class="edit-q-btn" data-id="${q.id}" title="编辑题目"><span class="svg-icon">${EDIT}</span></button>`;
+    qTags.innerHTML += `<button class="insert-q-btn" data-id="${q.id}" title="在此题后插入新题"><span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>`;
   }
 
   qText.innerHTML = renderText(q.question);
@@ -358,8 +364,18 @@ function renderQuestion(): void {
     if (editBtn) {
       editBtn.addEventListener('click', () => {
         const q = getCurrentQuestion();
-        if (q) showEditModal(q, -1, () => renderQuestion());
+        const tier = store.aiSettings.userTier || 'guest';
+        if (q && tier === 'root') {
+          showFullEditModal(q, -1, () => renderQuestion());
+        } else if (q) {
+          showEditModal(q, -1, () => renderQuestion());
+        }
       });
+    }
+    // Bind insert button
+    const insertBtn = qTags.querySelector('.insert-q-btn');
+    if (insertBtn) {
+      insertBtn.addEventListener('click', () => showInsertModal());
     }
   }
   optContainer.innerHTML = '';
@@ -383,6 +399,15 @@ function renderQuestion(): void {
       feedback.classList.add('show', 'wrong');
       feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误`;
     }
+    explanation.innerHTML = formatExplanation(getExplanation(q));
+  }
+
+  // ─── Memorize mode: show answer immediately ───
+  if (store.state.memorizeMode && !prevResult) {
+    store.setAnswered(true);
+    dispatchShowAnswer(q);
+    feedback.classList.add('show', 'correct');
+    feedbackRes.innerHTML = `<span class="svg-icon">${CHECK}</span> 正确答案：${q.answer}`;
     explanation.innerHTML = formatExplanation(getExplanation(q));
   }
 
@@ -448,7 +473,7 @@ function updateThumbnails(): void {
     ? store.exam.questions
     : store.state.filterType === 'adapted'
       ? store.adapted.questions
-      : getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
+      : getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
   const currentQ = store.exam.active
     ? store.exam.questions[store.exam.currentIndex]
     : (qs.length ? qs[store.state.currentIndex] : null);
@@ -500,7 +525,7 @@ function updateStats(): void {
     fileStatus.textContent = String(store.state.questions.length);
   } else {
     const { questions, currentIndex, correctCount, wrongCount, answeredMap, errorBook, filterType } = store.state;
-    const filtered = getFiltered(questions, filterType, store.state.errorBook, store.state.examErrorFilter);
+    const filtered = getFiltered(questions, filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
     progressDisp.textContent = `${filtered.length ? currentIndex + 1 : 0}/${filtered.length}`;
     correctDisp.textContent = String(correctCount);
     wrongDisp.textContent = String(wrongCount);
@@ -742,7 +767,7 @@ nextBtn.addEventListener('click', () => {
       renderQuestion();
     }
   } else {
-    const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
+    const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
     if (store.state.currentIndex < filtered.length - 1) {
       store.update({ currentIndex: store.state.currentIndex + 1 });
       renderQuestion();
@@ -753,7 +778,7 @@ nextBtn.addEventListener('click', () => {
 
 randomBtn.addEventListener('click', () => {
   if (store.exam.active) return;
-  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
+  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
   if (filtered.length < 2) return;
   let idx: number;
   do { idx = Math.floor(Math.random() * filtered.length); } while (idx === store.state.currentIndex);
@@ -764,7 +789,8 @@ randomBtn.addEventListener('click', () => {
 
 // ─── Show Answer ───
 showAnsBtn.addEventListener('click', () => {
-  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
+  if (store.state.memorizeMode) return; // 背题模式下答案已显示
+  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
   if (!filtered.length) return;
   const q = filtered[store.state.currentIndex];
   if (store.answered) return;
@@ -784,7 +810,7 @@ showAnsBtn.addEventListener('click', () => {
 
 // ─── Exam button ───
 examBtn.addEventListener('click', () => {
-  const qs = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
+  const qs = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
   showExamSetup(qs);
 });
 
@@ -805,7 +831,7 @@ submitExamBtn.addEventListener('click', () => {
 function getCurrentForAI(): Question | null {
   if (store.exam.active) return null;
   if (store.state.filterType === 'adapted') return store.adapted.questions[store.state.currentIndex] ?? null;
-  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter);
+  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
   return filtered[store.state.currentIndex] ?? null;
 }
 
@@ -849,6 +875,63 @@ document.addEventListener('keydown', e => {
     if (submitBtn) { e.preventDefault(); (submitBtn as HTMLButtonElement).click(); }
   }
 });
+
+// ─── Search input ───
+const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+if (searchInput) {
+  let searchTimer: ReturnType<typeof setTimeout>;
+  const doSearch = () => {
+    store.update({ searchQuery: searchInput.value.trim(), currentIndex: 0 });
+    renderQuestion();
+    updateStats();
+    store.save();
+  };
+  searchInput.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(doSearch, 150);
+  });
+  searchInput.addEventListener('search', doSearch);
+  // Restore saved search query and trigger initial search if needed
+  if (store.state.searchQuery) {
+    searchInput.value = store.state.searchQuery;
+  }
+}
+
+// ─── Long-press question number to swap (dev mode only) ───
+(() => {
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  const clear = () => { if (timer) { clearTimeout(timer); timer = null; } };
+  const startSwap = () => {
+    if (!store.aiSettings.devMode) return;
+    const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
+    if (store.exam.active || !filtered.length) return;
+    timer = setTimeout(() => {
+      const fromIdx = store.state.currentIndex;
+      const fromQ = filtered[fromIdx];
+      if (!fromQ) return;
+      const target = prompt(`交换题号：将"第 ${fromIdx + 1} 题"与第几题交换？（1 ~ ${filtered.length}）`);
+      if (!target) return;
+      const toIdx = parseInt(target) - 1;
+      if (isNaN(toIdx) || toIdx < 0 || toIdx >= filtered.length || toIdx === fromIdx) return;
+      const allQs = store.state.questions;
+      if (fromIdx >= filtered.length) return;
+      const toQ = filtered[toIdx];
+      const fromActual = allQs.indexOf(fromQ);
+      const toActual = allQs.indexOf(toQ);
+      if (fromActual === -1 || toActual === -1) return;
+      [allQs[fromActual], allQs[toActual]] = [allQs[toActual], allQs[fromActual]];
+      store.update({ currentIndex: toIdx });
+      store.save();
+      renderQuestion();
+    }, 600);
+  };
+  qNumber.addEventListener('mousedown', startSwap);
+  qNumber.addEventListener('mouseup', clear);
+  qNumber.addEventListener('mouseleave', clear);
+  qNumber.addEventListener('touchstart', startSwap, { passive: true });
+  qNumber.addEventListener('touchend', clear);
+  qNumber.addEventListener('touchcancel', clear);
+})();
 
 // ─── Exam History ───
 function renderExamHistory(): void {
@@ -929,6 +1012,12 @@ function init(): void {
   devModeBtn.id = 'devModeBtn';
   devModeBtn.title = '开发者模式';
   devModeBtn.innerHTML = `<span class="svg-icon">${CODE}</span>开发`;
+
+  const memorizeBtn = document.createElement('button');
+  memorizeBtn.className = 'btn-sm btn-outline';
+  memorizeBtn.id = 'memorizeBtn';
+  memorizeBtn.title = '背题模式 — 直接显示答案';
+  memorizeBtn.innerHTML = `<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>背题`;
   const exportBtn = document.createElement('button');
   exportBtn.className = 'btn-sm btn-outline';
   exportBtn.id = 'exportBtn';
@@ -960,6 +1049,7 @@ function init(): void {
   syncBtn.addEventListener('click', () => import('./ui/sync').then(m => m.showSyncModal()));
   const headerActions = document.querySelector('.header-actions');
   if (headerActions) {
+    headerActions.appendChild(memorizeBtn);
     headerActions.appendChild(devModeBtn);
     headerActions.appendChild(adaptBtn);
     headerActions.appendChild(aiDebugBtn);
@@ -1005,12 +1095,23 @@ function init(): void {
     }
   }
 
+  memorizeBtn.addEventListener('click', () => {
+    const newVal = !store.state.memorizeMode;
+    store.update({ memorizeMode: newVal, currentIndex: 0 });
+    memorizeBtn.classList.toggle('active', newVal);
+    renderQuestion();
+    store.save();
+  });
+
   devModeBtn.addEventListener('click', showDevLoginModal);
   exportBtn.addEventListener('click', exportQuestions);
   exportBtn.addEventListener('click', exportQuestions);
 
   // Apply initial dev mode state
   updateDevModeUI();
+
+  // Restore memorize button state
+  if (store.state.memorizeMode) memorizeBtn.classList.add('active');
 
   // Click explanation to expand/collapse long content
   explanation.addEventListener('click', (e) => {
@@ -1062,6 +1163,11 @@ function init(): void {
     renderExamHistory();
     renderQuestion();
     store.save();
+  });
+
+  window.addEventListener('question-inserted', () => {
+    renderQuestion();
+    updateStats();
   });
 
   const restored = store.restore();

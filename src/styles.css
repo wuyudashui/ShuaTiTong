@@ -575,7 +575,7 @@ h1 .svg-icon, h2 .svg-icon, h3 .svg-icon {
 .nav-buttons button { min-width: 0; flex-shrink: 1; }
 /* Primary nav button stands out with more emphasis */
 .nav-buttons .btn-primary {
-  padding: 8px 20px;
+  padding: 8px 14px;
 }
 /* Secondary buttons more compact */
 .nav-buttons .btn-outline {

@@ -52,6 +52,8 @@ export interface AppState {
   examErrorFilter: number[];
   /** Full-text search query */
   searchQuery: string;
+  /** Memorize mode: show answer immediately without scoring */
+  memorizeMode?: boolean;
 }
 
 export interface ExamRecord {
@@ -87,6 +89,8 @@ export interface AISettings {
   syncToken?: string;
   syncUsername?: string;
   syncServer?: string;
+  /* ── Preferences ── */
+  autoNext?: boolean;  // 答对后自动切换下一题
   /* ── Dev mode ── */
   devMode?: boolean;
 }
