@@ -30,6 +30,20 @@
         "fill"
       ],
       "updatedAt": "2026-10-10T08:30:18.095Z"
+    },
+    {
+      "filename": "merged_all.json",
+      "name": "merged_all",
+      "subject": "马原",
+      "description": "马原题库",
+      "path": "question-banks/merged_all.json",
+      "count": 842,
+      "types": [
+        "single",
+        "multi",
+        "judge"
+      ],
+      "updatedAt": "2026-10-10T08:33:04.230Z"
     }
   ]
 }
