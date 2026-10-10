@@ -30,9 +30,22 @@ const mime = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', 
       const errors = [], publicationWrites = [];
       page.on('pageerror', e => errors.push(e.message));
       page.on('request', req => { if (req.method() !== 'GET' && /question-banks|publisher|api.github.com/.test(req.url())) publicationWrites.push(req.url()); });
+      await page.route('http://127.0.0.1:3001/api/auth/root/login', route => route.fulfill({status:503,json:{error:'offline test'}}));
       await page.goto(url, {waitUntil:'networkidle'});
       assert.match(await page.locator('h1').innerText(), /刷题通/);
       assert.equal(await page.locator('#uploadArea').isVisible(), true);
+      assert.equal(await page.locator('#formatTemplate').count(), 0);
+      assert.equal(await page.locator('#syncBtn, #exportBtn').count(), 0);
+      const toolbar = await page.evaluate(() => {
+        const a = document.getElementById('navAiRow').getBoundingClientRect(), n = document.getElementById('navButtons').getBoundingClientRect();
+        return {gap:n.top - a.bottom,height:document.getElementById('nextBtn').getBoundingClientRect().height};
+      });
+      assert.ok(toolbar.gap >= 12 && toolbar.height >= 44);
+      if (width <= 680) {
+        const buttons = await page.locator('.header-actions > button:visible,.header-actions > a:visible').evaluateAll(items => items.map(el => ({x:el.getBoundingClientRect().left,w:el.getBoundingClientRect().width,h:el.getBoundingClientRect().height})));
+        assert.equal(new Set(buttons.map(b => Math.round(b.w))).size,1);
+        assert.ok(buttons.every(b => b.h >= 24), 'compact web controls remain tappable');
+      }
       assert.equal(await page.locator('#fileInput').getAttribute('accept'), '.json,application/json');
       assert.match(await page.locator('.upload-preprocess-note').innerText(), /shuatitong-any2json/);
       let unsupportedMessage = '';
@@ -71,10 +84,19 @@ const mime = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', 
       await page.locator('.option').nth(1).click();
       assert.match(await page.locator('#feedback').innerText(), /回答正确/);
       await page.locator('#nextBtn').click();
+      await page.locator('#memorizeBtn').click();
+      assert.equal(await page.locator('#memorizeBtn').getAttribute('aria-pressed'), 'true');
+      assert.match(await page.locator('#memorizeBtn').innerText(), /背题中/);
+      const memorizing = await page.locator('#memorizeBtn').evaluate(el => getComputedStyle(el).backgroundColor);
       await page.reload({waitUntil:'networkidle'});
+      assert.equal(await page.locator('#memorizeBtn').getAttribute('aria-pressed'), 'true');
+      await page.locator('#memorizeBtn').click();
+      assert.notEqual(await page.locator('#memorizeBtn').evaluate(el => getComputedStyle(el).backgroundColor), memorizing);
+      await page.locator('#nextBtn').click();
       assert.match(await page.locator('#qNumber').innerText(), /第 2 题/);
       assert.equal(await page.locator('#correctCount').innerText(), '1');
       await page.locator('#settingsBtn').click();
+      assert.equal(await page.locator('#apiModelSelect option').count(), 1);
       await page.locator('#apiBaseUrl').fill('');
       assert.equal(await page.locator('#apiModelSelect').isDisabled(), true);
       await page.locator('#apiBaseUrl').fill('https://models.example.test/v1');
@@ -116,6 +138,7 @@ const mime = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', 
       await page.waitForSelector('#devModeBtn.active');
       await page.locator('#questionPoolBtn').click();
       assert.equal(await page.locator('#publisherPanel').count(), 1);
+      assert.equal(await page.locator('#publisherUser, #publisherPassword').count(), 0);
       await page.locator('#poolClose').click();
       await page.locator('#devModeBtn').click();
       await page.locator('#themeBtn').click();
@@ -171,22 +194,18 @@ const mime = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', 
     await page.locator('#fileInput').setInputFiles(fixture);
     await page.waitForFunction(() => document.querySelector('#qNumber').textContent.includes('9001'));
     const localBefore = await page.evaluate(() => localStorage.getItem('shuatitong_state'));
-    await page.locator('#devModeBtn').click();
-    assert.equal(await page.locator('.developer-note a').getAttribute('href'), 'mailto:2442078047@qq.com');
-    await page.locator('#devLoginUser').fill('yuhao'); await page.locator('#devLoginPwd').fill(testPassword);
-    await page.locator('#devLoginConfirm').click(); await page.waitForSelector('#devModeBtn.active');
     const sample = {filename:'sample.json',name:'Original',subject:'Example',description:'Example bank',path:'question-banks/sample.json',count:1};
-    let banks = [sample], version = 'v1'; const operations = [];
+    let banks = [sample], version = 'v1', logins = 0; const operations = [];
     await page.route('http://127.0.0.1:3001/api/**', route => {
       const req = route.request(); const apiPath = new URL(req.url()).pathname; const method = req.method();
       const body = method === 'GET' ? null : req.postDataJSON();
-      if (apiPath.endsWith('/login')) return route.fulfill({json:{token:'test-session',username:'yuhao',tier:'root'}});
+      if (apiPath.endsWith('/login')) { logins++; return route.fulfill({json:{token:'test-session',username:'yuhao',tier:'root'}}); }
       if (apiPath.endsWith('/publisher/status')) return route.fulfill({json:{configured:true}});
       assert.equal(req.headers().authorization, 'Bearer test-session');
       if (apiPath === '/api/question-banks' && method === 'GET') return route.fulfill({json:{version:1,banks}});
       if (method === 'GET') return route.fulfill({json:{bank:banks.find(b => apiPath.endsWith(b.filename)),questions:[{id:1,type:'single',question:'Example',options:{A:'Yes'},answer:'A'}],version}});
       operations.push({method,body});
-      if (method === 'PATCH') { sample.name=body.name; sample.subject=body.subject; sample.description=body.description; version='v2'; }
+      if (method === 'PATCH') { sample.name=body.name; sample.subject=body.subject; sample.description=body.description; sample.filename=body.filename || sample.filename; sample.path='question-banks/'+sample.filename; version=version==='v1'?'v2':'v3'; }
       if (method === 'POST') {
         if (body.filename==='new-bank.json') banks.push({...sample,filename:body.filename,path:'question-banks/new-bank.json',name:body.name});
         version='v3';
@@ -194,23 +213,28 @@ const mime = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', 
       if (method === 'DELETE') { banks=banks.filter(b=>!apiPath.endsWith(b.filename)); version='v4'; }
       return route.fulfill({json:{...sample,commitSha:version}});
     });
+    await page.locator('#devModeBtn').click();
+    assert.equal(await page.locator('.developer-note a').getAttribute('href'), 'mailto:2442078047@qq.com');
+    await page.locator('#devLoginUser').fill('yuhao'); await page.locator('#devLoginPwd').fill(testPassword);
+    await page.locator('#devLoginConfirm').click(); await page.waitForSelector('#devModeBtn.active');
     await page.locator('#questionPoolBtn').click(); await page.waitForSelector('.pool-card');
-    await page.locator('[data-manage="2"]').click();
-    await page.locator('#publisherServer').fill('http://127.0.0.1:3001');
-    await page.locator('#publisherUser').fill('yuhao'); await page.locator('#publisherPassword').fill(testPassword);
-    await page.locator('#publisherConnect').click();
-    // Pending bank selection reopens using fresh developer-host metadata.
+    await page.waitForFunction(() => document.querySelector('#publisherStatus').textContent.includes('已连接'));
+    assert.equal(await page.locator('#publisherUser,#publisherPassword').count(),0);
+    await page.locator('[data-manage="0"]').click();
     await page.waitForFunction(() => document.querySelector('#publishName').value === 'Original');
+    assert.equal(await page.locator('#publishFilename').evaluate(el=>el.readOnly),false);
+    assert.ok((await page.locator('#publishDescription').boundingBox()).width > 450);
     await page.locator('#publishName').fill('Renamed'); await page.locator('#publishSubject').fill('Changed subject');
     await page.locator('#publishSubmit').click();
     await page.waitForFunction(() => document.querySelector('#publisherStatus').textContent.includes('已保存到 GitHub'));
     assert.equal(operations[0].method, 'PATCH'); assert.equal(operations[0].body.version, 'v1');
     assert.equal(operations[0].body.questions, undefined);
     await page.locator('#publishFile').setInputFiles(fixture);
+    await page.locator('#publishFilename').fill('renamed.json');
     await page.locator('#publishSubmit').click();
     await page.waitForFunction(() => !document.querySelector('#publishSubmit').disabled);
-    assert.equal(operations[1].method, 'POST'); assert.equal(operations[1].body.version, 'v2');
-    assert.equal(operations[1].body.overwrite, true); assert.equal(operations[1].body.questions[0].id, 9001);
+    assert.equal(operations[1].method, 'PATCH'); assert.equal(operations[1].body.version, 'v2');
+    assert.equal(operations[1].body.filename, 'renamed.json'); assert.equal(operations[1].body.questions[0].id, 9001);
     page.once('dialog', dialog => dialog.accept());
     await page.locator('#publishDelete').click(); await page.waitForFunction(() => document.querySelector('#publisherStatus').textContent.includes('公共题库已删除'));
     assert.equal(operations[2].method, 'DELETE'); assert.equal(operations[2].body.confirm, true);
@@ -219,8 +243,16 @@ const mime = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', 
     await page.locator('#publishFilename').fill('new-bank.json'); await page.locator('#publishName').fill('New bank'); await page.locator('#publishSubject').fill('Math');
     await page.locator('#publishSubmit').click(); await page.waitForFunction(() => !document.querySelector('#publishSubmit').disabled);
     assert.equal(operations[3].method, 'POST'); assert.equal(operations[3].body.overwrite, false);
+    await page.locator('#poolClose').click();
+    await page.reload({waitUntil:'networkidle'});
+    await page.locator('#questionPoolBtn').click();
+    await page.waitForFunction(() => document.querySelector('#publisherStatus').textContent.includes('已连接'));
+    assert.equal(logins,1,'maintenance and refresh reuse the original developer login');
+    assert.equal(await page.evaluate(()=>localStorage.getItem('shuatitong_ai_settings').includes('test-session')),false);
+    await page.locator('#poolClose').click(); await page.locator('#devModeBtn').click();
+    assert.equal(await page.evaluate(()=>sessionStorage.getItem('shuatitong_developer_session')),null);
     assert.equal(await page.evaluate(() => localStorage.getItem('shuatitong_state')), localBefore);
     await context.close();
-    console.log('PASS developer maintenance: rename/category, replace JSON, confirm delete, add bank, local data preserved');
+    console.log('PASS developer maintenance: single login, filename rename/category, replace JSON, confirm delete, add bank, local data preserved');
   } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

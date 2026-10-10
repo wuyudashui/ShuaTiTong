@@ -63,6 +63,7 @@ export interface ExamRecord {
   wrong: number;
   total: number;
   wrongIds: number[];
+  bankFingerprint?: string;
   sections: { label: string; correct: number; total: number }[];
 }
 

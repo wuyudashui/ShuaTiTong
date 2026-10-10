@@ -19,8 +19,10 @@ const validQuestions = () => [
   { id: 4, type: 'fill', question: 'Fill in', options: { A: '42', B: [{ t: 'text', c: 'answer' }] }, answer: '' },
 ];
 
-function fakeGithub({ catalog = { version: 1, banks: [] }, existing = false, bankText = JSON.stringify(validQuestions()), failAt = '', movedHead = false, largeFile = false } = {}) {
+function fakeGithub({ catalog = { version: 1, banks: [] }, existing = false, existingFilenames, bankText = JSON.stringify(validQuestions()), failAt = '', movedHead = false, largeFile = false } = {}) {
   const calls = []; const blobs = new Map(); const blobBytes = new Map(); let visibleHead = 'head-old'; let blobCount = 0;
+  const files = new Map((existingFilenames || (existing ? ['calculus.json'] : [])).map(filename => [`public/question-banks/${filename}`, Buffer.from(bankText)]));
+  const trees = new Map(); const commits = new Map();
   const fetch = async (url, options = {}) => {
     const method = options.method || 'GET'; const parsed = new URL(url); const apiPath = parsed.pathname.replace('/repos/wuyudashui/ShuaTiTong', '');
     const body = options.body ? JSON.parse(options.body) : undefined; calls.push({ method, path: apiPath, ref: parsed.searchParams.get('ref'), body, headers: options.headers });
@@ -29,18 +31,22 @@ function fakeGithub({ catalog = { version: 1, banks: [] }, existing = false, ban
     if (method === 'GET' && apiPath === '/git/ref/heads/main') return result(200, { object: { sha: visibleHead } });
     if (method === 'GET' && apiPath.startsWith('/git/commits/')) return result(200, { tree: { sha: 'tree-old' } });
     if (method === 'GET' && apiPath === '/contents/public/question-banks/catalog.json') return result(200, { content: Buffer.from(JSON.stringify(catalog)).toString('base64'), encoding: 'base64' });
-    if (method === 'GET' && apiPath.startsWith('/contents/public/question-banks/')) return existing ? result(200, { type: 'file', sha: 'existing-bank', content: largeFile ? '' : Buffer.from(bankText).toString('base64'), encoding: largeFile ? 'none' : 'base64', size: Buffer.byteLength(bankText) }) : result(404, { message: 'Not found' });
+    if (method === 'GET' && apiPath.startsWith('/contents/public/question-banks/')) return files.has(apiPath.replace('/contents/', '')) ? result(200, { type: 'file', sha: 'existing-bank', content: largeFile ? '' : Buffer.from(bankText).toString('base64'), encoding: largeFile ? 'none' : 'base64', size: Buffer.byteLength(bankText) }) : result(404, { message: 'Not found' });
     if (method === 'GET' && apiPath === '/git/blobs/existing-bank') return result(200, { sha: 'existing-bank', content: Buffer.from(bankText).toString('base64'), encoding: 'base64', size: Buffer.byteLength(bankText) });
     if (method === 'POST' && apiPath === '/git/blobs') { const sha = `blob-${++blobCount}`; const bytes = Buffer.from(body.content, 'base64'); blobBytes.set(sha, bytes); blobs.set(sha, JSON.parse(bytes.toString())); return result(201, { sha }); }
-    if (method === 'POST' && apiPath === '/git/trees') return result(201, { sha: 'tree-new' });
-    if (method === 'POST' && apiPath === '/git/commits') return result(201, { sha: 'commit-new' });
+    if (method === 'POST' && apiPath === '/git/trees') { trees.set('tree-new', body.tree); return result(201, { sha: 'tree-new' }); }
+    if (method === 'POST' && apiPath === '/git/commits') { commits.set('commit-new', body.tree); return result(201, { sha: 'commit-new' }); }
     if (method === 'PATCH' && apiPath === '/git/refs/heads/main') {
       if (movedHead) return result(422, { message: 'Update is not a fast forward' });
+      for (const entry of trees.get(commits.get(body.sha)) || []) {
+        if (entry.sha === null) files.delete(entry.path);
+        else files.set(entry.path, entry.sha === 'existing-bank' ? Buffer.from(bankText) : blobBytes.get(entry.sha));
+      }
       visibleHead = body.sha; return result(200, { object: { sha: body.sha } });
     }
     return result(404, { message: `Unexpected fake request ${method} ${apiPath}` });
   };
-  return { fetch, calls, blobs, blobBytes, head: () => visibleHead, originalBankBytes: Buffer.from(bankText) };
+  return { fetch, calls, blobs, blobBytes, files, head: () => visibleHead, originalBankBytes: Buffer.from(bankText) };
 }
 
 async function withServer(t, options = {}) {
@@ -309,7 +315,7 @@ test('management routes reject reserved filenames and encoded traversal before r
 
 test('PATCH rejects invalid metadata and attempts to replace protected fields', async t => {
   const fake = indexedGithub(); const { manage, token } = await withServer(t, { fetch: fake.fetch });
-  for (const body of [{}, [], { name: '' }, { subject: '  ' }, { description: null }, { name: 'x'.repeat(201) }, { subject: 'x'.repeat(101) }, { description: 'x'.repeat(2001) }, { filename: 'escape.json', name: 'Edited' }, { path: '../x.json', name: 'Edited' }, { questions: validQuestions(), name: 'Edited' }, { count: 9, name: 'Edited' }, { name: 'Edited', version: 1 }]) assert.equal((await manage('PATCH', '/api/question-banks/calculus.json', body, token)).status, 400);
+  for (const body of [{}, [], { name: '' }, { subject: '  ' }, { description: null }, { name: 'x'.repeat(201) }, { subject: 'x'.repeat(101) }, { description: 'x'.repeat(2001) }, { filename: '../escape.json', name: 'Edited' }, { path: '../x.json', name: 'Edited' }, { questions: [], name: 'Edited' }, { count: 9, name: 'Edited' }, { name: 'Edited', version: 1 }]) assert.equal((await manage('PATCH', '/api/question-banks/calculus.json', body, token)).status, 400);
   assert.equal(fake.calls.length, 0);
 });
 
@@ -370,4 +376,88 @@ test('CORS preflight allows PATCH and DELETE for approved origins', async t => {
     const response = await manage('OPTIONS', '/api/question-banks/calculus.json', undefined, undefined, { Origin: 'http://localhost:5173', 'Access-Control-Request-Method': method, 'Access-Control-Request-Headers': 'authorization,content-type' });
     assert.equal(response.status, 204); assert.match(response.headers.get('access-control-allow-methods'), new RegExp(method));
   }
+});
+
+test('PATCH rename-only reuses the exact bank blob and changes both paths and catalog in one commit', async t => {
+  const fake = indexedGithub({ bankText: '\ufeff ' + JSON.stringify(validQuestions(), null, 1) + '\r\n' }); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  const response = await manage('PATCH', '/api/question-banks/calculus.json', { filename: 'algebra.json', version: 'head-old' }, token);
+  assert.equal(response.status, 200); const result = await response.json(); assert.equal(result.filename, 'algebra.json'); assert.equal(result.path, 'question-banks/algebra.json'); assert.equal(result.name, 'Calculus'); assert.equal(result.count, 4); assert.deepEqual(result.types, existingBank().types);
+  const tree = fake.calls.find(call => call.method === 'POST' && call.path === '/git/trees').body;
+  assert.deepEqual(tree.tree.find(entry => entry.path === 'public/question-banks/algebra.json'), { path: 'public/question-banks/algebra.json', mode: '100644', type: 'blob', sha: 'existing-bank' });
+  assert.deepEqual(tree.tree.find(entry => entry.path === 'public/question-banks/calculus.json'), { path: 'public/question-banks/calculus.json', mode: '100644', type: 'blob', sha: null });
+  const catalogEntry = tree.tree.find(entry => entry.path === 'public/question-banks/catalog.json'); const catalog = fake.blobs.get(catalogEntry.sha);
+  assert.equal(catalog.banks.length, 2); assert.equal(catalog.banks[0].filename, 'algebra.json'); assert.equal(catalog.banks[0].path, 'question-banks/algebra.json'); assert.equal(catalog.banks.some(entry => entry.filename === 'calculus.json'), false);
+  assert.equal(fake.blobBytes.size, 1); assert.equal(fake.files.has('public/question-banks/calculus.json'), false); assert.deepEqual(fake.files.get('public/question-banks/algebra.json'), fake.originalBankBytes);
+  assertImmutableReads(fake); assertSingleNonforceCommit(fake);
+});
+
+test('PATCH combined rename, metadata and replacement publishes all changes atomically', async t => {
+  const fake = indexedGithub(); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  const questions = [validQuestions()[3]];
+  const response = await manage('PATCH', '/api/question-banks/calculus.json', { filename: 'blanks.json', name: 'Blank practice', subject: 'General', description: 'New', questions, version: 'head-old' }, token);
+  assert.equal(response.status, 200); const result = await response.json(); assert.equal(result.filename, 'blanks.json'); assert.equal(result.name, 'Blank practice'); assert.equal(result.count, 1); assert.deepEqual(result.types, ['fill']);
+  const tree = fake.calls.find(call => call.method === 'POST' && call.path === '/git/trees').body;
+  assert.equal(tree.tree.length, 3); assert.equal(fake.blobBytes.size, 2);
+  const publishedBank = JSON.parse(fake.files.get('public/question-banks/blanks.json').toString()); assert.equal(publishedBank.length, 1); assert.deepEqual(publishedBank[0].options, { 空1: '42', 空2: [{ t: 'text', c: 'answer' }] }); assert.equal(fake.files.has('public/question-banks/calculus.json'), false);
+  const catalog = JSON.parse(fake.files.get('public/question-banks/catalog.json').toString()); assert.equal(catalog.banks[0].filename, 'blanks.json'); assert.equal(catalog.banks[0].name, 'Blank practice'); assert.equal(catalog.banks[0].count, 1); assert.deepEqual(catalog.banks[0].types, ['fill']);
+  assertImmutableReads(fake); assertSingleNonforceCommit(fake);
+});
+
+test('PATCH replaces questions without requiring a rename or metadata change', async t => {
+  const fake = indexedGithub(); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  const response = await manage('PATCH', '/api/question-banks/calculus.json', { questions: [validQuestions()[0]], version: 'head-old' }, token);
+  assert.equal(response.status, 200); const result = await response.json(); assert.equal(result.filename, 'calculus.json'); assert.equal(result.count, 1); assert.deepEqual(result.types, ['single']);
+  const tree = fake.calls.find(call => call.method === 'POST' && call.path === '/git/trees').body; assert.equal(tree.tree.length, 2); assert.equal(tree.tree.some(entry => entry.sha === null), false); assertSingleNonforceCommit(fake);
+});
+
+test('PATCH rename rejects target conflicts in catalog or actual repository path', async t => {
+  for (const options of [{ target: 'other.json', fake: indexedGithub() }, { target: 'unindexed.json', fake: indexedGithub({ existingFilenames: ['calculus.json', 'unindexed.json'] }) }, { target: 'Calculus.json', fake: indexedGithub({ existingFilenames: ['calculus.json', 'Calculus.json'] }) }]) {
+    const { manage, token } = await withServer(t, { fetch: options.fake.fetch });
+    const response = await manage('PATCH', '/api/question-banks/calculus.json', { filename: options.target }, token);
+    assert.equal(response.status, 409); assert.equal(options.fake.calls.some(call => call.method !== 'GET'), false); assertImmutableReads(options.fake);
+  }
+});
+
+test('PATCH rename target validation rejects unsafe or reserved names before repository reads', async t => {
+  const fake = indexedGithub(); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  for (const filename of ['', null, 'catalog.json', 'CATALOG.json', '../bank.json', '..\\bank.json', 'folder/bank.json', 'bank.JSON', 'bank%2F.json', 'bad name.json', 'x'.repeat(129) + '.json']) assert.equal((await manage('PATCH', '/api/question-banks/calculus.json', { filename }, token)).status, 400);
+  assert.equal(fake.calls.length, 0);
+});
+
+test('PATCH allows unchanged and case-only filenames using exact GitHub path semantics', async t => {
+  for (const filename of ['calculus.json', 'Calculus.json']) {
+    const fake = indexedGithub(); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+    const response = await manage('PATCH', '/api/question-banks/calculus.json', { filename, name: 'Edited' }, token); assert.equal(response.status, 200);
+    assert.deepEqual(fake.files.get('public/question-banks/' + filename), fake.originalBankBytes);
+    if (filename === 'calculus.json') assert.equal(fake.calls.some(call => call.method === 'GET' && call.path.includes('Calculus.json')), false);
+    assertImmutableReads(fake); assertSingleNonforceCommit(fake);
+  }
+});
+
+test('PATCH replacement validation fails before rename or GitHub mutation', async t => {
+  const fake = indexedGithub(); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  for (const questions of [null, [], {}, [validQuestions()[0], validQuestions()[0]], [{ ...validQuestions()[0], answer: 'Z' }]]) assert.equal((await manage('PATCH', '/api/question-banks/calculus.json', { filename: 'renamed.json', questions }, token)).status, 400);
+  assert.equal(fake.calls.length, 0);
+});
+
+test('PATCH rename rejects stale versions and keeps old files on failed commits', async t => {
+  for (const options of [{ version: 'stale-head', expected: 409 }, { failAt: '/git/blobs', expected: 502 }, { failAt: '/git/trees', expected: 502 }, { failAt: '/git/commits', expected: 502 }, { failAt: '/git/refs/heads/main', expected: 502 }, { movedHead: true, expected: 409 }]) {
+    const fake = indexedGithub(options); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+    const response = await manage('PATCH', '/api/question-banks/calculus.json', { filename: 'renamed.json', ...(options.version ? { version: options.version } : {}) }, token);
+    assert.equal(response.status, options.expected); assert.equal(fake.head(), 'head-old'); assert.deepEqual(fake.files.get('public/question-banks/calculus.json'), fake.originalBankBytes); assert.equal(fake.files.has('public/question-banks/renamed.json'), false); assert.doesNotMatch(await response.text(), /remote secret|fake-token/);
+  }
+});
+
+test('PATCH combined rename and replacement preserves the source when any publication stage fails', async t => {
+  for (const options of [{ failAt: '/git/blobs', expected: 502 }, { failAt: '/git/trees', expected: 502 }, { failAt: '/git/commits', expected: 502 }, { movedHead: true, expected: 409 }]) {
+    const fake = indexedGithub(options); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+    const response = await manage('PATCH', '/api/question-banks/calculus.json', { filename: 'renamed.json', questions: [validQuestions()[0]] }, token);
+    assert.equal(response.status, options.expected); assert.equal(fake.head(), 'head-old'); assert.deepEqual(fake.files.get('public/question-banks/calculus.json'), fake.originalBankBytes); assert.equal(fake.files.has('public/question-banks/renamed.json'), false); assert.doesNotMatch(await response.text(), /remote secret|fake-token/);
+  }
+});
+
+test('PATCH target path failures hide remote messages and leave the source bank untouched', async t => {
+  const fake = indexedGithub({ failAt: '/contents/public/question-banks/renamed.json' }); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  const response = await manage('PATCH', '/api/question-banks/calculus.json', { filename: 'renamed.json' }, token);
+  assert.equal(response.status, 502); assert.doesNotMatch(await response.text(), /remote secret|fake-token/); assert.equal(fake.calls.some(call => call.method !== 'GET'), false); assertImmutableReads(fake);
 });

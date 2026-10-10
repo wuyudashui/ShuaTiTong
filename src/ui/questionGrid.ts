@@ -1,5 +1,6 @@
 import type { Question } from '../types';
 import { TYPE_LABELS } from '../types';
+import { escapeHtml, contentBlocksToText } from '../format';
 
 export function renderThumbnails(
   questions: Question[],
@@ -20,7 +21,7 @@ export function renderThumbnails(
     else if (result && result !== '' && result !== 'correct' && result !== 'wrong') cls += ' correct';
 
     const label = TYPE_LABELS[q.type] || q.type;
-    return `<div class="${cls}" data-index="${i}" data-qid="${q.id}" title="#${i + 1} [${label}] ${q.question.slice(0, 40)}">${i + 1}</div>`;
+    return `<div class="${cls}" data-index="${i}" data-qid="${q.id}" title="${escapeHtml(`#${i + 1} [${label}] ${contentBlocksToText(q.question).slice(0, 40)}`)}">${i + 1}</div>`;
   }).join('');
 }
 

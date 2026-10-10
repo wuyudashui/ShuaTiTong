@@ -22,14 +22,9 @@ export function getFiltered(
   searchQuery?: string,
 ): Question[] {
   if (filterType === 'adapted') return [];
-  if (filterType === 'exam-review') {
-    if (!examErrorFilter || !examErrorFilter.length) return [];
-    return questions.filter(q => examErrorFilter.includes(q.id));
-  }
-  if (filterType === 'wrong') {
-    return questions.filter(q => errorBook?.[q.id]);
-  }
-  let filtered = filterType === 'all' ? questions : questions.filter(q => q.type === filterType);
+  let filtered = filterType === 'exam-review' ? questions.filter(q => examErrorFilter?.includes(q.id))
+    : filterType === 'wrong' ? questions.filter(q => errorBook?.[q.id])
+    : filterType === 'all' ? questions : questions.filter(q => q.type === filterType);
   if (searchQuery) {
     const q = searchQuery.toLowerCase();
     filtered = filtered.filter(item => questionText(item).includes(q));

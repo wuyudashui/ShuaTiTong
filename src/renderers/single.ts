@@ -1,6 +1,6 @@
 import type { Question, QuestionType, QuestionRenderer, RenderConfig, ContentBlock } from '../types';
-import { shuffleArray } from '../utils';
 import { renderText } from '../format';
+import { shuffleArray } from '../utils';
 
 export class SingleRenderer implements QuestionRenderer {
   type: QuestionType = 'single';
@@ -18,9 +18,7 @@ export class SingleRenderer implements QuestionRenderer {
     this.optContainer = config.optContainer;
 
     let entries = Object.entries(q.options || {}).filter(([, v]) => v !== '');
-    if (this.examMode && entries.length > 2) {
-      entries = shuffleArray(entries);
-    }
+    if (this.examMode && entries.length > 2) entries = shuffleArray(entries);
     this.entries = entries;
 
     entries.forEach(([key, text], i) => {

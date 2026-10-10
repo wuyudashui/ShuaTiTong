@@ -28,9 +28,13 @@ npm run build
 npx playwright install chromium # 首次运行需要安装测试浏览器
 npm run test:display
 npx tsc --noEmit
+npm run test:functions # 自动启动隔离测试服务，检查编辑器和业务功能
+node --test tests/server-publisher.cjs
 ```
 
 显示检查会先构建生产版本，然后自动验证桌面与手机宽度下的题库导入、答题、切题、进度恢复、主题切换和错误处理。
+
+本轮功能筛查与冗余建议见 [功能筛查报告](docs/reports/2026-10-10-function-audit.md)。模拟考试每次切题会重新排列选项，用于鼓励记忆答案内容；该设计按要求保留。
 
 ### 打包 Android APK
 
@@ -176,7 +180,7 @@ cd android && ./gradlew assembleDebug
 
 题库和目录以同一次 Git 提交更新，GitHub Pages 自动部署后对其他用户生效。覆盖同名题库需明确勾选“更新同名题库”。普通用户导入和答题只操作浏览器本地数据。
 
-登录开发者模式后，每个公共题库卡片显示“管理”。连接发布服务后可修改题库名称、科目和简介，保存时只更新目录，不改题目；需要替换题目时选新 JSON，文件名保持不变。删除需二次确认；新增可点“维护题库 → 新增题库”。所有公共改动仅由开发者服务发布，本地练习数据不会被删除。
+开发者模式登录时同步验证发布服务，题库池复用本次会话，不重复输入账号密码。服务不可用时可先编辑本地题库，公共发布仍需服务端授权。每张公共卡片显示“管理”，可修改文件名、名称、科目和简介；文件重命名同步更新目录与 GitHub 路径，同名目标会报冲突。需要替换题目时选新 JSON，删除需确认，新增可点“维护题库 → 新增题库”。所有公共改动仅由开发者服务发布，本地练习数据不会被删除。
 
 `skills/shuatitong-any2json/` 提供适配新版的转换技能，可安装到个人 Codex 技能目录。生成的题库是 JSON 数组，科目、标题等目录信息由发布表单填写。
 
@@ -193,5 +197,3 @@ cd android && ./gradlew assembleDebug
 - **CI/CD**：GitHub Actions 自动编译 APK
 
 ## License
-
-MIT

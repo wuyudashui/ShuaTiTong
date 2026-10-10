@@ -7,6 +7,10 @@ function content(value: unknown): value is string | ContentBlock[] {
     && (block.t !== 'image' || isImageSource(block.c)) && (block.d === undefined || typeof block.d === 'boolean')));
 }
 
+function nonempty(value: string | ContentBlock[]): boolean {
+  return typeof value === 'string' ? !!value.trim() : value.some(block => !!block.c.trim());
+}
+
 export function normalizeQuestions(input: unknown): Question[] {
   if (!Array.isArray(input) || !input.length) throw new Error('题库需要包含至少一道题目的 JSON 数组');
   const ids = new Set<number>();
@@ -15,21 +19,24 @@ export function normalizeQuestions(input: unknown): Question[] {
     if (!q || !Number.isSafeInteger(q.id) || q.id < 1 || ids.has(q.id)) error('题号必须是唯一的正整数');
     ids.add(q.id);
     if (!['single', 'multi', 'judge', 'fill'].includes(q.type)) error('题型无效');
-    if (!content(q.question) || !q.options || Array.isArray(q.options) || typeof q.options !== 'object') error('题干或选项格式无效');
+    if (!content(q.question) || !nonempty(q.question) || !q.options || Array.isArray(q.options) || typeof q.options !== 'object') error('题干或选项格式无效');
     if (!Object.values(q.options).every(content)) error('选项内容或图片引用无效');
     if (typeof q.answer !== 'string') error('答案必须是字符串');
     const options: Record<string, string | ContentBlock[]> = { ...q.options };
     const answer = q.type === 'fill' ? q.answer : q.answer.trim().toUpperCase();
     if (q.type !== 'fill') {
+      if (Object.keys(options).some(key => !/^[A-Z]$/.test(key))) error('选择题选项键必须是大写字母');
       const keys = answer.split('');
       if (!keys.length || keys.some((key: string) => !Object.prototype.hasOwnProperty.call(options, key)) || (q.type !== 'multi' && keys.length !== 1)) error('答案没有对应的选项');
       if (q.type === 'multi' && new Set(keys).size !== keys.length) error('多选答案不能重复');
+      if (keys.some((key: string) => !nonempty(options[key]))) error('正确答案对应的选项不能为空');
     } else {
       if (!Object.keys(options).length) error('填空题缺少标准答案');
+      if (!Object.values(options).every(nonempty)) error('填空答案不能为空');
       const blanks = Object.values(options);
       Object.keys(options).forEach(key => delete options[key]);
       blanks.forEach((value, i) => { options[`空${i + 1}`] = value; });
     }
-    return { ...q, options, answer: q.type === 'multi' ? answer.split('').sort().join('') : answer, difficulty: ['易', '中', '难'].includes(q.difficulty) ? q.difficulty : '中', explanation: typeof q.explanation === 'string' ? q.explanation : '' };
+    return { ...q, options, answer: q.type === 'multi' ? answer.split('').sort().join('') : answer, difficulty: ['易', '中', '难'].includes(q.difficulty) ? q.difficulty : '中', explanation: typeof q.explanation === 'string' ? q.explanation : '', simpleExplanation: typeof q.simpleExplanation === 'string' ? q.simpleExplanation : undefined };
   });
 }

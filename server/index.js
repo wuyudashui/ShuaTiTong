@@ -88,6 +88,7 @@ function validateVersion(version) {
 function managementError(res, error) {
   if (error instanceof GithubError) {
     if (error.status === 404) return jsonResponse(res, 404, { error: '题库不存在' });
+    if (error.code === 'target_exists') return jsonResponse(res, 409, { error: '目标文件名已存在，请换一个文件名' });
     if (error.status === 409) return jsonResponse(res, 409, { error: '题库版本已更新，请重新加载后重试' });
     return jsonResponse(res, 502, { error: '题库操作失败，请稍后重试' });
   }
@@ -186,13 +187,28 @@ function createApp(options = {}) {
   app.patch('/api/question-banks/:filename', requireRoot, validBankRoute, async (req, res) => {
     try {
       const body = req.body;
-      validateManagementBody(body, ['name', 'subject', 'description', 'version']);
+      validateManagementBody(body, ['filename', 'name', 'subject', 'description', 'questions', 'version']);
       const metadata = validateBankMetadata(body, true);
-      if (!Object.keys(metadata).length) throw new Error('至少提供一项题库资料');
+      const hasFilename = Object.prototype.hasOwnProperty.call(body, 'filename');
+      const hasQuestions = Object.prototype.hasOwnProperty.call(body, 'questions');
+      if (hasFilename && !safeFilename(body.filename)) throw new Error('题库文件名格式无效');
+      const filename = hasFilename ? body.filename : req.params.filename;
+      const renamed = filename !== req.params.filename;
+      if (!Object.keys(metadata).length && !hasFilename && !hasQuestions) throw new Error('至少提供一项题库资料');
+      const questions = hasQuestions ? validateQuestions(body.questions) : undefined;
+      if (questions && Buffer.byteLength(JSON.stringify(questions), 'utf8') > MAX_BODY_BYTES) throw new Error('题库文件不能超过 8 MiB');
       const { snapshot, bank } = await knownBankSnapshot(req.params.filename, body.version);
-      const updated = { ...bank, ...metadata, updatedAt: new Date().toISOString() };
+      if (renamed) await github.requireRenameTargetAvailable(filename, snapshot);
+      const updated = {
+        ...bank,
+        ...metadata,
+        filename,
+        path: `question-banks/${filename}`,
+        ...(questions ? { count: questions.length, types: [...new Set(questions.map(question => question.type))] } : {}),
+        updatedAt: new Date().toISOString(),
+      };
       const catalog = { ...snapshot.catalog, banks: snapshot.catalog.banks.map(entry => entry.filename === req.params.filename ? updated : entry) };
-      const result = await github.publish({ filename: req.params.filename, catalog, snapshot, message: `Update question bank metadata ${req.params.filename}` });
+      const result = await github.publish({ filename, originalFilename: renamed ? req.params.filename : undefined, bankJson: questions, catalog, snapshot, message: `${renamed ? 'Rename' : 'Update'} question bank ${req.params.filename}${renamed ? ` to ${filename}` : ''}` });
       return res.json({ ...updated, commitSha: result.commitSha });
     } catch (error) { return managementError(res, error); }
   });

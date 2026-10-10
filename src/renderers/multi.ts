@@ -1,6 +1,6 @@
 import type { Question, QuestionRenderer, RenderConfig, ContentBlock } from '../types';
-import { shuffleArray } from '../utils';
 import { renderText } from '../format';
+import { shuffleArray } from '../utils';
 
 export class MultiRenderer implements QuestionRenderer {
   readonly type = 'multi' as const;
@@ -16,9 +16,7 @@ export class MultiRenderer implements QuestionRenderer {
     const { optContainer } = config;
 
     let entries = Object.entries(q.options || {}).filter(([, v]) => v !== '');
-    if (this.examMode && entries.length > 2) {
-      entries = shuffleArray(entries);
-    }
+    if (this.examMode && entries.length > 2) entries = shuffleArray(entries);
     this.entries = entries;
 
     entries.forEach(([key, text], i) => {
@@ -30,6 +28,7 @@ export class MultiRenderer implements QuestionRenderer {
         // In practice mode, block after answered. In graded review, always block.
         if (this.handled) return;
         div.classList.toggle('selected');
+        if (this.examMode) this.handleSubmit(q, config);
       });
       optContainer.appendChild(div);
     });
@@ -100,7 +99,7 @@ export class MultiRenderer implements QuestionRenderer {
     });
 
     if (selected.length === 0) {
-      alert('请至少选择一个选项');
+      onAnswered({ isCorrect: false, selected: '' });
       return;
     }
 

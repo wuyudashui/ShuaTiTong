@@ -2,7 +2,7 @@ import type { Question, QuestionType, ExamRecord } from '../types';
 import { TYPE_LABELS } from '../types';
 import type { ExamSection } from '../types';
 import { store } from '../state';
-import { shuffleArray } from '../utils';
+import { shuffleArray, bankFingerprint } from '../utils';
 import { CLIPBOARD, CHECK, X, BAR_CHART, GRID, BOOK_OPEN, SEND } from '../icons';
 
 const TYPE_ORDER: QuestionType[] = ['single', 'judge', 'multi', 'fill'];
@@ -185,6 +185,7 @@ export function showExamResults(): void {
       wrong,
       total,
       wrongIds,
+      bankFingerprint: bankFingerprint(store.state.questions),
       sections: exam.sections.map(s => {
         let secCorrect = 0;
         for (let i = s.start; i < s.end; i++) {

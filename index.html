@@ -13,12 +13,11 @@
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;font-size:16px;line-height:1.6;background:var(--bg);color:var(--text);min-height:100vh;margin:0}
 .app-header{background:var(--card-bg);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:100}
 .container{max-width:720px;margin:0 auto;padding:24px 16px 320px}
-.bottom-bar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--card-bg);border-top:1px solid var(--border);padding:6px 16px 10px;box-shadow:0 -2px 8px rgba(0,0,0,.06)}
-#navButtons{margin-top:0!important}
+.bottom-bar{position:fixed;bottom:12px;left:16px;right:16px;z-index:100;background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:0 -2px 8px rgba(0,0,0,.06)}
 button{cursor:pointer;font-size:.875rem;border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 16px;background:var(--card-bg);color:var(--text);font-family:inherit;font-weight:500;display:inline-flex;align-items:center;gap:6px}
 .btn-primary{background:var(--primary);color:#fff;border-color:transparent}
 .hidden{display:none!important}
-@media(max-width:480px){.container{padding:12px 10px 300px}.app-header{padding:8px 12px}.bottom-bar{padding:4px 10px 8px}}
+@media(max-width:480px){.container{padding:12px 10px 180px}.app-header{padding:8px 12px}.bottom-bar{bottom:0;left:0;right:0;padding:12px;border-radius:16px 16px 0 0}}
 </style>
 </head>
 <body>
@@ -56,57 +55,7 @@ button{cursor:pointer;font-size:.875rem;border:1px solid var(--border);border-ra
     <summary><span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>最近打开</summary>
     <div class="recent-list" id="recentList"></div>
   </details>
-  <details class="recent-files" id="formatTemplate" style="margin-top:8px">
-    <summary><span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>JSON 格式模板</summary>
-    <div style="margin-top:6px;font-size:.82rem;line-height:1.6;color:var(--text-secondary)">
-      <p>支持四种题型：<code>single</code>（单选）、<code>judge</code>（判断）、<code>multi</code>（多选）、<code>fill</code>（填空）</p>
-      <pre style="background:var(--filter-bg);padding:12px;border-radius:8px;overflow-x:auto;margin-top:6px;font-size:.78rem;line-height:1.5">[
-  {
-    "id": 1,
-    "type": "single",
-    "question": "题干文本（含公式用$$...$$包裹）",
-    "options": { "A": "选项A", "B": "选项B", "C": "选项C", "D": "选项D" },
-    "answer": "B",
-    "difficulty": "易",
-    "explanation": ""
-  },
-  {
-    "id": 2,
-    "type": "judge",
-    "question": "判断题目",
-    "options": { "A": "正确", "B": "错误" },
-    "answer": "A",
-    "difficulty": "易",
-    "explanation": ""
-  },
-  {
-    "id": 3,
-    "type": "multi",
-    "question": "多选题干",
-    "options": { "A": "选项A", "B": "选项B", "C": "选项C", "D": "选项D" },
-    "answer": "ACD",
-    "difficulty": "中",
-    "explanation": ""
-  },
-  {
-    "id": 4,
-    "type": "fill",
-    "question": "填空题干",
-    "options": { "空1": "答案1", "空2": "答案2" },
-    "answer": "",
-    "difficulty": "难",
-    "explanation": ""
-  }
-]
 
-// 含公式的题目使用 ContentBlock 格式：
-// "question": [
-//   { "t": "text", "c": "已知" },
-//   { "t": "f", "c": "f(x)=\\int_{0}^{x} e^{-t^2} dt" },
-//   { "t": "text", "c": "，求导数" }
-// ]</pre>
-    </div>
-  </details>
   </div>
 
   <!-- ════ TAB BAR ════ -->
@@ -199,23 +148,14 @@ button{cursor:pointer;font-size:.875rem;border:1px solid var(--border);border-ra
 	      <summary style="cursor:pointer;font-weight:600;font-size:.9rem;padding:4px 0">☁️ 远程模型</summary>
 	      <label>API 地址</label>
 	      <input type="text" id="apiBaseUrl" placeholder="https://api.deepseek.com/v1">
-      <label for="apiModelSelect">模型名称</label>
-      <div class="model-picker-row">
-      <select id="apiModelSelect" style="margin-bottom:0" disabled>
-	        <option value="deepseek-v4-flash">deepseek-v4-flash</option>
-	        <option value="deepseek-chat">deepseek-chat</option>
-	        <option value="deepseek-reasoner">deepseek-reasoner</option>
-	        <option value="deepseek-coder">deepseek-coder</option>
-	        <option value="deepseek-v4-pro">deepseek-v4-pro</option>
-	        <option value="">—— 自定义 ——</option>
-      </select>
-      <button type="button" id="fetchModelsBtn" class="btn-sm btn-outline" disabled>获取模型</button>
-      </div>
-      <input type="text" id="apiModelCustom" placeholder="输入自定义模型名称" style="display:none;margin-top:6px">
-      <div id="modelFetchStatus" class="model-fetch-status" aria-live="polite"></div>
-	      <label>API Key</label>
-	      <input type="password" id="apiKeyInput" placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
-	      </details>
+      <label for="apiKeyInput">API Key</label>
+          <input type="password" id="apiKeyInput" placeholder="接口需要鉴权时填写" autocomplete="off">
+          <div class="model-field-heading"><label for="apiModelSelect">模型名称</label><button type="button" id="fetchModelsBtn" class="btn-sm btn-outline" disabled>获取模型列表</button></div>
+          <select id="apiModelSelect" disabled><option value="">获取列表后选择模型</option></select>
+          <label class="model-manual-choice" for="modelCustomToggle"><input type="checkbox" id="modelCustomToggle"> 手动填写模型名</label>
+          <input type="text" id="apiModelCustom" placeholder="填写接口实际支持的模型名称" style="display:none" aria-label="自定义模型名称">
+          <div id="modelFetchStatus" class="model-fetch-status" aria-live="polite"></div>
+          </details>
 
 	      <details style="margin-bottom:12px">
 	      <summary style="cursor:pointer;font-weight:600;font-size:.9rem;padding:4px 0">💻 本地模型</summary>

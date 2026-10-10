@@ -105,13 +105,12 @@ AI functions use `store.getApiConfig(preference)` to get the correct API paramet
 
 ### Dev Mode
 
-Local developer UI unlock uses a password digest, with no credentials shown in the page. GitHub publication requires separate server authentication. Toggle via header button. Enables:
+Developer login authenticates with the publisher once and retains its JWT in sessionStorage. Passwords are not saved. Server-unavailable local unlock cannot authorize GitHub publication. Logout clears the session. Enables:
 
 - ✏️ Edit question: text/option editing, image upload (file + clipboard paste)
 - ＋ Insert new question: form with type selector, options editor, image upload, JSON import
 - ✕ Delete question
 - 🤖 AI adaptation (single→multi, any→fill)
-- 📥 Export modified JSON
 - `</>` AI debug chat
 
 ### File Upload (JSON)
@@ -130,5 +129,6 @@ The page accepts only JSON question arrays. Both file-picker and drag/drop rejec
 - **Renderers**: Strategy pattern. `SingleRenderer` handles both `single` and `judge`. Dispatcher destroys previous renderer before rendering new question.
 - **Exam mode**: Questions grouped by type, shuffled within type, options re-labeled. `answerDisplay` tracks shuffled labels for user-facing display. Grading uses original keys.
 - **Filters**: all / single / multi / judge / fill / wrong / exam-review / adapted. Search query filters by text content across questions and options.
-- **Tests**: `npm run test:display` checks the built website using Playwright; `node --test tests/server*.cjs` checks publication/authentication. `npm run typecheck` checks TypeScript.
+- **Tests**: `npm run test:display` checks the built website; `npm run test:functions` runs isolated Vite/browser audits; `node --test tests/server*.cjs` checks publication/authentication. `npm run typecheck` checks TypeScript.
+- **Exam shuffle**: Re-rendering exam questions reshuffles options intentionally so users remember content rather than letters. Do not replace this with cached order; grading uses original keys.
 - **Capacitor**: Build output in `www/` (base `'./'`). APK auto-built by GitHub Actions on push.

@@ -16,6 +16,7 @@ export async function gradeFillAnswer(
   userAnswers: Record<string, string>,
 ): Promise<{ results: FillGradeResult[]; overall: 'correct' | 'partial' | 'wrong' } | null> {
   const { apiKey, apiBaseUrl, apiModel } = store.getApiConfig(store.aiSettings.modelForAI || 'remote');
+  if (!apiBaseUrl || !apiModel) return null;
   const baseUrl = apiBaseUrl.replace(/\/+$/, '');
   const blanks = Object.entries(q.options || {}).filter(([, v]) => v);
 
@@ -49,6 +50,7 @@ ${blanksText}
     if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
 
     const res = await fetch(`${baseUrl}/chat/completions`, {
+      signal: AbortSignal.timeout(30000),
       method: 'POST',
       headers,
       body: JSON.stringify({
@@ -80,39 +82,35 @@ ${blanksText}
 function parseGradeResponse(
   content: string,
   blankKeys: string[],
-): { results: FillGradeResult[]; overall: 'correct' | 'partial' | 'wrong' } {
-  // Extract JSON from response (handle ```json wrappers)
-  let jsonStr = content;
-  const jsonMatch = content.match(/\{[\s\S]*\}/);
-  if (jsonMatch) jsonStr = jsonMatch[0];
-
+): { results: FillGradeResult[]; overall: 'correct' | 'partial' | 'wrong' } | null {
+  const json = content.match(/\{[\s\S]*\}/)?.[0] || content;
   try {
-    const parsed = JSON.parse(jsonStr);
-    const results: FillGradeResult[] = (parsed.results || []).map((r: Record<string, unknown>, i: number) => ({
-      blank: (r.blank as string) || blankKeys[i] || '',
-      correct: !!r.correct,
-      feedback: (r.feedback as string) || (r.correct ? '正确' : '错误'),
-    }));
-    const overall = (parsed.overall as string) || 'wrong';
-    return {
-      results: results.length ? results : blankKeys.map(k => ({ blank: k, correct: false, feedback: '判分失败' })),
-      overall: (overall === 'correct' || overall === 'partial' || overall === 'wrong') ? overall : 'wrong',
-    };
-  } catch {
-    // Fallback: check for keywords
-    const hasCorrect = /正确|correct|对/.test(content.toLowerCase());
-    const hasWrong = /错误|wrong|错|不对/.test(content.toLowerCase());
-    const overall: 'correct' | 'partial' | 'wrong' = hasCorrect && !hasWrong ? 'correct' : hasWrong && !hasCorrect ? 'wrong' : 'partial';
-    const results = blankKeys.map(k => ({
-      blank: k,
-      correct: !hasWrong,
-      feedback: hasCorrect && !hasWrong ? 'AI 判断为正确' : 'AI 判断有误',
-    }));
-    return { results, overall };
-  }
+    const parsed = JSON.parse(json);
+    if (!Array.isArray(parsed.results) || parsed.results.length !== blankKeys.length) return null;
+    const results: FillGradeResult[] = blankKeys.map((blank, i) => {
+      const row = parsed.results.find((r: Record<string, unknown>) => r.blank === blank) || parsed.results[i];
+      if (!row || typeof row.correct !== 'boolean') throw new Error('判分结构不完整');
+      return { blank, correct: row.correct, feedback: typeof row.feedback === 'string' ? row.feedback : (row.correct ? '正确' : '错误') };
+    });
+    return { results, overall: results.every(row => row.correct) ? 'correct' : results.some(row => row.correct) ? 'partial' : 'wrong' };
+  } catch { return null; }
 }
 
 // ─── AI Explanation ───
+let explanationRequest: AbortController | null = null;
+let explanationVersion = 0;
+
+export function cancelAIExplanation(): void {
+  ++explanationVersion;
+  explanationRequest?.abort(); explanationRequest = null;
+  store.setAILoading(false);
+  for (const id of ['aiExplainBtn', 'aiSimplifyBtn']) {
+    const btn = document.getElementById(id) as HTMLButtonElement | null;
+    if (btn) { btn.disabled = false; btn.classList.remove('ai-loading'); }
+  }
+  document.getElementById('aiDrawer')?.classList.add('hidden');
+  document.getElementById('aiDrawerOverlay')?.classList.add('hidden');
+}
 
 function isMobile(): boolean {
   return window.innerWidth <= 768;
@@ -180,6 +178,10 @@ function setBtnState(id: string, loading: boolean, text: string): void {
 export async function fetchAIExplanation(q: Question, simple = false): Promise<void> {
   if (store.aiLoading) return;
   store.setAILoading(true);
+  const version = ++explanationVersion;
+  const controller = new AbortController(); explanationRequest = controller;
+  const timeout = window.setTimeout(() => controller.abort(), 30000);
+  const stillCurrent = () => version === explanationVersion;
 
   const btnId = simple ? 'aiSimplifyBtn' : 'aiExplainBtn';
   const loadingText = simple ? '🤖 纠错中' : '🤖 解析中';
@@ -192,6 +194,7 @@ export async function fetchAIExplanation(q: Question, simple = false): Promise<v
   if (simple) {
     // ── Simple mode: inline ──
     if (q.simpleExplanation) {
+      window.clearTimeout(timeout); explanationRequest = null;
       showExplanationInline(q, q.simpleExplanation, label);
       store.setAILoading(false);
       setBtnState(btnId, false, doneText);
@@ -200,6 +203,7 @@ export async function fetchAIExplanation(q: Question, simple = false): Promise<v
 
     try {
       const { apiKey, apiBaseUrl, apiModel } = store.getApiConfig(store.aiSettings.modelForAI || 'remote');
+      if (!apiBaseUrl || !apiModel) throw new Error('请先配置 AI 模型');
       const baseUrl = apiBaseUrl.replace(/\/+$/, '');
       const prompt = buildSimplePrompt(q);
 
@@ -207,6 +211,7 @@ export async function fetchAIExplanation(q: Question, simple = false): Promise<v
       if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
 
       const res = await fetch(`${baseUrl}/chat/completions`, {
+        signal: controller.signal,
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -223,6 +228,7 @@ export async function fetchAIExplanation(q: Question, simple = false): Promise<v
       if (!res.ok) throw new Error(`API 请求失败 (${res.status})`);
 
       const data = await res.json();
+      if (!stillCurrent()) return;
       const rawContent = (
         data.choices?.[0]?.message?.content ||
         data.choices?.[0]?.message?.reasoning_content ||
@@ -238,10 +244,11 @@ export async function fetchAIExplanation(q: Question, simple = false): Promise<v
       showExplanationInline(q, rawContent, label);
       store.save();
     } catch (err: unknown) {
+      if (!stillCurrent()) return;
       showExplanationInline(q, autoExplanation(q) + '\n\n---\n⚠️ AI 纠错暂时不可用，以上为本地参考。', fallbackLabel);
     } finally {
-      store.setAILoading(false);
-      setBtnState(btnId, false, doneText);
+      window.clearTimeout(timeout);
+      if (stillCurrent()) { store.setAILoading(false); setBtnState(btnId, false, doneText); explanationRequest = null; }
     }
     return;
   }
@@ -250,6 +257,7 @@ export async function fetchAIExplanation(q: Question, simple = false): Promise<v
   const target = initDisplay('detailed');
 
   if (q.explanation) {
+    window.clearTimeout(timeout); explanationRequest = null;
     const html = formatExplanation(q.explanation);
     if (target?.type === 'drawer') {
       target.body.innerHTML = html;
@@ -263,6 +271,7 @@ export async function fetchAIExplanation(q: Question, simple = false): Promise<v
 
   try {
     const { apiKey, apiBaseUrl, apiModel } = store.getApiConfig(store.aiSettings.modelForAI || 'remote');
+    if (!apiBaseUrl || !apiModel) throw new Error('请先配置 AI 模型');
     const baseUrl = apiBaseUrl.replace(/\/+$/, '');
     const prompt = buildDetailedPrompt(q);
 
@@ -270,6 +279,7 @@ export async function fetchAIExplanation(q: Question, simple = false): Promise<v
     if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
 
     const res = await fetch(`${baseUrl}/chat/completions`, {
+      signal: controller.signal,
       method: 'POST',
       headers,
       body: JSON.stringify({
@@ -289,6 +299,7 @@ export async function fetchAIExplanation(q: Question, simple = false): Promise<v
     }
 
     const data = await res.json();
+    if (!stillCurrent()) return;
     const rawContent = (
       data.choices?.[0]?.message?.content ||
       data.choices?.[0]?.message?.reasoning_content ||
@@ -309,6 +320,7 @@ export async function fetchAIExplanation(q: Question, simple = false): Promise<v
     }
     store.save();
   } catch (err: unknown) {
+    if (!stillCurrent()) return;
     const localContent = autoExplanation(q) + '\n\n---\n⚠️ AI 解析暂时不可用，以上为本地参考。';
     if (target?.type === 'drawer') {
       target.body.innerHTML = formatExplanation(localContent);
@@ -316,8 +328,8 @@ export async function fetchAIExplanation(q: Question, simple = false): Promise<v
       showExplanationInline(q, localContent, fallbackLabel);
     }
   } finally {
-    store.setAILoading(false);
-    setBtnState(btnId, false, doneText);
+    window.clearTimeout(timeout);
+    if (stillCurrent()) { store.setAILoading(false); setBtnState(btnId, false, doneText); explanationRequest = null; }
   }
 }
 

@@ -541,7 +541,7 @@ h1 .svg-icon, h2 .svg-icon, h3 .svg-icon {
 .model-fetch-status { min-height: 1.25em; margin-top: 5px; color: var(--text-secondary); font-size: .78rem; }
 
 /* Library and learning workspace */
-.container { max-width: 920px; padding-bottom: 170px; }
+.container { max-width: 920px; padding-bottom: calc(180px + env(safe-area-inset-bottom, 0px)); }
 .app-header { padding: 14px max(20px, calc((100vw - 1120px) / 2)); }
 .app-header h1 { white-space: nowrap; }
 .header-actions { flex-wrap: wrap; justify-content: flex-end; }
@@ -565,7 +565,7 @@ h1 .svg-icon, h2 .svg-icon, h3 .svg-icon {
 .welcome-panel.compact .eyebrow { display: none; }
 .upload-area.collapsed { margin-bottom: 12px; }
 .q-card { scroll-margin-top: 110px; }
-.bottom-bar { max-width: 920px; margin: 0 auto; border: 1px solid var(--border); border-bottom: 0; border-radius: 14px 14px 0 0; }
+.bottom-bar { max-width: 888px; margin: 0 auto; padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
 .q-card { padding: 28px 32px; }
 .q-text p, .option .text p { margin: 0 0 .65em; }
 .q-text p:last-child, .option .text p:last-child { margin-bottom: 0; }
@@ -620,19 +620,21 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 /* ── Nav ── */
 .nav-ai-row {
   display: flex;
-  gap: 6px;
-  margin-top: 10px;
+  gap: 12px;
+  margin: 0;
 }
-.nav-ai-row:empty { display: none; }
+.nav-ai-row:empty, .nav-ai-row:not(:has(button:not(.hidden))) { display: none; }
 .btn-ai-wide {
   flex: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: 5px 10px;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 16px;
   border-radius: var(--radius-sm);
-  font-size: .78rem;
+  font-size: .875rem;
+  line-height: 1.4;
   font-weight: 500;
   cursor: pointer;
   transition: all var(--transition);
@@ -654,18 +656,18 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .nav-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 6px;
+  gap: 12px;
+  margin: 0;
   justify-content: center;
 }
-.nav-buttons button { min-width: 0; flex-shrink: 1; }
+.nav-buttons button { min-width: 0; flex: 1 1 0; min-height: 44px; justify-content: center; gap: 8px; line-height: 1.4; }
 /* Primary nav button stands out with more emphasis */
 .nav-buttons .btn-primary {
-  padding: 6px 12px;
+  padding: 10px 14px;
 }
 /* Secondary buttons more compact */
 .nav-buttons .btn-outline {
-  padding: 6px 10px;
+  padding: 10px 14px;
 }
 
 /* ── Tab Bar ── */
@@ -1053,7 +1055,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 /* ── Responsive ── */
 @media (max-width: 480px) {
-  .container { padding: 12px 10px 130px; }
+  .container { padding: 12px 10px calc(170px + env(safe-area-inset-bottom, 0px)); }
+  .bottom-bar { padding: 12px 12px calc(12px + env(safe-area-inset-bottom, 0px)); }
   .q-card { padding: 14px; }
   .q-text { font-size: .95rem; line-height: 1.6; }
   .q-header { margin-bottom: 12px; padding-bottom: 10px; }
@@ -1088,13 +1091,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .tab-bar button { font-size: .75rem; padding: 6px 4px; }
 
   /* AI row: compact */
-  .nav-ai-row { gap: 5px; margin-top: 12px; }
-  .btn-ai-wide { font-size: .78rem; padding: 6px 8px; gap: 4px; }
+  .nav-ai-row { gap: 8px; margin: 0; }
+  .btn-ai-wide { font-size: .82rem; padding: 10px 8px; gap: 6px; }
   .btn-ai-wide .svg-icon { width: 16px; height: 16px; }
 
   /* Nav buttons: hide random on mobile to prevent overflow */
-  .nav-buttons { gap: 4px; margin-top: 6px; }
-  .nav-buttons button { flex: 1; justify-content: center; min-width: 0; font-size: .72rem; padding: 5px 4px; gap: 2px; }
+  .nav-buttons { gap: 8px; margin: 0; }
+  .nav-buttons button { flex: 1; justify-content: center; min-width: 0; font-size: .8rem; padding: 10px 6px; gap: 4px; }
   .nav-buttons button .svg-icon { width: 16px; height: 16px; }
   #randomBtn { display: none; }
 
@@ -1450,6 +1453,38 @@ input::placeholder, textarea::placeholder { color: var(--text-secondary); opacit
 
 /* The library dialog owns its width and scrolling instead of inheriting the small form modal. */
 #questionPoolModal { padding: 24px; overscroll-behavior: contain; }
+.modal textarea { width: 100%; min-height: 104px; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); color: var(--text); font: inherit; font-size: .9rem; line-height: 1.6; resize: vertical; }
+.modal textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(91,110,247,.12); }
+#memorizeBtn.active { background: var(--primary); color: var(--on-primary); border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-subtle); }
+#memorizeBtn.active:hover { background: var(--primary-hover); }
+.developer-service { margin: 14px 0; }
+.developer-service summary { cursor: pointer; color: var(--text-secondary); font-size: .82rem; }
+.developer-service .muted { margin-top: 6px; font-size: .76rem; }
+.model-field-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin: 18px 0 8px; }
+.storage-notice { position: fixed; top: 16px; left: 16px; right: 16px; z-index: 2000; margin: auto; max-width: 760px; display: flex; align-items: center; gap: 16px; padding: 16px; border: 1px solid var(--wrong); border-radius: 12px; background: var(--card-bg); color: var(--text); box-shadow: var(--shadow-lg); font-size: .85rem; }
+.storage-notice button { flex-shrink: 0; }
+.model-field-heading label { margin: 0; }
+.model-field-heading button { min-height: 38px; }
+.modal .model-manual-choice { display: flex; gap: 8px; align-items: center; margin: 12px 0; font-weight: 400; }
+.model-manual-choice input { width: 18px; height: 18px; padding: 0; }
+@media (max-width: 680px) {
+  .app-header { display: block; padding: 8px 12px; }
+  .app-header h1 { margin-bottom: 8px; font-size: .95rem; }
+  .header-actions { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; max-width: none; width: 100%; }
+  .header-actions > button, .header-actions > a { width: 100%; min-height: 34px; margin: 0; justify-content: center; padding: 4px; font-size: .75rem; gap: 4px; }
+  .header-actions .svg-icon { width: 14px; height: 14px; }
+  .header-actions .theme-btn { font-size: .75rem; color: var(--text); }
+  .header-actions #settingsBtn::after { content: '设置'; }
+  .header-actions .btn-sm { min-height: 34px; justify-content: center; padding: 4px; font-size: .75rem; }
+  .welcome-panel, .welcome-panel.compact { padding: 12px 14px; gap: 12px; margin-bottom: 12px; border-radius: 12px; }
+  .welcome-panel > div { min-width: 0; flex: 1; }
+  .welcome-panel h2 { font-size: 1.1rem; overflow-wrap: anywhere; }
+  .welcome-panel.compact { flex-wrap: nowrap; }
+  .welcome-panel.compact h2 { font-size: 1rem; }
+  .welcome-panel p { font-size: .75rem; margin-top: 4px; }
+  .welcome-panel .btn-primary { min-height: 34px; padding: 6px 10px; font-size: .78rem; }
+  .q-card { scroll-margin-top: 144px; }
+}
 #questionPoolModal .pool-modal {
   display: grid; grid-template-rows: auto minmax(0, 1fr);
   width: min(960px, 100%); max-width: 960px; max-height: min(900px, calc(100dvh - 48px));

@@ -8,8 +8,10 @@ export class FillRenderer implements QuestionRenderer {
   private handled = false;
   private gradeMode: 'local' | 'ai' = 'local';
   private container: HTMLElement | null = null;
+  private generation = 0;
 
   render(q: Question, config: RenderConfig): void {
+    ++this.generation;
     this.handled = false;
     this.gradeMode = 'local';
     const { optContainer, fillContainer } = config;
@@ -71,6 +73,7 @@ export class FillRenderer implements QuestionRenderer {
 
   private async handleSubmit(q: Question, config: RenderConfig): Promise<void> {
     if (this.handled) return;
+    const generation = this.generation;
 
     const { fillContainer, onAnswered } = config;
     const inputs = fillContainer.querySelectorAll<HTMLInputElement>('input[data-blank]');
@@ -98,6 +101,7 @@ export class FillRenderer implements QuestionRenderer {
     }
 
     // ── AI mode ──
+    this.handled = true;
     const submitBtn = fillContainer.querySelector('#fillSubmitBtn') as HTMLButtonElement;
     if (submitBtn) {
       submitBtn.disabled = true;
@@ -105,6 +109,7 @@ export class FillRenderer implements QuestionRenderer {
     }
 
     const result = await gradeFillAnswer(q, userAnswers);
+    if (generation !== this.generation) return;
 
     if (submitBtn) {
       submitBtn.disabled = false;
@@ -131,7 +136,7 @@ export class FillRenderer implements QuestionRenderer {
     // Apply AI results to inputs
     const overall = result.overall;
     result.results.forEach(r => {
-      const inp = fillContainer.querySelector<HTMLInputElement>(`input[data-blank="${r.blank}"]`);
+      const inp = Array.from(inputs).find(input => input.dataset.blank === r.blank);
       if (inp) {
         inp.classList.add(r.correct ? 'correct' : 'wrong');
       }
@@ -163,6 +168,7 @@ export class FillRenderer implements QuestionRenderer {
   }
 
   destroy(): void {
+    ++this.generation;
     this.handled = false;
   }
 

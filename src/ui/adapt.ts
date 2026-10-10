@@ -2,6 +2,7 @@ import type { Question, ContentBlock, AdaptMode } from '../types';
 import { store } from '../state';
 import { TYPE_LABELS } from '../types';
 import { contentBlocksToText } from '../format';
+import { normalizeQuestions } from '../questions';
 
 // ─── AI Prompt helpers ───
 
@@ -71,12 +72,14 @@ async function callAI(
   systemPrompt: string,
 ): Promise<string | null> {
   const { apiKey, apiBaseUrl, apiModel } = store.getApiConfig(store.aiSettings.modelForAdapt || 'remote');
+  if (!apiBaseUrl || !apiModel) return null;
   const baseUrl = apiBaseUrl.replace(/\/+$/, '');
   try {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
     if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
 
     const res = await fetch(`${baseUrl}/chat/completions`, {
+      signal: AbortSignal.timeout(30000),
       method: 'POST',
       headers,
       body: JSON.stringify({
@@ -179,7 +182,6 @@ export async function adaptQuestions(
         difficulty: q.difficulty,
         explanation: '',
       });
-      originalIds.push(q.id);
     } else {
       const parsed = parseMultiResponse(result);
       if (!parsed) { failed++; onProgress?.(i + 1, questions.length); continue; }
@@ -192,8 +194,13 @@ export async function adaptQuestions(
         difficulty: q.difficulty,
         explanation: '',
       });
-      originalIds.push(q.id);
     }
+
+    try {
+      const checked = normalizeQuestions([adapted[adapted.length - 1]])[0];
+      adapted[adapted.length - 1] = checked;
+      originalIds.push(q.id);
+    } catch { adapted.pop(); failed++; }
 
     onProgress?.(i + 1, questions.length);
   }
@@ -282,6 +289,7 @@ export function showAdaptModal(): void {
   overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
 
   overlay.querySelector('#adaptStartBtn')?.addEventListener('click', async () => {
+    if ((overlay.querySelector('#adaptStartBtn') as HTMLButtonElement).dataset.done === 'true') { close(); window.dispatchEvent(new CustomEvent('adapt-done')); return; }
     const startBtn = overlay.querySelector('#adaptStartBtn') as HTMLButtonElement;
     const progressDiv = overlay.querySelector('#adaptProgress') as HTMLElement;
     const progressText = overlay.querySelector('#adaptProgressText') as HTMLElement;
@@ -320,6 +328,7 @@ export function showAdaptModal(): void {
     );
 
     progressBar.style.width = '100%';
+    if (!overlay.isConnected) return;
 
     if (success.length > 0) {
       store.startAdapt(success, originalIds, currentMode);
@@ -330,11 +339,7 @@ export function showAdaptModal(): void {
         <br><small style="color:var(--text-secondary)">已保存到「改编题」列表，可在筛选栏查看。</small>
       `;
       startBtn.textContent = '✅ 完成';
-      startBtn.onclick = () => {
-        close();
-        // Dispatch event to switch to adapted view
-        window.dispatchEvent(new CustomEvent('adapt-done'));
-      };
+      startBtn.dataset.done = 'true'; startBtn.disabled = false;
     } else {
       resultDiv.style.display = 'block';
       resultDiv.innerHTML = '❌ 全部改编失败，请检查 API 配置或网络。';

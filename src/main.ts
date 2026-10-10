@@ -5,21 +5,23 @@ import { TYPE_LABELS } from './types';
 import { store } from './state';
 import { getFiltered } from './filter';
 import { formatExplanation, autoExplanation, renderText, escapeHtml } from './format';
-import { renderQuestion as dispatchRender, showAnswer as dispatchShowAnswer, getCurrentRenderer } from './renderers/index';
+import { renderQuestion as dispatchRender, showAnswer as dispatchShowAnswer, getCurrentRenderer, destroyCurrent } from './renderers/index';
 import type { RenderConfig } from './types';
-import { fetchAIExplanation } from './ai';
+import { fetchAIExplanation, cancelAIExplanation } from './ai';
 import { applyTheme } from './ui/theme';
 import { initTheme } from './ui/theme';
 import { initSettings } from './ui/settings';
 import { renderErrorBook, bindErrorBookClicks } from './ui/errorBook';
 import { renderThumbnails, handleThumbnailClick, setThumbnailJumpHandler } from './ui/questionGrid';
 import { showExamSetup, showExamResults, renderExamTypeTabs, onExamTypeTabClick, getCurrentSectionInfo } from './ui/examMode';
-import { showEditModal, showFullEditModal, showInsertModal, exportQuestions } from './ui/editor';
+import { showEditModal, showFullEditModal, showInsertModal } from './ui/editor';
 import { showAdaptModal } from './ui/adapt';
-import { showDevLogin, isAtLeast } from './ui/login';
+import { showDevLogin } from './ui/login';
 import { initQuestionPool } from './ui/questionPool';
 import { normalizeQuestions } from './questions';
-import { CHECK, X, EYE, CLIPBOARD, BOOK_OPEN, REFRESH, EDIT, DOWNLOAD, CODE } from './icons';
+import { clearDeveloperSession } from './developerSession';
+import { bankFingerprint } from './utils';
+import { CHECK, X, EYE, CLIPBOARD, BOOK_OPEN, REFRESH, EDIT, CODE } from './icons';
 
 // ─── DOM refs ───
 const $ = (id: string) => document.getElementById(id)!;
@@ -155,7 +157,7 @@ const renderConfig: RenderConfig = {
         store.state.errorBook = { ...store.state.errorBook, [q.id]: true };
 
         if (q.type === 'multi') {
-          feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误（正确答案：${q.answer}）`;
+          feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误（正确答案：${escapeHtml(q.answer)}）`;
         } else {
           feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误`;
         }
@@ -171,7 +173,7 @@ const renderConfig: RenderConfig = {
 
       // Auto-advance on correct answer
       if (result.isCorrect && store.aiSettings.autoNext) {
-        setTimeout(() => nextBtn.click(), 200);
+        autoNextTimer = setTimeout(() => { autoNextTimer = null; if (getCurrentQuestion()?.id === q.id) nextBtn.click(); }, 200);
       }
     }
   },
@@ -179,8 +181,11 @@ const renderConfig: RenderConfig = {
 
 // ─── Render current question ───
 let activeQuestionId = -1;
+let autoNextTimer: ReturnType<typeof setTimeout> | null = null;
 
 function renderQuestion(): void {
+  if (autoNextTimer) { clearTimeout(autoNextTimer); autoNextTimer = null; }
+  cancelAIExplanation();
   feedback.classList.remove('show', 'correct', 'wrong', 'ai-exp');
   store.setAnswered(false);
   redoBtn.classList.add('hidden');
@@ -192,6 +197,7 @@ function renderQuestion(): void {
     const idx = store.exam.currentIndex;
 
     if (!examQs.length) {
+      destroyCurrent();
       qText.textContent = '无考试题目。';
       optContainer.innerHTML = '';
       fillContainer.innerHTML = '';
@@ -248,8 +254,10 @@ function renderQuestion(): void {
           feedbackRes.innerHTML = `<span class="svg-icon">${CHECK}</span> 回答正确`;
         } else {
           feedback.classList.add('show', 'wrong');
-          const displayAns = store.exam.answerDisplay[q.id] || gd.selected;
-          feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误（你的答案：${escapeHtml(displayAns)}，正确答案：${escapeHtml(gd.correct)}）`;
+          const letters = (selector: string) => Array.from(optContainer.querySelectorAll(`${selector} .letter`), el => el.textContent || '').join('');
+          const displayAns = q.type === 'fill' ? (store.exam.answerDisplay[q.id] || gd.selected) : (letters('.selected') || '未作答');
+          const correctAns = q.type === 'fill' ? gd.correct : letters('.correct, .highlight');
+          feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误（你的答案：${escapeHtml(displayAns)}，正确答案：${escapeHtml(correctAns)}）`;
         }
         explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
       }
@@ -285,6 +293,7 @@ function renderQuestion(): void {
   if (store.state.filterType === 'adapted') {
     const adaptedQs = store.adapted.questions;
     if (!adaptedQs.length) {
+      destroyCurrent();
       qNumber.textContent = '第 0 题 / 共 0 题';
       qTags.innerHTML = '';
       qText.textContent = '无改编题。请先在开发者模式中使用「改编」功能生成。';
@@ -327,6 +336,7 @@ let idx = store.state.currentIndex;
   const filtered = getFiltered(questions, filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
 
   if (!questions.length || !filtered.length) {
+    destroyCurrent();
     qNumber.textContent = '第 0 题 / 共 0 题';
     qTags.innerHTML = '';
     qText.textContent = !questions.length ? '请先上传题库文件。' : '当前筛选条件下无题目。';
@@ -408,7 +418,7 @@ let idx = store.state.currentIndex;
     store.setAnswered(true);
     dispatchShowAnswer(q);
     feedback.classList.add('show', 'correct');
-    feedbackRes.innerHTML = `<span class="svg-icon">${CHECK}</span> 正确答案：${q.answer}`;
+    feedbackRes.innerHTML = `<span class="svg-icon">${CHECK}</span> 正确答案：${escapeHtml(q.answer)}`;
     explanation.innerHTML = formatExplanation(getExplanation(q));
   }
 
@@ -631,7 +641,7 @@ function renderRecentFiles(): void {
   const files = store.recentFiles;
   if (!files.length) { recentList.innerHTML = ''; return; }
   recentList.innerHTML = files.map((f, i) =>
-    `<button class="recent-item" data-idx="${i}">${f.name} (${f.count}题)` +
+    `<button class="recent-item" data-idx="${i}">${escapeHtml(f.name)} (${f.count}题)` +
     `<span class="del" data-idx="${i}" title="移除">✕</span></button>`
   ).join('');
 }
@@ -740,7 +750,7 @@ nextBtn.addEventListener('click', () => {
       renderQuestion();
     }
   } else {
-    const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
+    const filtered = store.state.filterType === 'adapted' ? store.adapted.questions : getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
     if (store.state.currentIndex < filtered.length - 1) {
       store.update({ currentIndex: store.state.currentIndex + 1 });
       renderQuestion();
@@ -751,7 +761,7 @@ nextBtn.addEventListener('click', () => {
 
 randomBtn.addEventListener('click', () => {
   if (store.exam.active) return;
-  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
+  const filtered = store.state.filterType === 'adapted' ? store.adapted.questions : getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
   if (filtered.length < 2) return;
   let idx: number;
   do { idx = Math.floor(Math.random() * filtered.length); } while (idx === store.state.currentIndex);
@@ -763,9 +773,8 @@ randomBtn.addEventListener('click', () => {
 // ─── Show Answer ───
 showAnsBtn.addEventListener('click', () => {
   if (store.state.memorizeMode) return; // 背题模式下答案已显示
-  const filtered = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery);
-  if (!filtered.length) return;
-  const q = filtered[store.state.currentIndex];
+  const q = getCurrentQuestion();
+  if (!q) return;
   if (store.answered) return;
   store.setAnswered(true);
   store.update({ wrongCount: store.state.wrongCount + 1 });
@@ -774,7 +783,7 @@ showAnsBtn.addEventListener('click', () => {
   optContainer.querySelectorAll('.option').forEach(el => el.classList.add('disabled'));
   dispatchShowAnswer(q);
   feedback.classList.add('show', 'wrong');
-  feedbackRes.innerHTML = `<span class="svg-icon">${EYE}</span> 已显示答案（正确答案：${q.answer}）`;
+  feedbackRes.innerHTML = `<span class="svg-icon">${EYE}</span> 已显示答案（正确答案：${escapeHtml(q.answer)}）`;
   explanation.innerHTML = formatExplanation(getExplanation(q));
   updateStats();
   store.save();
@@ -943,6 +952,9 @@ function renderExamHistory(): void {
       const id = (btn as HTMLElement).dataset.id!;
       const record = store.examRecords.find(r => r.id === id);
       if (!record || !record.wrongIds.length) return;
+      if (!record.bankFingerprint || record.bankFingerprint !== bankFingerprint(store.state.questions)) {
+        alert('这条考试记录来自其他版本或其他题库。请先加载考试时的原题库；旧版记录只保留成绩查看。'); return;
+      }
       store.startExamErrorReview(record.wrongIds);
       renderExamHistory();
       renderQuestion();
@@ -976,6 +988,16 @@ window.addEventListener('unhandledrejection', (e) => {
 window.addEventListener('error', (e) => {
   if (e.error) showRuntimeError(e.error);
 });
+window.addEventListener('beforeunload', e => {
+  if (store.exam.active && !store.exam.graded) { e.preventDefault(); e.returnValue = ''; }
+});
+window.addEventListener('storage-save-failed', () => {
+  if (document.getElementById('storageSaveNotice')) return;
+  const notice = document.createElement('div'); notice.id = 'storageSaveNotice'; notice.className = 'storage-notice';
+  const message = document.createElement('span'); message.textContent = '本机存储空间不足或已禁用，当前题库/进度未保存。刷新前请保留原 JSON，或清理“最近打开”记录。';
+  const close = document.createElement('button'); close.textContent = '知道了'; close.onclick = () => notice.remove();
+  notice.append(message, close); document.body.appendChild(notice);
+});
 
 // ─── Init ───
 function init(): void {
@@ -997,13 +1019,6 @@ function init(): void {
   memorizeBtn.id = 'memorizeBtn';
   memorizeBtn.title = '背题模式 — 直接显示答案';
   memorizeBtn.innerHTML = `<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>背题`;
-  const exportBtn = document.createElement('button');
-  exportBtn.className = 'btn-sm btn-outline';
-  exportBtn.id = 'exportBtn';
-  exportBtn.title = '导出题库 JSON';
-  exportBtn.innerHTML = `<span class="svg-icon">${DOWNLOAD}</span>导出`;
-  exportBtn.style.display = 'none';
-
   const adaptBtn = document.createElement('button');
   adaptBtn.className = 'btn-sm';
   adaptBtn.id = 'adaptBtn';
@@ -1019,35 +1034,21 @@ function init(): void {
   aiDebugBtn.style.display = 'none';
   aiDebugBtn.addEventListener('click', () => import('./ui/aidebug').then(m => m.showAIDebug()));
 
-  const syncBtn = document.createElement('button');
-  syncBtn.className = 'btn-sm btn-outline';
-  syncBtn.id = 'syncBtn';
-  syncBtn.title = '数据同步';
-  syncBtn.innerHTML = '<span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></span>同步';
-  syncBtn.style.display = 'none';
-  syncBtn.addEventListener('click', () => import('./ui/sync').then(m => m.showSyncModal()));
   const headerActions = document.querySelector('.header-actions');
   if (headerActions) {
     headerActions.appendChild(memorizeBtn);
     headerActions.appendChild(devModeBtn);
     headerActions.appendChild(adaptBtn);
     headerActions.appendChild(aiDebugBtn);
-    headerActions.appendChild(syncBtn);
-    headerActions.appendChild(exportBtn);
   }
 
   adaptBtn.addEventListener('click', showAdaptModal);
 
   function updateDevModeUI(): void {
-    const tier = store.aiSettings.userTier || 'guest';
     const isOn = !!store.aiSettings.devMode;
-    const isRoot = tier === 'root';
     devModeBtn.classList.toggle('active', isOn);
     adaptBtn.style.display = isOn ? '' : 'none';
     aiDebugBtn.style.display = isOn ? '' : 'none';
-    exportBtn.style.display = isOn ? '' : 'none';
-    // Sync only for root
-    const sb = document.getElementById('syncBtn'); if (sb) sb.style.display = (isRoot && isOn) ? '' : 'none';
     // Add/remove adapted filter chip
     const existing = filterBar.querySelector('.filter-chip[data-type="adapted"]');
     if (isOn && !existing) {
@@ -1067,6 +1068,7 @@ function init(): void {
   }
   function showDevLoginModal(): void {
     if (store.aiSettings.devMode) {
+      clearDeveloperSession();
       sessionStorage.removeItem('shuatitong_dev');
       store.updateAISettings({ devMode: false, userTier: 'guest' });
       updateDevModeUI();
@@ -1079,18 +1081,23 @@ function init(): void {
     const newVal = !store.state.memorizeMode;
     store.update({ memorizeMode: newVal, currentIndex: 0 });
     memorizeBtn.classList.toggle('active', newVal);
+    memorizeBtn.setAttribute('aria-pressed', String(newVal));
+    memorizeBtn.lastChild!.textContent = newVal ? '背题中' : '背题';
     renderQuestion();
     store.save();
   });
 
   devModeBtn.addEventListener('click', showDevLoginModal);
-  exportBtn.addEventListener('click', exportQuestions);
 
   // Apply initial dev mode state
   updateDevModeUI();
 
   // Restore memorize button state
-  if (store.state.memorizeMode) memorizeBtn.classList.add('active');
+  if (store.state.memorizeMode) {
+    memorizeBtn.classList.add('active');
+    memorizeBtn.lastChild!.textContent = '背题中';
+  }
+  memorizeBtn.setAttribute('aria-pressed', String(!!store.state.memorizeMode));
 
   // Click explanation to expand/collapse long content
   explanation.addEventListener('click', (e) => {
@@ -1151,6 +1158,9 @@ function init(): void {
   window.addEventListener('questions-synced', updateUI);
 
   const restored = store.restore();
+  memorizeBtn.classList.toggle('active', !!store.state.memorizeMode);
+  memorizeBtn.setAttribute('aria-pressed', String(!!store.state.memorizeMode));
+  memorizeBtn.lastChild!.textContent = store.state.memorizeMode ? '背题中' : '背题';
   renderExamHistory();
   if (restored && store.state.questions.length) {
     searchInput.value = store.state.searchQuery || '';

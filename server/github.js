@@ -20,9 +20,10 @@ function encodePath(value) {
 }
 
 class GithubError extends Error {
-  constructor(status = 502) {
+  constructor(status = 502, code = undefined) {
     super(status === 409 ? 'GitHub 分支已被更新，请重试' : 'GitHub 请求失败');
     this.status = status;
+    this.code = code;
   }
 }
 
@@ -89,6 +90,18 @@ function createGithubClient(options = {}) {
     return { parentSha, baseTree, catalog, existingFile: Boolean(fileEntry), fileEntry };
   }
 
+  async function requireRenameTargetAvailable(filename, snapshot) {
+    if (!snapshot?.parentSha) throw new GithubError();
+    if (snapshot.catalog.banks.some(bank => bank && bank.filename === filename)) throw new GithubError(409, 'target_exists');
+    try {
+      await request(`${repoPrefix}/contents/${encodePath(`${BANK_DIR}/${filename}`)}?ref=${encodeURIComponent(snapshot.parentSha)}`);
+    } catch (error) {
+      if (error.status === 404) return;
+      throw error;
+    }
+    throw new GithubError(409, 'target_exists');
+  }
+
   async function getBank(filename) {
     const snapshot = await preparePublication(filename);
     const bank = snapshot.catalog.banks.find(entry => entry && entry.filename === filename);
@@ -110,9 +123,11 @@ function createGithubClient(options = {}) {
     } catch { throw new GithubError(); }
   }
 
-  async function publish({ filename, bankJson, deleteBank = false, catalog, snapshot, message }) {
+  async function publish({ filename, bankJson, deleteBank = false, originalFilename, catalog, snapshot, message }) {
     if (!snapshot?.parentSha || !snapshot?.baseTree) throw new GithubError();
     if (deleteBank && bankJson !== undefined) throw new GithubError();
+    const renamed = originalFilename !== undefined && originalFilename !== filename;
+    if (renamed && (deleteBank || !snapshot.fileEntry?.sha)) throw new GithubError();
     const encoded = value => Buffer.from(JSON.stringify(value, null, 2) + '\n', 'utf8').toString('base64');
     const blob = value => request(`${repoPrefix}/git/blobs`, {
       method: 'POST', body: JSON.stringify({ content: encoded(value), encoding: 'base64' }),
@@ -127,11 +142,14 @@ function createGithubClient(options = {}) {
     } else {
       catalogBlob = await blob(catalog);
       if (deleteBank) treeEntries.push({ path: `${BANK_DIR}/${filename}`, mode: '100644', type: 'blob', sha: null });
+      else if (renamed) treeEntries.push({ path: `${BANK_DIR}/${filename}`, mode: '100644', type: 'blob', sha: snapshot.fileEntry.sha });
     }
+    if (renamed) treeEntries.push({ path: `${BANK_DIR}/${originalFilename}`, mode: '100644', type: 'blob', sha: null });
     if (!catalogBlob?.sha) throw new GithubError();
     treeEntries.push({ path: CATALOG_PATH, mode: '100644', type: 'blob', sha: catalogBlob.sha });
-    // Metadata edits retain the bank blob from base_tree unchanged. Publication
-    // and deletion update both files through one tree, commit and non-force ref.
+    // Metadata edits retain the bank blob from base_tree unchanged. Rename-only
+    // edits reuse its SHA; replacements, renames and deletion update the index
+    // and all affected paths through one tree, commit and non-force ref.
     const tree = await request(`${repoPrefix}/git/trees`, {
       method: 'POST',
       body: JSON.stringify({
@@ -151,7 +169,7 @@ function createGithubClient(options = {}) {
     return { commitSha: commit.sha };
   }
 
-  return { config, getCatalog, getBank, preparePublication, publish };
+  return { config, getCatalog, getBank, preparePublication, requireRenameTargetAvailable, publish };
 }
 
 module.exports = { createGithubClient, githubConfig, configured, GithubError, CATALOG_PATH, BANK_DIR };

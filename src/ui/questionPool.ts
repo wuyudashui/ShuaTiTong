@@ -3,6 +3,8 @@ import { store } from '../state';
 import { escapeHtml, renderText } from '../format';
 import { normalizeQuestions } from '../questions';
 import { BOOK_OPEN, DOWNLOAD } from '../icons';
+import { getDeveloperSession, clearDeveloperSession } from '../developerSession';
+import { showDevLogin } from './login';
 
 interface Bank {
   filename: string; name: string; subject: string; description: string;
@@ -52,10 +54,8 @@ function showQuestionPool(load: (questions: Question[], name?: string) => void):
     <div id="poolStatus" class="pool-status" role="status">正在加载题库目录…</div>
     <div id="poolList" class="pool-list"></div>
     ${developer ? `<details id="publisherPanel" class="publisher-panel"><summary>开发者题库维护</summary>
-      <p class="muted">在开发者主机连接发布服务，验证后可发布题库。发布后网站会自动更新。</p>
-      <label for="publisherServer">发布服务地址</label><input id="publisherServer" value="${escapeHtml(import.meta.env.DEV ? '/publisher' : 'http://127.0.0.1:3001')}" class="edit-input">
-      <div class="publisher-credentials"><div><label for="publisherUser">账号</label><input id="publisherUser" autocomplete="username" class="edit-input"></div><div><label for="publisherPassword">密码</label><input id="publisherPassword" type="password" autocomplete="current-password" class="edit-input"></div></div>
-      <button id="publisherConnect" class="btn-outline">连接发布服务</button><p id="publisherStatus" class="muted" role="status"></p>
+      <p class="muted">复用开发者模式的登录，保存后网站会自动更新。</p>
+      <p id="publisherStatus" class="muted" role="status">正在检查发布服务…</p><button id="publisherConnect" class="btn-outline hidden">连接发布服务</button>
       <form id="publishForm" class="hidden">
         <div class="publisher-edit-heading"><strong id="publishMode">新增公共题库</strong><button type="button" id="publishNew" class="btn-outline">新增题库</button></div>
         <p id="publishHint" class="muted">选择 JSON 文件，或使用当前已加载的本地题库。</p>
@@ -139,7 +139,9 @@ function showQuestionPool(load: (questions: Question[], name?: string) => void):
 }
 
 function bindPublisher(overlay: HTMLElement, refresh: (banks: Bank[]) => void) {
-  let token = '', server = '';
+  let session = getDeveloperSession();
+  let token = session?.token || '', server = session?.server || '';
+  let ready = false;
   const $ = <T extends HTMLElement>(id: string) => overlay.querySelector(`#${id}`) as T;
   const status = $('publisherStatus');
   let editing = '', pending: Bank | null = null;
@@ -150,7 +152,10 @@ function bindPublisher(overlay: HTMLElement, refresh: (banks: Bank[]) => void) {
   const request = async (path: string, body?: unknown, method = body ? 'POST' : 'GET') => {
     const response = await fetch(server + path, { method, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}), signal: AbortSignal.timeout(60000) });
     const data = await response.json();
-    if (!response.ok) throw new Error(data.error || `请求失败 (${response.status})`);
+    if (!response.ok) {
+      if (response.status === 401 || response.status === 403) { clearDeveloperSession(); token = ''; ready = false; $('publishForm').classList.add('hidden'); $('publisherConnect').classList.remove('hidden'); }
+      throw new Error(data.error || `请求失败 (${response.status})`);
+    }
     return data;
   };
   const refreshCatalog = async () => { const catalog = await request('/api/question-banks'); refresh(catalog.banks); };
@@ -170,7 +175,7 @@ function bindPublisher(overlay: HTMLElement, refresh: (banks: Bank[]) => void) {
     editing = ''; editingVersion = '';
     $('publishForm').classList.add('hidden');
     open(); pending = bank;
-    if (!token) { status.textContent = `连接发布服务后可维护「${bank.name}」。`; $<HTMLInputElement>('publisherUser').focus(); return; }
+    if (!ready) { status.textContent = `发布服务连接完成后可维护「${bank.name}」。`; return; }
     try {
       status.textContent = `正在读取「${bank.name}」…`;
       const result = await request(`/api/question-banks/${encodeURIComponent(bank.filename)}`);
@@ -180,33 +185,35 @@ function bindPublisher(overlay: HTMLElement, refresh: (banks: Bank[]) => void) {
       editingVersion = result.version || '';
       $<HTMLInputElement>('publishFile').value = '';
       for (const [id, value] of [['publishFilename', current.filename], ['publishName', current.name], ['publishSubject', current.subject], ['publishDescription', current.description]]) $<HTMLInputElement>(id).value = value || '';
-      $<HTMLInputElement>('publishFilename').readOnly = true;
+      $<HTMLInputElement>('publishFilename').readOnly = false;
       $<HTMLInputElement>('publishOverwrite').checked = true;
       $('publishMode').textContent = `维护「${current.name}」`;
-      $('publishHint').textContent = '直接修改名称、科目和简介；需要替换题目时选择新的 JSON 文件。';
+      $('publishHint').textContent = '可以修改文件名、名称、科目和简介；替换题目时选择新的 JSON。修改文件名会同步更新目录。';
       $('publishSubmit').textContent = '保存更新'; $('publishDelete').classList.remove('hidden');
       $('publishForm').classList.remove('hidden');
       status.textContent = `已读取 ${result.questions.length} 道题，修改后点击保存。`;
     } catch (error) { if (sequence === editSequence && overlay.isConnected) status.textContent = error instanceof Error ? error.message : '题库读取失败'; }
   }
   $('publishNew').addEventListener('click', reset);
-  $('publisherConnect').addEventListener('click', async () => {
+  async function connect(): Promise<void> {
     const button = $<HTMLButtonElement>('publisherConnect'); button.disabled = true;
     ++editSequence;
     $('publishForm').classList.add('hidden');
-    server = $<HTMLInputElement>('publisherServer').value.trim().replace(/\/+$/, '');
-    token = ''; status.textContent = '连接中…';
+    session = getDeveloperSession(); token = session?.token || ''; server = session?.server || ''; ready = false;
+    if (!token) { status.textContent = '本地编辑已解锁。公共题库维护需在开发者主机启动发布服务后登录。'; button.disabled = false; button.classList.remove('hidden'); return; }
+    status.textContent = '连接中…';
     try {
-      if (server !== '/publisher' && !/^https?:\/\//.test(server)) throw new Error('请输入 HTTP(S) 服务地址');
-      const password = $<HTMLInputElement>('publisherPassword');
-      const login = await request('/api/auth/root/login', { username: $<HTMLInputElement>('publisherUser').value.trim(), password: password.value });
-      password.value = ''; token = login.token;
       const connection = await request('/api/publisher/status');
       status.textContent = connection.configured ? '已连接，可发布题库。' : '服务已连接，请在开发者主机配置 GitHub 发布凭据。';
       $('publishForm').classList.toggle('hidden', !connection.configured);
-      if (connection.configured) { await refreshCatalog(); if (pending) await edit(pending); }
+      if (connection.configured) { await refreshCatalog(); ready = true; if (pending) await edit(pending); }
+      button.classList.add('hidden');
     } catch (error) { status.textContent = error instanceof Error ? error.message : '无法连接，请在开发者主机启动发布服务。'; }
-    finally { button.disabled = false; }
+    finally { button.disabled = false; if (!ready) button.classList.remove('hidden'); }
+  }
+  $('publisherConnect').addEventListener('click', () => {
+    if (getDeveloperSession()) void connect();
+    else showDevLogin(() => { if (overlay.isConnected) void connect(); });
   });
   $<HTMLInputElement>('publishFile').addEventListener('change', () => {
     const file = $<HTMLInputElement>('publishFile').files?.[0];
@@ -222,8 +229,11 @@ function bindPublisher(overlay: HTMLElement, refresh: (banks: Bank[]) => void) {
       const file = $<HTMLInputElement>('publishFile').files?.[0];
       const metadata = { name: $<HTMLInputElement>('publishName').value.trim(), subject: $<HTMLInputElement>('publishSubject').value.trim(), description: $<HTMLTextAreaElement>('publishDescription').value.trim() };
       status.textContent = '正在发布题库…';
-      let saved: { commitSha?: string };
-      if (editing && !file) saved = await request(`/api/question-banks/${encodeURIComponent(editing)}`, { ...metadata, ...(editingVersion ? { version: editingVersion } : {}) }, 'PATCH');
+      let saved: { commitSha?: string; filename?: string };
+      if (editing) {
+        saved = await request(`/api/question-banks/${encodeURIComponent(editing)}`, { ...metadata, filename: $<HTMLInputElement>('publishFilename').value.trim(), ...(file ? { questions: normalizeQuestions(JSON.parse(await file.text())) } : {}), ...(editingVersion ? { version: editingVersion } : {}) }, 'PATCH');
+        editing = saved.filename || editing;
+      }
       else {
         const questions = file ? normalizeQuestions(JSON.parse(await file.text())) : normalizeQuestions(store.state.questions);
         saved = await request('/api/question-banks', { ...metadata, filename: editing || $<HTMLInputElement>('publishFilename').value.trim(), questions, overwrite: editing ? true : $<HTMLInputElement>('publishOverwrite').checked, ...(editingVersion ? { version: editingVersion } : {}) });
@@ -248,5 +258,6 @@ function bindPublisher(overlay: HTMLElement, refresh: (banks: Bank[]) => void) {
     } catch (error) { status.textContent = error instanceof Error ? error.message : '删除失败'; }
     finally { saving = false; button.disabled = false; $<HTMLButtonElement>('publishSubmit').disabled = false; $<HTMLButtonElement>('publishNew').disabled = false; }
   });
-  return { open, edit, connected: () => !!token };
+  void connect();
+  return { open, edit, connected: () => ready };
 }

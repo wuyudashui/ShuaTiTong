@@ -2,6 +2,46 @@ import type { Question, ContentBlock } from '../types';
 import { store } from '../state';
 import { renderText } from '../format';
 import { getFiltered } from '../filter';
+import { normalizeQuestions } from '../questions';
+
+function optionEditorText(value: ContentBlock[] | string): string {
+  return Array.isArray(value) ? value.map(block => block.c).join('') : value;
+}
+
+function collectEditedOptions(overlay: HTMLElement, original: Question['options'], isFill: boolean): Question['options'] {
+  if (isFill) return structuredClone(original);
+  const options: Question['options'] = {};
+  overlay.querySelectorAll<HTMLTextAreaElement>('.edit-opt').forEach(input => {
+    const key = input.dataset.key!;
+    if (!input.value.trim()) return;
+    const previous = original[key];
+    options[key] = previous !== undefined && input.value === optionEditorText(previous)
+      ? structuredClone(previous)
+      : [{ t: 'text', c: input.value }];
+  });
+  return options;
+}
+
+/** Validate a draft before changing the live question or writing to storage. */
+function commitEditedQuestion(original: Question, draft: Question): boolean {
+  try {
+    if (!Object.keys(draft.options).length) throw new Error('题目缺少选项或填空答案');
+    if (Object.entries(draft.options).some(([key, value]) =>
+      (draft.type !== 'fill' && !/^[A-Z]$/.test(key)) || !optionEditorText(value).trim())) {
+      throw new Error('选项格式无效');
+    }
+    const normalized = normalizeQuestions([draft])[0];
+    if (store.state.questions.some(question => question !== original && question.id === draft.id)) {
+      throw new Error('题号必须是唯一的正整数');
+    }
+    Object.assign(original, draft, { answer: normalized.answer });
+    store.save();
+    return true;
+  } catch (error) {
+    alert(error instanceof Error ? error.message : '题目格式无效');
+    return false;
+  }
+}
 
 // ─── Image upload helpers ───
 
@@ -20,6 +60,10 @@ export function showEditModal(q: Question, index: number, onSaved: () => void): 
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
   overlay.id = 'editModal';
+  let draftBlocks: ContentBlock[] = Array.isArray(q.question)
+    ? q.question.map(block => ({ ...block }))
+    : [{ t: 'text', c: q.question }];
+  let blocksChanged = false;
 
   // Build form content: textarea only shows text blocks, images shown in block list
   const qtext = Array.isArray(q.question)
@@ -96,7 +140,7 @@ export function showEditModal(q: Question, index: number, onSaved: () => void): 
   imgInput.addEventListener('change', async () => {
     const file = imgInput.files?.[0];
     if (!file) return;
-    await addImageToEditModal(q, overlay, await readFileAsDataURL(file), file.name);
+    await addImageToEditModal(await readFileAsDataURL(file), file.name);
     imgInput.value = '';
   });
 
@@ -109,22 +153,19 @@ export function showEditModal(q: Question, index: number, onSaved: () => void): 
         e.preventDefault();
         const file = item.getAsFile();
         if (!file) continue;
-        try { await addImageToEditModal(q, overlay, await readFileAsDataURL(file), '粘贴图片'); }
+        try { await addImageToEditModal(await readFileAsDataURL(file), '粘贴图片'); }
         catch { alert('剪贴板图片读取失败'); }
       }
     }
   });
 
-  async function addImageToEditModal(q: Question, overlay: HTMLElement, dataUrl: string, name: string): Promise<void> {
+  async function addImageToEditModal(dataUrl: string, name: string): Promise<void> {
     const newBlock: ContentBlock = { t: 'image', c: dataUrl, alt: name };
-    let blocks = Array.isArray(q.question) ? [...q.question] : [{ t: 'text' as const, c: q.question }];
-    blocks.push(newBlock);
-    (q as any).__pendingBlocks = blocks;
+    draftBlocks.push(newBlock);
+    blocksChanged = true;
     const list = overlay.querySelector('#editBlockList');
     if (list) {
-      list.querySelector('.edit-block-header')!.after(renderBlockListHTML(blocks));
-      const oldItems = list.querySelectorAll('.edit-block-item:not(.edit-block-header)');
-      oldItems.forEach(el => el.remove());
+      list.innerHTML = `<div class="edit-block-header">内容块 (${draftBlocks.length}个)</div>${renderBlockListHTML(draftBlocks)}`;
     }
   }
 
@@ -135,17 +176,15 @@ export function showEditModal(q: Question, index: number, onSaved: () => void): 
     if (!item) return;
     if (!confirm('删除这张图片？')) return;
     const idx = Array.from(overlay.querySelectorAll('.edit-block-item.edit-block-image')).indexOf(item);
-    let blocks = Array.isArray(q.question) ? [...q.question] : [{ t: 'text' as const, c: q.question }];
-    if ((q as any).__pendingBlocks) blocks = [...(q as any).__pendingBlocks];
     // Find the actual image block index (skip non-image blocks)
-    const imgIndices = blocks.map((b, i) => b.t === 'image' ? i : -1).filter(i => i >= 0);
+    const imgIndices = draftBlocks.map((b, i) => b.t === 'image' ? i : -1).filter(i => i >= 0);
     if (idx >= 0 && idx < imgIndices.length) {
-      blocks.splice(imgIndices[idx], 1);
-      (q as any).__pendingBlocks = blocks;
+      draftBlocks.splice(imgIndices[idx], 1);
+      blocksChanged = true;
       // Refresh block list
       const oldItems = overlay.querySelectorAll('.edit-block-item');
       oldItems.forEach(el => el.remove());
-      overlay.querySelector('#editBlockList')?.insertAdjacentHTML('beforeend', renderBlockListHTML(blocks));
+      overlay.querySelector('#editBlockList')?.insertAdjacentHTML('beforeend', renderBlockListHTML(draftBlocks));
     }
   });
 
@@ -155,7 +194,7 @@ export function showEditModal(q: Question, index: number, onSaved: () => void): 
     const valInput = overlay.querySelector('#editNewOptVal') as HTMLTextAreaElement;
     const key = keyInput.value.trim().toUpperCase();
     if (!key || !/^[A-H]$/.test(key)) { alert('选项字母需为 A-H'); return; }
-    if (q.options[key]) { alert(`选项 ${key} 已存在`); return; }
+    if (overlay.querySelector(`.edit-opt[data-key="${key}"]`)) { alert(`选项 ${key} 已存在`); return; }
     const optDiv = overlay.querySelector('.edit-options');
     const row = document.createElement('div');
     row.className = 'edit-opt-row';
@@ -179,50 +218,28 @@ export function showEditModal(q: Question, index: number, onSaved: () => void): 
 
   // Save
   overlay.querySelector('#editSaveBtn')?.addEventListener('click', () => {
-    const sourceBlocks: ContentBlock[] = (q as any).__pendingBlocks
-      ? [...(q as any).__pendingBlocks]
-      : Array.isArray(q.question)
-        ? [...q.question]
-        : [{ t: 'text' as const, c: q.question }];
-
-    // Split textarea into lines, replace text blocks in order
+    // Preserve existing text blocks, including embedded newlines, until edited.
     const qTextarea = overlay.querySelector('.edit-question') as HTMLTextAreaElement;
-    const newTextLines = qTextarea.value.split('\n');
-
-    let textIdx = 0;
-    const blocks = sourceBlocks.map(b => {
-      if (b.t === 'text' && textIdx < newTextLines.length) {
-        return { t: 'text' as const, c: newTextLines[textIdx++] };
-      }
-      return b;
-    });
-    // Append remaining text lines
-    while (textIdx < newTextLines.length) {
-      blocks.push({ t: 'text' as const, c: newTextLines[textIdx++] });
+    let blocks = draftBlocks.map(block => ({ ...block }));
+    if (qTextarea.value !== qtext) {
+      const textBlocks = blocks.filter(block => block.t === 'text');
+      const values = qTextarea.value.split('\n');
+      let textIndex = 0;
+      blocks = blocks.map(block => {
+        if (block.t !== 'text') return block;
+        const last = ++textIndex === textBlocks.length;
+        return { t: 'text' as const, c: last ? values.splice(0).join('\n') : values.shift() || '' };
+      });
+      if (!textBlocks.length) blocks.unshift({ t: 'text', c: qTextarea.value });
     }
-
-    // Collect options
-    const newOptions: Record<string, ContentBlock[] | string> = {};
-    overlay.querySelectorAll('.edit-opt').forEach(el => {
-      const ta = el as HTMLTextAreaElement;
-      const key = ta.dataset.key!;
-      const val = ta.value;
-      if (val.trim()) {
-        newOptions[key] = [{ t: 'text', c: val }];
-      }
-    });
+    const newOptions = collectEditedOptions(overlay, q.options, isFill);
 
     // Answer
     const answer = (overlay.querySelector('#editAnswer') as HTMLInputElement).value.trim();
     const difficulty = (overlay.querySelector('#editDifficulty') as HTMLSelectElement).value as any;
 
-    // Apply changes
-    q.question = blocks;
-    q.options = newOptions;
-    q.answer = answer;
-    q.difficulty = difficulty;
-
-    store.save();
+    const draft = { ...q, question: !blocksChanged && qTextarea.value === qtext ? q.question : blocks, options: newOptions, answer, difficulty };
+    if (!commitEditedQuestion(q, draft)) return;
     close();
     onSaved();
   });
@@ -513,7 +530,7 @@ export function showInsertModal(): void {
 
     const maxId = Math.max(...questions.map(q => q.id), 0);
     const questionBlocks: ContentBlock[] = [{ t: 'text', c: qtext }, ...insImages];
-    const newQ: Question = {
+    let newQ: Question = {
       id: maxId + 1,
       type: qtype as any,
       question: questionBlocks,
@@ -522,9 +539,17 @@ export function showInsertModal(): void {
       difficulty: difficulty as any,
       explanation: '',
     };
+    try {
+      if (!Object.keys(options).length) throw new Error('题目缺少选项或填空答案');
+      newQ = normalizeQuestions([newQ])[0];
+    } catch (error) {
+      alert(error instanceof Error ? error.message : '题目格式无效');
+      return;
+    }
 
     const posInput = overlay.querySelector('#insPosition') as HTMLInputElement;
-    const insertAt = Math.min(Math.max(0, parseInt(posInput.value) || (store.state.currentIndex + 1)), questions.length);
+    const position = Number.parseInt(posInput.value, 10);
+    const insertAt = Math.min(Math.max(0, Number.isFinite(position) ? position : store.state.currentIndex + 1), questions.length);
     questions.splice(insertAt, 0, newQ);
     store.save();
     // Jump to the new question in the current filtered view
@@ -545,7 +570,7 @@ export function showFullEditModal(q: Question, index: number, onSaved: () => voi
   overlay.className = 'modal-overlay';
   overlay.id = 'fullEditModal';
 
-  const blocks: ContentBlock[] = Array.isArray(q.question) ? [...q.question] : [{ t: 'text', c: q.question }];
+  const blocks: ContentBlock[] = Array.isArray(q.question) ? q.question.map(block => ({ ...block })) : [{ t: 'text', c: q.question }];
 
   function renderBlocksHTML(): string {
     return blocks.map((b, i) => {
@@ -912,7 +937,7 @@ export function showFullEditModal(q: Question, index: number, onSaved: () => voi
     const valInput = overlay.querySelector('#fullEditNewOptVal') as HTMLTextAreaElement;
     const key = keyInput.value.trim().toUpperCase();
     if (!key || !/^[A-H]$/.test(key)) { alert('选项字母需为 A-H'); return; }
-    if (q.options[key]) { alert(`选项 ${key} 已存在`); return; }
+    if (overlay.querySelector(`.edit-opt[data-key="${key}"]`)) { alert(`选项 ${key} 已存在`); return; }
     const optDiv = overlay.querySelector('.edit-options');
     const row = document.createElement('div');
     row.className = 'edit-opt-row';
@@ -936,28 +961,15 @@ export function showFullEditModal(q: Question, index: number, onSaved: () => voi
 
   // Save
   overlay.querySelector('#fullEditSaveBtn')?.addEventListener('click', () => {
-    // Collect options
-    const newOptions: Record<string, ContentBlock[] | string> = {};
-    overlay.querySelectorAll('.edit-opt').forEach(el => {
-      const ta = el as HTMLTextAreaElement;
-      const key = ta.dataset.key!;
-      const val = ta.value;
-      if (val.trim()) {
-        newOptions[key] = [{ t: 'text', c: val }];
-      }
-    });
+    const newOptions = collectEditedOptions(overlay, q.options, isFill);
 
     // Answer & difficulty
     const answer = (overlay.querySelector('#fullEditAnswer') as HTMLInputElement).value.trim();
     const difficulty = (overlay.querySelector('#fullEditDifficulty') as HTMLSelectElement).value as any;
 
-    // Apply changes
-    q.question = blocks;
-    if (Object.keys(newOptions).length > 0) q.options = newOptions;
-    q.answer = answer;
-    q.difficulty = difficulty;
-
-    store.save();
+    const originalBlocks = Array.isArray(q.question) ? q.question : [{ t: 'text', c: q.question }];
+    const question = JSON.stringify(blocks) === JSON.stringify(originalBlocks) ? q.question : blocks;
+    if (!commitEditedQuestion(q, { ...q, question, options: newOptions, answer, difficulty })) return;
     close();
     onSaved();
   });

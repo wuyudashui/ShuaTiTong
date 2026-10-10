@@ -12,6 +12,7 @@ export function initSettings(): void {
   const modelCustom = document.getElementById('apiModelCustom') as HTMLInputElement;
   const fetchModelsBtn = document.getElementById('fetchModelsBtn') as HTMLButtonElement;
   const modelFetchStatus = document.getElementById('modelFetchStatus') as HTMLElement;
+  const manualToggle = document.getElementById('modelCustomToggle') as HTMLInputElement;
 
   // Local model fields
   const localBaseUrlInput = document.getElementById('localApiBaseUrl') as HTMLInputElement;
@@ -27,10 +28,14 @@ export function initSettings(): void {
 
   if (!modal || !openBtn || !cancelBtn || !saveBtn) return;
   let modelRequest: AbortController | null = null;
+  let loadedModels: string[] = [];
+  let loadedAddress = '';
+  const showModelInput = () => { modelSelect.classList.toggle('hidden', manualToggle.checked); modelCustom.style.display = manualToggle.checked ? 'block' : 'none'; };
 
   function updateModelAvailability(): void {
     const enabled = !!baseUrlInput.value.trim();
-    modelSelect.disabled = !enabled;
+    modelSelect.disabled = !enabled || !loadedModels.length;
+    manualToggle.disabled = !enabled;
     fetchModelsBtn.disabled = !enabled;
     if (!enabled) modelFetchStatus.textContent = '先填写 API 地址后获取模型列表';
     else if (!modelFetchStatus.textContent || modelFetchStatus.textContent === '先填写 API 地址后获取模型列表') modelFetchStatus.textContent = '';
@@ -39,6 +44,7 @@ export function initSettings(): void {
   function setModels(models: string[], selected = ''): void {
     const current = selected || modelSelect.value;
     const unique = [...new Set(models.filter(Boolean))];
+    loadedModels = unique;
     modelSelect.innerHTML = '';
     for (const model of unique) {
       const option = document.createElement('option');
@@ -48,16 +54,18 @@ export function initSettings(): void {
     }
     const custom = document.createElement('option');
     custom.value = '';
-    custom.textContent = '—— 自定义 ——';
+    custom.textContent = unique.length ? '请选择模型' : '先获取模型列表，或手动填写';
     modelSelect.appendChild(custom);
     if (unique.includes(current)) {
       modelSelect.value = current;
-      modelCustom.style.display = 'none';
+      manualToggle.checked = false;
     } else {
       modelSelect.value = '';
       modelCustom.value = current;
-      modelCustom.style.display = 'block';
+      manualToggle.checked = !!current;
     }
+    showModelInput();
+    updateModelAvailability();
   }
 
   function open(): void {
@@ -66,15 +74,7 @@ export function initSettings(): void {
     // Remote
     baseUrlInput.value = s.apiBaseUrl;
     keyInput.value = s.apiKey;
-    const opts = [...modelSelect.options].map(o => o.value);
-    if (opts.includes(s.apiModel)) {
-      modelSelect.value = s.apiModel;
-      modelCustom.style.display = 'none';
-    } else {
-      modelSelect.value = '';
-      modelCustom.style.display = 'block';
-      modelCustom.value = s.apiModel;
-    }
+    setModels(loadedAddress === s.apiBaseUrl.trim().replace(/\/+$/, '') ? loadedModels : [], s.apiModel);
     updateModelAvailability();
 
     // Local
@@ -92,18 +92,18 @@ export function initSettings(): void {
     modal.classList.remove('hidden');
   }
 
-  function close(): void { modal.classList.add('hidden'); }
+  function close(): void { modelRequest?.abort(); modelRequest = null; modal.classList.add('hidden'); }
 
   openBtn.addEventListener('click', open);
   cancelBtn.addEventListener('click', close);
   modal.addEventListener('click', e => { if (e.target === modal) close(); });
 
-  modelSelect.addEventListener('change', () => {
-    modelCustom.style.display = modelSelect.value === '' ? 'block' : 'none';
-  });
+  modelSelect.addEventListener('change', () => { if (modelSelect.value) modelCustom.value = modelSelect.value; });
+  manualToggle.addEventListener('change', () => { if (manualToggle.checked && modelSelect.value) modelCustom.value = modelSelect.value; showModelInput(); });
   const invalidateModels = () => {
     modelRequest?.abort(); modelRequest = null;
     modelFetchStatus.textContent = '';
+    loadedAddress = '';
     setModels([], modelSelect.value || modelCustom.value.trim());
     updateModelAvailability();
   };
@@ -130,8 +130,9 @@ export function initSettings(): void {
         .filter((id: unknown): id is string => typeof id === 'string' && id.length > 0);
       if (!models.length) throw new Error('接口未返回可用模型');
       const current = modelSelect.value || modelCustom.value.trim();
+      loadedAddress = baseUrl;
       setModels(models, models.includes(current) ? current : models[0]);
-      modelFetchStatus.textContent = `已获取 ${models.length} 个模型`;
+      modelFetchStatus.textContent = `已获取 ${loadedModels.length} 个模型，请选择要使用的模型。`;
     } catch (error) {
       if (modelRequest !== controller) return;
       modelFetchStatus.textContent = `获取失败：${error instanceof Error ? error.message : '接口响应无效'}`;
@@ -145,10 +146,12 @@ export function initSettings(): void {
   });
 
   saveBtn.addEventListener('click', () => {
+    const model = manualToggle.checked ? modelCustom.value.trim() : modelSelect.value;
+    if (baseUrlInput.value.trim() && !model) { modelFetchStatus.textContent = '请选择模型，或勾选手动填写模型名。'; return; }
     store.updateAISettings({
       // Remote
-      apiBaseUrl: baseUrlInput.value.trim() || 'https://api.deepseek.com/v1',
-      apiModel: modelSelect.value || modelCustom.value.trim() || 'deepseek-v4-flash',
+      apiBaseUrl: baseUrlInput.value.trim(),
+      apiModel: model,
       apiKey: keyInput.value.trim(),
       // Local
       localApiBaseUrl: localBaseUrlInput.value.trim() || '',
