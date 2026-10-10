@@ -71,6 +71,20 @@
         "fill"
       ],
       "updatedAt": "2026-10-10T08:45:39.333Z"
+    },
+    {
+      "filename": "WebDevelopment.json",
+      "name": "Web开发题库",
+      "subject": "计算机",
+      "description": "注意,一切以老师最新版本为准\n这个只做参考",
+      "path": "question-banks/WebDevelopment.json",
+      "count": 318,
+      "types": [
+        "multi",
+        "single",
+        "judge"
+      ],
+      "updatedAt": "2026-10-10T08:47:52.592Z"
     }
   ]
 }

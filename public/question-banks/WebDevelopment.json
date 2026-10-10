@@ -1,0 +1,4230 @@
+[
+  {
+    "id": 1,
+    "type": "multi",
+    "question": "Internet是什么？",
+    "options": {
+      "A": "是在一个通信网络中连接的计算机的大规模集合。",
+      "B": "从1982年开始，TCP/IP（ Transmission Control Protocol/Internet Protocol ）成为计算机网络连接标准",
+      "C": "TCP/IP隐藏了连接到Internet的设备之间的差异",
+      "D": "是internet浏览器"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 2,
+    "type": "multi",
+    "question": "关于互联网协议（IP，Internet Protocol）正确的是？",
+    "options": {
+      "A": "每个节点都有一个唯一的数字地址",
+      "B": "形式：64位二进制数",
+      "C": "新标准IPv6具有128位（1998）",
+      "D": "为组织分配了计算机的IP组"
+    },
+    "answer": "ACD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 3,
+    "type": "multi",
+    "question": "关于域名正确的是？",
+    "options": {
+      "A": "形式：主机名 . 域名",
+      "B": "第一域是最大的； 最后是最小的",
+      "C": "第一个域指定组织的类型",
+      "D": "完全限定的域名-主机名和所有域名"
+    },
+    "answer": "AD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 4,
+    "type": "multi",
+    "question": "关于Web Servers 服务器正确的是？",
+    "options": {
+      "A": "提供对浏览器请求的响应，可以是现有文档，也可以是动态生成的文档",
+      "B": "现在通过请求-响应周期维护浏览器-服务器连接",
+      "C": "浏览器和服务器之间的所有通信均使用超文本传输协议（HTTP）",
+      "D": "服务器只能使用台式电脑"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 5,
+    "type": "multi",
+    "question": "关于scheme通信协议正确的是？",
+    "options": {
+      "A": "http",
+      "B": "gopher",
+      "C": "ftp",
+      "D": "ip"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 6,
+    "type": "multi",
+    "question": "关于公钥加密正确的是？",
+    "options": {
+      "A": "使用公钥/私钥对（公钥用来加密信息，私钥用来解密信息）",
+      "B": "只有自己能用你的公钥来加密发送给你的邮件",
+      "C": "可以用不同的私钥解密它们",
+      "D": "之所以有效，是因为实际上不可能根据给定的公钥来计算私钥"
+    },
+    "answer": "AD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 7,
+    "type": "multi",
+    "question": "常见的破坏了连接到Internet的计算机上的数据的方式有？",
+    "options": {
+      "A": "病毒",
+      "B": "蠕虫",
+      "C": "通过向Web服务器发送过量请求来创建",
+      "D": "使用了别人的公钥"
+    },
+    "answer": "AB",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 8,
+    "type": "multi",
+    "question": "关于HTML文档正确的是？",
+    "options": {
+      "A": "样式是用以控制文档的显示效果",
+      "B": "HTML文档是内容和控件的组合",
+      "C": "控件是HTML标签及其属性来指定",
+      "D": "元素只有标签对"
+    },
+    "answer": "BC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 9,
+    "type": "multi",
+    "question": "创建HTML文档的工具一般有？",
+    "options": {
+      "A": "Visual Studio Code（VSCode）",
+      "B": "VISiO",
+      "C": "Sublime Text（ST3）",
+      "D": "Google Chrome"
+    },
+    "answer": "AC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 10,
+    "type": "multi",
+    "question": "关于XML正确的是?",
+    "options": {
+      "A": "元标记语言",
+      "B": "包含了演示文稿的详细信息",
+      "C": "用于为特定目的或区域创建新的标记语言",
+      "D": "因为标签是为特定区域设计的，所以它们可能无意义"
+    },
+    "answer": "AC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 11,
+    "type": "multi",
+    "question": "HTML5的优势与特点包含了？",
+    "options": {
+      "A": "兼容",
+      "B": "简化与互通",
+      "C": "内存小",
+      "D": "实用"
+    },
+    "answer": "ABD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 12,
+    "type": "multi",
+    "question": "下列是HTML文件结构的是？",
+    "options": {
+      "A": "&lt;p&gt;段落",
+      "B": "&lt;!DOCTYPE&gt;声明",
+      "C": "&lt;br&gt;换行",
+      "D": "&lt;body&gt;标记"
+    },
+    "answer": "BD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 13,
+    "type": "multi",
+    "question": "网页中的图片格式主要是？",
+    "options": {
+      "A": "PNG",
+      "B": "JPG",
+      "C": "GIF",
+      "D": "PDF"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 14,
+    "type": "multi",
+    "question": "最常见的MIME类型？",
+    "options": {
+      "A": "text（文本）",
+      "B": "image（图片）",
+      "C": "video（视频）",
+      "D": "pdf（文档）"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 15,
+    "type": "multi",
+    "question": "HTTP请求的通用格式包含了?",
+    "options": {
+      "A": "HTTP method",
+      "B": "Header fields",
+      "C": "blank line",
+      "D": "Message body"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 16,
+    "type": "multi",
+    "question": "CSS的引入方式有",
+    "options": {
+      "A": "行内样式表",
+      "B": "内部样式表",
+      "C": "外部样式表",
+      "D": "全局样式表"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 17,
+    "type": "multi",
+    "question": "下列关于行内样式表引入CSS说法正确的是",
+    "options": {
+      "A": "书写方便，权重高",
+      "B": "没有实现结构与样式相分离",
+      "C": "使用情况较少",
+      "D": "控制多个标签"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 18,
+    "type": "multi",
+    "question": "在浏览器中打开开发者工具的方式有",
+    "options": {
+      "A": "按F10",
+      "B": "按F12",
+      "C": "按shift+ctrl+i",
+      "D": "右键网页空白处-&gt;检查"
+    },
+    "answer": "BCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 19,
+    "type": "multi",
+    "question": "下列属于input标签type属性的属性值是",
+    "options": {
+      "A": "text",
+      "B": "password",
+      "C": "textarea",
+      "D": "radio"
+    },
+    "answer": "ABD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 20,
+    "type": "multi",
+    "question": "常见的块级标签有",
+    "options": {
+      "A": "div",
+      "B": "p",
+      "C": "li",
+      "D": "h1"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 21,
+    "type": "multi",
+    "question": "常见的行内标签有",
+    "options": {
+      "A": "a",
+      "B": "b",
+      "C": "p",
+      "D": "u"
+    },
+    "answer": "ABD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 22,
+    "type": "multi",
+    "question": "下列关于form表单设置默认值说法正确的是",
+    "options": {
+      "A": "文本框、密码框使用value属性",
+      "B": "textarea文本域，直接在元素的内容部分填写默认值",
+      "C": "单选、复选按钮默认选中使用checked属性",
+      "D": "select下拉框默认选中使用 selected=\"selected\""
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 23,
+    "type": "multi",
+    "question": "form表单method属性设置为post，下列说法正确的是",
+    "options": {
+      "A": "点击后退按钮或刷新无害",
+      "B": "数据长度无限制",
+      "C": "post比get更安全",
+      "D": "数据不会显示在URL中"
+    },
+    "answer": "BCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 24,
+    "type": "multi",
+    "question": "关于select标签说法正确的是",
+    "options": {
+      "A": "select标签中至少应包含一个option标签",
+      "B": "在option标签中加入selected=\"selected\"属性时，表示当前项为默认选中项",
+      "C": "select的 size 属性可指定显示范围",
+      "D": "select标签的选项应该使用li标签"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 25,
+    "type": "multi",
+    "question": "下列关于表格标签属性说法正确的是",
+    "options": {
+      "A": "border-设置表格的边框",
+      "B": "width-设置表格的宽度",
+      "C": "height-设置表格的高度",
+      "D": "align-设置表格在网页中的水平对齐方式"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 26,
+    "type": "multi",
+    "question": "将一段文字设置为加粗倾斜文本应该使用哪些标签",
+    "options": {
+      "A": "a",
+      "B": "b",
+      "C": "i",
+      "D": "u"
+    },
+    "answer": "BC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 27,
+    "type": "multi",
+    "question": "img标签的src属性支持哪些图片格式",
+    "options": {
+      "A": "jpg",
+      "B": "gif",
+      "C": "avi",
+      "D": "webp"
+    },
+    "answer": "ABD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 28,
+    "type": "multi",
+    "question": "下列关于img标签属性说法正确的是",
+    "options": {
+      "A": "src-图像的路径",
+      "B": "alt-图像不能显示时的替换文本",
+      "C": "title-鼠标悬停时显示的内容",
+      "D": "border-设置图像边框的宽度"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 29,
+    "type": "multi",
+    "question": "下列关于链接标签href属性说法正确的是",
+    "options": {
+      "A": "外部链接需要添加http://的域名",
+      "B": "内部链接 直接链接内部页面名称即可",
+      "C": "如果当时没有确定链接目标时，通常将链接标签的href属性值定义为“#”",
+      "D": "1.使用mailto在网页中链接Email地址"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 30,
+    "type": "multi",
+    "question": "HTML中，一个完整的表单由哪些部分组成",
+    "options": {
+      "A": "表单控件",
+      "B": "提示信息",
+      "C": "表单域",
+      "D": "输入域"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 31,
+    "type": "multi",
+    "question": "id选择器和类选择器的区别在于( ):",
+    "options": {
+      "A": "W3C标准规定，在同一个页面内，不允许有相同值的id对象出现，但是允许相同值的class。",
+      "B": "类选择器（class）可以重复使用。",
+      "C": "id选择器（id）可以不唯一。",
+      "D": "id选择器（id）可以重复。"
+    },
+    "answer": "AB",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 32,
+    "type": "multi",
+    "question": "关于伪类选择器，下列说法正确的是( ):",
+    "options": {
+      "A": "E:first-child 获取第一个子元素",
+      "B": "E:last-child 获取最后一个子元素。",
+      "C": "E:nth-child(n) 选取某个元素的一个或者多个特定的子元素。",
+      "D": "E:nth-last-child(n) 选择某个元素的一个或多个特定的子元素，从这个元素的第一个子元素开始获取。"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 33,
+    "type": "multi",
+    "question": "以下哪些是通用子类型元素（不同类型）过滤器：",
+    "options": {
+      "A": "E:nth-child(n)",
+      "B": "E:nth-last-child(n)",
+      "C": "E:nth-of-type(n)",
+      "D": "E:nth-last-of-type(n)"
+    },
+    "answer": "AB",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 34,
+    "type": "multi",
+    "question": "在CSS的结构伪类选择器中，哪些属于特定状态的元素：",
+    "options": {
+      "A": "E:root（根节点）",
+      "B": "E:only-child（独子元素）",
+      "C": "E:only-of-type（独子类型元素）",
+      "D": "E:empty（孤节点）"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 35,
+    "type": "multi",
+    "question": "后代选择器中，元素之间的关系有：",
+    "options": {
+      "A": "子代",
+      "B": "后代",
+      "C": "隔代",
+      "D": "兄弟"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 36,
+    "type": "multi",
+    "question": "下列哪些选择器属于基础选择器：",
+    "options": {
+      "A": "标签选择器",
+      "B": "id选择器",
+      "C": "类选择器",
+      "D": "伪类选择器"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 37,
+    "type": "multi",
+    "question": "关于标签选择器，下列说法正确的是：",
+    "options": {
+      "A": "可清除浏览器默认样式",
+      "B": "可以为元素对象定义单独或相同的样式",
+      "C": "不可以设计差异化样式",
+      "D": "能快速为页面中同类型的标签统一样式"
+    },
+    "answer": "CD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 38,
+    "type": "multi",
+    "question": "链接伪类选择器主要针对于a标签，下列关于a标签说法正确的是：",
+    "options": {
+      "A": "a:link /*未访问的链接*/",
+      "B": "a:visited /*已访问的链接*/",
+      "C": "a:hover /*鼠标移动到链接上*/",
+      "D": "a:active /*选定的链接*/"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 39,
+    "type": "multi",
+    "question": "CSS的结构伪类选择器可以归为如下几类：",
+    "options": {
+      "A": "通用子元素（不同类型）过滤器",
+      "B": "通用子元素（同一类型）过滤器",
+      "C": "特定位置的子元素",
+      "D": "特定状态的元素"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 40,
+    "type": "multi",
+    "question": "关于属性选择器，下列说法正确的是：",
+    "options": {
+      "A": "E[attr]表示存在attr属性即可",
+      "B": "E[attr=val]表示属性值完全等于val",
+      "C": "E[attr*=val]表示属性值里包含val字符并且在“任意”位置",
+      "D": "E[attr^=val]表示属性值里包含val字符并且在“开始”位置"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 41,
+    "type": "multi",
+    "question": "CSS的三大特性是( ):",
+    "options": {
+      "A": "CSS层叠性",
+      "B": "CSS继承性",
+      "C": "CSS优先级",
+      "D": "盒模型"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 42,
+    "type": "multi",
+    "question": "下面哪些CSS选择器可以匹配多个元素？",
+    "options": {
+      "A": "ID选择器",
+      "B": "类选择器",
+      "C": "属性选择器",
+      "D": "通配符选择器"
+    },
+    "answer": "BCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 43,
+    "type": "multi",
+    "question": "下面哪些是CSS中的定位属性：",
+    "options": {
+      "A": "top",
+      "B": "left",
+      "C": "bottom",
+      "D": "right"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 44,
+    "type": "multi",
+    "question": "在CSS中，下面哪些属性可以用于设置文本的样式：",
+    "options": {
+      "A": "color",
+      "B": "font-family",
+      "C": "font-weight",
+      "D": "line-height"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 45,
+    "type": "multi",
+    "question": "在CSS中，下面哪些选择器是伪类选择器：",
+    "options": {
+      "A": ":link{}",
+      "B": ":hover",
+      "C": ":active",
+      "D": "#id"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 46,
+    "type": "multi",
+    "question": "每个矩形元素都有的四要素为：",
+    "options": {
+      "A": "内容",
+      "B": "内边距",
+      "C": "边框",
+      "D": "外边距"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 47,
+    "type": "multi",
+    "question": "CSS三大模块为：",
+    "options": {
+      "A": "盒子模型",
+      "B": "浮动",
+      "C": "定位",
+      "D": "背景"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 48,
+    "type": "multi",
+    "question": "边偏移属性包括：",
+    "options": {
+      "A": "top",
+      "B": "bottom",
+      "C": "left",
+      "D": "right"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 49,
+    "type": "multi",
+    "question": "常见的块元素有：",
+    "options": {
+      "A": "&lt;h1&gt;",
+      "B": "&lt;p&gt;",
+      "C": "&lt;div&gt;",
+      "D": "&lt;li&gt;"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 50,
+    "type": "multi",
+    "question": "常见的行内元素有：",
+    "options": {
+      "A": "&lt;a&gt;",
+      "B": "&lt;b&gt;",
+      "C": "&lt;div&gt;",
+      "D": "&lt;s&gt;"
+    },
+    "answer": "ABD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 51,
+    "type": "multi",
+    "question": "background-repeat的属性值包括：",
+    "options": {
+      "A": "null",
+      "B": "repeat",
+      "C": "repeat-x",
+      "D": "repeat-y"
+    },
+    "answer": "BCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 52,
+    "type": "multi",
+    "question": "background-attachment的属性值包括：",
+    "options": {
+      "A": "fixed",
+      "B": "static",
+      "C": "scroll",
+      "D": "float"
+    },
+    "answer": "AC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 53,
+    "type": "multi",
+    "question": "float的属性值可以设为：",
+    "options": {
+      "A": "left",
+      "B": "right",
+      "C": "top",
+      "D": "bottom"
+    },
+    "answer": "AB",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 54,
+    "type": "multi",
+    "question": "元素的水平方向移动，意味着元素的移动方向为：",
+    "options": {
+      "A": "上",
+      "B": "下",
+      "C": "左",
+      "D": "右"
+    },
+    "answer": "CD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 55,
+    "type": "multi",
+    "question": "在CSS中，position属性的常用值包括：",
+    "options": {
+      "A": "static",
+      "B": "relative",
+      "C": "absolute",
+      "D": "fixed"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 56,
+    "type": "multi",
+    "question": "脱离文档流的定位方式为：",
+    "options": {
+      "A": "relative",
+      "B": "static",
+      "C": "fixed",
+      "D": "absolute"
+    },
+    "answer": "CD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 57,
+    "type": "multi",
+    "question": "HTML5可以用哪些标签给网页添加媒体",
+    "options": {
+      "A": "&lt;p&gt;",
+      "B": "&lt;audio&gt;",
+      "C": "&lt;video&gt;",
+      "D": "&lt;div&gt;"
+    },
+    "answer": "BC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 58,
+    "type": "multi",
+    "question": "&lt;video&gt;支持的三种视频格式为：",
+    "options": {
+      "A": "avi",
+      "B": "mp4",
+      "C": "webM",
+      "D": "ogg"
+    },
+    "answer": "BCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 59,
+    "type": "multi",
+    "question": "&lt;video&gt;可以设置的属性包括",
+    "options": {
+      "A": "autoplay",
+      "B": "autobuffer",
+      "C": "controls",
+      "D": "loop"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 60,
+    "type": "multi",
+    "question": "&lt;audio&gt;支持的三种音频格式文件为",
+    "options": {
+      "A": "mp3",
+      "B": "wav",
+      "C": "ogg",
+      "D": "flac"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 61,
+    "type": "multi",
+    "question": "在CSS中，要想调整重叠定位元素的堆叠顺序，可以对定位元素使用z-index层叠等级属性，其取值可为{}.",
+    "options": {
+      "A": "正整数",
+      "B": "负整数",
+      "C": "0",
+      "D": "浮点数"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 62,
+    "type": "multi",
+    "question": "align-content属性定义了多根轴线的对齐方式，该属性的可选值有{}",
+    "options": {
+      "A": "flex-start",
+      "B": "flex-end",
+      "C": "stretch",
+      "D": "flex-shrink"
+    },
+    "answer": "ABD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 63,
+    "type": "multi",
+    "question": "&lt;audio&gt;元素支持三种音频格式文件:{   }",
+    "options": {
+      "A": "mp3",
+      "B": "wav",
+      "C": "ogg",
+      "D": "aac"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 64,
+    "type": "multi",
+    "question": "设为 Flex 布局以后，子元素的、{}和属性将失效。",
+    "options": {
+      "A": "horizontal-align",
+      "B": "float",
+      "C": "vertical-align",
+      "D": "clear"
+    },
+    "answer": "BCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 65,
+    "type": "multi",
+    "question": "布局的传统解决方案，基于盒状模型，依赖 + position属性 + float属性。",
+    "options": {
+      "A": "display 属性",
+      "B": "position属性",
+      "C": "content 属性",
+      "D": "float属性"
+    },
+    "answer": "ABD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 66,
+    "type": "multi",
+    "question": "flex属性是{  } 的简写",
+    "options": {
+      "A": "flex-grow",
+      "B": "flex-shrink",
+      "C": "flex-basis",
+      "D": "flex-end"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 67,
+    "type": "multi",
+    "question": "video的属性有",
+    "options": {
+      "A": "src",
+      "B": "poster",
+      "C": "height",
+      "D": "weight"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 68,
+    "type": "multi",
+    "question": "Flex容器默认存在{}",
+    "options": {
+      "A": "水平的主轴",
+      "B": "水平的交叉轴",
+      "C": "垂直的主轴",
+      "D": "垂直的交叉轴"
+    },
+    "answer": "AD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 69,
+    "type": "multi",
+    "question": "在静态定位状态下，可以通过偏移属性{ }来改变元素的位置。",
+    "options": {
+      "A": "top",
+      "B": "bottom",
+      "C": "left",
+      "D": "right"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 70,
+    "type": "multi",
+    "question": "HTML5{   }和{   }标签让我们给站点添加媒体变得简单。我们只需要设置 src 属性来识别媒体资源，包含 controls 属性让用户可以播放和...",
+    "options": {
+      "A": "&lt;audio&gt;",
+      "B": "&lt;music&gt;",
+      "C": "&lt;obj&gt;",
+      "D": "&lt;video&gt;"
+    },
+    "answer": "AD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 71,
+    "type": "multi",
+    "question": "引入弹性盒布局模型的目的是提供一种更加有效的方式来对一个容器中的子元素进行{ }。",
+    "options": {
+      "A": "管理",
+      "B": "对齐",
+      "C": "分配空白空间",
+      "D": "排列"
+    },
+    "answer": "BCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 72,
+    "type": "multi",
+    "question": "2009年，W3C 提出了一种新的方案----Flex 布局，可以地实现各种页面布局。目前，它已经得到了所有浏览器的支持，这意味着，现在就能很安全地使用这...",
+    "options": {
+      "A": "快速",
+      "B": "简便",
+      "C": "完整",
+      "D": "响应式"
+    },
+    "answer": "BCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 73,
+    "type": "multi",
+    "question": "设为 Flex 布局以后，子元素的{ }属性将失效。",
+    "options": {
+      "A": "float",
+      "B": "clear",
+      "C": "vertical-align",
+      "D": "horizontal-align"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 74,
+    "type": "multi",
+    "question": "弹性盒子由{ }和(Flex item) 组成。",
+    "options": {
+      "A": "弹性子容器",
+      "B": "弹性容器",
+      "C": "弹性元素",
+      "D": "弹性子元素"
+    },
+    "answer": "BD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 75,
+    "type": "multi",
+    "question": "在其最简单的应用中，frameset 元素仅仅会规定在框架集中存在多少列或多少行，必须使用 {  } 属性。",
+    "options": {
+      "A": "cols",
+      "B": "ncol",
+      "C": "rows",
+      "D": "nrow"
+    },
+    "answer": "AC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 76,
+    "type": "multi",
+    "question": "canvas是用来绘制图形的.它可以用于（）、（）、（）、（）以及实时视频处理等方面。",
+    "options": {
+      "A": "动画",
+      "B": "游戏画面",
+      "C": "数据可视化",
+      "D": "图片编辑"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 77,
+    "type": "multi",
+    "question": "以下哪些是关于canvas的特点？",
+    "options": {
+      "A": "canvas本身没有外观",
+      "B": "ie9之前的版本不支持canvas",
+      "C": "画布的尺寸需要使用属性设置",
+      "D": "调用getContext()方法返回一个绘制上下文对象"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 78,
+    "type": "multi",
+    "question": "以下哪些是关于canvas标签的属性和特点？",
+    "options": {
+      "A": "只有两个属性：width和height",
+      "B": "用来设置画布的宽度和高度",
+      "C": "不能用CSS来设置宽度和高度",
+      "D": "innerContent用于提示不支持canvas的浏览器"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 79,
+    "type": "multi",
+    "question": "以下哪些是关于Canvas绘制的图形的特点和操作方式？",
+    "options": {
+      "A": "一旦绘制成功，Canvas无法获取和修改已绘制的内容",
+      "B": "Flash可以通过API获取已在画布上的内容",
+      "C": "Canvas需要按照清屏-更新-渲染的逻辑进行编程以实现图形移动",
+      "D": "Canvas的轻量特性是由于无法获取和修改已绘制的内容"
+    },
+    "answer": "AC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 80,
+    "type": "multi",
+    "question": "以下哪些是使用路径进行绘制时的步骤？",
+    "options": {
+      "A": "设置路径的起点",
+      "B": "使用绘制命令画出路径",
+      "C": "封闭路径",
+      "D": "填充路径"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 81,
+    "type": "multi",
+    "question": "以下哪些是绘制图形时的正确顺序？A) ctx.beginPath()B) ctx.moveTo(x, y)C) ctx.closePath()D) ctx...",
+    "options": {
+      "A": "A、B、C、D",
+      "B": "B、A、D、C",
+      "C": "A、B、D、C",
+      "D": "B、D、A、C"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 82,
+    "type": "multi",
+    "question": "绘制一个圆弧或圆的过程中需要使用以下哪些步骤？",
+    "options": {
+      "A": "ctx.moveTo(x, y)",
+      "B": "ctx.beginPath()",
+      "C": "ctx.arcTo(x1, y1, x2, y2, radius)",
+      "D": "ctx.stroke()"
+    },
+    "answer": "BD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 83,
+    "type": "multi",
+    "question": "图片在Canvas中的渲染过程包括以下哪些步骤？",
+    "options": {
+      "A": "创建image元素",
+      "B": "设置图片的地址",
+      "C": "绘制图片",
+      "D": "导入图片"
+    },
+    "answer": "AB",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 84,
+    "type": "multi",
+    "question": "在使用八个参数的drawImage方法时，以下哪些参数是必须的？",
+    "options": {
+      "A": "image",
+      "B": "sx",
+      "C": "sy",
+      "D": "sWidth"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 85,
+    "type": "multi",
+    "question": "如果想要在目标canvas上对image进行缩放，可以使用哪些参数？",
+    "options": {
+      "A": "dWidth",
+      "B": "sWidth",
+      "C": "sHeight",
+      "D": "dHeight"
+    },
+    "answer": "AD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 86,
+    "type": "multi",
+    "question": "根据以上描述，以下哪些参数可以对绘制的image进行缩放？",
+    "options": {
+      "A": "sWidth",
+      "B": "sHeight",
+      "C": "dWidth",
+      "D": "dHeight"
+    },
+    "answer": "CD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 87,
+    "type": "multi",
+    "question": "以下哪些语句是正确的？",
+    "options": {
+      "A": "参数sx和sy决定了在图片中设置切片的宽度和高度",
+      "B": "参数dx和dy决定了切片在画布上的位置",
+      "C": "参数dWidth和dHeight决定了切片在画布上的宽度和高度",
+      "D": "参数sWidth和sHeight决定了切片在目标上下文中的位置和宽度"
+    },
+    "answer": "BC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 88,
+    "type": "multi",
+    "question": "globalCompositeOperation 属性可以实现哪些合成效果？",
+    "options": {
+      "A": "叠加效果",
+      "B": "透明效果",
+      "C": "遮罩效果",
+      "D": "颜色混合效果"
+    },
+    "answer": "ABD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 89,
+    "type": "multi",
+    "question": "在HTML5中使用&lt;canvas&gt;标签创建画布时，下面哪些属性用于设置画布的尺寸？",
+    "options": {
+      "A": "width",
+      "B": "height",
+      "C": "size",
+      "D": "dimensions"
+    },
+    "answer": "AB",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 90,
+    "type": "multi",
+    "question": "&lt;canvas&gt;标签的innerContent属性的作用是什么？",
+    "options": {
+      "A": "设置画布的背景颜色",
+      "B": "提示低版本浏览器无法使用canvas",
+      "C": "定义画布中的图形元素",
+      "D": "设置画布的绘图工具"
+    },
+    "answer": "BC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 91,
+    "type": "multi",
+    "question": "JavaScript输出数据到页面的方式包括（）：",
+    "options": {
+      "A": "页面弹窗",
+      "B": "页面输出内容",
+      "C": "弹出选择框",
+      "D": "函数返回"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 92,
+    "type": "multi",
+    "question": "JavaScript输出数据到控制台的方式包括（）：",
+    "options": {
+      "A": "console.log",
+      "B": "console.warn",
+      "C": "console.error",
+      "D": "console.table"
+    },
+    "answer": "ABCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 93,
+    "type": "multi",
+    "question": "JavaScript事件的三要素（）：",
+    "options": {
+      "A": "事件响应",
+      "B": "事件",
+      "C": "事件处理",
+      "D": "事件源"
+    },
+    "answer": "BCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 94,
+    "type": "multi",
+    "question": "下面标识符哪些是合法的JavaScript标识符（）：",
+    "options": {
+      "A": "_age",
+      "B": "$classname",
+      "C": "5_myname",
+      "D": "hqyj_h5"
+    },
+    "answer": "ABD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 95,
+    "type": "multi",
+    "question": "JavaScript的数据类型的对象数据类型包括（）：",
+    "options": {
+      "A": "数组",
+      "B": "对象",
+      "C": "函数",
+      "D": "字符串"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 96,
+    "type": "multi",
+    "question": "浮点型数据由（）几个部分组成。",
+    "options": {
+      "A": "整数部分",
+      "B": "小数点",
+      "C": "科学计数法的e",
+      "D": "小数部分"
+    },
+    "answer": "ABD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 97,
+    "type": "multi",
+    "question": "下面几个数在JS语言中能精确表示的是（）：",
+    "options": {
+      "A": "1/2",
+      "B": "1/4",
+      "C": "1/6",
+      "D": "1/8"
+    },
+    "answer": "ABD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 98,
+    "type": "multi",
+    "question": "下面表达中是字符串的包括（）：",
+    "options": {
+      "A": "‘my name is farsight’",
+      "B": "“my name is farsight”",
+      "C": "‘my “name” is farsight’",
+      "D": "my name is farsight"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 99,
+    "type": "multi",
+    "question": "JS使用Boolean()进行转换时，下面选项会直接转换为false的包括（）：",
+    "options": {
+      "A": "undefined",
+      "B": "null",
+      "C": "NaN",
+      "D": "-1"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 100,
+    "type": "multi",
+    "question": "下列描述错误的是（）：",
+    "options": {
+      "A": "对象值都是引用，对象的比较均是引用比较；",
+      "B": "将对象或者数组赋值给一个变量时，是对值的引用，本身并没有复制一份；",
+      "C": "想比较两个对象或者数组的值是否相等需要使用'==='来进行；",
+      "D": "如果想复制一个副本出来，则需要显式的复制对象的每个属性或者数组的每个元素；"
+    },
+    "answer": "ABD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 101,
+    "type": "multi",
+    "question": "下列描述正确的是（）：",
+    "options": {
+      "A": "不能给一个没有声明的JS变量赋值；",
+      "B": "声明JS变量的同时可以赋值；",
+      "C": "使用var来声明一个JS变量不需要设置变量类型；",
+      "D": "JavaScript中使用一个变量之前必须要先进行声明，使用没有声明的变量会报错；"
+    },
+    "answer": "BCD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 102,
+    "type": "multi",
+    "question": "下列控制台输出正确的是（）：",
+    "options": {
+      "A": "console.log('1' + 5);输出为15；",
+      "B": "console.log(true + true);输出为true",
+      "C": "console.log(201 + null);输出为201",
+      "D": "console.log(203 + undefined);输出为NaN"
+    },
+    "answer": "ACD",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 103,
+    "type": "multi",
+    "question": "位运算会将转换为0的是（）；",
+    "options": {
+      "A": "NaN",
+      "B": "Infinity",
+      "C": "-Infinity'",
+      "D": "PI"
+    },
+    "answer": "ABC",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 104,
+    "type": "multi",
+    "question": "canvas的标签属性有（）：",
+    "options": {
+      "A": "width",
+      "B": "height",
+      "C": "length",
+      "D": "chanel"
+    },
+    "answer": "AB",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 105,
+    "type": "single",
+    "question": "下列关于万维网（World-Wide Web ）正确的是？",
+    "options": {
+      "A": "用于在浏览器上使用不同的协议",
+      "B": "用于在Internet上使用不同的协议",
+      "C": "Tim Berners-Lee于1900年提出了Web",
+      "D": "它不是一种协议"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 106,
+    "type": "single",
+    "question": "下列关于Web Servers 服务器正确的是？",
+    "options": {
+      "A": "提供对浏览器请求的响应，可以是动态生成的文档",
+      "B": "提供对浏览器请求的响应，只能是现有文档",
+      "C": "Web服务器在操作系统中作为前台进程运行",
+      "D": "文档根目录由客户端直接访问"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 107,
+    "type": "single",
+    "question": "下列关于URL 统一资源定位符错误的是？",
+    "options": {
+      "A": "URLs:提供资源的路径或位置",
+      "B": "URL格式： scheme   :   object-address",
+      "C": "如果文档路径以斜杠结尾，则表示它不是目录",
+      "D": "主机名可能包含端口号，例如zeppo：80（默认为80）"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 108,
+    "type": "single",
+    "question": "下列关于多用途互联网邮件扩充协议 (MIME)错误 的是？",
+    "options": {
+      "A": "最常见的MIME类型：text（文本）、image（图片）、video（视频）",
+      "B": "Multipurpose Internet Mail Extensions：最初是为电子邮件开发的",
+      "C": "用于向浏览器指定服务器返回的文件格式（服务器附加到文档的开头）",
+      "D": "MIME用于限制在互联网上传输各种各样的文件类型"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 109,
+    "type": "single",
+    "question": "下列关于 超文本传输协议, HTTP请求错误的是？",
+    "options": {
+      "A": "GET – 返回指定文档的内容（*）",
+      "B": "HEAD – 返回指定文档的头部信息",
+      "C": "POST – 利用随附的数据来执行指定的文档（*）",
+      "D": "PUT – 利用随附的数据在服务器上复制新文档"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 110,
+    "type": "single",
+    "question": "下列关于Security 安全性描述正确的是?",
+    "options": {
+      "A": "Internet和Web存在多种安全问题",
+      "B": "安全性问题不需要被太重视",
+      "C": "安全性问题不是很严重",
+      "D": "浏览器和服务器之间获取数据，希望在此过程中拦截或破坏数据"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 111,
+    "type": "single",
+    "question": "浏览器和服务器之间通信的安全性问题错误的是?",
+    "options": {
+      "A": "私密性",
+      "B": "完整性",
+      "C": "可验证性",
+      "D": "可修改性"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 112,
+    "type": "single",
+    "question": "关于加密错误的是？",
+    "options": {
+      "A": "支持隐私和完整性的基本工具是加密",
+      "B": "最初，单个密钥用于加密和解密",
+      "C": "1976年，迪菲和海尔曼提出了 公钥加密",
+      "D": "使用公钥/私钥对（私钥用来加密信息，公钥用来解密信息）"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 113,
+    "type": "single",
+    "question": "关于HTML错误的是？",
+    "options": {
+      "A": "是一种编程语言",
+      "B": "通过标记（markup）描述文档的一般形式和布局，用以通过浏览器显示",
+      "C": "HTML文档是内容和控件的组合",
+      "D": "控件是HTML标签及其属性来指定"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 114,
+    "type": "single",
+    "question": "关于HTML文档错误的是？",
+    "options": {
+      "A": "HTML文档是内容和控件的组合",
+      "B": "元素是标签对及其包含的内容",
+      "C": "样式是用以控制内容的显示效果",
+      "D": "元素是标签对"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 115,
+    "type": "single",
+    "question": "关于XML错误的是？",
+    "options": {
+      "A": "一种元标记语言",
+      "B": "用于为特定目的或区域创建新的标记语言",
+      "C": "没有演示文稿的详细信息",
+      "D": "表示和传输任何文本类型数据的复杂特定的方法"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 116,
+    "type": "single",
+    "question": "关于HTML5的优势与特点错误的是？",
+    "options": {
+      "A": "兼容",
+      "B": "内存占用小",
+      "C": "简化与互通",
+      "D": "实用"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 117,
+    "type": "single",
+    "question": "下列不是HTML文件结构的是？",
+    "options": {
+      "A": "&lt;!DOCTYPE&gt;",
+      "B": "&lt;body&gt;",
+      "C": "&lt;br&gt;",
+      "D": "&lt;title&gt;"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 118,
+    "type": "single",
+    "question": "下列关于文本标记正确的是？",
+    "options": {
+      "A": "&lt;!DOCTYPE&gt;",
+      "B": "&lt;body&gt;",
+      "C": "&lt;br&gt;",
+      "D": "&lt;title&gt;"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 119,
+    "type": "single",
+    "question": "关于在在网页中使用图像正确的是？",
+    "options": {
+      "A": "目前在网页上使用的图片格式主要是PNG、JPG和GIF三种。",
+      "B": "网页中使用图片：&lt;img =”cup.png”&gt;",
+      "C": "使用路径：&lt;img =”images/cup.png”&gt;",
+      "D": "网页图像不能动态获取"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 120,
+    "type": "single",
+    "question": "段落标签是",
+    "options": {
+      "A": "a",
+      "B": "p",
+      "C": "br",
+      "D": "h1"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 121,
+    "type": "single",
+    "question": "a标签要指定链接页面在新窗口打开，target应该设置为",
+    "options": {
+      "A": "new",
+      "B": "self",
+      "C": "blank",
+      "D": "close"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 122,
+    "type": "single",
+    "question": "img标签要设置图像不能显示时的替换文本，应该设置的属性是",
+    "options": {
+      "A": "src",
+      "B": "alt",
+      "C": "title",
+      "D": "text"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 123,
+    "type": "single",
+    "question": "下列标签中没有语义的是",
+    "options": {
+      "A": "div",
+      "B": "img",
+      "C": "hr",
+      "D": "p"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 124,
+    "type": "single",
+    "question": "列表中列表项的标签是",
+    "options": {
+      "A": "ul",
+      "B": "ol",
+      "C": "tr",
+      "D": "li"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 125,
+    "type": "single",
+    "question": "表格标签中th标签定义的是",
+    "options": {
+      "A": "表格",
+      "B": "表头",
+      "C": "标题",
+      "D": "单元格"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 126,
+    "type": "single",
+    "question": "input标签要设置为单选按钮，其type属性应该设置为",
+    "options": {
+      "A": "text",
+      "B": "button",
+      "C": "radio",
+      "D": "checkbox"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 127,
+    "type": "single",
+    "question": "textarea标签中指定每行中的字符数应该设置的属性是",
+    "options": {
+      "A": "width",
+      "B": "height",
+      "C": "cols",
+      "D": "rows"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 128,
+    "type": "single",
+    "question": "form标签中设置提交方式的属性是",
+    "options": {
+      "A": "action",
+      "B": "name",
+      "C": "method",
+      "D": "value"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 129,
+    "type": "single",
+    "question": "当样式需要应用于很多页面时，需要采用的CSS引入方式是",
+    "options": {
+      "A": "全局样式表",
+      "B": "行内样式表",
+      "C": "内部样式表",
+      "D": "外部样式表"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 130,
+    "type": "single",
+    "question": "html文件中，使用link来导入css文件，其type属性应该设置为",
+    "options": {
+      "A": "text/css",
+      "B": "file",
+      "C": "css",
+      "D": "css/text"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 131,
+    "type": "single",
+    "question": "input标签中设置允许输入最大的字符数的属性是",
+    "options": {
+      "A": "name",
+      "B": "width",
+      "C": "size",
+      "D": "maxlength"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 132,
+    "type": "single",
+    "question": "input标签设置为普通按钮时，按钮中显示文字，通过哪个属性来定义",
+    "options": {
+      "A": "name",
+      "B": "value",
+      "C": "text",
+      "D": "src"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 133,
+    "type": "single",
+    "question": "表格标签定义标题应该使用哪个标签来定义",
+    "options": {
+      "A": "name",
+      "B": "title",
+      "C": "caption",
+      "D": "h1"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 134,
+    "type": "single",
+    "question": "无序列表应该使用哪个标签",
+    "options": {
+      "A": "ul",
+      "B": "ol",
+      "C": "li",
+      "D": "tr"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 135,
+    "type": "single",
+    "question": "margin属性用于设置：",
+    "options": {
+      "A": "颜色",
+      "B": "背景图片",
+      "C": "外边距",
+      "D": "样式"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 136,
+    "type": "single",
+    "question": "所有元素的默认定位方式为：",
+    "options": {
+      "A": "浮动定位",
+      "B": "静态定位",
+      "C": "动态定位",
+      "D": "居中定位"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 137,
+    "type": "single",
+    "question": "对一个元素进行相对定位，可以让元素相对于它的（）进行移动",
+    "options": {
+      "A": "左上角",
+      "B": "起点",
+      "C": "右下角",
+      "D": "中心点"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 138,
+    "type": "single",
+    "question": "在CSS中，要想调整重叠定位元素的堆叠顺序，可以对定位元素使用（）层叠等级属性",
+    "options": {
+      "A": "x-index",
+      "B": "y-index",
+      "C": "z-index",
+      "D": "w-index"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 139,
+    "type": "single",
+    "question": "z-index的默认值为：",
+    "options": {
+      "A": "0",
+      "B": "1",
+      "C": "-1",
+      "D": "无默认值"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 140,
+    "type": "single",
+    "question": "普通盒子想要水平居中，只需要左右margin改为（）即可",
+    "options": {
+      "A": "auto",
+      "B": "max",
+      "C": "min",
+      "D": "null"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 141,
+    "type": "single",
+    "question": "指定背景颜色透明时可以使用（）作为属性值",
+    "options": {
+      "A": "0",
+      "B": "transparent",
+      "C": "null",
+      "D": "-1"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 142,
+    "type": "single",
+    "question": "默认情况下，background-image放置在元素的（）",
+    "options": {
+      "A": "左上角",
+      "B": "右上角",
+      "C": "左下角",
+      "D": "右下角"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 143,
+    "type": "single",
+    "question": "padding属性用于设置：",
+    "options": {
+      "A": "内边距",
+      "B": "外边距",
+      "C": "样式",
+      "D": "位置"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 144,
+    "type": "single",
+    "question": "为了清除元素默认的内边距可以将padding设为",
+    "options": {
+      "A": "0",
+      "B": "1",
+      "C": "-1",
+      "D": "null"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 145,
+    "type": "single",
+    "question": "为了清除元素默认的外边距可以将margin设为",
+    "options": {
+      "A": "0",
+      "B": "1",
+      "C": "-1",
+      "D": "null"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 146,
+    "type": "single",
+    "question": "绝对定位的元素的位置相对于（）",
+    "options": {
+      "A": "浏览器中心点",
+      "B": "浏览器左上角",
+      "C": "最近的已定位祖先元素",
+      "D": "浏览器右上角"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 147,
+    "type": "single",
+    "question": "&lt;video&gt;不支持哪种视频格式",
+    "options": {
+      "A": "avi",
+      "B": "mp4",
+      "C": "webM",
+      "D": "ogg"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 148,
+    "type": "single",
+    "question": "&lt;audio&gt;不支持哪种音频格式",
+    "options": {
+      "A": "mp3",
+      "B": "wav",
+      "C": "ogg",
+      "D": "flac"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 149,
+    "type": "single",
+    "question": "会脱离文档流的定位方式为：",
+    "options": {
+      "A": "static",
+      "B": "dynamic",
+      "C": "relative",
+      "D": "fixed"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 150,
+    "type": "single",
+    "question": "当多个元素同时设置定位时，定位元素之间有可能发生重叠。拥有更高堆叠顺序的元素总是会处于堆叠顺序较低的元素的{   }。",
+    "options": {
+      "A": "前面",
+      "B": "后面",
+      "C": "左边",
+      "D": "右边"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 151,
+    "type": "single",
+    "question": "HTML5通过{}标签来解决音频播放的问题。",
+    "options": {
+      "A": "&lt;audio&gt;",
+      "B": "&lt;mp3&gt;",
+      "C": "&lt;video&gt;",
+      "D": "&lt;source&gt;"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 152,
+    "type": "single",
+    "question": "Div布局一般采用{    }模式，设置对应比例进行。",
+    "options": {
+      "A": "static",
+      "B": "int",
+      "C": "float",
+      "D": "string"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 153,
+    "type": "single",
+    "question": "flex-grow属性定义项目的放大比例。",
+    "options": {
+      "A": "flex-grow",
+      "B": "flex-shrink",
+      "C": "flex-ratio",
+      "D": "flex-zoom"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 154,
+    "type": "single",
+    "question": "属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。",
+    "options": {
+      "A": "flex-grow",
+      "B": "flex-shrink",
+      "C": "flex-basis",
+      "D": "flex-end"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 155,
+    "type": "single",
+    "question": "&lt;video&gt; 元素不支持以下哪种视频格式？",
+    "options": {
+      "A": "mkv",
+      "B": "mp4",
+      "C": "webM",
+      "D": "ogg"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 156,
+    "type": "single",
+    "question": "video属性{    }以 CSS 像素的形式指定视频显示区域的高度。",
+    "options": {
+      "A": "poster",
+      "B": "height",
+      "C": "width",
+      "D": "muted"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 157,
+    "type": "single",
+    "question": "order属性定义项目的排列顺序。数值越小，排列越靠前，默认为{    }。",
+    "options": {
+      "A": "-128",
+      "B": "-1",
+      "C": "0",
+      "D": "127"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 158,
+    "type": "single",
+    "question": "{  }定位使元素的位置与文档流无关",
+    "options": {
+      "A": "相对",
+      "B": "静态",
+      "C": "绝对",
+      "D": "混合相对定位"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 159,
+    "type": "single",
+    "question": "是HTML标签，作用是文档中的文档，或者浮动的框架.",
+    "options": {
+      "A": "document",
+      "B": "iframe",
+      "C": "section",
+      "D": "main"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 160,
+    "type": "single",
+    "question": "在嵌入视频时，为避免开发人员用 gif 格式图片替换的方式来模拟视频自动播放（造成用户流量流失更大），现新版浏览器允许无音频的视频可自动播放（通过设置{ ...",
+    "options": {
+      "A": "autoplay",
+      "B": "muted",
+      "C": "controls",
+      "D": "preload"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 161,
+    "type": "single",
+    "question": "布局的传统解决方案，基于盒状模型，依赖 display 属性 + position属性 + float属性。它对于那些特殊布局非常不方便，比如，垂直居中就...",
+    "options": {
+      "A": "分块模型",
+      "B": "盒状模型",
+      "C": "浮动窗口模型",
+      "D": "弹性模型"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 162,
+    "type": "single",
+    "question": "{   }属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。",
+    "options": {
+      "A": "align-items",
+      "B": "align-content",
+      "C": "align-content",
+      "D": "flex-flow"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 163,
+    "type": "single",
+    "question": "align-content属性属性定义了多根轴线的对齐方式。其默认值为",
+    "options": {
+      "A": "flex-start",
+      "B": "center",
+      "C": "space-around",
+      "D": "stretch"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 164,
+    "type": "single",
+    "question": "preload属性指定加载页面时加载音频并准备就绪。如果指定{   }则忽略。",
+    "options": {
+      "A": "autoplay",
+      "B": "autobuffer",
+      "C": "loop",
+      "D": "src"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 165,
+    "type": "single",
+    "question": "HTML5中的canvas标签主要用于什么目的？",
+    "options": {
+      "A": "实现广告和游戏",
+      "B": "替代Flash",
+      "C": "绘制图形、动画和图像",
+      "D": "彻底颠覆了Flash的主导地位"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 166,
+    "type": "single",
+    "question": "canvas的尺寸应该如何设置？",
+    "options": {
+      "A": "在CSS中定义",
+      "B": "使用属性设置",
+      "C": "通过getContext()方法设置",
+      "D": "通过规范定义"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 167,
+    "type": "single",
+    "question": "在HTML5中创建一个画布时，应该如何设置画布的宽度和高度？",
+    "options": {
+      "A": "使用CSS来设置",
+      "B": "使用canvas标签的width和height属性设置",
+      "C": "使用innerHTML设置",
+      "D": "使用style属性设置"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 168,
+    "type": "single",
+    "question": "Canvas绘制的图形一旦成功后，无法通过Canvas本身获取并修改已绘制的内容。这是因为Canvas的轻量特性和以下哪个原因造成的？",
+    "options": {
+      "A": "Canvas不支持图形的获取和修改",
+      "B": "Flash可以通过API获取已在画布上的内容",
+      "C": "Canvas绘制的图形被像素化",
+      "D": "Canvas无法实现图形的移动"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 169,
+    "type": "single",
+    "question": "绘制路径的作用是为了设置一个不规则的________。",
+    "options": {
+      "A": "矩形状态",
+      "B": "圆形状态",
+      "C": "多边形状态",
+      "D": "正方形状态"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 170,
+    "type": "single",
+    "question": "按照顺序绘制图形时，哪个步骤用于开始路径？",
+    "options": {
+      "A": "ctx.moveTo(x, y)",
+      "B": "ctx.beginPath()",
+      "C": "ctx.closePath()",
+      "D": "ctx.stroke()"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 171,
+    "type": "single",
+    "question": "下面哪个方法用于绘制一个圆弧或圆？",
+    "options": {
+      "A": "arcTo()",
+      "B": "arc()",
+      "C": "lineTo()",
+      "D": "moveTo()"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 172,
+    "type": "single",
+    "question": "在Canvas中使用drawImage方法绘制图片时，以下哪个步骤必须在onload函数内执行？",
+    "options": {
+      "A": "创建image元素",
+      "B": "设置图片的地址",
+      "C": "绘制图片",
+      "D": "导入图片"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 173,
+    "type": "single",
+    "question": "在使用八个参数的drawImage方法时，前四个参数指的是什么？",
+    "options": {
+      "A": "目标canvas上image的左上角坐标和绘制宽高度。",
+      "B": "图片中设置切片的宽度和高度，以及切片的位置。",
+      "C": "裁剪image的矩形选择框的左上角坐标和宽高度。",
+      "D": "目标canvas上绘制的矩形选择框的左上角坐标和宽高度。"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 174,
+    "type": "single",
+    "question": "如果不指定八个参数中的dWidth和dHeight，绘制时会发生什么？",
+    "options": {
+      "A": "image将在目标canvas上被裁剪。",
+      "B": "image将在目标canvas上按照原始尺寸进行绘制。",
+      "C": "image将在目标canvas上按照指定的宽度和高度进行绘制。",
+      "D": "drawImage方法将会抛出错误。"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 175,
+    "type": "single",
+    "question": "使用八个参数的drawImage方法可以实现什么效果？",
+    "options": {
+      "A": "对image进行缩放和旋转。",
+      "B": "在目标canvas上裁剪和绘制指定区域的image。",
+      "C": "在目标canvas上绘制image，并且改变image的颜色和透明度。",
+      "D": "将image转换为base64编码。"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 176,
+    "type": "single",
+    "question": "在使用八个参数的drawImage方法时，如果不指定sWidth和sHeight会发生什么？",
+    "options": {
+      "A": "drawImage方法将会抛出错误。",
+      "B": "图片将在目标canvas上被裁剪。",
+      "C": "整个矩形（裁剪）从坐标的sx和sy开始，到image的右下角结束。",
+      "D": "指定的裁剪区域将会被忽略，绘制整个image。"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 177,
+    "type": "single",
+    "question": "为了改变绘制顺序并实现图形合成效果，我们可以利用哪个属性？",
+    "options": {
+      "A": "globalCompositeOperation",
+      "B": "clip",
+      "C": "composition",
+      "D": "overlay"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 178,
+    "type": "single",
+    "question": "在图形合成中，我们可以使用哪个属性来隐藏不想看到的部分图形？",
+    "options": {
+      "A": "globalCompositeOperation",
+      "B": "clip",
+      "C": "composition",
+      "D": "overlay"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 179,
+    "type": "single",
+    "question": "当绘制一个方和一个圆时，如果圆在方的上方绘制，会出现什么现象？",
+    "options": {
+      "A": "方会压盖圆",
+      "B": "圆会压盖方",
+      "C": "方和圆无法同时显示",
+      "D": "方和圆会交错绘制"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 180,
+    "type": "single",
+    "question": "JavaScript区分大小写，但不包括（）：",
+    "options": {
+      "A": "关键字",
+      "B": "变量值",
+      "C": "函数名",
+      "D": "所有标识符"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 181,
+    "type": "single",
+    "question": "JavaScript会忽略标识符前后的空格；加入空格目的不包括（）：",
+    "options": {
+      "A": "让代码有整齐一致的缩进",
+      "B": "形成统一的编码风格",
+      "C": "让代码更具可读性",
+      "D": "解释代码的层次关系"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 182,
+    "type": "single",
+    "question": "JavaScript中直接使用的数据值叫做直接量，也叫右值，以下不属于右值的是（）：",
+    "options": {
+      "A": "1",
+      "B": "null",
+      "C": "static",
+      "D": "我要学习JavaScript'"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 183,
+    "type": "single",
+    "question": "不能作为JS标识符开始符的是（）：",
+    "options": {
+      "A": "字母",
+      "B": "下划线(_)",
+      "C": "美元符号($)",
+      "D": "井号(#)"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 184,
+    "type": "single",
+    "question": "下面（）是JavaScript的数据类型的原始象数据类型：",
+    "options": {
+      "A": "数组",
+      "B": "对象",
+      "C": "函数",
+      "D": "字符串"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 185,
+    "type": "single",
+    "question": "isNaN()判断示例中，isNaN(5)的返回结果是（）：",
+    "options": {
+      "A": "0",
+      "B": "1",
+      "C": "5",
+      "D": "NULL"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 186,
+    "type": "single",
+    "question": "下面几个数在JS语言中能精确表示的是（）：",
+    "options": {
+      "A": "1/10",
+      "B": "1/100",
+      "C": "1/11",
+      "D": "33"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 187,
+    "type": "single",
+    "question": "JS中的字符串的索引从（）开始：",
+    "options": {
+      "A": "0",
+      "B": "1",
+      "C": "NULL",
+      "D": ".length"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 188,
+    "type": "single",
+    "question": "下面字符串'i am \\'from chengdu'打印出来是（）：",
+    "options": {
+      "A": "i am",
+      "B": "i am \\",
+      "C": "from chengdu",
+      "D": "i am 'from chengdu"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 189,
+    "type": "single",
+    "question": "下面对字符串操作错误的表述是（）：",
+    "options": {
+      "A": "字符串的连接：+;",
+      "B": "求字符串的长度：str.length；",
+      "C": "对字符串进行其操作后，该字符串会成为一个新的字符串；",
+      "D": "指定位置的字符：str[2]表示第三个字符;"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 190,
+    "type": "single",
+    "question": "关于undefined，下列表述错误的是：",
+    "options": {
+      "A": "undefined表明变量没有初始化；",
+      "B": "如果函数没有返回值，则返回undefined；",
+      "C": "typeof undefined：返回的是对象类型undefined；",
+      "D": "符号==认为NULL和undefined是相等的；而符号===则返回false；"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 191,
+    "type": "single",
+    "question": "能正常使用canvas的浏览器版本为（）：",
+    "options": {
+      "A": "IE6",
+      "B": "IE7",
+      "C": "IE8",
+      "D": "IE9"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 192,
+    "type": "single",
+    "question": "通配符选择器用( )来表示。",
+    "options": {
+      "A": "#",
+      "B": "%",
+      "C": "*",
+      "D": "&amp;"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 193,
+    "type": "single",
+    "question": "在链接伪类选择器中，( )表示已访问的链接。",
+    "options": {
+      "A": "a:link",
+      "B": "a:visited",
+      "C": "a:hover",
+      "D": "a:active"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 194,
+    "type": "single",
+    "question": "在伪类选择器中，( )匹配同类型中的第n个同级兄弟元素E：",
+    "options": {
+      "A": "E:first-of-type",
+      "B": "E:last-of-type",
+      "C": "E:nth-of-type(n)",
+      "D": "E:nth-last-of-type(n)"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 195,
+    "type": "single",
+    "question": "在伪类选择器中，( )选择的元素是它父元素的唯一一个元素:",
+    "options": {
+      "A": "​E:only-child",
+      "B": "E:only-of-type",
+      "C": "E:empty",
+      "D": "E:root"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 196,
+    "type": "single",
+    "question": "并集选择器是各个选择器通过( )连接而成的，任何形式的选择器，都可以作为并集选择器的一部分。",
+    "options": {
+      "A": "逗号",
+      "B": "句号",
+      "C": "冒号",
+      "D": "感叹号"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 197,
+    "type": "single",
+    "question": "在伪元素选择器中，E::first-letter表示( ):",
+    "options": {
+      "A": "文本的第一个单词或字",
+      "B": "文本的第一行",
+      "C": "文本中的第一页",
+      "D": "可改变选中文本的样式"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 198,
+    "type": "single",
+    "question": "id选择器的选择器符号是什么？",
+    "options": {
+      "A": ".",
+      "B": "#",
+      "C": ":",
+      "D": "*"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 199,
+    "type": "single",
+    "question": "类选择器的选择器符号是什么？",
+    "options": {
+      "A": ".",
+      "B": "#",
+      "C": ":",
+      "D": "*"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 200,
+    "type": "single",
+    "question": "类选择器和id选择器的区别是什么？",
+    "options": {
+      "A": "类选择器可以作用于多个元素，id选择器只能作用于一个元素",
+      "B": "类选择器在样式上的优先级比id选择器要高",
+      "C": "类选择器比id选择器更简单易用",
+      "D": "类选择器不能通过Javascript来操作元素"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 201,
+    "type": "single",
+    "question": "基础选择器的优先级是：",
+    "options": {
+      "A": "id选择器&gt;类选择器&gt;通配符&gt;标签",
+      "B": "id选择器&gt;通配符&gt;标签&gt;类选择器",
+      "C": "id选择器&gt;类选择器&gt;标签&gt;通配符",
+      "D": "通配符&gt;标签&gt;类选择器&gt;id选择器"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 202,
+    "type": "single",
+    "question": "伪类选择器的选择器符号是是什么？",
+    "options": {
+      "A": ".",
+      "B": "#",
+      "C": ":",
+      "D": "*"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 203,
+    "type": "single",
+    "question": "标签选择器的优点是：",
+    "options": {
+      "A": "可清除浏览器默认样式",
+      "B": "可以为元素对象定义单独或相同的样式",
+      "C": "可以设计差异化样式",
+      "D": "能快速为页面中同类型的标签统一样式"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 204,
+    "type": "single",
+    "question": "下列哪个标签是指鼠标移动到链接上：",
+    "options": {
+      "A": "a:link",
+      "B": "a:visited",
+      "C": "a:hover",
+      "D": "a:active"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 205,
+    "type": "single",
+    "question": "下列哪个伪类选择器可以获取最后一个元素：",
+    "options": {
+      "A": "E:first-child",
+      "B": "E:last-child",
+      "C": "E:nth-child(n)",
+      "D": "E:first-of-type"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 206,
+    "type": "single",
+    "question": "以下哪个复合选择器可以选中所有同级元素中的第三个&lt;p&gt;元素？",
+    "options": {
+      "A": "：nth-child(3n)+p",
+      "B": "：nth-child(3n-1)p",
+      "C": "：nth-of-type(3)p",
+      "D": "p：nth-of-type(3)"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 207,
+    "type": "judge",
+    "question": "（The HyperText Transfer Protocol，HTTP）被所有的网络通信中使用的协议",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 208,
+    "type": "judge",
+    "question": "ARPAnet（Advanced Research Projects Agency）-1960年代末和1970年代初，网络可靠性，适用于ARPA资助的研究机构",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 209,
+    "type": "judge",
+    "question": "到2000年，NSFnet发展成为著名的Internet",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 210,
+    "type": "judge",
+    "question": "从1982年开始，ftp成为计算机网络连接标准",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 211,
+    "type": "judge",
+    "question": "互联网协议（IP，Internet Protocol）地址的形式：64位二进制数",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 212,
+    "type": "judge",
+    "question": "域名的第一域是最小的； 最后是最大的",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 213,
+    "type": "judge",
+    "question": "域名的最后一个域指定组织的类型",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 214,
+    "type": "judge",
+    "question": "World-Wide Web 万维网 简称 Web：一种可能的解决方案，用于在Internet上使用不同的协议",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 215,
+    "type": "judge",
+    "question": "URLs（Uniform Resource Locators 统一资源定位符）:只提供资源的路径",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 216,
+    "type": "judge",
+    "question": "实现段落与段内换行（&lt;p&gt;和&lt;br&gt;）",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 217,
+    "type": "judge",
+    "question": "常用的HTTP请求方法：GET – 返回指定文档的内容（*）",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 218,
+    "type": "judge",
+    "question": "常用的HTTP请求方法H：HEAD – 利用随附的数据来执行指定的文档（*）",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 219,
+    "type": "judge",
+    "question": "JavaScript仅通过语法与Java相关",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 220,
+    "type": "judge",
+    "question": "Web服务器监视主机上的通信端口，并在出现HTTP消息时接受它们",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 221,
+    "type": "judge",
+    "question": "Web服务器有两个主要目录：1.文档根目录（存储可访问文档）2.服务器根目录（存储服务器系统软件）",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 222,
+    "type": "judge",
+    "question": "为了使网页更具有语义化，我们经常会在页面中用到标题标签，HTML提供了6个等级的标签，即：h1、h2、h3、h4、h5、h6",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 223,
+    "type": "judge",
+    "question": "在HTML中超链接标签&lt;a&gt;属性中，target：用于指定链接页面的打开方式，其取值有self和blank两种",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 224,
+    "type": "judge",
+    "question": "不仅可以创建文本超链接，在网页中各种元素都可以与链接标签嵌套变成超链接，如图像、表格、音频、视频等。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 225,
+    "type": "judge",
+    "question": "图像标签的src属性用于指定图像文件的路径和文件名，是必须的属性，可插入图片格式 JPG、Gif、PNG8、PNG24、webp、bmp、svg",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 226,
+    "type": "judge",
+    "question": "div、span标签是有语义的",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 227,
+    "type": "judge",
+    "question": "不同类的标签可以嵌套使用",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 228,
+    "type": "judge",
+    "question": "表格的表头使用&lt;caption&gt; 标签来定义",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 229,
+    "type": "judge",
+    "question": "表格的标题使用&lt;caption&gt; 标签来定义，必须直接定义在&lt;table&gt;标签之后，并且每个表格只能定义一个标题。通常这个标题会被居中于表格之上。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 230,
+    "type": "judge",
+    "question": "将多个内容合并时，多余的单元格需要删除",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 231,
+    "type": "judge",
+    "question": "在表单控件中，input文本框的文本字段默认宽度是20个字符",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 232,
+    "type": "judge",
+    "question": "在表单控件中，input密码框的密码字段字符不会明文显示，而是以星号或圆点替代",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 233,
+    "type": "judge",
+    "question": "在表单控件中，input设置为图像按钮，不需要用src指定图片路径",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 234,
+    "type": "judge",
+    "question": "每个表单都应该有自己的表单域",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 235,
+    "type": "judge",
+    "question": "表单的提交方式设置为get的时候，点击后退按钮或者刷新的时候数据会被重新提交（浏览器应该告知用户数据会被重新提交）。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 236,
+    "type": "judge",
+    "question": "表单的提交方式设置为post，对数据长度无限制，数据也不会显示在URL中，并且比get方式更安全",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 237,
+    "type": "judge",
+    "question": "标签选择器不能设计差异化样式。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 238,
+    "type": "judge",
+    "question": "大多数HTML元素都可以定义id属性，元素的id值是唯一的，只能对应于文档中某一个具体的元素。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 239,
+    "type": "judge",
+    "question": "类选择器最大的优势是可以为元素对象定义单独或相同的样式。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 240,
+    "type": "judge",
+    "question": "多类名选择器中样式显示效果和CSS样式书写的上下顺序无关。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 241,
+    "type": "judge",
+    "question": "W3C标准规定，在同一个页面内，不允许有相同值的id对象出现，但是允许相同值的class。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 242,
+    "type": "judge",
+    "question": "通配符选择器不可以清除浏览器默认样式。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 243,
+    "type": "judge",
+    "question": "选择器的优先级：id选择器&gt;类选择器&gt;标签&gt;通配符。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 244,
+    "type": "judge",
+    "question": "target选择器可用于选取当前活动的目标元素。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 245,
+    "type": "judge",
+    "question": "交集选择器由两个选择器构成，两个选择器之间可以有空格。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 246,
+    "type": "judge",
+    "question": "后代选择器又称为包含选择器，用来选择元素或元素组的后代。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 247,
+    "type": "judge",
+    "question": "CSS的继承性表现为子元素可以继承父元素的样式。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 248,
+    "type": "judge",
+    "question": "在CSS的继承中不仅仅是儿子可以继承, 只要是后代都可以继承。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 249,
+    "type": "judge",
+    "question": "用于提升选择器中某个属性的优先级, 可以将被指定属性的优先级提升为最高。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 250,
+    "type": "judge",
+    "question": "类选择器尽量不要纯数字、中文等命名，尽量使用英文字母来表示。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 251,
+    "type": "judge",
+    "question": "在伪类选择器中，a:hover 必须在 a:link 和 a:visited 之后。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 252,
+    "type": "judge",
+    "question": "&lt;video&gt;元素支持MP4格式的视频",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 253,
+    "type": "judge",
+    "question": "块级元素总是从新行开始",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 254,
+    "type": "judge",
+    "question": "行内元素的默认宽度就是它本身内容的宽度",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 255,
+    "type": "judge",
+    "question": "元素的背景是元素的总大小，包括填充和边界，但不包括边距",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 256,
+    "type": "judge",
+    "question": "行内元素可以设置水平方向的内外边距",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 257,
+    "type": "judge",
+    "question": "行内元素可以设置垂直方向的内外边距",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 258,
+    "type": "judge",
+    "question": "让一个盒子实现水平居中必须要指定宽度",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 259,
+    "type": "judge",
+    "question": "使用margin定义块元素的垂直外边距时，可能会出现外边距的合并",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 260,
+    "type": "judge",
+    "question": "元素的水平方向浮动，意味着元素可以上下左右移动",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 261,
+    "type": "judge",
+    "question": "相对定位是所有元素的默认定位方式",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 262,
+    "type": "judge",
+    "question": "HTML5支持原生音频和视频而无需Flash",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 263,
+    "type": "judge",
+    "question": "绝对定位是所有元素的默认定位方式",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 264,
+    "type": "judge",
+    "question": "元素浮动后，周围的元素会重新排列",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 265,
+    "type": "judge",
+    "question": "让一个盒子实现水平居中前提是它必须是一个块级元素",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 266,
+    "type": "judge",
+    "question": "清除内边距可以将padding设置为-1",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 267,
+    "type": "judge",
+    "question": "静态定位是所有元素的默认定位方式，当position属性的取值为static时，可以将元素定位于静态位置。所谓静态位置就是各个元素在HTML文档流中默认的位置。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 268,
+    "type": "judge",
+    "question": "在静态定位状态下，可以通过偏移属性（top、bottom、left、right）来改变元素的位置。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 269,
+    "type": "judge",
+    "question": "设置为相对定位的元素框会偏移某个距离。元素仍然保持其未定位前的形状，它原本所占的空间仍保留",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 270,
+    "type": "judge",
+    "question": "在使用相对定位时，通过边偏移来移动位置，无论是否进行移动，元素仍然占据原来的空间。因此，移动元素会导致它覆盖其它框。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 271,
+    "type": "judge",
+    "question": "每次移动的位置，是以元素自己的左上角为基点移动。（相对于自己来进行移动）相对定位的盒子仍在标准流中，它后面的盒子仍以标准流方式对待他。（相对定位不脱标）",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 272,
+    "type": "judge",
+    "question": "浮动的主要目的是让多个块级元素一行显示，那么定位就是移动位置，让盒子到我们想要的位置去。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 273,
+    "type": "judge",
+    "question": "绝对定位使元素的位置与文档流无关",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 274,
+    "type": "judge",
+    "question": "HTML5 特性，包括原生音频和视频支持而无需 Flash。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 275,
+    "type": "judge",
+    "question": "frameset 元素可定义一个框架集。它被用来组织多个窗口（框架）。每个框架存有独立的文档。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 276,
+    "type": "judge",
+    "question": "iframe是HTML标签，作用是文档中的文档，或者浮动的框架(frame)。iframe元素会创建包含另外一个文档的内联框架（即行内框架）",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 277,
+    "type": "judge",
+    "question": "Flex 是 Flexible Box 的缩写，意为\"弹性布局\"，用来为盒状模型提供最大的灵活性。 任何一个容器都可以指定为 Flex 布局。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 278,
+    "type": "judge",
+    "question": "当对元素设置固定定位后，它将脱离标准文档流的控制，始终依据浏览器窗口来定义自己的显示位置。不管浏览器滚动条如何滚动，也不管浏览器窗口大小如何变化，该元素都...",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 279,
+    "type": "judge",
+    "question": "弹性容器内及弹性子元素外是正常渲染的。因为弹性盒子只定义了弹性子元素如何在弹性容器内布局。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 280,
+    "type": "judge",
+    "question": "2009年，W3C 提出了一种新的方案----Flex 布局，可以简便、完整、响应式地实现各种页面布局。目前，它已经得到了所有浏览器的支持，这意味着，现在...",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 281,
+    "type": "judge",
+    "question": "引入弹性盒布局模型的目的是提供一种更加有效的方式来对一个容器中的子元素进行排列、对齐和分配空白空间。案例，实现水平垂直居中。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 282,
+    "type": "judge",
+    "question": "根据所述情况，Flash在当前的Web环境下存在很多问题，包括安全漏洞、重量大、需要安装插件等。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 283,
+    "type": "judge",
+    "question": "画布元素和它的上下文对象是相同的概念。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 284,
+    "type": "judge",
+    "question": "在HTML5中，canvas标签的innerContent对高版本浏览器可见。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 285,
+    "type": "judge",
+    "question": "Canvas具备获取和修改已绘制内容的能力。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 286,
+    "type": "judge",
+    "question": "所有的路径都是开放的。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 287,
+    "type": "judge",
+    "question": "绘制图形时，步骤(5)闭合路径ctx.closePath()是用于描边操作。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 288,
+    "type": "judge",
+    "question": "绘制一个圆弧或圆需要使用beginPath()方法。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 289,
+    "type": "judge",
+    "question": "在Canvas中使用drawImage方法绘制图片时，必须在onload函数内绘制，否则不会渲染。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 290,
+    "type": "judge",
+    "question": "参数sx和sy决定了在图片中设置切片的宽度和高度。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 291,
+    "type": "judge",
+    "question": "参数sHeight表示的是切片在目标canvas上绘制的高度。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 292,
+    "type": "judge",
+    "question": "参数dWidth和dHeight决定了切片在画布上的宽度和高度。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 293,
+    "type": "judge",
+    "question": "参数dx和dy决定了切片在目标canvas上的位置。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 294,
+    "type": "judge",
+    "question": "在图形合成中，绘制顺序对于合成效果没有影响。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 295,
+    "type": "judge",
+    "question": "globalCompositeOperation 属性可以改变图形的透明度。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 296,
+    "type": "judge",
+    "question": "clip 属性可以用于实现图形的旋转效果。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 297,
+    "type": "judge",
+    "question": "JavaScript 和Java两种语言是不同的迭代版本的关系，JavaScript是Java语言的脚本实现。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 298,
+    "type": "judge",
+    "question": "HTML 定义了网页的内容，CSS 描述了网页的布局，JavaScript实现了网页的行为。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 299,
+    "type": "judge",
+    "question": "JavaScript可以控制HTML的内容，可以增加、删除、修改、获取标签信息，直接在浏览器上修改标签属性或页面内容；",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 300,
+    "type": "judge",
+    "question": "JavaScript可以控制CSS样式，改变网页布局，比如改变元素背景色、文字大小、显示隐藏等。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 301,
+    "type": "judge",
+    "question": "JavaScript是一种具有面向对象能力的、解释型脚本语言，运行在浏览器的JS解释器下，在定义变量时不必具有明确的数据类型。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 302,
+    "type": "judge",
+    "question": "引入JavaScript的三种方式中，行级和嵌入的数量是不受限制的，引入数量是受限的。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 303,
+    "type": "judge",
+    "question": "JavaScript是严格区分大小写的语言。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 304,
+    "type": "judge",
+    "question": "JavaScript会忽略标识符前后的空格，加空格的目的是为了让代码有整齐一致的缩进，形成统一的编码风格，让代码更具可读性。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 305,
+    "type": "judge",
+    "question": "JavaScript支持两种注释方式中，多行注释用/XXXXXXXX/，单行注释用/*XXXXXX*/来标注，注释里的内容不会被程序执行。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 306,
+    "type": "judge",
+    "question": "JavaScript需要在所有的换行处都填充分号，否则无法正确解析语句的含义。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 307,
+    "type": "judge",
+    "question": "可以把一个值赋值给一个变量，这样程序在任何需要使用该值的地方，就可以直接引用该变量。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 308,
+    "type": "judge",
+    "question": "在JS的数字量中，-3.14是作为数字量的一个整体存在不可分割。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 309,
+    "type": "judge",
+    "question": "在JS中使用实数的时候该数是一个真实准确值。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 310,
+    "type": "judge",
+    "question": "JS里面长度为1的字符串代表字符类型，长度大于等于2的字符串代表字符串类型。",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 311,
+    "type": "judge",
+    "question": "原始表达式不可再分割，是最小单位的表达式；",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 312,
+    "type": "judge",
+    "question": "在JS的算术表达式中，如果+操作符其中一个操作数是字符串的话，则另一个也会转成字符串，此时是+操作符就会变成字符串连接；",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 313,
+    "type": "judge",
+    "question": "~操作符会对操作数的二进制表示所有位取反；",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 314,
+    "type": "judge",
+    "question": "恒等运算符===的作用是在检查两个值是否相等的同时还要考虑类型是否相同；",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 315,
+    "type": "judge",
+    "question": "Canvas 是一个轻量级的画布, 使用Canvas进行JS的编程不需要增加额外的组件；",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 316,
+    "type": "judge",
+    "question": "canvas的标签属性width和height表示宽度和高度，一般也采用css来设置；",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 317,
+    "type": "judge",
+    "question": "&lt;canvas id=\"canvas\" width=\"400\" height=\"300\"&gt;\n    您的浏览器不支持canvas标签，请更新浏览器\n&lt;/canvas&gt;",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 318,
+    "type": "judge",
+    "question": "在canvas画布上再次得到一个图形，可以通过fill去修改该画布上的内容；",
+    "options": {
+      "A": "对",
+      "B": "错"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  }
+]
