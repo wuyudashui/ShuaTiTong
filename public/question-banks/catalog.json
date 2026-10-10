@@ -3,9 +3,9 @@
   "banks": [
     {
       "filename": "merged_questions.json",
-      "name": "综合题库",
-      "subject": "综合",
-      "description": "Java 与计算机基础综合练习",
+      "name": "Java题库",
+      "subject": "Java",
+      "description": "Java题库",
       "path": "question-banks/merged_questions.json",
       "count": 257,
       "types": [
@@ -13,7 +13,8 @@
         "multi",
         "judge",
         "fill"
-      ]
+      ],
+      "updatedAt": "2026-10-10T06:39:42.410Z"
     },
     {
       "filename": "discrete-math.json",
