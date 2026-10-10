@@ -106,6 +106,23 @@ const mime = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', 
       await page.locator('#devModeBtn').click();
       await page.locator('#themeBtn').click();
       assert.equal(await page.locator('html').evaluate(el => el.classList.contains('dark')), true);
+      await page.waitForFunction(() => getComputedStyle(document.body).backgroundColor === 'rgb(22, 27, 43)');
+      assert.equal(await page.locator('body').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(22, 27, 43)', 'dark theme must cover the page background');
+      const contrast = await page.locator('.upload-local-note').evaluate(el => {
+        const luminance = color => {
+          const channels = color.match(/\d+/g).slice(0, 3).map(Number).map(v => { v /= 255; return v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; });
+          return channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
+        };
+        const a = luminance(getComputedStyle(el).color), b = luminance(getComputedStyle(document.querySelector('#uploadArea')).backgroundColor);
+        return (Math.max(a,b) + .05) / (Math.min(a,b) + .05);
+      });
+      assert.ok(contrast >= 4.5, `dark helper text contrast ${contrast}`);
+      await page.locator('#questionPoolBtn').click();
+      assert.equal(await page.locator('.pool-modal').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(28, 34, 55)');
+      await page.locator('#poolClose').click();
+      await page.locator('#settingsBtn').click();
+      assert.equal(await page.locator('#apiBaseUrl').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(22, 27, 43)');
+      await page.locator('#settingsCancelBtn').click();
 
       const fill = [{id:99,type:'fill',question:'1 + 1 = ____',options:{'空1':'2'},answer:'',difficulty:'易',explanation:''}];
       await page.locator('#fileInput').setInputFiles({name:'fill.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(fill))});

@@ -1,14 +1,16 @@
 /* ── Reset & Variables ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #f4f5f9;
+  color-scheme: light;
+  --bg: #f3f5fa;
   --card-bg: #ffffff;
   --text: #1e2028;
-  --text-secondary: #6b7280;
+  --text-secondary: #586479;
   --border: #e5e7eb;
   --border-light: #f0f1f5;
-  --primary: #4a6cf7;
-  --primary-hover: #3b5de8;
+  --primary: #355cde;
+  --primary-hover: #2447bd;
+  --on-primary: #ffffff;
   --primary-subtle: #eef1ff;
   --correct: #16a34a;
   --correct-bg: #dcfce7;
@@ -28,14 +30,16 @@
   --transition: .2s ease;
 }
 
-.dark {
+:root.dark {
+  color-scheme: dark;
   --bg: #161b2b;
   --card-bg: #1c2237;
   --text: #e4e8ef;
-  --text-secondary: #8d95ae;
+  --text-secondary: #a9b2c8;
   --border: #2a3248;
   --border-light: #222940;
   --primary: #7b8cff;
+  --on-primary: #111827;
   --primary-hover: #6a7cf0;
   --primary-subtle: #1e2645;
   --correct: #22c55e;
@@ -537,7 +541,6 @@ h1 .svg-icon, h2 .svg-icon, h3 .svg-icon {
 .model-fetch-status { min-height: 1.25em; margin-top: 5px; color: var(--text-secondary); font-size: .78rem; }
 
 /* Library and learning workspace */
-:root { --primary: #355cde; --primary-hover: #2447bd; --bg: #f3f5fa; --text-secondary: #586479; }
 .container { max-width: 920px; padding-bottom: 170px; }
 .app-header { padding: 14px max(20px, calc((100vw - 1120px) / 2)); }
 .app-header h1 { white-space: nowrap; }
@@ -1420,3 +1423,23 @@ button:active { transform: scale(.97); }
 /* ── Logout btn ── */
 #logoutBtn { color: var(--text-secondary); font-size: .78rem; padding: 4px 8px; }
 #logoutBtn:hover { color: var(--wrong); border-color: var(--wrong); }
+
+/* Foreground colors track the theme's filled controls as well as its surfaces. */
+.btn-primary, .btn-primary:hover, .tab-bar button.active,
+.option:hover .letter, .option.selected .letter, .option.selected .cb,
+.exam-count-btn.active, .grade-opt.active, .ai-mode-btn.active {
+  color: var(--on-primary);
+}
+:root.dark .feedback.ai-exp {
+  background: var(--primary-subtle);
+  color: var(--text);
+}
+:root.dark .feedback.ai-exp #feedbackResult,
+:root.dark .feedback.ai-exp .exp,
+:root.dark .feedback.ai-exp .exp strong,
+:root.dark .feedback.ai-exp .exp h3,
+:root.dark .feedback.ai-exp .exp h4,
+:root.dark .feedback.ai-exp .exp code { color: var(--text); }
+:root.dark .feedback.ai-exp .exp a { color: var(--primary); }
+input::placeholder, textarea::placeholder { color: var(--text-secondary); opacity: 1; }
+.modal textarea { background: var(--bg); color: var(--text); }
