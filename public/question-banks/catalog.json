@@ -19,7 +19,7 @@
     {
       "filename": "discrete-math.json",
       "name": "离散数学",
-      "subject": "数学",
+      "subject": "计算机",
       "description": "离散数学基础题库(旧题库,存在图片引用错误等)",
       "path": "question-banks/discrete-math.json",
       "count": 101,
@@ -29,7 +29,7 @@
         "judge",
         "fill"
       ],
-      "updatedAt": "2026-10-10T08:30:18.095Z"
+      "updatedAt": "2026-10-10T08:44:14.193Z"
     },
     {
       "filename": "Marx.json",
