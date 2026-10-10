@@ -57,6 +57,20 @@
         "single"
       ],
       "updatedAt": "2026-10-10T08:42:19.822Z"
+    },
+    {
+      "filename": "DataStructure.json",
+      "name": "数据结构题库",
+      "subject": "计算机",
+      "description": "数据结构题库(之前处理的题库,凑合用)",
+      "path": "question-banks/DataStructure.json",
+      "count": 467,
+      "types": [
+        "judge",
+        "single",
+        "fill"
+      ],
+      "updatedAt": "2026-10-10T08:45:39.333Z"
     }
   ]
 }
