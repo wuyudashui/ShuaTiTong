@@ -2,11 +2,11 @@
   "version": 1,
   "banks": [
     {
-      "filename": "merged_questions.json",
+      "filename": "java.json",
       "name": "Java题库",
       "subject": "Java",
       "description": "Java题库",
-      "path": "question-banks/merged_questions.json",
+      "path": "question-banks/java.json",
       "count": 257,
       "types": [
         "single",
@@ -14,7 +14,7 @@
         "judge",
         "fill"
       ],
-      "updatedAt": "2026-10-10T06:39:42.410Z"
+      "updatedAt": "2026-10-10T07:47:17.725Z"
     },
     {
       "filename": "discrete-math.json",

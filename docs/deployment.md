@@ -8,19 +8,29 @@
 
 ## Android 下载与构建
 
-每次 `main` 上与应用代码、构建脚本或依赖相关的变更都会运行 **Android debug APK**。题库目录的单独更新不会触发 Android 构建，但仍会触发 Pages 发布。工作流使用 Node.js 22.14、Java 21，先构建 `www/`，再运行 `npx cap add android` 和 `npx cap sync android`，最后生成可安装的 debug APK。
+每次 `main` 上与应用代码、构建脚本或依赖相关的变更都会运行 **Android signed APK**。题库目录的单独更新不会触发 Android 构建，但仍会触发 Pages 发布。工作流使用 Node.js 22.14、Java 21，先构建 `www/`，再运行 `npx cap add android` 和 `npx cap sync android`，最后生成固定签名的 release APK。
 
 下载按钮可以使用固定地址：
 
 <https://github.com/wuyudashui/ShuaTiTong/releases/download/android-latest/shuatitong.apk>
 
-`android-latest` 是一个滚动的 prerelease，工作流用仓库自动提供的 `GITHUB_TOKEN` 更新它的 `shuatitong.apk` 资产。令牌只在 GitHub Actions 中使用，不会进入网页或 APK；工作流声明了 `contents: write`，仓库的 Actions 设置需要允许该令牌写入内容/发布。
+`android-latest` 是一个滚动发布，工作流用仓库自动提供的 `GITHUB_TOKEN` 更新它的 `shuatitong.apk` 和公开版本元数据资产。令牌只在 GitHub Actions 中使用，不会进入网页或 APK；工作流声明了 `contents: write`，仓库的 Actions 设置需要允许该令牌写入内容/发布。
 
 默认情况下，APK 的 Capacitor `server.url` 指向 Pages 站点，并强制使用 HTTPS，`allowNavigation` 只允许 `wuyudashui.github.io`。需要在其他 HTTPS 地址打包时，可在仓库 **Settings → Secrets and variables → Actions → Variables** 设置 `SHUATITONG_APP_URL`，或在本地运行配置脚本前设置同名环境变量；脚本会拒绝 HTTP、带账号密码、查询参数或片段的地址，并把允许导航域名限制为该地址的主机名。
 
 APK 打开的是在线站点，需要联网；网站和公开题库更新后，已安装 APK 直接获取新内容，不需要为每次题库上传重新打包。
 
-这些是 debug/test 包，没有提交发布签名密钥。由于 Android debug 密钥可能在构建环境变化，安装新包时如果系统提示签名不一致，请先卸载旧的 debug 包再安装；正式升级需要配置持久化的 release keystore 和 Actions secrets。
+新版 APK 使用长期固定的 release 签名。应用包名保持 `com.shuatitong.app`，WebView 数据来源保持 `https://wuyudashui.github.io`；版本号按工作流运行次数和重试次数递增。后续覆盖安装同一签名版本，Android 保留应用目录中的已保存题库、进度和设置；卸载或清除应用数据仍会丢失记录。网页浏览器和 APP 有各自的数据空间，不自动共享。
+
+旧 debug 包的签名私钥未保留，不能用新的 release 签名直接覆盖。首次迁移若提示签名冲突，请保留旧 APP，联系开发者协助导出和迁移数据后再更换；不要直接卸载。新签名无法补救旧包的无损覆盖。
+
+### 固定签名维护
+
+GitHub Actions 使用 Repository Secrets：`ANDROID_KEYSTORE_BASE64`、`ANDROID_KEYSTORE_PASSWORD`、`ANDROID_KEY_ALIAS`、`ANDROID_KEY_PASSWORD`。Base64 是 keystore 的编码，另外三项用于读取同一私钥。未配置任何一项会拒绝构建，不回退到随机 debug 签名。
+
+`config/android-signing.json` 只保存公开的证书 SHA-256 指纹、包名和数据来源。构建后核对 APK 的实际证书、包名、版本，并和上一份发布元数据对比；更换签名或发布较低版本时阻止上传。`scripts/configure-android-release.mjs` 真正写入 Gradle 版本配置，不能仅在 Capacitor JSON 中填写版本号。
+
+本机私钥保存在仓库之外的用户私密目录 `~/.shuatitong/android-signing/`，密码通过 Windows DPAPI 加密在当前 Windows 用户下保存，并限制目录访问权限。本机加密文件不能直接搬到另一台电脑解密；迁移时需在原账户下重新加密导出并安全备份。务必长期保管和备份签名，不要删除 GitHub Secrets、重建另一份签名或把私钥提交到仓库。固定签名版之间的数据保留基于 Android 覆盖更新机制，尚未在用户真机上验证。
 
 ## 开发者题库上传权限
 

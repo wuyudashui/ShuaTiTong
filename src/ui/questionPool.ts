@@ -25,8 +25,9 @@ export function initQuestionPool(load: (questions: Question[], name?: string) =>
     overlay.className = 'modal-overlay'; overlay.id = 'appDownloadModal';
     overlay.innerHTML = `<section class="modal" role="dialog" aria-modal="true" aria-labelledby="appDownloadTitle">
       <h2 id="appDownloadTitle">下载 Android APP</h2>
-      <p class="download-notice">题库和学习进度保存在当前设备本机，网页与 APP 不共享进度。卸载重装或清除应用数据后，学习进度会重置，请先备份自己的题库。</p>
-      <p class="muted">单纯下载 APK 文件不会清除已安装 APP 的数据。当前为测试安装包，若需卸载旧版才能安装，请留意本地数据备份。</p>
+      <p class="download-notice">新版 APP 使用固定签名，后续直接覆盖安装即可保留已保存的本地题库、学习进度和设置，无需先卸载。下载 APK 文件本身不会清除数据。</p>
+      <p class="muted">旧测试包首次升级可能提示签名冲突。遇到冲突请保留旧 APP，先联系 <a href="mailto:2442078047@qq.com">2442078047@qq.com</a> 协助迁移数据，再更换版本。</p>
+      <p class="muted">网页与 APP 的本地数据不自动共享。卸载 APP 或清除应用数据仍会丢失本机记录；网站和题库更新通常无需重新安装。</p>
       <div class="modal-actions"><button id="appDownloadCancel" class="btn-outline">取消</button><a id="appDownloadConfirm" class="btn-primary app-download" href="${escapeHtml(download.href)}">了解并下载</a></div>
     </section>`;
     document.body.appendChild(overlay);

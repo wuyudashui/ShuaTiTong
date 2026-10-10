@@ -53,13 +53,15 @@ const mime = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', 
       await page.locator('#fileInput').setInputFiles({name:'lecture.docx',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',buffer:Buffer.from('unsupported')});
       assert.match(unsupportedMessage, /仅支持 JSON/);
       await page.locator('#appDownloadBtn').click();
-      assert.match(await page.locator('#appDownloadModal').innerText(), /卸载重装|进度会重置/);
+      assert.match(await page.locator('#appDownloadModal').innerText(), /覆盖安装.*保留/);
+      assert.match(await page.locator('#appDownloadModal').innerText(), /旧测试包.*签名冲突/);
       assert.equal(await page.locator('#appDownloadConfirm').getAttribute('href'), 'https://github.com/wuyudashui/ShuaTiTong/releases/download/android-latest/shuatitong.apk');
       await page.locator('#appDownloadCancel').click();
       // A cancelled library request must not replace the subsequently chosen bank.
       let releaseBank;
       const delayedBank = new Promise(resolve => { releaseBank = resolve; });
-      const delayPattern = '**/question-banks/merged_questions.json';
+      const firstBankPath = JSON.parse(await fs.readFile(path.join(root, 'question-banks/catalog.json'), 'utf8')).banks[0].path;
+      const delayPattern = `**/${firstBankPath}`;
       await page.route(delayPattern, async route => {
         await delayedBank;
         await route.fulfill({json:[{id:8801,type:'single',question:'Stale bank',options:{A:'A'},answer:'A',difficulty:'易',explanation:''}]}).catch(() => {});

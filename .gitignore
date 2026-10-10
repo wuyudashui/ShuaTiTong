@@ -20,3 +20,4 @@ docs/copyright/
 *.pem
 *.key
 .env.local
+android-release.json

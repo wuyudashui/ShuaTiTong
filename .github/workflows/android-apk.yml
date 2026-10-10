@@ -1,4 +1,4 @@
-name: Android debug APK
+name: Android signed APK
 
 on:
   push:
@@ -6,12 +6,14 @@ on:
     paths:
       - '.github/workflows/android-apk.yml'
       - 'capacitor.config.json'
+      - 'config/android-signing.json'
       - 'index.html'
       - 'package.json'
       - 'package-lock.json'
       - 'vite.config.ts'
       - 'tsconfig.json'
       - 'scripts/**'
+      - 'tests/android-release.mjs'
       - 'src/**'
       - 'public/**'
       - '!public/question-banks/**'
@@ -31,6 +33,10 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SHUATITONG_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      SHUATITONG_ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      SHUATITONG_ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -47,8 +53,27 @@ jobs:
           node-version: '22.14.0'
           cache: npm
 
+      - name: Restore fixed signing key
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          set -euo pipefail
+          export SHUATITONG_ANDROID_KEYSTORE_PATH="$RUNNER_TEMP/shuatitong-release.jks"
+          echo "SHUATITONG_ANDROID_KEYSTORE_PATH=$SHUATITONG_ANDROID_KEYSTORE_PATH" >> "$GITHUB_ENV"
+          for name in ANDROID_KEYSTORE_BASE64 SHUATITONG_ANDROID_KEYSTORE_PASSWORD SHUATITONG_ANDROID_KEY_ALIAS SHUATITONG_ANDROID_KEY_PASSWORD; do
+            if [ -z "${!name}" ]; then
+              echo "Missing signing secret: $name. Refusing to publish a debug package."
+              exit 1
+            fi
+          done
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$SHUATITONG_ANDROID_KEYSTORE_PATH"
+          chmod 600 "$SHUATITONG_ANDROID_KEYSTORE_PATH"
+
       - name: Install dependencies
         run: npm ci
+
+      - name: Check release configuration logic
+        run: node --test tests/android-release.mjs
 
       - name: Build web assets
         run: npm run build
@@ -61,41 +86,67 @@ jobs:
           npx cap add android
           npx cap sync android
 
-      - name: Assemble installable debug APK
-        run: ./gradlew assembleDebug
+      - name: Configure signed release and ascending version
+        run: node scripts/configure-android-release.mjs
+
+      - name: Assemble signed release APK
+        run: ./gradlew assembleRelease
         working-directory: android
 
-      - name: Prepare rolling APK asset
-        run: cp android/app/build/outputs/apk/debug/app-debug.apk shuatitong.apk
+      - name: Verify signing certificate and upgrade identity
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          cp android/app/build/outputs/apk/release/app-release.apk shuatitong.apk
+          tools_dir=$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -1)
+          "$tools_dir/apksigner" verify --verbose --print-certs shuatitong.apk > "$RUNNER_TEMP/apk-signature.txt"
+          "$tools_dir/aapt" dump badging shuatitong.apk > "$RUNNER_TEMP/apk-package.txt"
+          export SHUATITONG_ANDROID_VERIFY_DIR="$RUNNER_TEMP"
+          node scripts/verify-android-release.mjs
+          gh release view android-latest --json assets > "$RUNNER_TEMP/release-assets.json"
+          if jq -e '.assets[] | select(.name == "android-release.json")' "$RUNNER_TEMP/release-assets.json" >/dev/null; then
+            gh release download android-latest --pattern android-release.json --dir "$RUNNER_TEMP/previous-release"
+            node scripts/verify-android-release.mjs --previous "$RUNNER_TEMP/previous-release/android-release.json"
+          fi
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
-          name: shuatitong-android-debug
-          path: shuatitong.apk
+          name: shuatitong-android-signed
+          path: |
+            shuatitong.apk
+            android-release.json
           if-no-files-found: error
 
-      - name: Publish rolling debug release
+      - name: Publish rolling signed release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
+          version=$(node -p "require('./android-release.json').versionName")
           cat > "$RUNNER_TEMP/android-release-notes.md" <<EOF
-          Android debug/test APK wrapping ${SHUATITONG_APP_URL}.
+          刷题通 Android 固定签名版，打开 ${SHUATITONG_APP_URL}，需要联网。
 
-          Internet access is required to open the hosted site. No release signing secrets are configured. Debug signing keys may change between builds; uninstall the previous debug build if Android reports a signature mismatch.
+          后续固定签名版保持应用包名、签名及网页来源不变，并自动递增版本号；直接覆盖安装保留已保存的本地题库、学习进度和设置。无需先卸载。
+
+          旧 debug 测试包使用不同签名，首次迁移可能无法覆盖安装。遇到签名冲突请保留旧 APP，先联系开发者协助迁移数据。卸载或清除数据会丢失本机记录；网页与 APP 数据不自动共享。
           EOF
           if gh release view android-latest >/dev/null 2>&1; then
             gh api --method PATCH "repos/$GITHUB_REPOSITORY/git/refs/tags/android-latest" \
               -f sha="$GITHUB_SHA" -F force=true
-            gh release upload android-latest shuatitong.apk --clobber
+            gh release upload android-latest shuatitong.apk android-release.json --clobber
             gh release edit android-latest \
-              --title "刷题通 Android debug (latest)" \
+              --title "刷题通 Android $version" \
               --notes-file "$RUNNER_TEMP/android-release-notes.md" \
-              --prerelease
+              --prerelease=false
           else
-            gh release create android-latest shuatitong.apk \
+            gh release create android-latest shuatitong.apk android-release.json \
               --target "$GITHUB_SHA" \
-              --title "刷题通 Android debug (latest)" \
-              --notes-file "$RUNNER_TEMP/android-release-notes.md" \
-              --prerelease
+              --title "刷题通 Android $version" \
+              --notes-file "$RUNNER_TEMP/android-release-notes.md"
           fi
+
+      - name: Remove runner signing key
+        if: always()
+        run: rm -f -- "$RUNNER_TEMP/shuatitong-release.jks"

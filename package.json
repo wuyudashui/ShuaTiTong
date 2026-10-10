@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build && node scripts/remove-crossorigin.mjs",
     "test:display": "npm run build && node tests/error-handler.spec.cjs",
-    "test": "npm run test:display && npm run test:functions && node --test tests/server*.cjs",
+    "test": "npm run test:display && npm run test:functions && node --test tests/server*.cjs tests/android-release.mjs",
     "test:functions": "node tests/run-function-audit.mjs",
     "typecheck": "tsc --noEmit",
     "publisher": "node server/index.js",

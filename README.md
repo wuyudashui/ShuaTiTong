@@ -11,7 +11,7 @@ npm run dev
 
 浏览器打开终端提示的地址（默认 http://localhost:5173），在题库池中选择科目，或导入自己的 JSON 题库开始练习。本地导入只保存到自己的浏览器，不影响其他用户；公共题库由开发者发布维护。其他格式先使用配套 `shuatitong-any2json` 技能转换，或联系 2442078047@qq.com 协助处理。
 
-在线地址：[GitHub Pages](https://wuyudashui.github.io/ShuaTiTong/)。Android 下载：[最新测试 APK](https://github.com/wuyudashui/ShuaTiTong/releases/download/android-latest/shuatitong.apk)。发布配置与安装说明见 [部署说明](docs/deployment.md)。
+在线地址：[GitHub Pages](https://wuyudashui.github.io/ShuaTiTong/)。Android 下载：[最新 APK](https://github.com/wuyudashui/ShuaTiTong/releases/download/android-latest/shuatitong.apk)。发布配置与安装说明见 [部署说明](docs/deployment.md)。
 
 ### 构建生产版本
 
@@ -38,7 +38,7 @@ node --test tests/server-publisher.cjs
 
 ### 打包 Android APK
 
-推送应用代码到 GitHub，Actions 自动构建 APK 并更新 `android-latest` 下载资源。APK 通过 HTTPS 打开 Pages 网站，题库更新无需重新安装 APP。
+推送应用代码到 GitHub，Actions 使用固定签名构建 APK，自动递增版本号并更新 `android-latest` 下载资源。后续覆盖安装保留已保存的数据；旧测试包首次迁移若有签名冲突，请保留旧 APP 并联系开发者。APK 通过 HTTPS 打开 Pages 网站，题库更新无需重新安装 APP。
 
 ## 功能
 
