@@ -38,10 +38,11 @@
       "count": 10,
       "types": [
         "single",
-        "multi",
         "judge",
+        "multi",
         "fill"
-      ]
+      ],
+      "updatedAt": "2026-10-10T04:30:51.834Z"
     }
   ]
 }
