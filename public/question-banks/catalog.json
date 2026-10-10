@@ -4,7 +4,7 @@
     {
       "filename": "java.json",
       "name": "Java题库",
-      "subject": "Java",
+      "subject": "计算机",
       "description": "Java题库(旧题库,可能出现与新版结果不兼容等)",
       "path": "question-banks/java.json",
       "count": 257,
@@ -14,7 +14,7 @@
         "judge",
         "fill"
       ],
-      "updatedAt": "2026-10-10T08:28:01.790Z"
+      "updatedAt": "2026-10-10T08:44:29.075Z"
     },
     {
       "filename": "discrete-math.json",
