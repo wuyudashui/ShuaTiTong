@@ -20,7 +20,7 @@
       "filename": "discrete-math.json",
       "name": "离散数学",
       "subject": "数学",
-      "description": "离散数学基础题库",
+      "description": "离散数学基础题库(旧题库,存在图片引用错误等)",
       "path": "question-banks/discrete-math.json",
       "count": 101,
       "types": [
@@ -28,7 +28,8 @@
         "multi",
         "judge",
         "fill"
-      ]
+      ],
+      "updatedAt": "2026-10-10T08:30:18.095Z"
     },
     {
       "filename": "sample.json",
