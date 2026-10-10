@@ -63,6 +63,8 @@ test('compiled APK identity and signer are checked before publication',async t=>
   await fs.writeFile(pkg,`package: name='com.shuatitong.app' versionCode='${current.versionCode}' versionName='${current.versionName}'\n`);
   const verifyRun=()=>execFileSync(process.execPath,[verify],{cwd:root,encoding:'utf8',stdio:['pipe','pipe','pipe'],env:{...process.env,SHUATITONG_ANDROID_VERIFY_DIR:root}});
   assert.match(verifyRun(),/Verified/);
+  await fs.writeFile(signer,`Number of signers: 1\nV2 Signer: certificate SHA-256 digest: ${'a'.repeat(64)}\n`);
+  assert.match(verifyRun(),/Verified/,'recent Android build-tools report V2 Signer rather than Signer #1');
   await fs.writeFile(signer,`Signer #1 certificate SHA-256 digest: ${'b'.repeat(64)}\n`);
   assert.throws(verifyRun,/certificate/);
   await fs.writeFile(signer,`Signer #1 certificate SHA-256 digest: ${'a'.repeat(64)}\n`);

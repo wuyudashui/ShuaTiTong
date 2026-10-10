@@ -16,7 +16,7 @@ if (process.argv[2] === '--previous') {
   const dir = process.env.SHUATITONG_ANDROID_VERIFY_DIR;
   if (!dir) throw new Error('APK verification directory is required');
   const signer = fs.readFileSync(path.join(dir, 'apk-signature.txt'), 'utf8');
-  const fingerprints = [...signer.matchAll(/Signer #\d+ certificate SHA-256 digest: ([a-f0-9]+)/gi)].map(m => m[1].toLowerCase());
+  const fingerprints = [...new Set([...signer.matchAll(/(?:Signer #\d+|V\d+(?:\.\d+)? Signer:) certificate SHA-256 digest: ([a-f0-9]+)/gi)].map(m => m[1].toLowerCase()))];
   if (fingerprints.length !== 1 || fingerprints[0] !== identity.certificateSha256.toLowerCase()) {
     // apksigner prints only public certificate data here, never private signing credentials.
     console.error(signer);
