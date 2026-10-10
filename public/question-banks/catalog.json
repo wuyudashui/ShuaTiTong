@@ -34,7 +34,7 @@
     {
       "filename": "Marx.json",
       "name": "马原题库",
-      "subject": "马原",
+      "subject": "政治",
       "description": "马原题库",
       "path": "question-banks/Marx.json",
       "count": 842,
@@ -43,7 +43,7 @@
         "multi",
         "judge"
       ],
-      "updatedAt": "2026-10-10T08:39:45.139Z"
+      "updatedAt": "2026-10-10T08:43:53.016Z"
     },
     {
       "filename": "OOP.json",
