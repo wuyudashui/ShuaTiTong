@@ -5,9 +5,13 @@
   "description": "刷题通 - Interactive Quiz App",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && sed -i 's/crossorigin //g' www/index.html",
+    "build": "vite build && node scripts/remove-crossorigin.mjs",
+    "test:display": "npm run build && node tests/error-handler.spec.cjs",
+    "test": "npm run test:display && node --test tests/server*.cjs",
+    "typecheck": "tsc --noEmit",
+    "publisher": "node server/index.js",
     "preview": "vite preview",
-    "cap:sync": "vite build && npx cap sync android",
+    "cap:sync": "npm run build && node scripts/configure-capacitor-android.mjs && npx cap sync android",
     "cap:open": "npx cap open android"
   },
   "dependencies": {
@@ -15,10 +19,12 @@
     "@capacitor/core": "^7.0.0",
     "katex": "^0.17.0",
     "mammoth": "^1.12.0",
+    "markdown-it": "^15.0.2",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@capacitor/cli": "^7.0.0",
+    "@types/markdown-it": "^14.2.0",
     "playwright": "^1.61.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.16"

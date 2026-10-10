@@ -11,6 +11,7 @@ export function isAtLeast(tier: UserTier): boolean {
 }
 
 export function logout(): void {
+  sessionStorage.removeItem('shuatitong_dev');
   store.updateAISettings({
     userTier: undefined, devMode: false,
     syncToken: undefined, syncUsername: undefined, syncServer: undefined,
@@ -25,12 +26,10 @@ export function showDevLogin(callback: () => void): void {
     <div class="modal" style="max-width:360px">
       <h2>开发者验证</h2>
       <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:16px">输入账号密码解锁对应权限</p>
-      <label>账号</label>
-      <input type="text" id="devLoginUser" class="edit-input" placeholder="输入账号" style="margin-bottom:12px">
-      <label>密码</label>
-      <input type="password" id="devLoginPwd" class="edit-input" placeholder="输入密码" style="margin-bottom:16px">
-      <div style="font-size:.78rem;color:var(--text-secondary);margin-bottom:16px;padding:10px 12px;background:var(--tag-bg);border-radius:8px;line-height:1.6">
-        <strong>user</strong> / <strong>123456</strong> — 开发者模式<br>
+      <label for="devLoginUser">账号</label>
+      <input type="text" id="devLoginUser" class="edit-input" autocomplete="username" placeholder="输入账号" style="margin-bottom:12px">
+      <label for="devLoginPwd">密码</label>
+      <input type="password" id="devLoginPwd" class="edit-input" autocomplete="current-password" placeholder="输入密码" style="margin-bottom:16px">
       <div id="loginErr" style="display:none;color:var(--wrong);font-size:.82rem;margin-bottom:12px"></div>
       <div class="modal-actions">
         <button id="devLoginCancel" class="btn-outline">取消</button>
@@ -44,19 +43,20 @@ export function showDevLogin(callback: () => void): void {
   overlay.querySelector('#devLoginCancel')?.addEventListener('click', close);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
 
-  overlay.querySelector('#devLoginConfirm')?.addEventListener('click', () => {
+  const confirm = overlay.querySelector('#devLoginConfirm') as HTMLButtonElement;
+  confirm.addEventListener('click', async () => {
     const user = (overlay.querySelector('#devLoginUser') as HTMLInputElement).value.trim();
     const pwd = (overlay.querySelector('#devLoginPwd') as HTMLInputElement).value;
     const err = overlay.querySelector('#loginErr') as HTMLElement;
 
-    if (user === 'root' && pwd === 'linux') {
-      store.updateAISettings({ userTier: 'root', devMode: true, syncServer: 'http://localhost:3001' });
-      close();
-      callback();
-      return;
-    }
-    if (user === 'user' && pwd === '123456') {
-      store.updateAISettings({ userTier: 'premium', devMode: true });
+    confirm.disabled = true;
+    try {
+    // UI unlock only. GitHub writes require separate server authentication.
+    const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pwd));
+    const hash = Array.from(new Uint8Array(bytes), b => b.toString(16).padStart(2, '0')).join('');
+    if (user === 'yuhao' && hash === '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92') {
+      sessionStorage.setItem('shuatitong_dev', 'true');
+      store.updateAISettings({ userTier: 'root', devMode: true });
       close();
       callback();
       // Show brief notification
@@ -70,5 +70,11 @@ export function showDevLogin(callback: () => void): void {
 
     err.textContent = '账号或密码错误';
     err.style.display = '';
+    } catch {
+      err.textContent = '无法完成验证，请使用 HTTPS 或 localhost 打开网页。';
+      err.style.display = '';
+    } finally { confirm.disabled = false; }
   });
+  overlay.addEventListener('keydown', e => { if (e.key === 'Enter') confirm.click(); if (e.key === 'Escape') close(); });
+  (overlay.querySelector('#devLoginUser') as HTMLInputElement).focus();
 }

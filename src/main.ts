@@ -4,7 +4,7 @@ import type { Question } from './types';
 import { TYPE_LABELS } from './types';
 import { store } from './state';
 import { getFiltered } from './filter';
-import { formatExplanation, autoExplanation, renderText } from './format';
+import { formatExplanation, autoExplanation, renderText, escapeHtml } from './format';
 import { renderQuestion as dispatchRender, showAnswer as dispatchShowAnswer, getCurrentRenderer } from './renderers/index';
 import type { RenderConfig } from './types';
 import { fetchAIExplanation } from './ai';
@@ -18,6 +18,8 @@ import { showEditModal, showFullEditModal, showInsertModal, exportQuestions } fr
 import { showAdaptModal } from './ui/adapt';
 import { parseFile, showParseConfirm } from './parsers/index';
 import { showDevLogin, isAtLeast } from './ui/login';
+import { initQuestionPool } from './ui/questionPool';
+import { normalizeQuestions } from './questions';
 import { CHECK, X, EYE, CLIPBOARD, BOOK_OPEN, REFRESH, EDIT, DOWNLOAD, CODE } from './icons';
 
 // ─── DOM refs ───
@@ -137,7 +139,7 @@ const renderConfig: RenderConfig = {
       updateThumbnails();
     } else {
       // ── Practice mode: immediate feedback ──
-      const q = getFiltered(store.state.questions, store.state.filterType, store.state.errorBook, store.state.examErrorFilter, store.state.searchQuery)[store.state.currentIndex];
+      const q = getCurrentQuestion();
       if (!q) return;
 
       if (result.isCorrect) {
@@ -248,7 +250,7 @@ function renderQuestion(): void {
         } else {
           feedback.classList.add('show', 'wrong');
           const displayAns = store.exam.answerDisplay[q.id] || gd.selected;
-          feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误（你的答案：${displayAns}，正确答案：${gd.correct}）`;
+          feedbackRes.innerHTML = `<span class="svg-icon">${X}</span> 回答错误（你的答案：${escapeHtml(displayAns)}，正确答案：${escapeHtml(gd.correct)}）`;
         }
         explanation.innerHTML = formatExplanation(q.explanation || autoExplanation(q));
       }
@@ -543,6 +545,7 @@ function updateUI(): void {
 
 // ─── Upload ───
 function loadJSON(data: Question[], fileName?: string): void {
+  try { data = normalizeQuestions(data); } catch (error) { alert(error instanceof Error ? error.message : '题库格式无效'); return; }
   if (!Array.isArray(data) || data.length === 0) {
     alert('题库格式无效：需要包含题目的 JSON 数组。');
     return;
@@ -557,8 +560,12 @@ function loadJSON(data: Question[], fileName?: string): void {
     answeredMap: {},
     errorBook: {},
     examErrorFilter: [],
+    searchQuery: '',
   });
   store.setAnswered(false);
+  (document.getElementById('searchInput') as HTMLInputElement).value = '';
+  document.getElementById('activeBankName')!.textContent = fileName?.replace(/\.json$/i, '') || '已加载题库';
+  document.getElementById('welcomePanel')!.classList.add('compact');
   // Exit exam mode on new file load
   if (store.exam.active) store.exitExam();
 
@@ -848,7 +855,8 @@ aiSimplifyBtn.addEventListener('click', () => {
 // ─── Keyboard shortcuts ───
 document.addEventListener('keydown', e => {
   const target = e.target as HTMLElement;
-  const isInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
+  if (document.querySelector('.modal-overlay:not(.hidden)')) return;
+  const isInput = ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName) || target.isContentEditable;
 
   if (e.key === 'ArrowLeft' && !isInput) { prevBtn.click(); return; }
   if (e.key === 'ArrowRight' && !isInput) { nextBtn.click(); return; }
@@ -871,7 +879,7 @@ document.addEventListener('keydown', e => {
   }
 
   if (e.key === 'Enter') {
-    const submitBtn = optContainer.querySelector('button') || fillContainer.querySelector('button');
+    const submitBtn = optContainer.querySelector('button') || fillContainer.querySelector('#fillSubmitBtn');
     if (submitBtn) { e.preventDefault(); (submitBtn as HTMLButtonElement).click(); }
   }
 });
@@ -986,17 +994,21 @@ function renderExamHistory(): void {
 }
 
 // ─── Global error handler for mobile debugging ───
+// Resource errors (for example a missing image) must not replace the whole app.
+// Only surface actual JavaScript exceptions, and keep the existing UI visible.
+function showRuntimeError(error: unknown): void {
+  const message = error instanceof Error ? (error.stack || error.message) : String(error);
+  const panel = document.createElement('div');
+  panel.style.cssText = 'position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;padding:12px 14px;background:#7f1d1d;color:#fff;border-radius:8px;font:13px/1.45 monospace;white-space:pre-wrap;box-shadow:0 4px 18px rgba(0,0,0,.25)';
+  panel.textContent = `JS Error\n${message}`;
+  document.body.appendChild(panel);
+  window.setTimeout(() => panel.remove(), 10000);
+}
 window.addEventListener('unhandledrejection', (e) => {
-  document.body.innerHTML = `<div style="padding:20px;color:red;font-size:14px">
-    <h2>JS Error</h2>
-    <pre>${e.reason?.stack || e.reason}</pre>
-  </div>`;
+  showRuntimeError(e.reason);
 });
 window.addEventListener('error', (e) => {
-  document.body.innerHTML = `<div style="padding:20px;color:red;font-size:14px">
-    <h2>JS Error</h2>
-    <pre>${e.error?.stack || e.message || e}</pre>
-  </div>`;
+  if (e.error) showRuntimeError(e.error);
 });
 
 // ─── Init ───
@@ -1004,6 +1016,7 @@ function init(): void {
   try {
     initTheme(themeBtn);
   initSettings();
+  initQuestionPool(loadJSON);
   renderRecentFiles();
 
   // ─── Dev mode toggle ───
@@ -1088,7 +1101,8 @@ function init(): void {
   }
   function showDevLoginModal(): void {
     if (store.aiSettings.devMode) {
-      store.updateAISettings({ devMode: false });
+      sessionStorage.removeItem('shuatitong_dev');
+      store.updateAISettings({ devMode: false, userTier: 'guest' });
       updateDevModeUI();
     } else {
       showDevLogin(() => updateDevModeUI());
@@ -1168,10 +1182,14 @@ function init(): void {
     renderQuestion();
     updateStats();
   });
+  window.addEventListener('questions-synced', updateUI);
 
   const restored = store.restore();
   renderExamHistory();
   if (restored && store.state.questions.length) {
+    searchInput.value = store.state.searchQuery || '';
+    document.getElementById('activeBankName')!.textContent = '继续上次练习';
+    document.getElementById('welcomePanel')!.classList.add('compact');
     setActiveFilterType(store.state.filterType);
     applyTheme();
     updateUI();

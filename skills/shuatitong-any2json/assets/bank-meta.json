@@ -1,0 +1,7 @@
+{
+  "filename": "linear-algebra.json",
+  "name": "线性代数基础题库",
+  "subject": "线性代数",
+  "description": "矩阵与线性方程组练习",
+  "overwrite": false
+}

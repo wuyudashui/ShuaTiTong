@@ -49,9 +49,9 @@ export function showSyncModal(): void {
         <label>服务器地址</label>
         <input type="text" id="syncServerInput" class="edit-input" value="${escapeHtml(store.aiSettings.syncServer || 'http://')}" placeholder="http://电脑IP:3001" style="margin-bottom:12px">
         <label>用户名</label>
-        <input type="text" id="syncUsername" class="edit-input" value="root" style="margin-bottom:12px">
+        <input type="text" id="syncUsername" class="edit-input" autocomplete="username" style="margin-bottom:12px">
         <label>密码</label>
-        <input type="password" id="syncPassword" class="edit-input" value="linux" style="margin-bottom:16px">
+        <input type="password" id="syncPassword" class="edit-input" autocomplete="current-password" style="margin-bottom:16px">
         <div class="modal-actions">
           <button id="syncLoginBtn" class="btn-primary">🔐 登录</button>
           <button id="syncClose2" class="btn-outline">取消</button>
@@ -81,6 +81,7 @@ export function showSyncModal(): void {
         store.state.questions.splice(0, store.state.questions.length, ...qs);
         store.update({ currentIndex: 0, filterType: 'all', correctCount: 0, wrongCount: 0, answeredMap: {}, errorBook: {} });
         store.save();
+        window.dispatchEvent(new CustomEvent('questions-synced'));
         result.innerHTML = '✅ 已下载 ' + qs.length + ' 题';
       } catch (e: any) { result.innerHTML = '❌ ' + e.message; }
     });

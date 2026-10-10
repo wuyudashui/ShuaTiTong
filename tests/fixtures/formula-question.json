@@ -1,0 +1,16 @@
+[
+  {
+    "id": 9001,
+    "type": "single",
+    "question": "请计算 $x^2$ 和 \\(y^2\\)。",
+    "options": {
+      "A": "$$\\frac{1}{2}$$",
+      "B": "`$z^2$`",
+      "C": "普通选项",
+      "D": "\\[a+b\\]"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "结论是 $x^2$。\n\n```js\nconst value = '$not-formula$';\n```"
+  }
+]

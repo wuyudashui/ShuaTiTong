@@ -54,6 +54,9 @@ export function loadAISettings(): AISettings {
     if (!raw) return { apiKey: '', apiBaseUrl: 'https://api.deepseek.com', apiModel: 'deepseek-v4-flash', autoNext: false };
     const s = JSON.parse(raw);
     return {
+      ...s,
+      devMode: sessionStorage.getItem('shuatitong_dev') === 'true',
+      userTier: sessionStorage.getItem('shuatitong_dev') === 'true' ? 'root' : 'guest',
       apiKey: s.apiKey || '',
       apiBaseUrl: s.apiBaseUrl || 'https://api.deepseek.com',
       apiModel: s.apiModel || 'deepseek-v4-flash',

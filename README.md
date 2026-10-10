@@ -9,7 +9,9 @@ npm install
 npm run dev
 ```
 
-浏览器打开终端提示的地址（默认 http://localhost:5173），上传 JSON 题库即可开始刷题。
+浏览器打开终端提示的地址（默认 http://localhost:5173），在题库池中选择科目，或导入自己的 JSON / Excel / Word 题库开始练习。本地导入只保存到自己的浏览器，不影响其他用户；公共题库由开发者发布维护。
+
+在线地址：[GitHub Pages](https://wuyudashui.github.io/ShuaTiTong/)。Android 下载：[最新测试 APK](https://github.com/wuyudashui/ShuaTiTong/releases/download/android-latest/shuatitong.apk)。发布配置与安装说明见 [部署说明](docs/deployment.md)。
 
 ### 构建生产版本
 
@@ -18,9 +20,21 @@ npm run build
 # 输出到 www/
 ```
 
+部署时需要上传完整的 `www/` 目录，包括 `assets/` 中的 JavaScript、CSS 和字体；只上传 `index.html` 会导致界面或按钮失效。不要直接双击源码 `index.html`，开发时使用 `npm run dev`，生产版本使用 `npm run preview` 或静态网站服务器打开。
+
+### 显示回归检查
+
+```bash
+npx playwright install chromium # 首次运行需要安装测试浏览器
+npm run test:display
+npx tsc --noEmit
+```
+
+显示检查会先构建生产版本，然后自动验证桌面与手机宽度下的题库导入、答题、切题、进度恢复、主题切换和错误处理。
+
 ### 打包 Android APK
 
-推送代码到 GitHub，Actions 自动编译并上传 APK 产物。也可[本地编译](#打包为-apk)。
+推送应用代码到 GitHub，Actions 自动构建 APK 并更新 `android-latest` 下载资源。APK 通过 HTTPS 打开 Pages 网站，题库更新无需重新安装 APP。
 
 ## 功能
 
@@ -92,7 +106,7 @@ npm run cap:open
 
 ### 在线编译（推荐，无需本地 SDK）
 
-推送代码到 GitHub 仓库，[Actions](https://github.com/wuyudashui/ShuaTiTong/actions) 自动编译。进入 Actions 页面，选择最新成功运行的工作流，在 Artifacts 中下载 `shuatitong-apk`。
+推送代码到 GitHub 仓库，[Actions](https://github.com/wuyudashui/ShuaTiTong/actions) 自动编译。可从 `android-latest` Release 下载 `shuatitong.apk`，或在工作流 Artifacts 中下载 `shuatitong-android-debug`。当前生成测试包；签名与更新限制见部署说明。
 
 ### 本地编译
 
@@ -115,6 +129,12 @@ cd android && ./gradlew assembleDebug
 
 ```text
 ├── index.html                 # Vite 入口 HTML
+├── data/question-banks/       # 示例题库与本地题库文件
+├── public/                    # 开发期静态资源
+├── www/                      # Vite / Capacitor 构建输出（不要手动编辑）
+├── legacy/                   # 旧版单文件页面，仅作参考
+├── docs/manuals/             # 用户手册与源代码文档
+├── docs/copyright/           # 软著申请材料
 ├── src/
 │   ├── main.ts                # 入口：DOM 绑定、渲染编排
 │   ├── types.ts               # 核心类型定义
@@ -139,9 +159,24 @@ cd android && ./gradlew assembleDebug
 ├── capacitor.config.json      # Capacitor 配置
 ├── package.json               # 依赖声明
 ├── vite.config.ts             # Vite 构建配置
+├── server/                   # 开发者主机发布服务
+├── scripts/                  # 转换与构建辅助脚本
+├── tests/                    # 网页与服务端回归检查
+├── skills/                   # 新版题库转换技能
 └── .github/workflows/
-    └── build-apk.yml          # GitHub Actions 编译脚本
+    ├── pages.yml             # GitHub Pages 部署
+    └── android-apk.yml       # Android 测试包构建与下载发布
 ```
+
+题库可以从 `data/question-banks/` 选择导入本地；公共题库位于 `public/question-banks/`，由 `catalog.json` 索引。`www/` 是完整构建输出。
+
+## 开发者发布题库
+
+在开发者主机安装服务依赖：`npm ci --prefix server`，将 GitHub 写入令牌配置到 `server/.env`（参考 `server/.env.example`），运行 `npm run publisher`。在本地开发页进入开发者模式，打开“题库池 → 开发者题库维护”，连接发布服务后选择 JSON、填写名称和科目，点击发布。令牌仅保存在开发者主机，网页中不填写 GitHub Token。
+
+题库和目录以同一次 Git 提交更新，GitHub Pages 自动部署后对其他用户生效。覆盖同名题库需明确勾选“更新同名题库”。普通用户导入和答题只操作浏览器本地数据。
+
+`skills/shuatitong-any2json/` 提供适配新版的转换技能，可安装到个人 Codex 技能目录。生成的题库是 JSON 数组，科目、标题等目录信息由发布表单填写。
 
 ## 技术栈
 

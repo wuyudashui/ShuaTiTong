@@ -6,11 +6,19 @@
   "webDir": "www",
   "bundledWebRuntime": false,
   "server": {
-    "androidScheme": "https"
+    "androidScheme": "https",
+    "cleartext": false,
+    "url": "https://wuyudashui.github.io/ShuaTiTong/",
+    "allowNavigation": [
+      "wuyudashui.github.io"
+    ]
   },
   "plugins": {
     "Filesystem": {
-      "permissions": ["READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     }
   }
 }

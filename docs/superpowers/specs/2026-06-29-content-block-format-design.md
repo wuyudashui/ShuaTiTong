@@ -132,7 +132,7 @@ export function renderText(str: ContentBlock[] | string): string {
 | `src/format.ts` | 新增 `renderBlocks()`；`renderText()` 入参重载；`autoExplanation()` 兼容块格式 |
 | `src/renderers/*.ts` | 无改动（已调用 `renderText()`） |
 | `src/main.ts` | 无改动（已调用 `renderText(q.question)`） |
-| `shuatitong.html` | 无改动（不包含渲染逻辑的副本） |
+| `legacy/shuatitong.html` | 无改动（不包含渲染逻辑的副本） |
 
 ## 5. Excel 转换工具
 

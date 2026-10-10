@@ -1,5 +1,6 @@
 import type { AppState, QuestionType, Question, ExamState, ExamGradedDetail, ExamSection, AISettings, RecentFileMeta, ExamRecord, AdaptedState, AdaptMode } from './types';
 import { getFiltered } from './filter';
+import { contentBlocksToText } from './format';
 import { saveAppState, loadAppState, saveAISettings, loadAISettings, saveRecentFiles, loadRecentFiles, saveExamRecords, loadExamRecords } from './storage';
 
 // ─── Default state ───
@@ -180,9 +181,17 @@ class Store {
 
     for (const q of this._exam.questions) {
       const selected = this._exam.answers[q.id] || '';
-      const isCorrect = q.type === 'multi' ? eqMulti(selected, q.answer) : eq(selected, q.answer);
+      let isCorrect: boolean;
+      let correctAnswer = q.answer;
+      if (q.type === 'fill') {
+        const expected = Object.values(q.options).map(value => contentBlocksToText(value).trim());
+        let values: unknown = [];
+        try { values = JSON.parse(selected); } catch { /* Unanswered */ }
+        isCorrect = Array.isArray(values) && values.length === expected.length && expected.every((value, i) => typeof (values as string[])[i] === 'string' && eq((values as string[])[i], value));
+        correctAnswer = expected.join('；');
+      } else { isCorrect = q.type === 'multi' ? eqMulti(selected, q.answer) : eq(selected, q.answer); }
       isCorrect ? correct++ : wrong++;
-      details[q.id] = { selected, correct: q.answer, isCorrect };
+      details[q.id] = { selected: q.type === 'fill' ? (this._exam.answerDisplay[q.id] || '未作答') : selected, correct: correctAnswer, isCorrect };
     }
 
     return { correct, wrong, details };

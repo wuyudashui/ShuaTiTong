@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "banks": [
+    {
+      "filename": "merged_questions.json",
+      "name": "综合题库",
+      "subject": "综合",
+      "description": "Java 与计算机基础综合练习",
+      "path": "question-banks/merged_questions.json",
+      "count": 257,
+      "types": [
+        "single",
+        "multi",
+        "judge",
+        "fill"
+      ]
+    },
+    {
+      "filename": "discrete-math.json",
+      "name": "离散数学",
+      "subject": "数学",
+      "description": "离散数学基础题库",
+      "path": "question-banks/discrete-math.json",
+      "count": 101,
+      "types": [
+        "single",
+        "multi",
+        "judge",
+        "fill"
+      ]
+    },
+    {
+      "filename": "sample.json",
+      "name": "示例题库",
+      "subject": "示例",
+      "description": "用于熟悉刷题通格式的示例题库",
+      "path": "question-banks/sample.json",
+      "count": 10,
+      "types": [
+        "single",
+        "multi",
+        "judge",
+        "fill"
+      ]
+    }
+  ]
+}

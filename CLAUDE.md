@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run dev        # Dev server (hot reload) — runs on localhost:5174
+npm run dev        # Dev server (hot reload) — defaults to localhost:5173
 npm run build      # Build production → www/
 npm run preview    # Preview production build
 npm run cap:sync   # Sync build to Capacitor Android
@@ -20,7 +20,7 @@ npm run cap:open   # Open Android project in Android Studio
 
 ## Project Overview
 
-**刷题通 (ShuaTiTong)** — Pure frontend interactive quiz app. No backend. Runs in browser or as Android APK (Capacitor).
+**刷题通 (ShuaTiTong)** — Interactive quiz app on GitHub Pages, also accessed by Android (Capacitor). Normal uploads and progress are local to the user's browser. The optional developer-host `server/` publishes shared JSON banks to GitHub; it holds the GitHub token in environment variables.
 
 Data flow: User action → Store mutation → `renderQuestion()` → `updateStats()` + `store.save()`.
 
@@ -29,7 +29,7 @@ Data flow: User action → Store mutation → `renderQuestion()` → `updateStat
 ### Entry Points
 
 - `index.html` — Vite dev entry, loads `src/main.ts`
-- `shuatitong.html` — Standalone single-file version (self-contained, may be outdated)
+- `legacy/shuatitong.html` — Standalone single-file version (self-contained, may be outdated)
 
 ### Source Structure
 
@@ -61,6 +61,16 @@ src/
 └── parsers/
     └── index.ts      # File upload parser: Excel/Word → text → AI → JSON
 ```
+
+### Project Directories
+
+- `data/question-banks/` — 示例题库和本地题库文件，Java 题库位于 `java.json`；公开版由 `public/question-banks/catalog.json` 索引。
+- `public/` — Vite 开发期静态资源
+- `www/` — Vite / Capacitor 构建输出，由 `npm run build` 生成
+- `legacy/` — 旧版单文件页面，仅供参考，不参与 Vite 构建
+- `docs/manuals/` — 用户手册和源代码文档
+- `docs/copyright/` — 软件著作权申请材料
+- `tests/` — Playwright 显示回归测试
 
 ### ContentBlock Format
 
@@ -95,7 +105,7 @@ AI functions use `store.getApiConfig(preference)` to get the correct API paramet
 
 ### Dev Mode
 
-Protected by password (default root/linux). Toggle via header button. Enables:
+Local developer UI unlock uses a password digest, with no credentials shown in the page. GitHub publication requires separate server authentication. Toggle via header button. Enables:
 
 - ✏️ Edit question: text/option editing, image upload (file + clipboard paste)
 - ＋ Insert new question: form with type selector, options editor, image upload, JSON import
@@ -126,5 +136,5 @@ Non-JSON files go through a 5-step pipeline:
 - **Renderers**: Strategy pattern. `SingleRenderer` handles both `single` and `judge`. Dispatcher destroys previous renderer before rendering new question.
 - **Exam mode**: Questions grouped by type, shuffled within type, options re-labeled. `answerDisplay` tracks shuffled labels for user-facing display. Grading uses original keys.
 - **Filters**: all / single / multi / judge / fill / wrong / exam-review / adapted. Search query filters by text content across questions and options.
-- **No test framework** configured.
+- **Tests**: `npm run test:display` checks the built website using Playwright; `node --test tests/server*.cjs` checks publication/authentication. `npm run typecheck` checks TypeScript.
 - **Capacitor**: Build output in `www/` (base `'./'`). APK auto-built by GitHub Actions on push.

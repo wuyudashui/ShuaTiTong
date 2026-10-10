@@ -1,0 +1,6 @@
+interface:
+  display_name: "ShuaTiTong_any2Json"
+  short_description: "将资料制作成刷题通 JSON 题库，支持单选、多选、判断和填空"
+  default_prompt: "使用 $shuatitong-any2json 把题目转换成刷题通可导入的 JSON 题库。"
+policy:
+  allow_implicit_invocation: true

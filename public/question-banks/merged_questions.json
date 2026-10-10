@@ -1,0 +1,3388 @@
+[
+  {
+    "id": 1,
+    "type": "single",
+    "question": "下列选项中，（ ）是JDK提供的编译器",
+    "options": {
+      "A": "java.exe",
+      "B": "javac.exe",
+      "C": "javap.ext",
+      "D": "javaw.exe"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 2,
+    "type": "single",
+    "question": "下列选项中 ，（ ）是Java应用程序主类中正确的main()方法",
+    "options": {
+      "A": "public void main(String args[])",
+      "B": "static void main(String args[])",
+      "C": "public static void Main(String args[])",
+      "D": "public static void main(String args[])"
+    },
+    "answer": "D",
+    "difficulty": "易",
+    "explanation": ""
+  },
+  {
+    "id": 3,
+    "type": "single",
+    "question": "下列叙述中，正确的是（）",
+    "options": {
+      "A": "在Java源文件由若干个熟悉形式相互独立的类组成",
+      "B": "在Java源文件中只能有一个类",
+      "C": "如果源文件中有多个类，那么至少有一个类是public类",
+      "D": "Java的源文件的扩展名是class"
+    },
+    "answer": "C",
+    "difficulty": "易",
+    "explanation": ""
+  },
+  {
+    "id": 4,
+    "type": "single",
+    "question": "对于下列选项中，以下叙述正确的是（） \npublic class E{\n public static void main(String args[]){\nSystem.out.println(\"ok\");}}  \nclass A{ \npublic static void main(String args[]){\nSystem.out.println(\"OK\");\n}}",
+    "options": {
+      "A": "源文件的名字必须是A.java",
+      "B": "源文件有错",
+      "C": "源文件必须命名为E.java",
+      "D": "源文件中的E类不是主类"
+    },
+    "answer": "C",
+    "difficulty": "易",
+    "explanation": ""
+  },
+  {
+    "id": 5,
+    "type": "single",
+    "question": "下列代码中，哪行代码有错（） \n public class Example   //A{  \npublic static void main(String args)    //B\n{ System.out.println(\"OK\");   //C   \nfloat x=1e1;    //D",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "D",
+    "difficulty": "易",
+    "explanation": ""
+  },
+  {
+    "id": 6,
+    "type": "single",
+    "question": "下列叙述错误的是（）",
+    "options": {
+      "A": "int []a,b[],定义了一个一维数组a，和一个二维数组b",
+      "B": "float a[20]；是正确的数组声明",
+      "C": "boolean yes=false;是正确的boolean变量声明",
+      "D": "1e2和2.05E2都是double型常量"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": ""
+  },
+  {
+    "id": 7,
+    "type": "single",
+    "question": "下列叙述错误的是（）",
+    "options": {
+      "A": "System是关键字",
+      "B": "_class可以做标识符",
+      "C": "char型字符在Unicode中的位置是0-65535",
+      "D": "对于int[]=new int[3]；a.length的值是3"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 8,
+    "type": "single",
+    "question": "下列字符序列中，（）可以是标识符",
+    "options": {
+      "A": "true",
+      "B": "default",
+      "C": "_int",
+      "D": "good-class"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 9,
+    "type": "single",
+    "question": "下列选项中，（）是正确的float变量声明",
+    "options": {
+      "A": "float foo=1;",
+      "B": "float foo=1.0;",
+      "C": "float foo=2e1;",
+      "D": "float foo=2.02f;"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 10,
+    "type": "single",
+    "question": "下列选项中，（）是正确的char变量声明",
+    "options": {
+      "A": "char ch=\"R\";",
+      "B": "char ch='\\\\';",
+      "C": "char ch='ABCD';",
+      "D": "char ch=\"ABCD\";"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 11,
+    "type": "single",
+    "question": "以下叙述错误的是（）",
+    "options": {
+      "A": "对于 int a[][]=new int[6][4];a.length的值是6",
+      "B": "对于 int a[][]=new int[2][9];a.length、a[0].length、a[1].length的值都为9",
+      "C": "对于int []a=new int[3];a[0]、a[1]、a[2]的值都是0；",
+      "D": "float height=1e1F；是正确的float变量声明"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 12,
+    "type": "single",
+    "question": "对于下列Test.java代码，叙述正确的是（）\npublic class Test{\n  public static void main(String args[]){\n    int arr[]=new int[10];\n    System.out.println(arr[1]);}}",
+    "options": {
+      "A": "产生编译错误",
+      "B": "输出null",
+      "C": "编译正确，发生运行异常",
+      "D": "输出0"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 13,
+    "type": "single",
+    "question": "注释标注的哪行有错\npublic calss Test1{\n    char c=65535;    //A\n    byte b=127;     //B\n    int height=100;   //C\n    float f=3.14;     //D\n}}",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 14,
+    "type": "single",
+    "question": "注释标注的哪行有错\npublic class Test1{\n   public static void main(String args[]){\n    int x=8;    \n    byte b=127;    \n    b=x;      //A\n    x='a';        //B     \n    long y=b;     //C\n    float z=(int)6.89;        //D\n}}",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 15,
+    "type": "single",
+    "question": "下列叙述正确的是（）",
+    "options": {
+      "A": "5.0/2+10的结果是double型数据",
+      "B": "（int）5.8+1.0的结果是int型数据",
+      "C": "‘苹’+‘果’的结果是char型数据",
+      "D": "（short）10+'a'的结果是short型数据"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 16,
+    "type": "single",
+    "question": "假设有 int  x=1;则下列代码中（）将导致“可能损失精度，找到int需要char”这种编译错误",
+    "options": {
+      "A": "short t=12+'a';",
+      "B": "char c='a'+1;",
+      "C": "char m='a'+x;",
+      "D": "byte  n='a'+1;"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 17,
+    "type": "single",
+    "question": "代码中哪行是错误的\npublic class Test{\n    public static void main(String args[]){\n      byte b='a';    //A\n     int n=100;\n     char c=65;    //B\n    b=b;         //C\n    b=b+1;}}   //D",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 18,
+    "type": "single",
+    "question": "下列叙述中，正确的是（）",
+    "options": {
+      "A": "Java应用程序由若干类所构成，这些类必须在一个源文件中",
+      "B": "Java应用程序必须有一个源文件含有主类",
+      "C": "Java源文件不需含有主类",
+      "D": "Java源文件如果含有主类，主类必须是public类"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 19,
+    "type": "single",
+    "question": "下列叙述正确的是（）",
+    "options": {
+      "A": "成员变量的名字不可以和局部变量的名字相同",
+      "B": "方法的参数名字可以和方法中声明的局部变量的名字相同",
+      "C": "成员变量没有默认值",
+      "D": "局部变量没有默认值"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 20,
+    "type": "single",
+    "question": "对下列Hello类的叙述正确的是（）\nclass Hello{\n   Hello(int m){}\n   int Hello(){return 20;}\n   hello(){}}",
+    "options": {
+      "A": "Hello类有两个构造方法",
+      "B": "Hello类的int Hello（）方法是错误的方法",
+      "C": "Hello类没有构造方法",
+      "D": "Hello无法通过编译，因为其中的hello方法的方法头是错误的"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 21,
+    "type": "single",
+    "question": "对于下列Dog类的叙述错误的是（）\n   class Dog{\n       Dog(int m){}\n       Dog(double m){}\n       int Dog(int m){return 23;}\n       void Dog(double m){}\n}}",
+    "options": {
+      "A": "Dog(int m)与Dog(double m)是重载构造方法",
+      "B": "int Dog(int m)与void Dog(double m)是互为重载的非构造方法",
+      "C": "Dog类中只有两个构造方法，而且没有无参构造方法",
+      "D": "Dog类有3个构造方法"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 22,
+    "type": "single",
+    "question": "下列叙述正确的是（）",
+    "options": {
+      "A": "成员变量有默认值",
+      "B": "this可以出现在static方法中",
+      "C": "类中的实例方法可以使用类名调用",
+      "D": "局部变量也可以使用访问修饰符，public ,protected,private修饰"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 23,
+    "type": "single",
+    "question": "对于下列Tom类的叙述正确的是（）\npublic class test{\n   public static void main(String args[]){\n      Tom cat=new Tom();}}\nclass Tom{\n     void Tom(){ System.out.println(\"ok\");}\n     Tom(int m){System.out.println(\"hello\");}}",
+    "options": {
+      "A": "程序运行时输出ok",
+      "B": "没有构造方法",
+      "C": "有编译错误，因为创建对象cat使用的不是构造方法，java编译器已经不提供无参构造函数",
+      "D": "程序运行无任何输出"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 24,
+    "type": "single",
+    "question": "下列代码哪行有错（）\nclass Tom{\n      int x;\n      static int y;\n     void showxy(){System.out.println(\"%d,%d\",x,y);\n     static void showy(){System.out.println(\"%d\",y);}}\npublic class E{\n      public static void main(String args[]){\n      Tom.y=20;            //A\n      Tom cat =new Tom();\n      cat.x=100;\n      cat.y=200;     //B\n      Tom.x=300  //C\n      cat.showxy();      //D\n      Tom.showy();}}",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 25,
+    "type": "single",
+    "question": "下列叙述中正确的是（）",
+    "options": {
+      "A": "子类继承父类的构造方法",
+      "B": "abstract类的子类必须是非abstract类",
+      "C": "子类继承的方法只能操作父类定义的成员变量（包括继承的变量，以及被隐藏的父类变量），而不能操作子类新增的成员变量。",
+      "D": "子类重写或者新增的方法也只能直接操作被子类隐藏的成员变量"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 26,
+    "type": "single",
+    "question": "下列叙述中正确的是（）",
+    "options": {
+      "A": "final类可以有子类",
+      "B": "abstract类中只可以有abstract方法",
+      "C": "不可以用final和abstract修饰同一个方法",
+      "D": "允许使用static修饰abstract方法"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 27,
+    "type": "single",
+    "question": "假设C是B的子类，B是A的子类，cat是C类的一个对象，bird是B类的一个对象，下列叙述错误的是（）",
+    "options": {
+      "A": "cat instanceof B的值为true",
+      "B": "bird instanceof A的值为true",
+      "C": "cat instanceof A的值为true",
+      "D": "bird instanceof C的值为true"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 28,
+    "type": "single",
+    "question": "下列程序中，带有注释错误的代码是（）\n abstract class Takeccare{\n    protected void speakHello(){};    //A\n    public abstract static void cry();   //B\n    static int f(){return 0;}   //C\n    abstract float g();         //D",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 29,
+    "type": "single",
+    "question": "下列程序中，带有注释的代码错误的是（）\nclass A{\n     static int m;              //A\n    static void f(){m=20;}}   //B\nclass B{\n   void f(){m=222;}}  //C\nclass E{\n    public static void main(String args[]){\n      A.f();}}       //D",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 30,
+    "type": "single",
+    "question": "下列程序中，注释的代码错误的是（）\nabstract class A{\n   abstract float getFloat();     //A\n   void f(){}                        //B\n}\npublic class B extends A{\n   private float m=1.0f;               //C\n   private float getFloat(){          //D\n      return m;\n}}",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 31,
+    "type": "single",
+    "question": "下列选项中，（）放入程序的标注【代码】处将导致编译错误：\n class A{\n    public float getNum(){return 3.0f；}\n  }\npublic  class B extends A{\n    [代码]\n}",
+    "options": {
+      "A": "public float getNum(){return 4.0f;}",
+      "B": "public void getNum(){}",
+      "C": "public void getNum(double d){}",
+      "D": "public double getNum(float d){return 4.0d;}"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 32,
+    "type": "single",
+    "question": "下列叙述中正确的是（）",
+    "options": {
+      "A": "一个类最多可以实现两个接口",
+      "B": "如果一个抽象类实现某个接口，那么它必须重写接口中的全部方法",
+      "C": "如果一个抽象类实现某个接口，那么它可以只重写接口中的部分方法",
+      "D": "不允许接口中只有一个抽象方法"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 33,
+    "type": "single",
+    "question": "下列选项中，（）替换程序中标注的【代码】处，不会导致编译错误\ninterface  com{ int M=200;\n    int f();}\nclass ImCom tmplements com{\n    [代码】}",
+    "options": {
+      "A": "public int f（）{return 100+M;}",
+      "B": "int f(){return 100;}",
+      "C": "public double f(){return 2.6;}",
+      "D": "public abstract int f();"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 34,
+    "type": "single",
+    "question": "下列接口中，带有注释的代码正确的是（）\ninterface Takecare{\n     protected  void speakhello();   //A\n     public abstract static void cry();\n    int fun();\n    abstract float g():}",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 35,
+    "type": "single",
+    "question": "下列选项中，（）程序的标注哪行代码有错：\ninterface com{\n    int max=100;               //A           \n    void f();}\nabstract class amin implements com{\n  int min ;    //B\n}\nclass Dog extends amin{\n   public void f(){\n         min=10；        //C\n        max=200;         //D\n}}",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 36,
+    "type": "single",
+    "question": "下列叙述错误的是（）",
+    "options": {
+      "A": "匿名类没有构造方法",
+      "B": "编译器会给匿名类取一个名字",
+      "C": "匿名类一定是final类",
+      "D": "匿名类一定是内部类"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 37,
+    "type": "single",
+    "question": "下列叙述错误的是（）",
+    "options": {
+      "A": "非匿名内部类也可以有内部子类",
+      "B": "匿名类可以是final类",
+      "C": "不可能用匿名类声明对象，但可以直接使用匿名类创建一个对象",
+      "D": "匿名子类可以继承父类的方法，也可以重写父类的方法"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 38,
+    "type": "single",
+    "question": "下列叙述错误的是（）",
+    "options": {
+      "A": "内部类的外嵌类的成员变量在内部类中仍然有效",
+      "B": "内部类中的方法也可以调用外嵌类中的方法",
+      "C": "在内部类的类体中可以声明变量为static",
+      "D": "在外嵌类的类体中可以用内部类声明对象，作为外嵌类的成员"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 39,
+    "type": "single",
+    "question": "下列注释中错误的是（）\nclass  outClass{\n      int   m=1;   //A\n      static flaot x;\nclass Innerclass {\n      int m=12;           //B\n     static float n=20.99f;    //C\n    Innerclass(){}\n    void f(){ m=100}\n}\nvoid cry(){  Innerclass tom=new Innerclass();   //D\n}}",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 40,
+    "type": "single",
+    "question": "下列注释中错误的是（）\nclass   E{\n     public static void main(String args[]){\n     int n=0,m=0,t=1000;\n      try{\n            m=Integer.parseInt(\"8888\");    //A\n           m=Integer.parseInt(\"ab89\");    //B\n           t=Integer.parseInt(\"1289\");}     //C\n           catch(NumberFormatException e){}\n           catch(Exception e){}           //D\n}}",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 41,
+    "type": "single",
+    "question": "下列说法正确的是（）",
+    "options": {
+      "A": "String类是final类，不可以有子类",
+      "B": "String类在java.util包中",
+      "C": "“abc”==\"abc\"的值是false",
+      "D": "\"abc\".equals(\"AC\")的值为true"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 42,
+    "type": "single",
+    "question": "下列表达式正确的是（）",
+    "options": {
+      "A": "int m=Float.ParseFloat(\"577\")",
+      "B": "int m=Short.parseShort(\"577\")",
+      "C": "byte m=Integer.parseInt(\"2\")",
+      "D": "float m=Float.parseDouble(\"2.9\")"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 43,
+    "type": "single",
+    "question": "对于以下代码，下列叙述正确的是（）\npublic class E{\n    public static void main(String args[]){\n       String strone=\"bird\";\n        String strtwo=strone;\n       strone=\"fly\";\n      System.out.println(strtwo);           //【代码】\n}}",
+    "options": {
+      "A": "程序编译出现错误",
+      "B": "程序标注的【代码】输出的结果是bird",
+      "C": "程序标注的【代码】输出的结果是fly",
+      "D": "程序标注的【代码】输出的结果是null"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 44,
+    "type": "single",
+    "question": "对以下代码，下列叙述正确的是（）\npublic class E{\n    public static void main(String args[]){\n         String s1=args[1];\n         String s2=args[2];\n        String s3=args[3];\n        System.out.println(s3);}}",
+    "options": {
+      "A": "程序出现编译错误",
+      "B": "无编译错误，在执行程序“java E Ilovethis game”，程序输出this",
+      "C": "无编译错误，在执行程序“java E let us go”，程序运行无异常",
+      "D": "无编译错误，在执行程序“java E 0 1 2 3 4 5 6 7 8 9 ”，程序输出3"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 45,
+    "type": "single",
+    "question": "下列叙述错误的是（）",
+    "options": {
+      "A": "“9dog”.matches（“\\\\ddog”）的值为true",
+      "B": "\"12hello567\".replaceAll(\"[123456789]+\",\"@\")返回的字符串是@hello@",
+      "C": "new Date(1000)对象含有的时间是公元后1000小时的时间",
+      "D": "“\\\\hello\\n”是正确的字符串变量"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 46,
+    "type": "single",
+    "question": "下列叙述正确的是（）",
+    "options": {
+      "A": "创建File对象可能发生异常",
+      "B": "BufferdReader流可以指向FileInputStream类",
+      "C": "BufferdWriter类可以指向FileWriter类",
+      "D": "RandomAccessFile一旦指向文件就会刷新该文件"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 47,
+    "type": "single",
+    "question": "为了向Hello.txt文件尾添加数据，下列选项中，（）是正确地创建指向hello.txt的流",
+    "options": {
+      "A": "try{\n   OutputStream out=new FileOutputStream(\"hello.txt\");}\n   catch(IOException e){}",
+      "B": "try{\n   OutputStream out=new FileOutputStream(\"hello.txt\",true);}\n   catch(IOException e){}",
+      "C": "try{\n   OutputStream out=new FileOutputStream(\"hello.txt\",false);}\n   catch(IOException e){}",
+      "D": "try{\n   OutputStream out=new OutputStream(\"hello.txt\",true);}\n   catch(IOException e){}"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 48,
+    "type": "single",
+    "question": "下列叙述错误的是（）",
+    "options": {
+      "A": "线程新建后，不调用start()方法也有机会获得CPU资源",
+      "B": "如果两个线程需要调用同一个tongue方法，那么一个线程调用该同步方法时另外一个必须等待",
+      "C": "目标对象中的run()方法不能启动多次",
+      "D": "在默认的情况下，所有线程的优先级都是5级"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 49,
+    "type": "single",
+    "question": "对于以下程序，下来叙述正确的是（）\npublic class E{\n    public staitc void main(String args[]{\n        Target tar=new Target();\n         Thread thread=new Thread(tar);\n        thread.start():}}\nclass Target implements Runnable{\n     public void run(){\n           System.out.println(\"ok\"):}}",
+    "options": {
+      "A": "JVM认为这个应用程序共有两个线程",
+      "B": "JVM认为这个应用程序只有一个线程",
+      "C": "JVM认为这个应用程序只有一个thread线程",
+      "D": "thread的优先级是10级"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 50,
+    "type": "single",
+    "question": "下段程序的运行结果是（   ）\npublic class Test { \npublic static void main(string[ ] args) { \n      int x =9; \n      int y = 4; \n      if (x = y) {\n       System.out.printIn(“Not equal”); \n   }\n      else{\n       System.out.printIn(“Equal”); \n   }}}",
+    "options": {
+      "A": "输出”Not equal”",
+      "B": "输出”Equal”",
+      "C": "编译器报错",
+      "D": "运行但无输出"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 51,
+    "type": "single",
+    "question": "Java程序默认引用的包是（   ）。",
+    "options": {
+      "A": "java.swing",
+      "B": "java.awt",
+      "C": "java.lang",
+      "D": "java.util"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 52,
+    "type": "single",
+    "question": "下列有关接口的说法中，正确的是（  ）。",
+    "options": {
+      "A": "接口与抽象类是相同的概念。",
+      "B": "非抽象类实现一个接口必须实现接口的所有方法。",
+      "C": "接口之间不能有继承关系。",
+      "D": "一个类不可实现多个接口。"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 53,
+    "type": "single",
+    "question": "4. 下列关于构造方法的叙述中，错误的是（       ）",
+    "options": {
+      "A": "Java语言规定构造方法名与类名必须相同",
+      "B": "Java语言规定构造方法没有返回值，但不用void声明",
+      "C": "Java语言规定构造方法不可以重载",
+      "D": "Java语言规定构造方法只能通过new自动调用"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 54,
+    "type": "single",
+    "question": "阅读下面程序，在程序下划线处填入的正确代码选项是（    ）\nPublic class Test___________________{\n  Public void run(){\n System.out.println(“Hello”);\n}\n}\nPublic class test｛\nPublic static void main (String args[]){\n  Thread t = new Test();\n  t.run();\n}\n}",
+    "options": {
+      "A": "implements Thread",
+      "B": "extends Thread",
+      "C": "implements Runnable",
+      "D": "extends Runnable"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 55,
+    "type": "single",
+    "question": "判断两个字符串变量str1和str2内容相同的表达式是（   ）",
+    "options": {
+      "A": "str2=str1",
+      "B": "str1==str2",
+      "C": "str1.equals(str2)",
+      "D": "str1&str2"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 56,
+    "type": "single",
+    "question": "已知有下列类的说明，则下列哪个语句是正确的？（   ）\npublic class Test {\nprivate String s =”my string”;\nint m = 8;\nstatic int n=0;\npublic static void main(String[] args) {\nTest t = new Test( );\n}\n}",
+    "options": {
+      "A": ".t.s",
+      "B": "Test.n",
+      "C": "Test.m",
+      "D": "Test.s"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 57,
+    "type": "single",
+    "question": "下面哪一个循环会导致死循环？（   ）",
+    "options": {
+      "A": "for(int k = 0; k < 0; k++)",
+      "B": "for(int k = 0; k > 0; k++)",
+      "C": "for(int k = 9; k > 0; k--)",
+      "D": "for(int k = 0; k < 9; k--)"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 58,
+    "type": "single",
+    "question": "欲构造ArrayList类的一个实例，此类继承了List接口，下列哪个方法是正确的？（   ）",
+    "options": {
+      "A": "List myList = new ArrayList（）；",
+      "B": "List myList = new List（）；",
+      "C": "ArrayList myList = new List（）；",
+      "D": "ArrayList myList = new Object（）；"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 59,
+    "type": "single",
+    "question": "通过（    ）接口可创建线程对象",
+    "options": {
+      "A": "Runnable",
+      "B": "JFrame",
+      "C": "WindowListener",
+      "D": "Thread"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 60,
+    "type": "single",
+    "question": "对于已经被定义过可能抛出异常的语句，在编程时（    ）",
+    "options": {
+      "A": "必须使用try／catch语句处理异常，或用throws将其抛出",
+      "B": "如果程序错误，必须使用 try／catch语句处理异常",
+      "C": "可以置之不理",
+      "D": "只能使用try／catch语句处理"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 61,
+    "type": "single",
+    "question": "下面哪个函数是 public void example(){...} 的重载函数？（   ）",
+    "options": {
+      "A": "private void example(int m){...}",
+      "B": "public int example(){...}",
+      "C": "public void example2(){...}",
+      "D": "public void example(int m, float f){...}"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 62,
+    "type": "single",
+    "question": "面关于变量及其范围的陈述哪个是不正确的（   ）",
+    "options": {
+      "A": "实例变量用关键字static声明",
+      "B": "局部变量在使用前必须被初始化",
+      "C": "实例变量是类的成员变量",
+      "D": "在方法中定义的局部变量在该方法被执行时创建"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 63,
+    "type": "single",
+    "question": "有一个类class JFTest{} ，下列属于构造方法的是（   ）",
+    "options": {
+      "A": "public void JFTest(){ }",
+      "B": "public jftest ( ) { }",
+      "C": "public JFTest( ) { }",
+      "D": "public JFTest1( double g){ }"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 64,
+    "type": "single",
+    "question": "下列关于被私有访问控制符private修饰的成员变量的说法中，正确的是（    ）。",
+    "options": {
+      "A": "可以被3种类所引用：该类自身、与它在同一个包中的其它类、在其它包中的该类的子类。",
+      "B": "可以被两种类访问和引用：该类本身、该类的所有子类。",
+      "C": "只能被同一个包中的类访问。",
+      "D": "只能被该类自身所访问和修改。"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 65,
+    "type": "single",
+    "question": "哪个关键字可以对对象加互斥锁？(  )",
+    "options": {
+      "A": "transient",
+      "B": "synchronized",
+      "C": "serialize",
+      "D": "static"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 66,
+    "type": "single",
+    "question": "下列程序段执行后的结果是(    )。\nString s = new String(\"abcdefg\");\nfor (int i=0; i<s.length(); i+=2){\nSystem.out.print(s.charAt(i));\n}",
+    "options": {
+      "A": "aceg",
+      "B": "ACEG",
+      "C": "abcdefg",
+      "D": "abcd"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 67,
+    "type": "single",
+    "question": "覆盖与重载的关系是（　　）",
+    "options": {
+      "A": "final修饰的方法可以被覆盖，但不能被重载",
+      "B": "覆盖只有发生在父类与子类之间，而重载可以发生在同一个类中",
+      "C": "覆盖方法可以不同名，而重载方法必须同名",
+      "D": "覆盖与重载是同一回事"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 68,
+    "type": "single",
+    "question": "关于对象成员占用内存的说法哪个正确（　　）",
+    "options": {
+      "A": "同一个类的对象共用同一段内存",
+      "B": "同一个类的对象使用不同的内存段，但静态成员共享相同的内存空间",
+      "C": "对象的方法不占用内存",
+      "D": "以上都不对"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 69,
+    "type": "single",
+    "question": "（    ）Java开发环境搭建时，需要设置java的环境变量，以下关于环境变量的说法正确的是：",
+    "options": {
+      "A": "通过设置Path和ClassPath来确定java中所有命令的存储位置",
+      "B": "如果出现“javac不是内部或外部命令，也不是可运行的程序或批处理文件”是因为ClassPath设置不正确",
+      "C": "默认安装路径时，Path=java安装路径\\JDK1.6\\bin",
+      "D": "如果只装了JRE，没有安装JDK则无法设置ClassPath的路径"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 70,
+    "type": "single",
+    "question": "（    ）下面变量赋值语句哪个是错误的：",
+    "options": {
+      "A": "int  x =（int）1321L",
+      "B": "Long y=’好’",
+      "C": "float z=3.14159",
+      "D": "byte x=127"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 71,
+    "type": "single",
+    "question": "（  ）下列选项中，关于this关键字的说法正确的是？",
+    "options": {
+      "A": "this关键字是在对象内部指代对象自身的引用",
+      "B": "this关键字可以在类中的静态方法中使用",
+      "C": "this关键字和类关联，而不是和特定的对象关联",
+      "D": "同一个类的不同对象共用一个this"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 72,
+    "type": "single",
+    "question": "（    ）下面是关于Java语言中数据类型的强制转换的描述，其中错误的是：",
+    "options": {
+      "A": "当数据类型从高转换为低时需要强制转换",
+      "B": "B. 在赋值操作中可采用强制类型转换",
+      "C": "C. 强制转换时使用强制转换运算符，形如（<类型>）",
+      "D": "D. 浮点型数据强制转换为整型时，小数部分四舍五入"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 73,
+    "type": "single",
+    "question": "（    ）有如下关于类的说明，则那个语句是正确的？\n   public  class Test{\nprivate char f=’a’;\nint m=12;\nstatic int n=1;\npublic static void main(String[] args){\nTest t=new Test();\n}\n}",
+    "options": {
+      "A": "t.f",
+      "B": "this.n",
+      "C": "Test.m",
+      "D": "Test.n"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 74,
+    "type": "single",
+    "question": "（    ）给出下列代码中，哪行在编译时可能报错？\n   public  void  modify(){\n      int  i, j, k[];   //A\n      i=100;\n      while(i>0)   //B\n{\n            j=j*2;\n            System.out.println(“this j =”+j);     //C\n            k[i]+=1;                                    //D   \n             i--;\n}\n}",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 75,
+    "type": "single",
+    "question": "（    ）类B是一个抽象类，定义了抽象方法f()，类C是类B的非抽象子类且自定义了方法g（），下面对于实例b描述正确的是",
+    "options": {
+      "A": "B b = new B（）；b.f()可以执行",
+      "B": "B b = new C（）；b.f()可以执行",
+      "C": "B b = new B（）；b.g()可以执行",
+      "D": "B b = new C（）；b.g()可以执行"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 76,
+    "type": "single",
+    "question": "（    ）下列关于构造方法的叙述中错误的是",
+    "options": {
+      "A": "Java语言规定构造方法名和类名必须相同",
+      "B": "Java语言规定构造方法没有返回值，但不用void声明",
+      "C": "Java语言规定同一个类的构造方法不可以相互调用",
+      "D": "Java语言规定可以定义一个类但不写构造方法"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 77,
+    "type": "single",
+    "question": "（    ）阅读下面程序，在程序下划线出填入的正确代码选项是：\nPublic class Test___________________{\n Public void run(){\n System.out.println(“Hello”);\n}\n}\nPublic class test｛\nPublic static void main (String args[]){\n   Test t=new Test();\n  Thread tt = new Thread(t);\n  tt.start();\n}\n}",
+    "options": {
+      "A": "implements Thread",
+      "B": "extends Thread",
+      "C": "implements Runnable",
+      "D": "extends Runnable"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 78,
+    "type": "single",
+    "question": "（    ）关于接口特征，下述正确的是",
+    "options": {
+      "A": "在Java8以前，接口中的方法可以有参数列表，返回类型和方法体",
+      "B": "接口中可以包含变量，这些变量可以被实现类修改",
+      "C": "接口不可以被继承",
+      "D": "接口中的方法在实现类中必须被显示声明为public"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 79,
+    "type": "single",
+    "question": "（    ）下面关于数组说法正确的是",
+    "options": {
+      "A": "int a[][]=new int[3][3] 存在下标为a[3][2]的元素",
+      "B": "数组a和b，a=b是引用的传递",
+      "C": "二维数组的下标必须相同",
+      "D": "数组对象必须在声明的时候就分配空间"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 80,
+    "type": "single",
+    "question": "（　　）下列关于内部类的说法不正确的是",
+    "options": {
+      "A": "内部类只能在定义它的类内部使用",
+      "B": "内部类可以使用所在类的静态成员变量和静态成员方法，也可以定义静态成员变量或者静态成员方法",
+      "C": "内部类可以使用abstract修饰符定义为抽象类",
+      "D": "内部类可以作为其他类的成员，而且可以访问它所在类的成员"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 81,
+    "type": "single",
+    "question": "（    ）下列关于异常的描述中，正确的是_____。",
+    "options": {
+      "A": "抛出异常意味着程序发生运行时错误，需要调试修改",
+      "B": "一个try方法可以对应多个catch语句来捕获多发异常",
+      "C": "只要用throws定义了方法可能抛出的异常，那么调用此方法时一定会抛出此异常",
+      "D": "所有用户自定义异常都实现了Exception接口"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 82,
+    "type": "single",
+    "question": "（    ）能和正则表达式“[atm]\\\\d[a-c]？[^13b]”匹配的是",
+    "options": {
+      "A": "atm2ab",
+      "B": "a2a2",
+      "C": "tmb",
+      "D": "m2aaa"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 83,
+    "type": "single",
+    "question": "（   ）在一个线程中，调用下列方法，不会改变线程状态的是。",
+    "options": {
+      "A": "另一个线程的join方法",
+      "B": "yield方法",
+      "C": "sleep方法",
+      "D": "一个对象的notify方法"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 84,
+    "type": "single",
+    "question": "（   ）在多线程程序设计中，能够给对象x加锁的语句是：",
+    "options": {
+      "A": "x.wait()",
+      "B": "synchronized(x)",
+      "C": "x.notify()",
+      "D": "x.synchronized()"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 85,
+    "type": "single",
+    "question": "下面说法不正确的是？  (  )",
+    "options": {
+      "A": "列表(List)、集合(Set)和映射(Map)都是java.util包中的接口。",
+      "B": "List接口是可以包含重复元素的有序集合",
+      "C": "Set接口是不包含重复元素的集合。",
+      "D": "Map接口将键映射到值，键可以重复，但每个键最多只能映射一个值。"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 86,
+    "type": "single",
+    "question": "下列修饰符中与访问控制无关的是　（　　）",
+    "options": {
+      "A": "private",
+      "B": "public",
+      "C": "protected",
+      "D": "final"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 87,
+    "type": "single",
+    "question": "设x=1;y=2;z=3;则表达式y+=z--/++x的值是（）",
+    "options": {
+      "A": "3",
+      "B": "3.5",
+      "C": "4",
+      "D": "5"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 88,
+    "type": "single",
+    "question": "已知吐下定义：String s=\"story\"；下面那个语句不是合法的（）",
+    "options": {
+      "A": "s+=\"books\";",
+      "B": "s=s+100;",
+      "C": "int len=s.length;",
+      "D": "String t=s+\"abc\";"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 89,
+    "type": "single",
+    "question": "应用程序的main方法中有如下语句，则输出的结果是（）\nString s=\"xxxxxxxxxxxxxxxxxx#123#456#zzz\";\nint n=s.indexof(\"#\");\nint k=s.indexof(\"#\",n+1);\nString s2=s,substring(n+1,k);\nSystem.out.println(s2);",
+    "options": {
+      "A": "123456",
+      "B": "123",
+      "C": "xxxxxxxxxxxxxxxxxx",
+      "D": "zzz"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 90,
+    "type": "single",
+    "question": "void的含义是（）",
+    "options": {
+      "A": "方法没有返回值",
+      "B": "方法体为空",
+      "C": "没有意义",
+      "D": "定义一个带有int返回值的方法"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 91,
+    "type": "single",
+    "question": "关于main()方法的说法正确的是（）",
+    "options": {
+      "A": "方法只能放在公共类中",
+      "B": "方法的头可以根据情况修改",
+      "C": "一个类中可以没有main方法",
+      "D": "所有的对象的创建都只能在该方法中完成"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 92,
+    "type": "single",
+    "question": "字节流与字符流的区别（）",
+    "options": {
+      "A": "后者带缓冲，前者没有",
+      "B": "前者是字节读写，后者是块读写",
+      "C": "没有区别，可以互换",
+      "D": "每次读取的字节数不同"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 93,
+    "type": "single",
+    "question": "Java语言具有许多优点和特点，下列选项中，那个反应了Java程序的并行机制（）",
+    "options": {
+      "A": "安全性",
+      "B": "多线程",
+      "C": "跨平台",
+      "D": "可移植"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 94,
+    "type": "single",
+    "question": "下面关于子类继承父类的构造方法的描述，中正确的是（）",
+    "options": {
+      "A": "创建子类的对象时，先调用子类自己的构造方法，然后调用父类的构造方法",
+      "B": "子类无条件的继承父类不含参数的构造方法",
+      "C": "子类必须通过super关键字调用父类的有参构造方法",
+      "D": "子类可以继承父类的构造方法"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 95,
+    "type": "single",
+    "question": "A类派生出子类B，B类派生出子类C，并且在Java源代码中有如下声明,则以下说法中那个说法是正确的（）\nA a0=new A();\nA a1=new B();\nA a2=new C();",
+    "options": {
+      "A": "只有第1行能通过编译",
+      "B": "第1行，第2行=能通过编译，但第3行编译出错",
+      "C": "第1行，第2行和第3行能通过编译但第2,3行运行时出错",
+      "D": "第1行，第2行和第3行的声明都是正确的"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 96,
+    "type": "single",
+    "question": "编译并运行以下程序段的结果是（）\npublic class myclass{\n   final static I;\n   myclass(){i=0;}\n   public static void main(String args[]){\n      System.out.println(i);}}",
+    "options": {
+      "A": "编译出错",
+      "B": "nan",
+      "C": "1",
+      "D": "0"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 97,
+    "type": "single",
+    "question": "下列代码空行处应该填（）\npublic class result{\n    _______ method(byte x,double y){\n            return (short)x/y*2;}\n}",
+    "options": {
+      "A": "double",
+      "B": "int",
+      "C": "byte",
+      "D": "short"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 98,
+    "type": "single",
+    "question": "下列程序在那个注释处出错（）\npublic void modify(){\n   int i,j,k;\n   i=100;\n   while(i>0){      //A\n      j=i*2;\n      System.out.println(\"the value j is\"+j);  //B\n      k=k+i;                //C\n      i--;      //D\n}",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 99,
+    "type": "single",
+    "question": "有如下程序，其执行结果为（）？\nClass A{\n   void go(){System.out.println(\"A class\");}\n}\npublic class B extends A{\n    void go(){System.out.println(\"B class\");}\n}\npublic static void main(String args[]){\n   A a=new A();\n   A a0=new B();\n   a.go();\n   a0.go();}",
+    "options": {
+      "A": "A class\nA class",
+      "B": "B class\nB class",
+      "C": "A class\nB class",
+      "D": "B class\nA class"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 100,
+    "type": "single",
+    "question": "如果要抛出异常，则应该使用那个关键字",
+    "options": {
+      "A": "catch",
+      "B": "throws",
+      "C": "try",
+      "D": "finally"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 101,
+    "type": "single",
+    "question": "下面程序的运行结果是（   ）\npublic class Test { \npublic static void main(string[ ]args) { \n      int sum =0; \n      for(int i=0;i<=10;i++) {\n        if (i%2== 0) continue; \n      sum += i;\n             if(sum>15) break;\n      }\nSystem.out.printIn(“sum=”+sum);\n}\n}",
+    "options": {
+      "A": "25",
+      "B": "15",
+      "C": "16",
+      "D": "55"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 102,
+    "type": "single",
+    "question": "JDK提供的反编译器是：",
+    "options": {
+      "A": "java.exe",
+      "B": "javac.exe",
+      "C": "jar.exe",
+      "D": "javap.exe"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 103,
+    "type": "single",
+    "question": "下列有关接口的说法中，正确的是（  ）。",
+    "options": {
+      "A": "接口使用implements关键字来定义。",
+      "B": "如果一个类实现了某个接口，这个类就自然拥有了接口中的常量和static方法。",
+      "C": "实现了某个接口的类，重写接口的方法时，可以省略public。",
+      "D": "接口无法调用类中的其他非接口方法。"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 104,
+    "type": "single",
+    "question": "下列关于构造方法的叙述中，正确的是（    ）",
+    "options": {
+      "A": "构造方法名与类名必须相同，但大小写可以不同。",
+      "B": "构造方法没有返回值，所以其类型是void。",
+      "C": "声明了对象变量后，如果没有使用new运算符和构造方法来创建对象，则该对象是一个空对象。",
+      "D": "子类的构造方法，不会自动调用父类的构造方法。"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 105,
+    "type": "single",
+    "question": "阅读下面程序，在程序下划线处填入的正确代码选项是（    ）\npublic class Rabbit___________________{\n  public void run(){\n System.out.println(“Hello”);\n}\n}\npublic class Test｛\npublic static void main (String args[]){\n  Rabbit r = new Rabbit();\n  Thread t = new Thread(r);\n  t.start();\n}\n}",
+    "options": {
+      "A": "implements Thread",
+      "B": "extends Thread",
+      "C": "implements Runnable",
+      "D": "extends Runnable"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 106,
+    "type": "single",
+    "question": "如果String str= \"I like Java!\";那么，str.substring(3,8)等于（   ）",
+    "options": {
+      "A": "\"like J\"",
+      "B": "\"ike Ja\"",
+      "C": "\"ke Java\"",
+      "D": "\"ike J\""
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 107,
+    "type": "single",
+    "question": "在A类中，用B类创建一个对象b，下面哪一项是错误的？（    ）。",
+    "options": {
+      "A": "b不能访问自己的私有变量和私有方法。",
+      "B": "如果A,B类在同一个包中，b可以访问自己的友好变量。",
+      "C": "如果A,B类不在同一个包中，b可以访问自己的protected方法。",
+      "D": "b可以访问自己的public变量和public方法。"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 108,
+    "type": "single",
+    "question": "已知有下列类的说明，则打印出来的animal.name是：（   ）\npublic class Animal {\npublic String name;\nAnimal(){ this.name = \"动物\";}\npublic static void main(String[] args) {\nAnimal animal = new Tiger( );\nSystem.out.println(animal.name);\n}\n}\nclass Tiger extends Animal {\n    Tiger(){ this.name = \"老虎\";}\n}",
+    "options": {
+      "A": "动物",
+      "B": "老虎",
+      "C": "动物老虎",
+      "D": "以上都不是"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 109,
+    "type": "single",
+    "question": "下面哪一个循环会导致死循环？（   ）",
+    "options": {
+      "A": "int i=0; while(i > 0){i++;}",
+      "B": "for(int i = 0; i < 10; i++)  for(int j= i; j>5; j++)",
+      "C": "for(int k = 9; k > 0; k--)",
+      "D": "int[] arr = new int[100];  for (int i : arr) { }"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 110,
+    "type": "single",
+    "question": "关于链表对象LinkedList类，下列哪个初始化语句是正确的？（   ）",
+    "options": {
+      "A": "List<String> myList = new LinkedList<String>();",
+      "B": "LinkedList<int> myList = new LinkedList<int>();",
+      "C": "Collection<float> myList = new Collection<float>();",
+      "D": "LinkedList <double> myList = new List < double>();"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 111,
+    "type": "single",
+    "question": "关于线程，下列描述正确的是：（    ）",
+    "options": {
+      "A": "没有线程，就不会有进程。",
+      "B": "新生的线程处于RUNNABLE状态，尚未启动。",
+      "C": "如果线程处于TERMINATED状态，可以通过start()方法再次激活。",
+      "D": "interrupt()方法可以用来吵醒休眠的线程，即使休眠时间未结束。"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 112,
+    "type": "single",
+    "question": "对于各种被抛出的异常，解释错误的是（    ）",
+    "options": {
+      "A": "在线程wait()或sleep()中断后，会触发InterruptedException异常。",
+      "B": "线程处于TERMINATED状态，再调用其start()方法，会触发Illegal ThreadStateException异常。",
+      "C": "Integer.parseInt(\"ab89\")会触发NumberFormatException异常。",
+      "D": "重复初始化线程，会触发NullPointerException异常。"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 113,
+    "type": "single",
+    "question": "下面哪个函数是 public void example(){...} 的重载函数？（   ）",
+    "options": {
+      "A": "private void example (int m){...}",
+      "B": "public void example (int ...m){...}",
+      "C": "public void exmaple(float …y, float z){...}",
+      "D": "public int example (){...}"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 114,
+    "type": "single",
+    "question": "下面关于LinkedList链表中的常用方法，哪个是不正确的（   ）",
+    "options": {
+      "A": "add(E e)：向链表的末尾添加一个新的节点。",
+      "B": "remove(int index)：删除指定位置上的节点。",
+      "C": "sort(List<E> list)：将链表中的元素按降序排列。",
+      "D": "shuffle(List<E> list)：将链表中的元素按洗牌算法随机排列。"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 115,
+    "type": "single",
+    "question": "关于正则表达式中的限定修饰符，下列描述错误的是（   ）",
+    "options": {
+      "A": "X+表示X出现1次或多次。",
+      "B": "X？表示X出现0次或1次。",
+      "C": "X|Y表示X或Y。",
+      "D": "X&Y表示X并且Y。"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 116,
+    "type": "single",
+    "question": "下列关于Lambda表达式的说法中，正确的是（    ）。",
+    "options": {
+      "A": "Lambda表达式就是一个匿名类。",
+      "B": "Lambda表达式的参数列表中，必须指明参数的类型。",
+      "C": "使用Lambda表达式，可以在给单接口变量赋值时，让代码更简洁。",
+      "D": "Lambda表达式参数列表和方法体之间的符号是=>。"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 117,
+    "type": "single",
+    "question": "哪个关键字可以对对象加互斥锁？(  )",
+    "options": {
+      "A": "transient",
+      "B": "synchronized",
+      "C": "serialize",
+      "D": "static"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 118,
+    "type": "single",
+    "question": "下列程序执行后的结果是(    )。",
+    "options": {
+      "A": "Math.random()*5-3：获得范围为(5,3)之间的一个随机数。",
+      "B": "Math.floor(0.733)的结果为1",
+      "C": "Math.ceil(Math.random()*2-1)：结果为-1.0或-0.0或1.0。",
+      "D": "(int)Math.random()*3-5：获得范围为[-5,-3]之间的一个随机整数。"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 119,
+    "type": "single",
+    "question": "关于类变量，下面描述错误的是（    ）",
+    "options": {
+      "A": "不能用static修饰局部变量。",
+      "B": "同一个类的不同对象，共享类变量。",
+      "C": "static变量所占据的内存空间，直到线程结束时才会被释放。",
+      "D": "static变量可以通过类名直接访问。"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 120,
+    "type": "single",
+    "question": "关于abstract关键字，下列说法哪个正确（    ）",
+    "options": {
+      "A": "abstract类不允许用new标识符创建对象。",
+      "B": "abstract方法只允许实现，不允许声明。",
+      "C": "用abstract修饰的变量称之为抽象变量。",
+      "D": "一个abstract类的子类必须重写父类的抽象方法。"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 121,
+    "type": "single",
+    "question": "下列关于Apache Maven的描述中，哪一项是正确的？",
+    "options": {
+      "A": "Maven是一个基于XML的构建工具，但必须与Ant配合使用才能完成项目构建。",
+      "B": "Maven通过pom.xml文件管理项目的依赖和构建过程，采用\"约定优于配置\"的原则。",
+      "C": "Maven的核心功能是代码编译，不涉及依赖管理和项目打包。",
+      "D": "Maven的本地仓库（Local Repository）默认存放在项目根目录下的/target文件夹中。"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": ""
+  },
+  {
+    "id": 122,
+    "type": "single",
+    "question": "在 Maven 项目的 pom.xml 文件中，以下关于 <dependency> 节点的描述，哪一项是错误的？",
+    "options": {
+      "A": "<dependency> 必须包含 <groupId>, <artifactId>, 和 <version> 三个基本元素。",
+      "B": "<scope> 元素用于指定依赖的作用范围（如 compile, test, provided 等），默认是 compile。",
+      "C": "<optional> 设置为 true 时，表示该依赖是可选的，不会被传递到依赖该项目的其他模块中。",
+      "D": "如果未指定 <version>，Maven 会从本地仓库自动选择一个最新版本进行依赖。"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 123,
+    "type": "single",
+    "question": "下列关于Swing中JFrame的说法，哪一项是错误的？",
+    "options": {
+      "A": "JFrame是顶级容器，创建图形界面应用程序通常以JFrame作为主窗口",
+      "B": "JFrame默认使用BorderLayout布局管理器",
+      "C": "直接调用JFrame的add()方法添加组件是Swing推荐的标准做法",
+      "D": "调用setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)可以让窗口关闭时退出程序"
+    },
+    "answer": "C",
+    "difficulty": "易",
+    "explanation": ""
+  },
+  {
+    "id": 124,
+    "type": "single",
+    "question": "下列关于 Swing 中 JButton 的说法，哪一项是错误的？",
+    "options": {
+      "A": "JButton 可以设置文本和图标，且两者可以同时显示。",
+      "B": "JButton 的点击事件需要通过 addActionListener() 方法注册监听器来处理。",
+      "C": "JButton 默认情况下需要调用 setEnabled(false) 才能变为可点击状态。",
+      "D": "可以通过 setToolTipText() 方法为 JButton 设置悬停提示文本。"
+    },
+    "answer": "C",
+    "difficulty": "易",
+    "explanation": ""
+  },
+  {
+    "id": 125,
+    "type": "single",
+    "question": "下列关于 Swing 中 JPanel 和 JFrame 的说法，哪一项是正确的？",
+    "options": {
+      "A": "JPanel 是顶层容器，可以直接显示在屏幕上，不需要添加到 JFrame 中",
+      "B": "JPanel 默认使用 BorderLayout，而 JFrame 默认使用 FlowLayout",
+      "C": "一个 JFrame 只能包含一个 JPanel，多个 JPanel 需要多个 JFrame 来显示",
+      "D": "JPanel 通常作为中间容器使用，可以添加到 JFrame 中，并且可以设置自己的布局管理器"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 126,
+    "type": "single",
+    "question": "使用DeepSeek API时，下列关于参数配置的说法，哪一项是错误的？",
+    "options": {
+      "A": "model 参数用于指定使用的模型（如\"deepseek-chat\"），不同模型的上下文长度和计算成本可能不同",
+      "B": "temperature 值设为0时，模型的输出将完全固定（确定性最高），设为2时创造性最强",
+      "C": "max_tokens 限制单次请求中模型生成的token总数，包括输入和输出的token数",
+      "D": "同时设置temperature=0.7和max_tokens=500可以让模型生成平衡确定性与创造性的回复"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 127,
+    "type": "single",
+    "question": "在Java Swing中，以下代码的功能是：\n        final int Width = 800;  \n        final int Height = 600;  \n        JFrame frame = new JFrame(\"AI测验系统\");\n        int x = (Toolkit.getDefaultToolkit().getScreenSize().width - Width) / 2;\n        int y = (Toolkit.getDefaultToolkit().getScreenSize().height - Height) / 2;\n        frame.setBounds(x, y, Width, Height);",
+    "options": {
+      "A": "设置窗口的大小为800×600，但不影响窗口位置",
+      "B": "将窗口定位在屏幕正中央，并设置其大小为800×600",
+      "C": "仅计算窗口的坐标，但不会实际影响窗口位置",
+      "D": "使窗口最大化，覆盖整个屏幕"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 128,
+    "type": "single",
+    "question": "Java Swing代码如下所示，下面哪个说法是错误的？\n        final int Width = 800;  \n        final int Height = 600;  \n        JFrame frame = new JFrame(\"AI测验系统\");\n        int x = (Toolkit.getDefaultToolkit().getScreenSize().width - Width) / 2;\n        int y = (Toolkit.getDefaultToolkit().getScreenSize().height - Height) / 2;\n        frame.setBounds(x, y, Width, Height);",
+    "options": {
+      "A": "Toolkit.getDefaultToolkit() 用于获取系统默认的GUI工具包",
+      "B": "getScreenSize() 返回的是当前显示器的分辨率（单位：像素）",
+      "C": "若屏幕分辨率为1920×1080，则窗口左上角坐标为(560, 240)",
+      "D": "调用 frame.setLocation(x, y) 可替代 setBounds() 实现相同效果"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 129,
+    "type": "single",
+    "question": "在Java中，以下代码的作用是：\nString[] strArr = response.split(\"\\\\|\");",
+    "options": {
+      "A": "将字符串response按逗号分隔成数组",
+      "B": "将字符串response按竖线|分隔成数组，需转义",
+      "C": "将字符串response按任意空白字符分隔成数组",
+      "D": "将字符串response反转后存储到数组中"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": ""
+  },
+  {
+    "id": 130,
+    "type": "single",
+    "question": "在Java中，使用System.currentTimeMillis()计算代码执行时间的说法，哪一项是正确的？",
+    "options": {
+      "A": "只能用于计算秒级时间差，毫秒级不精确",
+      "B": "返回的是从1970年1月1日到当前时刻的毫秒数",
+      "C": "计算的时间差包含线程阻塞和GC时间",
+      "D": "在多线程环境下无法使用"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": ""
+  },
+  {
+    "id": 131,
+    "type": "single",
+    "question": "在Java中使用Gson库进行JSON序列化和反序列化时，下列哪项说法是正确的？",
+    "options": {
+      "A": "Gson的toJson()方法可以将Java对象转换为JSON字符串，但要求该对象的所有字段都是public的",
+      "B": "Gson的fromJson()方法可以将JSON字符串转换为Java对象，但要求目标类必须有无参构造函数",
+      "C": "Gson在序列化时会自动处理包含循环引用的对象",
+      "D": "Gson默认会忽略所有值为null的字段"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 132,
+    "type": "judge",
+    "question": "在Java源文件中只能有一个类",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 133,
+    "type": "judge",
+    "question": "在源文件中如果有多个类，那么最多有一个类是public类",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 134,
+    "type": "judge",
+    "question": "Java应用程序必须要有主类",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 135,
+    "type": "judge",
+    "question": "Java应用程序的主类必须是public类",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 136,
+    "type": "judge",
+    "question": "main是Java语言规定的关键字",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 137,
+    "type": "judge",
+    "question": "“float area=1e1”;是错误的float变量声明",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 138,
+    "type": "judge",
+    "question": "“float height=10.0f”;是正确的float变量声明",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 139,
+    "type": "judge",
+    "question": "”byte amount=128“;是正确的byte变量声明",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 140,
+    "type": "judge",
+    "question": "\"int [] a,b；\"声明了两个int型一维数组a和b",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 141,
+    "type": "judge",
+    "question": "\"int [] a,b；\"声明了一个int型一维数组a和int型变量b",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 142,
+    "type": "judge",
+    "question": "”int a[20]“;是正确的数组声明",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 143,
+    "type": "judge",
+    "question": "“boolean yes=TRUE”,是正确的boolean变量声明",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 144,
+    "type": "judge",
+    "question": "对“int a[][]=new int[2][9]\";a.length和a[1].length的值都是9",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 145,
+    "type": "judge",
+    "question": "对”int [][] a={{1,2,3},{4,5,6,7}；”，a[0].length的值为3，a[1].length的值为4",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 146,
+    "type": "judge",
+    "question": "表达式10>20-17的结果是1",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 147,
+    "type": "judge",
+    "question": "表达式5/2的结果是2",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 148,
+    "type": "judge",
+    "question": "逻辑运算符的运算结果是boolean型数据",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 149,
+    "type": "judge",
+    "question": "关系运算符的运算结果是int型数据",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 150,
+    "type": "judge",
+    "question": "12==12是非法的表达式",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 151,
+    "type": "judge",
+    "question": "表达式2>8&&9>2的结果为false",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 152,
+    "type": "judge",
+    "question": "Java中，通过强制类型转换实现高精度的数据类型向低精度的数据类型赋值时，其数值不变",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 153,
+    "type": "judge",
+    "question": "while（表达式）….语句中的“表达式”的值必须是boolean型数据",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 154,
+    "type": "judge",
+    "question": "在while语句的循环体中，执行break语句的效果是结束while语句",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 155,
+    "type": "judge",
+    "question": "在switch语句中必须有default选项",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 156,
+    "type": "judge",
+    "question": "在if语句中的条件表达式的值可以是int型数据",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 157,
+    "type": "judge",
+    "question": "类是最重要的“数据类型”，类声明的变量被称作对象变量，简称对象",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 158,
+    "type": "judge",
+    "question": "构造方法没有类型",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 159,
+    "type": "judge",
+    "question": "类中的实例变量在用该类创建对象的时候才会被分配内存空间",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 160,
+    "type": "judge",
+    "question": "类中的实例方法可以用类名直接调用",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 161,
+    "type": "judge",
+    "question": "局部变量没有默认值",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 162,
+    "type": "judge",
+    "question": "构造方法的访问权限可以是public,protected，或者友好的",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 163,
+    "type": "judge",
+    "question": "方法中声明的局部变量不可以用访问修饰符public,protected，pricate修饰",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 164,
+    "type": "judge",
+    "question": "this可以出现在实例方法和构造方法中",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 165,
+    "type": "judge",
+    "question": "成员变量的名字不可以和局部变量相同",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 166,
+    "type": "judge",
+    "question": "static 方法不可以重载",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 167,
+    "type": "judge",
+    "question": "参数列表和范孩子的不同都可以独立决定方法重载",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 168,
+    "type": "judge",
+    "question": "子类继承父类的构造方法",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 169,
+    "type": "judge",
+    "question": "在子类中想使用被子类隐藏的实例成员变量或者实例成员方法就需要使用关键字super",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 170,
+    "type": "judge",
+    "question": "final是java中的修饰符，可以用于修饰接口、抽象类、方法和属性",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 171,
+    "type": "judge",
+    "question": "可以使用final修改构造方法",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 172,
+    "type": "judge",
+    "question": "如果在子类的构造方法中没有显式的写出super关键字来调用父类的某个构造方法，那么编译器默认有“super()”调用父类的无参构造方法，如果父类没有这样的构造方法，代码讲出现编译错误",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 173,
+    "type": "judge",
+    "question": "可以同时使用final和abstract来修饰同一个方法",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 174,
+    "type": "judge",
+    "question": "包含抽象方法的类必须声明为抽象类，但是抽象类可以不包含抽象方法",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 175,
+    "type": "judge",
+    "question": "子类继承的方法所操作的成员变量一定是被子类继承或者隐藏的成员变量",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 176,
+    "type": "judge",
+    "question": "如果一个类的所有构造方法的访问权限都是private的，意味着这个类不能有子类，理由是一个类的private方法不能在其他类中被使用，子类的构造方法一定会调用父类的某个构造方法。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 177,
+    "type": "judge",
+    "question": "子类在进行方法重写时，不能把父类的实例方法重写为static方法，也不可以把父类的static方法重写为实例方法",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 178,
+    "type": "judge",
+    "question": "在abstract类中只可以有abstract方法",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 179,
+    "type": "judge",
+    "question": "子类可以有多个父类",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 180,
+    "type": "judge",
+    "question": "匿名类的类体中不可以声明static成员变量和static成员方法",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 181,
+    "type": "judge",
+    "question": "一个接口可以继承其他接口",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 182,
+    "type": "judge",
+    "question": "接口中的方法默认是public abstract方法",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 183,
+    "type": "judge",
+    "question": "接口也能声明变量",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 184,
+    "type": "judge",
+    "question": "Java 8以后，接口也能定义非抽象的不加default修饰的方法",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 185,
+    "type": "judge",
+    "question": "Java 8以后，接口中可以定义private方法",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 186,
+    "type": "judge",
+    "question": "接口中的常量可以不指定初始值",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 187,
+    "type": "judge",
+    "question": "可以在接口中只声明常量，不定义任何方法",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 188,
+    "type": "judge",
+    "question": "\"\\natural\"是正确的String常量",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 189,
+    "type": "judge",
+    "question": "“\\hello\"是正确的String常量",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 190,
+    "type": "judge",
+    "question": "表达式”98766.34\".matches(\"[0-9.]+\")的值为true",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 191,
+    "type": "judge",
+    "question": "表达式“new String(\"abc\")==\"abc\"的值为true",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 192,
+    "type": "judge",
+    "question": "表达式“new String(\"abc\")==new String(\"abc\")“;的值是false",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 193,
+    "type": "judge",
+    "question": "String类中的 equals()方法比较的是字符串的内容，而==比较的时候两个对象的地址",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 194,
+    "type": "judge",
+    "question": "表达式”3.1415926“.matches(\"[0-9]+[.]{1}[0-9]+)”的值为true",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 195,
+    "type": "judge",
+    "question": "表达式“java88_hello_99\".matches(\"[a-zA-Z|0-9|_]+”）的值为true",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 196,
+    "type": "judge",
+    "question": "Random对象的nextInt(int n)方法随机访问[0,n)区间的整数",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 197,
+    "type": "judge",
+    "question": "表达式“redbird\".indexof(\"bird\")的值为4",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 198,
+    "type": "judge",
+    "question": "一个try语句可以有多个catch语句与之对应",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 199,
+    "type": "judge",
+    "question": "当Java提供的异常类不能满足需要时，可以自定义异常类，自定义异常类必须是Exception的子类。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 200,
+    "type": "judge",
+    "question": "表达式”\\t\\nABC\".length()的值是5",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 201,
+    "type": "judge",
+    "question": "如果准备按字节读取一个文件的内容，应当使用FileIReader流",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 202,
+    "type": "judge",
+    "question": "BufferedRead流能可以指向一个文件",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 203,
+    "type": "judge",
+    "question": "File内部封装的路径可以指向一个文件，也可以指向一个目录",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 204,
+    "type": "judge",
+    "question": "File对象一定是一个磁盘文件",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 205,
+    "type": "judge",
+    "question": "在对文件进行缓冲流操作完毕以后，先关闭底层流，再关闭上层流",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 206,
+    "type": "judge",
+    "question": "要进行对象流操作，需该对象的类实现了Serializable接口",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 207,
+    "type": "judge",
+    "question": "线程有三种状态即：新建态、运行态、死亡态",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 208,
+    "type": "judge",
+    "question": "在线程中执行sleep操作时会引起线程中断",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 209,
+    "type": "judge",
+    "question": "一个线程在执行run()方法的同时，可以多次执行start（）方法",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 210,
+    "type": "judge",
+    "question": "线程在任何时候调用isAlive方法的返回值都是false",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 211,
+    "type": "judge",
+    "question": "线程在执行start方法以后，在结束之前，调用isAlive方法的返回值是true",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 212,
+    "type": "judge",
+    "question": "线程的创建只能通过继承为Thread类的子类来实现",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 213,
+    "type": "judge",
+    "question": "线程中的wait()方法和sleep()的会引起线程中断，让出cpu，所以二者是相同的",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 214,
+    "type": "judge",
+    "question": "线程在执行sleep方法后，会让出占有的共享资源",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 215,
+    "type": "judge",
+    "question": "线程调用interrupt（）方法的作用是唤醒执行wait()处于等待资源的其他线程",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 216,
+    "type": "judge",
+    "question": "进程是资源的分配单位，线程是cpu的调度单位",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 217,
+    "type": "judge",
+    "question": "线程是cpu的调度单位，所以线程也需要分配资源",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 218,
+    "type": "judge",
+    "question": "如果两个线程需要调用同一个同步方法，那么一个线程进入调用该方法，则另外一个线程必须等待",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 219,
+    "type": "judge",
+    "question": "public class People<E>{...},这里的E不能指定为对象类型",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 220,
+    "type": "judge",
+    "question": "泛型可以不指定类型参数",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 221,
+    "type": "judge",
+    "question": "在list中不可以存储重复元素",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 222,
+    "type": "judge",
+    "question": "在HashSet中可以存储重复元素",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 223,
+    "type": "judge",
+    "question": "HashSet是Set接口的一个实现类，它所存储的元素是可重复的，并且元素是无序的",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 224,
+    "type": "judge",
+    "question": "Java支持的UDP数据报通信需要DatagramPacket和DatagramSocket两个类配合。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 225,
+    "type": "judge",
+    "question": "TCP不能提供数据的可靠性，UDP能保证数据的可靠性",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 226,
+    "type": "judge",
+    "question": "TCP和UDP均是面向连接的协议。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 227,
+    "type": "judge",
+    "question": "JDBC事务属于java事务的一种",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 228,
+    "type": "judge",
+    "question": "PreparedStatement是CallableStatment的父接口",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 229,
+    "type": "judge",
+    "question": "PreparedStatement是Statement的子接口，用于执行预编译的SQL语句",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 230,
+    "type": "judge",
+    "question": "覆盖同名方法中，子类的方法不能比父类的方法访问权限低",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 231,
+    "type": "judge",
+    "question": "java字符类型采用的是unicode编码，但所占字节由具体的硬件环境决定。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 232,
+    "type": "judge",
+    "question": "在java的继承机制中，父类的私有（private）成员不能被子类及子类对象访问，也不能被子类继承。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 233,
+    "type": "judge",
+    "question": "一个java源文件中，可以有多个public类，只要其中一个类名同文件名相同即可。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 234,
+    "type": "judge",
+    "question": "abstract类中的方法可以为abstract方法或者非abstract方法，但是都不能有方法体。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 235,
+    "type": "judge",
+    "question": "final修改的方法只能出现在final修饰类中。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 236,
+    "type": "judge",
+    "question": "Sting a=“abc”，String b=“abc”，修改了a的值，b的\n值也会变。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 237,
+    "type": "judge",
+    "question": "在静态方法可以使用静态变量，也可以使用局部变量。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 238,
+    "type": "judge",
+    "question": "在java继承机制中，父类的构造方法可以被子类所覆盖。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 239,
+    "type": "judge",
+    "question": "在List中的元素可以有序，在Set中是元素可以重复。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 240,
+    "type": "judge",
+    "question": "进程是程序的一次动态执行过程。一个进程在其执行过程中，\n可以产生多个线程——多线程，形成多条执行线索。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 241,
+    "type": "judge",
+    "question": "在Java中，response.split(\"|\")（不带转义）可以正确按竖线|分隔字符串。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 242,
+    "type": "judge",
+    "question": "使用System.currentTimeMillis()计算HTTP请求耗时，得到的时间包含网络传输时间和服务器处理时间。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 243,
+    "type": "judge",
+    "question": "使用Gson的toJson()方法序列化对象时，会调用该对象的toString()方法来完成转换。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 244,
+    "type": "multi",
+    "question": "以下选项中能把cl定义成对象的是",
+    "options": {
+      "A": "typedef class\n{ \n    int red;\n    int green;\n    int blue;\n} COLOR;\nCOLOR cl;",
+      "B": "struct class cl\n{ \n    int red;\n    int green;\n    int blue;\n}；",
+      "C": "class\n{ \n    int red;\n    int green;\n    int blue;\n} cl;",
+      "D": "class color \n{ \n    int red;\n    int green;\n    int blue;\n} cl;"
+    },
+    "answer": "ACD",
+    "difficulty": "难",
+    "explanation": ""
+  },
+  {
+    "id": 245,
+    "type": "fill",
+    "question": "已知线程customer必须等待cakermaker执行完成后才能进行执行，即线程联合，请完善以下程序\nclass ThreadJoin ______(1){\n   Cake cake;\n   Thread customer,cakemaker;\n   public void setThread(____(2))\n   {\n    customer=t[0];\n    cakemaker=t[1];\n   }\n   public void run() {\n    if(Thread.currentThread()==customer) {\n        System.out.println(\"等待制作生日蛋糕！\");\n        try {\n           cakemaker.start();\n           ____(3);\n       }catch(InterruptedException e) {\n           System.out.println(\"购买了生日蛋糕\"+cake.name+\"，价钱\"+cake.price);\n       }\n    }\n    else if(Thread.currentThread()==____(4)) {\n        System.out.println(\"开始制作生日蛋糕！\");\n        cake=new Cake(\"生日蛋糕\",158);\n        System.out.println(\"生日蛋糕制作完毕！\");\n  } }\n class Cake{\n    int price;\n    String name;\n    Cake(String name,int price){\n     this.name=name;\n     this.price=price;\n    }   }  }\n public class test{\n   public static void main(String args[]) {\n    ThreadJoin a=new ThreadJoin();\n    Thread customer =new Thread(a);\n    Thread cakemaker=new Thread(a);\n    a.setThread(customer,cakemaker);\n    ____(5);\n   } }",
+    "options": {
+      "空1": "implements Runnable",
+      "空2": "Thread ...t",
+      "空3": "cakemaker.join()",
+      "空4": "cakemaker",
+      "空5": "customer.start()"
+    },
+    "answer": "空1:implements Runnable | 空2:Thread ...t | 空3:cakemaker.join() | 空4:cakemaker | 空5:customer.start()",
+    "difficulty": "难",
+    "explanation": ""
+  },
+  {
+    "id": 246,
+    "type": "fill",
+    "question": "一块蛋糕有30g，两只蚂蚁轮流搬蛋糕，一只蚂蚁一次可搬走2g，蚂蚁A搬走6g后蚂蚁B才开始搬，用多线程模拟两只蚂蚁搬完所有蛋糕的过程。代码如下，请完善程序：\npublic class Test {\n    public _________(1) int cake = 30;\n    public static final Object lock = new Object();\n\n    public static void main(String[] args) {\n        Ant b = new Ant();\n        Ant a = new Ant();\n        a.setName(\"anta\");\n        b.setName(\"antb\");\n        a.start();\n        _________(2);\n    }\n}\n\nclass Ant extends Thread {\n    public void run() {\n        synchronized (_________(3)) {\n            while (_________(4)) {\n                try{\n                    if (_________(5) <= 24 && Thread.currentThread().getName().equals(\"antb\")) {\n                        Test.cake -= 2;\n                        System.out.println(\"b蚂蚁吃掉2克，剩余：\"+Test.cake);\n                        Test.lock.wait(2000);\n                    } else {\n                        Test.cake -= 2;\n                        System.out.println(\"a蚂蚁吃掉2克，剩余：\"+Test.cake);\n                        Test.lock.wait(2000);\n                    }\n                    Test.lock.notify();\n                }catch (Exception e){\n                    System.out.println(e);\n                }\n            }\n        }\n    }\n}",
+    "options": {
+      "空1": "static",
+      "空2": "b.start()",
+      "空3": "Test.lock",
+      "空4": "Test.cake>0",
+      "空5": "Test.cake"
+    },
+    "answer": "空1:static | 空2:b.start() | 空3:Test.lock | 空4:Test.cake>0 | 空5:Test.cake",
+    "difficulty": "难",
+    "explanation": ""
+  },
+  {
+    "id": 247,
+    "type": "fill",
+    "question": "已知下列程序执行结果为：\nNum=20\nx=20\n请完善程序：\nabstract class A{\n final public int Num=10;\n ____ (1)int x=20;\n ____ (2)int getNum() ;\n}\n public class B ____(3) A{\n public int ____(4);\n public int x=10;\n int getNum() {\n  return  Num+=10;\n }    \n  public static void main(String args[]) {\n         A a=new ____(5)();\n         System.out.println(\"Num=\"+a.getNum());\n         System.out.println(\"x=\"+A.x);\n   } \n }",
+    "options": {
+      "空1": "static",
+      "空2": "abstract",
+      "空3": "extends",
+      "空4": "Num=10",
+      "空5": "B"
+    },
+    "answer": "空1:static | 空2:abstract | 空3:extends | 空4:Num=10 | 空5:B",
+    "difficulty": "难",
+    "explanation": ""
+  },
+  {
+    "id": 248,
+    "type": "fill",
+    "question": "已知程序执行结果为：\n喵叫！\n狗吠！\n请完善以下程序。\n________(1) Animal{\n void _________(2);\n}\nclass Dog implements Animal {\n public void Sound() {\n  System.out.println(\"狗吠！\");\n }}\nclass Cat implements Animal{\n public void Sound() {\n  System.out.println(\"喵叫！\");\n } }\nclass AnimalSpeak{\n public void animalspeak(_______(3)) {\n  sound.Sound();\n }}\n public class test  {  \n  public static void main(String args[]) {\n         Cat cat=new Cat();\n         AnimalSpeak asp=new AnimalSpeak();\n         asp.animalspeak(_________(4));\n         asp.animalspeak(_________(5));\n   }  }",
+    "options": {
+      "空1": "interface",
+      "空2": "Sound()",
+      "空3": "Animal sound",
+      "空4": "cat",
+      "空5": "new Dog()"
+    },
+    "answer": "空1:interface | 空2:Sound() | 空3:Animal sound | 空4:cat | 空5:new Dog()",
+    "difficulty": "难",
+    "explanation": ""
+  },
+  {
+    "id": 249,
+    "type": "fill",
+    "question": "已知如下程序的执行结果为：\n50.0\n2525.0\n请完善程序\nclass Sum{\n int n;\n float f() {\n   float sum=0;\n   for(int i=1;i<=n;i++)\n   {   sum+=i;  }\n   return sum;\n }}\nclass Average extends Sum{\n int n;\n float f() {\n  float c;\n  _________(1)=n;\n  c=_________(2);\n  return c/n;\n }\n float g() {\n  float c;\n  c=________(3);\n  return c/2;\n } }\npublic class test{\n public static void main(String args[]) {\n  Average avg=new Average();\n  avg.n=100;  \n  float resultone=__________(4);\n  float resulttwo=__________(5); \n  System.out.println(resultone);\n  System.out.println(resulttwo);\n } }",
+    "options": {
+      "空1": "super.n",
+      "空2": "super.f()",
+      "空3": "super.f()",
+      "空4": "avg.f()",
+      "空5": "avg.g()"
+    },
+    "answer": "空1:super.n | 空2:super.f() | 空3:super.f() | 空4:avg.f() | 空5:avg.g()",
+    "difficulty": "难",
+    "explanation": ""
+  },
+  {
+    "id": 250,
+    "type": "fill",
+    "question": "已知程序如下：\npackage test;\nclass A{\n  int n=10;\n  A()\n  {   System.out.println(n);  }\n}\nclass B extends A{\n int n=20;\n B(){\n  System.out.println(n);\n  super.n=n+10;\n }}\npublic class test{\n public static void main(String args[]) {\n B b=new B();\n System.out.println(b.n);\n A a=b;\n b=(B)a; \n System.out.println(a.n);\n System.out.println(b.n);\n }}\n程序执行结果为：\n1、______2、_____3、_____4、_____5、_____",
+    "options": {
+      "空1": "10",
+      "空2": "20",
+      "空3": "20",
+      "空4": "30",
+      "空5": "20"
+    },
+    "answer": "空1:10 | 空2:20 | 空3:20 | 空4:30 | 空5:20",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 251,
+    "type": "fill",
+    "question": "完善如下程序：\npublic class test{\n public static void main(String args[]) {\n    ______(1) arr= {{22,66,44},{77,33,88},{25,45,65},{11,67,89,89,101}};\n    int sum=0;\n    int n=0;\n    float avg=0;\n    for(int x=0;x<_______(2).length;x++)\n      for(int y=0;y<________(3);y++)\n      {\n        sum+=_________(4);\n        _________(5);\n      }\n    avg=sum/n;\n    System.out.println(sum);\n    System.out.println(avg);\n }}\n程序输出结果为：\n822\n58.0",
+    "options": {
+      "空1": "int[][]",
+      "空2": "arr",
+      "空3": "arr[x].length",
+      "空4": "arr[x][y]",
+      "空5": "n++"
+    },
+    "answer": "空1:int[][] | 空2:arr | 空3:arr[x].length | 空4:arr[x][y] | 空5:n++",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 252,
+    "type": "fill",
+    "question": "已知二维数组，求的每行最大值，并输出如下结果：\n15 10 6 3 1 \n请完善程序\npublic class test{\n public static void main(String args[]) {\n _______(1) a= {{1},{2,3},{4,5,6},{7,8,9,10},{11,12,13,14,15}};\n int[] max=new int[a.length];\n for(int i=0;i<a.length;i++)\n  for(int j=0;j<_______(2);j++)\n   if(max[i]<a[i][j])\n    max[i]=a[i][j];\n for(int i=0;i<max.length-1;i++)\n  for(int j=0;j<________(3);j++)\n  {\n   if(max[j]<________(4))\n   {\n    int temp=max[j];\n    __________(5);\n    max[j+1]=temp;\n   }\n  }\n for(int i=0;i<max.length;i++)\n  System.out.print(max[i]+\" \");\n }}",
+    "options": {
+      "空1": "int[][]",
+      "空2": "a[i].length",
+      "空3": "max.length-i-1",
+      "空4": "max[j+1]",
+      "空5": "max[j]=max[j+1]"
+    },
+    "answer": "空1:int[][] | 空2:a[i].length | 空3:max.length-i-1 | 空4:max[j+1] | 空5:max[j]=max[j+1]",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 253,
+    "type": "fill",
+    "question": "已知程序如下，请填空程序输出结果\npackage test;\npublic class test{\n public static void main(String args[]) {\n    String hello=\"你好\";\n    String you=\"你\";\n    String ok=\"好\";\n    String one=you+ok;\n    String two=new String(\"你好\");\n    System.out.println(hello==\"你好\");\n    System.out.println(one==\"你好\");\n    System.out.println(one==hello);    \n    System.out.println(two==hello);\n    System.out.println(two==one);      \n }}\n1、_____2、_____3、______4、_____5、_____",
+    "options": {
+      "空1": "true",
+      "空2": "false",
+      "空3": "false",
+      "空4": "false",
+      "空5": "false"
+    },
+    "answer": "空1:true | 空2:false | 空3:false | 空4:false | 空5:false",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 254,
+    "type": "fill",
+    "question": "有如下程序，输出要保证字符‘B’始终在‘A’前，请完善程序\npublic class test implements Runnable{\n       StringBuffer buffer=new StringBuffer();\n       Thread t1,t2;\n       test()\n       {\n        t1=new Thread(________(1));\n        t2=new Thread(________(2));\n       }\n public ________(3) void addchar(char c)\n       {\n        if(Thread.currentThread()==t1)\n        {\n         while(buffer.length()==0)\n         {\n          try {wait();\n          }catch(Exception e) {}\n         }\n          __________(4);\n        }\n      if(Thread.currentThread()==t2)\n          {\n           buffer.append(c);\n           __________(5);\n          }\n     }\n   public static void main(String args[]) {\n     test hello =new test();\n     hello.t1.start();\n     hello.t2.start();\n     while(hello.t1.isAlive()&&hello.t2.isAlive())\n     {\n      System.out.println(hello.buffer);\n     }\n   }\n   public void run() {\n     if(Thread.currentThread()==t1)\n      addchar('A');\n  if(Thread.currentThread()==t2)\n   addchar('B');\n  }   }",
+    "options": {
+      "空1": "this",
+      "空2": "this",
+      "空3": "synchronized",
+      "空4": "buffer.append©",
+      "空5": "notifyAll()"
+    },
+    "answer": "空1:this | 空2:this | 空3:synchronized | 空4:buffer.append© | 空5:notifyAll()",
+    "difficulty": "难",
+    "explanation": ""
+  },
+  {
+    "id": 255,
+    "type": "fill",
+    "question": "在Java中，代码如下：\nString[] strArr = response.split(\"\\\\|\");\n以上代码的作用是将字符串 response 按 ______ (1) 进行分割，并将分割后的各部分存入 ______ (2) 数组中。该方法使用的分隔符是 ______ (3)，但由于 | 是正则表达式中的 ______ (4) 字符，因此需要使用 ______ (5) 进行转义。",
+    "options": {
+      "空1": "竖线",
+      "空2": "strArr",
+      "空3": "\\\\|",
+      "空4": "元字符",
+      "空5": "双反斜杠"
+    },
+    "answer": "空1:竖线 | 空2:strArr | 空3:\\\\| | 空4:元字符 | 空5:双反斜杠",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 256,
+    "type": "fill",
+    "question": "在Java中，代码如下：\nlong startTime = System.currentTimeMillis();\nString response = sendRequest(requestBody);\nlong endTime = System.currentTimeMillis();\n1. 在待测代码执行前，调用 ______ (1) 获取起始时间戳（单位：毫秒）。\n2. 在待测代码执行后，调用 ______ (2) 获取结束时间戳。\n3. 计算时间差：long duration = ______ (3) - ______ (4);，结果即为代码执行的耗时（毫秒）。\nstartTime 和 endTime 变量使用 long 类型，是为了避免 ______ (5) 问题。",
+    "options": {
+      "空1": "System.currentTimeMillis()",
+      "空2": "System.currentTimeMillis()",
+      "空3": "endTime",
+      "空4": "startTime",
+      "空5": "整数溢出"
+    },
+    "answer": "空1:System.currentTimeMillis() | 空2:System.currentTimeMillis() | 空3:endTime | 空4:startTime | 空5:整数溢出",
+    "difficulty": "中",
+    "explanation": ""
+  },
+  {
+    "id": 257,
+    "type": "fill",
+    "question": "在java语言中，com.google.gson.Gson类可以用于将对象中的数据封装为json格式，参考代码如下：\nGson gson = new Gson();\nString requestBodyJson = gson.toJson(requestBody);\nChatResponse chatResponse = gson.fromJson(response.body(),\n                        ChatResponse.class);\n使用上述的Gson库进行JSON序列化和反序列化时：\n创建 Gson 实例的代码是 ______ (1) = new Gson();。将 Java 对象转换为 JSON 字符串的方法是 ______ (2)。反序列化 JSON 时，fromJson() 方法的第二个参数需要传入目标类的 ______ (3)。如果 JSON 字符串中的字段与 Java 类的字段名不一致，可以使用______ (4) 注解指定映射关系。默认情况下，Gson 会忽略 Java 对象中值为 ______ (5) 的字段（不序列化到 JSON 中）。",
+    "options": {
+      "空1": "Gson gson",
+      "空2": "toJson()",
+      "空3": "Class 对象",
+      "空4": "@SerializedName"
+    },
+    "answer": "空1:Gson gson | 空2:toJson() | 空3:Class 对象 | 空4:@SerializedName",
+    "difficulty": "中",
+    "explanation": ""
+  }
+]

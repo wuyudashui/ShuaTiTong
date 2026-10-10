@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "node --test ../tests/server*.cjs"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

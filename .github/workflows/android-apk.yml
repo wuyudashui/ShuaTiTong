@@ -1,0 +1,101 @@
+name: Android debug APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/android-apk.yml'
+      - 'capacitor.config.json'
+      - 'index.html'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vite.config.ts'
+      - 'tsconfig.json'
+      - 'scripts/**'
+      - 'src/**'
+      - 'public/**'
+      - '!public/question-banks/**'
+      - '!data/question-banks/**'
+  workflow_dispatch:
+
+concurrency:
+  group: android-apk
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+env:
+  SHUATITONG_APP_URL: ${{ vars.SHUATITONG_APP_URL || 'https://wuyudashui.github.io/ShuaTiTong/' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Node.js 22.14+
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.14.0'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build web assets
+        run: npm run build
+
+      - name: Configure remote Capacitor server
+        run: node scripts/configure-capacitor-android.mjs
+
+      - name: Add and sync Capacitor Android project
+        run: |
+          npx cap add android
+          npx cap sync android
+
+      - name: Assemble installable debug APK
+        run: ./gradlew assembleDebug
+        working-directory: android
+
+      - name: Prepare rolling APK asset
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk shuatitong.apk
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: shuatitong-android-debug
+          path: shuatitong.apk
+          if-no-files-found: error
+
+      - name: Publish rolling debug release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat > "$RUNNER_TEMP/android-release-notes.md" <<EOF
+          Android debug/test APK wrapping ${SHUATITONG_APP_URL}.
+
+          Internet access is required to open the hosted site. No release signing secrets are configured. Debug signing keys may change between builds; uninstall the previous debug build if Android reports a signature mismatch.
+          EOF
+          if gh release view android-latest >/dev/null 2>&1; then
+            gh api --method PATCH "repos/$GITHUB_REPOSITORY/git/refs/tags/android-latest" \
+              -f sha="$GITHUB_SHA" -F force=true
+            gh release upload android-latest shuatitong.apk --clobber
+            gh release edit android-latest \
+              --title "刷题通 Android debug (latest)" \
+              --notes-file "$RUNNER_TEMP/android-release-notes.md" \
+              --prerelease
+          else
+            gh release create android-latest shuatitong.apk \
+              --target "$GITHUB_SHA" \
+              --title "刷题通 Android debug (latest)" \
+              --notes-file "$RUNNER_TEMP/android-release-notes.md" \
+              --prerelease
+          fi

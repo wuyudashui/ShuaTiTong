@@ -20,8 +20,8 @@ button{cursor:pointer;font-size:.875rem;border:1px solid var(--border);border-ra
 .hidden{display:none!important}
 @media(max-width:480px){.container{padding:12px 10px 300px}.app-header{padding:8px 12px}.bottom-bar{padding:4px 10px 8px}}
 </style>
-  <script type="module" src="./assets/index-Bi1gCkfO.js"></script>
-  <link rel="stylesheet" href="./assets/style-BsNoTpIW.css">
+  <script type="module" src="./assets/index-I3H-Vgo4.js"></script>
+  <link rel="stylesheet" href="./assets/style-BALpnArt.css">
 </head>
 <body>
 
@@ -29,6 +29,8 @@ button{cursor:pointer;font-size:.875rem;border:1px solid var(--border);border-ra
 <header class="app-header">
   <h1><span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>刷题通</h1>
   <div class="header-actions">
+    <button id="questionPoolBtn" class="btn-sm btn-outline">题库池</button>
+    <a id="appDownloadBtn" class="btn-sm btn-outline app-download" href="https://github.com/wuyudashui/ShuaTiTong/releases/download/android-latest/shuatitong.apk">下载 APP</a>
     <button class="theme-btn" id="themeBtn" title="切换主题"><span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span></button>
     <button id="settingsBtn" class="btn-sm btn-outline" title="AI 解析设置"><span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span></button>
     <button id="examBtn" class="btn-sm btn-outline" title="模拟考试"><span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>模拟考</button>
@@ -37,21 +39,25 @@ button{cursor:pointer;font-size:.875rem;border:1px solid var(--border);border-ra
 </header>
 
 <div class="container">
+  <section id="welcomePanel" class="welcome-panel">
+    <div><span class="eyebrow">LEARN AT YOUR PACE</span><h2 id="activeBankName">每一道题，都离掌握更近一步</h2><p>精选题库 · 即时反馈 · AI 解析</p></div>
+    <button id="chooseBankBtn" class="btn-primary">选择题库</button>
+  </section>
 
   <!-- ════ UPLOAD ════ -->
   <div class="upload-area" id="uploadArea">
     <div class="upload-btn-wrapper">
-      <button class="btn-primary"><span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>上传题库</button>
+      <button class="btn-primary"><span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>导入本地题库</button>
       <input type="file" id="fileInput" accept=".json,.xlsx,.xls,.docx">
     </div>
-    <p>已加载 <strong id="fileStatus">0</strong> 道题目（支持 JSON / Excel / Word，AI 自动识别）</p>
+    <p>已加载 <strong id="fileStatus">0</strong> 道题目 · JSON / Excel / Word</p><span class="upload-local-note">仅在本机使用，不会发布到公共题库池</span>
   </div>
   <div class="details-row">
   <details class="recent-files" id="recentFiles" open>
     <summary><span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>最近打开</summary>
     <div class="recent-list" id="recentList"></div>
   </details>
-  <details class="recent-files" style="margin-top:8px">
+  <details class="recent-files" id="formatTemplate" style="margin-top:8px">
     <summary><span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>JSON 格式模板</summary>
     <div style="margin-top:6px;font-size:.82rem;line-height:1.6;color:var(--text-secondary)">
       <p>支持四种题型：<code>single</code>（单选）、<code>judge</code>（判断）、<code>multi</code>（多选）、<code>fill</code>（填空）</p>
@@ -194,16 +200,20 @@ button{cursor:pointer;font-size:.875rem;border:1px solid var(--border);border-ra
 	      <summary style="cursor:pointer;font-weight:600;font-size:.9rem;padding:4px 0">☁️ 远程模型</summary>
 	      <label>API 地址</label>
 	      <input type="text" id="apiBaseUrl" placeholder="https://api.deepseek.com/v1">
-	      <label>模型名称</label>
-	      <select id="apiModelSelect" style="margin-bottom:0">
+      <label for="apiModelSelect">模型名称</label>
+      <div class="model-picker-row">
+      <select id="apiModelSelect" style="margin-bottom:0" disabled>
 	        <option value="deepseek-v4-flash">deepseek-v4-flash</option>
 	        <option value="deepseek-chat">deepseek-chat</option>
 	        <option value="deepseek-reasoner">deepseek-reasoner</option>
 	        <option value="deepseek-coder">deepseek-coder</option>
 	        <option value="deepseek-v4-pro">deepseek-v4-pro</option>
 	        <option value="">—— 自定义 ——</option>
-	      </select>
-	      <input type="text" id="apiModelCustom" placeholder="输入自定义模型名称" style="display:none;margin-top:6px">
+      </select>
+      <button type="button" id="fetchModelsBtn" class="btn-sm btn-outline" disabled>获取模型</button>
+      </div>
+      <input type="text" id="apiModelCustom" placeholder="输入自定义模型名称" style="display:none;margin-top:6px">
+      <div id="modelFetchStatus" class="model-fetch-status" aria-live="polite"></div>
 	      <label>API Key</label>
 	      <input type="password" id="apiKeyInput" placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
 	      </details>

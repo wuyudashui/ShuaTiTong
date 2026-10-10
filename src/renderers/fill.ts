@@ -1,17 +1,19 @@
 import type { Question, QuestionRenderer, RenderConfig } from '../types';
 import { CLIPBOARD, BRAIN } from '../icons';
 import { gradeFillAnswer } from '../ai';
-import { contentBlocksToText } from '../format';
+import { contentBlocksToText, escapeHtml } from '../format';
 
 export class FillRenderer implements QuestionRenderer {
   readonly type = 'fill' as const;
   private handled = false;
   private gradeMode: 'local' | 'ai' = 'local';
+  private container: HTMLElement | null = null;
 
   render(q: Question, config: RenderConfig): void {
     this.handled = false;
     this.gradeMode = 'local';
     const { optContainer, fillContainer } = config;
+    this.container = fillContainer;
 
     optContainer.classList.add('hidden');
     fillContainer.classList.remove('hidden');
@@ -28,9 +30,18 @@ export class FillRenderer implements QuestionRenderer {
     keys.forEach(key => {
       const row = document.createElement('div');
       row.className = 'fill-row';
-      row.innerHTML = `<label>${key}</label><input type="text" placeholder="请输入答案" data-blank="${key}">`;
+      row.innerHTML = `<label>${escapeHtml(key)}</label><input type="text" placeholder="请输入答案" data-blank="${escapeHtml(key)}" aria-label="${escapeHtml(key)}">`;
       fillContainer.appendChild(row);
     });
+
+    if (config.examMode) {
+      fillContainer.querySelectorAll<HTMLInputElement>('input').forEach(input => input.addEventListener('input', () => {
+        const answers = Array.from(fillContainer.querySelectorAll<HTMLInputElement>('input'), el => el.value.trim());
+        const selected = answers.some(Boolean) ? JSON.stringify(answers) : '';
+        config.onAnswered({ isCorrect: false, selected, selectedDisplay: answers.join('；') });
+      }));
+      return;
+    }
 
     // Grading mode toggle
     const toggleRow = document.createElement('div');
@@ -131,8 +142,8 @@ export class FillRenderer implements QuestionRenderer {
     fbDiv.className = 'ai-grade-feedback';
     fbDiv.innerHTML = result.results.map(r =>
       `<div class="ai-grade-item ${r.correct ? 'correct' : 'wrong'}">
-        <span class="ai-grade-blank">${r.blank}</span>
-        <span>${r.feedback}</span>
+        <span class="ai-grade-blank">${escapeHtml(r.blank)}</span>
+        <span>${escapeHtml(r.feedback)}</span>
       </div>`
     ).join('');
     fillContainer.appendChild(fbDiv);
@@ -153,5 +164,13 @@ export class FillRenderer implements QuestionRenderer {
 
   destroy(): void {
     this.handled = false;
+  }
+
+  restoreSelected(answer: string): void {
+    try {
+      const values = JSON.parse(answer);
+      if (!Array.isArray(values)) return;
+      this.container?.querySelectorAll<HTMLInputElement>('input').forEach((input, index) => { input.value = typeof values[index] === 'string' ? values[index] : ''; });
+    } catch { /* Legacy answers are left untouched. */ }
   }
 }

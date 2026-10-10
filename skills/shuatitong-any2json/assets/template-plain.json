@@ -1,0 +1,55 @@
+[
+  {
+    "id": 1,
+    "type": "single",
+    "question": "Java 中，以下哪个关键字用于定义接口？",
+    "options": {
+      "A": "class",
+      "B": "interface",
+      "C": "abstract",
+      "D": "implements"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "Java 中用 interface 关键字定义接口，class 定义类，abstract 定义抽象类，implements 用于实现接口。"
+  },
+  {
+    "id": 2,
+    "type": "multi",
+    "question": "以下哪些是 Java 的基本数据类型？",
+    "options": {
+      "A": "int",
+      "B": "String",
+      "C": "boolean",
+      "D": "double"
+    },
+    "answer": "ACD",
+    "difficulty": "易",
+    "explanation": "Java 有 8 种基本类型：byte、short、int、long、float、double、boolean、char。String 是引用类型。"
+  },
+  {
+    "id": 3,
+    "type": "judge",
+    "question": "Java 支持多继承，一个类可以 extends 多个父类。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "Java 只支持单继承，一个类只能有一个直接父类。多继承通过接口实现。"
+  },
+  {
+    "id": 4,
+    "type": "fill",
+    "question": "请补全以下 Java Hello World 程序：\npublic class Hello {\n    public static void ______(1) main(String[] ______(2)) {\n        System.out.______(3)(\"Hello World\");\n    }\n}",
+    "options": {
+      "空1": "void",
+      "空2": "args",
+      "空3": "println"
+    },
+    "answer": "",
+    "difficulty": "易",
+    "explanation": "main 方法的返回类型是 void，参数是 String[] args，打印输出用 println。"
+  }
+]
