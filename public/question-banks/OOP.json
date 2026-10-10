@@ -1,0 +1,2677 @@
+[
+  {
+    "id": 1,
+    "type": "judge",
+    "question": "结构体变量可以作数组元素。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-1; 学生结果: 正确"
+  },
+  {
+    "id": 2,
+    "type": "judge",
+    "question": "结构体成员的类型必须是基本数据类型。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-2; 学生结果: 正确"
+  },
+  {
+    "id": 3,
+    "type": "judge",
+    "question": "结构体类型本身不占用内存空间，结构体变量占用内存空间。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-3; 学生结果: 正确"
+  },
+  {
+    "id": 4,
+    "type": "judge",
+    "question": "结构体成员的类型必须是基本数据类型。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-4; 学生结果: 正确"
+  },
+  {
+    "id": 5,
+    "type": "judge",
+    "question": "在定义嵌套的结构类型时，必须先定义成员的结构类型，再定义主结构类型。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-5; 学生结果: 正确"
+  },
+  {
+    "id": 6,
+    "type": "judge",
+    "question": "对于结构数组 s ，既可以引用数组的元素 s[i] ，也可以引用 s[i] 中的结构成员。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-6; 学生结果: 正确"
+  },
+  {
+    "id": 7,
+    "type": "judge",
+    "question": "假设结构指针 p 已定义并正确赋值，其指向的结构变量有一个成员是 int 型的 num ，则语句 *p.num = 100; 是正确的。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-7; 学生结果: 错误"
+  },
+  {
+    "id": 8,
+    "type": "judge",
+    "question": "C++程序中，类的构造函数名与类名相同。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-8; 学生结果: 正确"
+  },
+  {
+    "id": 9,
+    "type": "judge",
+    "question": "已知class A中有数据成员int a，如果定义了A的两个对象a1，a2，它们各自的数据成员a的值可以不同.",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-9; 学生结果: 正确"
+  },
+  {
+    "id": 10,
+    "type": "judge",
+    "question": "C++程序中，一个类的构造函数可以被重载。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-10; 学生结果: 正确"
+  },
+  {
+    "id": 11,
+    "type": "judge",
+    "question": "C++程序中，一个类的析构函数可以被重载。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-11; 学生结果: 错误"
+  },
+  {
+    "id": 12,
+    "type": "judge",
+    "question": "析构函数的作用主要是释放对象占用的资源。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-12; 学生结果: 正确"
+  },
+  {
+    "id": 13,
+    "type": "judge",
+    "question": "如果不希望某个对象的值被改变,则定义该对象的时候可以在前面加上const关键字。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-13; 学生结果: 正确"
+  },
+  {
+    "id": 14,
+    "type": "judge",
+    "question": "在类的成员函数说明后可以加const关键字,则该成员函数成为常成员函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-14; 学生结果: 正确"
+  },
+  {
+    "id": 15,
+    "type": "judge",
+    "question": "对象数组的元素可以是不同类的对象。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-15; 学生结果: 正确"
+  },
+  {
+    "id": 16,
+    "type": "judge",
+    "question": "在生成对象数组时，将针对每个数组元素按其下标的排列顺序依次调用一次构造函数，调用的次数等于 数组元素的个数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-16; 学生结果: 正确"
+  },
+  {
+    "id": 17,
+    "type": "judge",
+    "question": "在定义对象数组时，可以直接进行初始化，也可以通过赋值语句实现赋值。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-17; 学生结果: 正确"
+  },
+  {
+    "id": 18,
+    "type": "judge",
+    "question": "程序执行结束前，调用析构函数将数组中各个对象元素释放，释放顺序与创建对象的顺序相反。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-18; 学生结果: 正确"
+  },
+  {
+    "id": 19,
+    "type": "judge",
+    "question": "point （*p)[3];point是类名，p为对象指针数组。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-19; 学生结果: 错误"
+  },
+  {
+    "id": 20,
+    "type": "judge",
+    "question": "point *p[3];point是类名，p为定义指向对象数组的指针 。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 1分; 题号: 1-20; 学生结果: 错误"
+  },
+  {
+    "id": 21,
+    "type": "single",
+    "question": "对于以下结构定义， ++p->str 中的 ++ 加在____。 struct { int len; char *str; } *p; A. 指针str上 B. 指针p上 C. str指的内容上 D. 以上均不是",
+    "options": {
+      "A": "指针str上",
+      "B": "指针p上",
+      "C": "str指的内容上",
+      "D": "以上均不是"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 2分; 题号: 2-1; 学生结果: 错误"
+  },
+  {
+    "id": 22,
+    "type": "single",
+    "question": "以下 scanf 函数调用语句中不正确的是__。 struct pupil { char name[20]; int age; int sex; } pup[5], *p=pup; A. scanf(\"%s\", pup[0].name); B. scanf(\"%d\", &pup[0].age); C. scanf(\"%d\", p->age); D. scanf(\"%d\", &(p->sex));",
+    "options": {
+      "A": "scanf(\"%s\", pup[0].name);",
+      "B": "scanf(\"%d\", &pup[0].age);",
+      "C": "scanf(\"%d\", p->age);",
+      "D": "scanf(\"%d\", &(p->sex));"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 2分; 题号: 2-2; 学生结果: 正确"
+  },
+  {
+    "id": 23,
+    "type": "single",
+    "question": "For the following declarations of structure and variables, the correct description of the expression *p->str++; is __. struct { int no; char *str; } a={1,\"abc\"}, *p=&a; A. * acts on the pointer p B. ++ acts on the pointer str C. ++ acts on the object pointed to by pointer str D. the expression is wrong",
+    "options": {
+      "A": "* acts on the pointer p",
+      "B": "++ acts on the pointer str",
+      "C": "++ acts on the object pointed to by pointer str",
+      "D": "the expression is wrong"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 2分; 题号: 2-3; 学生结果: 正确"
+  },
+  {
+    "id": 24,
+    "type": "single",
+    "question": "For the following declarations, assignment expression __ is not correct. struct Student { long num; char name[20]; } st1, st2={101, \"Tom\"}, *p=&st1; A. st1 = st2 B. p->name = st2.name C. p->num = st2.num D. *p=st2",
+    "options": {
+      "A": "st1 = st2",
+      "B": "p->name = st2.name",
+      "C": "p->num = st2.num",
+      "D": "*p=st2"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 2分; 题号: 2-4; 学生结果: 正确"
+  },
+  {
+    "id": 25,
+    "type": "single",
+    "question": "For definition: struct { int n; char *str;} *p; ，the operator ++ will act on __ in the expression ++p->str 。 A. poniter str B. pointer p C. object which str points to D. None of the above",
+    "options": {
+      "A": "poniter str",
+      "B": "pointer p",
+      "C": "object which str points to",
+      "D": "None of the above"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 2分; 题号: 2-5; 学生结果: 正确"
+  },
+  {
+    "id": 26,
+    "type": "single",
+    "question": "有如下定义： 1 2 3 4 5 struct Student{ char name[10]; int age; char gender; }std[3], *p=std; 则以下各输入语句中错误的是： A. scanf(\"%d\",&(*p).age); B. scanf(\"%c\",&std[0].gender); C. scanf(\"%c\",&(p->gender)); D. scanf(\"%s\",&std.name);",
+    "options": {
+      "A": "scanf(\"%d\",&(*p).age);",
+      "B": "scanf(\"%c\",&std[0].gender);",
+      "C": "scanf(\"%c\",&(p->gender));",
+      "D": "scanf(\"%s\",&std.name);"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 2分; 题号: 2-6; 学生结果: 正确"
+  },
+  {
+    "id": 27,
+    "type": "single",
+    "question": "定义下列结构体数组： struct stu { char name[10]； int age； }a[5]={\"ZHAO\",14, \"WANG\",15, \"LIU\",16, \"ZHANG\",17}； 执行语句printf(\"%d, %s\",a[2].age, a[1].name)的输出结果为( )。 A. 15, ZHAO B. 16, WANG C. 17, LIU D. 17, ZHAO",
+    "options": {
+      "A": "15, ZHAO",
+      "B": "16, WANG",
+      "C": "17, LIU",
+      "D": "17, ZHAO"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 2分; 题号: 2-7; 学生结果: 正确"
+  },
+  {
+    "id": 28,
+    "type": "single",
+    "question": "下列函数中，（ ）不能重载。 A. 成员函数 B. 非成员函数 C. 析构函数 D. 构造函数",
+    "options": {
+      "A": "成员函数",
+      "B": "非成员函数",
+      "C": "析构函数",
+      "D": "构造函数"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 2分; 题号: 2-8; 学生结果: 正确"
+  },
+  {
+    "id": 29,
+    "type": "single",
+    "question": "下列对重载函数的描述中，（ ）是错误的。 A. 重载函数中不允许使用默认参数 B. 重载函数中编译根据参数表进行选择 C. 不要使用重载函数来描述毫无相干的函数 D. 构造函数重载将会给初始化带来多种方式",
+    "options": {
+      "A": "重载函数中不允许使用默认参数",
+      "B": "重载函数中编译根据参数表进行选择",
+      "C": "不要使用重载函数来描述毫无相干的函数",
+      "D": "构造函数重载将会给初始化带来多种方式"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 2分; 题号: 2-9; 学生结果: 正确"
+  },
+  {
+    "id": 30,
+    "type": "single",
+    "question": "在下列关键字中,用以说明类中公有成员的是（ ）。 A. public B. private C. protected D. friend",
+    "options": {
+      "A": "public",
+      "B": "private",
+      "C": "protected",
+      "D": "friend"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 2分; 题号: 2-10; 学生结果: 正确"
+  },
+  {
+    "id": 31,
+    "type": "single",
+    "question": "有关类和对象的说法下列不正确的有（ ）。 A. 对象是类的一个实例 B. 任何一个对象只能属于一个具体的类 C. 一个类只能有一个对象 D. 类与对象和关系与数据类型和变量的关系相似",
+    "options": {
+      "A": "对象是类的一个实例",
+      "B": "任何一个对象只能属于一个具体的类",
+      "C": "一个类只能有一个对象",
+      "D": "类与对象和关系与数据类型和变量的关系相似"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 2分; 题号: 2-11; 学生结果: 正确"
+  },
+  {
+    "id": 32,
+    "type": "single",
+    "question": "在下面类声明中，关于生成对象不正确的是（ ）。 class point { public: int x; int y; point(int a,int b) { x=a;y=b; } } ; A. point p(10,2); B. point *p=new point(1,2); C. point *p=new point[2]; D. point *p[2]= { new point(1,2), new point(3,4) } ;",
+    "options": {
+      "A": "point p(10,2);",
+      "B": "point *p=new point(1,2);",
+      "C": "point *p=new point[2];",
+      "D": "point *p[2]={new point(1,2), new point(3,4)};"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业4：类和对象的基础; 分值: 2分; 题号: 2-12; 学生结果: 错误"
+  },
+  {
+    "id": 33,
+    "type": "judge",
+    "question": "多数运算符可以重载，个别运算符不能重载，运算符重载是通过函数定义实现的。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-1; 学生结果: 正确"
+  },
+  {
+    "id": 34,
+    "type": "judge",
+    "question": "对每个可重载的运算符来讲，它既可以重载为友元函数，又可以重载为成员函数，还可以重载为非成员 函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-2; 学生结果: 正确"
+  },
+  {
+    "id": 35,
+    "type": "judge",
+    "question": "对单目运算符重载为友元函数时，可以说明一个形参。而重载为成员函数时，不能显式说明形参。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-3; 学生结果: 正确"
+  },
+  {
+    "id": 36,
+    "type": "judge",
+    "question": "重载运算符可以保持原运算符的优先级和结合性不变。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-4; 学生结果: 正确"
+  },
+  {
+    "id": 37,
+    "type": "judge",
+    "question": "预定义的提取符和插入符是可以重载的。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-5; 学生结果: 正确"
+  },
+  {
+    "id": 38,
+    "type": "judge",
+    "question": "重载operator+时，返回值的类型应当与形参类型一致。 比如以下程序中，operator+的返回值类型有错： class A { int x; public: A(int t=0):x(t) { } int operator+(const A& a1) { return x+a1.x; } } ;",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-6; 学生结果: 正确"
+  },
+  {
+    "id": 39,
+    "type": "judge",
+    "question": "重载关系运算符一般都返回true或false值。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-7; 学生结果: 正确"
+  },
+  {
+    "id": 40,
+    "type": "judge",
+    "question": "对于++运算符的重载，要求重载两种形式，一种是前置++，一种是后置++。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-8; 学生结果: 正确"
+  },
+  {
+    "id": 41,
+    "type": "judge",
+    "question": "重载为成员函数时，参数个数为运算符数目减一。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-9; 学生结果: 正确"
+  },
+  {
+    "id": 42,
+    "type": "judge",
+    "question": "重载为友元函数时，参数个数为运算符数目。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-10; 学生结果: 正确"
+  },
+  {
+    "id": 43,
+    "type": "judge",
+    "question": "赋值运算符“ =”只能重载为成员函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-11; 学生结果: 正确"
+  },
+  {
+    "id": 44,
+    "type": "judge",
+    "question": "重载运算符()、[]、->或者=赋值运算符，运算符重载函数必须声明为类的成员函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-12; 学生结果: 正确"
+  },
+  {
+    "id": 45,
+    "type": "judge",
+    "question": "若重载为友元函数，函数定义格式如下： <类型>operator<运算符>（<参数列表>） { <函数体> }",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-13; 学生结果: 正确"
+  },
+  {
+    "id": 46,
+    "type": "judge",
+    "question": "若重载为成员函数，其定义如下： <类型><类名>::operator<运算符>（<参数列表>） { <函数体> }",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-14; 学生结果: 正确"
+  },
+  {
+    "id": 47,
+    "type": "judge",
+    "question": "在C++中，只能重载C++预定义的运算符，不能创造新的运算符。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "易",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 1分; 题号: 1-15; 学生结果: 正确"
+  },
+  {
+    "id": 48,
+    "type": "single",
+    "question": "下列运算符中，（ ）运算符不能重载。 A. ＆＆ B. [ ] C. :: D. <<",
+    "options": {
+      "A": "＆＆",
+      "B": "[ ]",
+      "C": "::",
+      "D": "<<"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 2分; 题号: 2-1; 学生结果: 正确"
+  },
+  {
+    "id": 49,
+    "type": "single",
+    "question": "下列关于运算符重载的描述中，（ ）是正确的。 A. 运算符重载可以改变操作数的个数 B. 运算符重载可以改变优先级 C. 运算符重载可以改变结合性 D. 运算符重载不可以改变语法结构",
+    "options": {
+      "A": "运算符重载可以改变操作数的个数",
+      "B": "运算符重载可以改变优先级",
+      "C": "运算符重载可以改变结合性",
+      "D": "运算符重载不可以改变语法结构"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 2分; 题号: 2-2; 学生结果: 正确"
+  },
+  {
+    "id": 50,
+    "type": "single",
+    "question": "为了能出现在赋值表达式的左右两边，重载的\"[]\"运算符应定义为： A. A operator [ ] (int); B. A& operator [ ] (int); C. const A operator [ ] (int); D. 以上答案都不对",
+    "options": {
+      "A": "A operator [ ] (int);",
+      "B": "A& operator [ ] (int);",
+      "C": "const A operator [ ] (int);",
+      "D": "以上"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 2分; 题号: 2-3; 学生结果: 正确"
+  },
+  {
+    "id": 51,
+    "type": "single",
+    "question": "在C++中不能重载的运算符是 A. ?: B. + C. D. <=",
+    "options": {
+      "A": "?:",
+      "B": "+",
+      "C": "D. <=",
+      "D": "<="
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 2分; 题号: 2-4; 学生结果: 正确"
+  },
+  {
+    "id": 52,
+    "type": "single",
+    "question": "下列关于运算符重载的表述中，正确的是（）。 A. C++已有的任何运算符都可以重载 B. 运算符函数的返回类型不能声明为基本数据类型 C. 在类型转换符函数的定义中不需要声明返回类型 D. 可以通过运算符重载来创建C++中原来没有的运算符",
+    "options": {
+      "A": "C++已有的任何运算符都可以重载",
+      "B": "运算符函数的返回类型不能声明为基本数据类型",
+      "C": "在类型转换符函数的定义中不需要声明返回类型",
+      "D": "可以通过运算符重载来创建C++中原来没有的运算符"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 2分; 题号: 2-5; 学生结果: 正确"
+  },
+  {
+    "id": 53,
+    "type": "single",
+    "question": "能用友元函数重载的运算符是（）。 A. + B. = C. [] D. ->",
+    "options": {
+      "A": "+",
+      "B": "=",
+      "C": "[]",
+      "D": "->"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 2分; 题号: 2-6; 学生结果: 正确"
+  },
+  {
+    "id": 54,
+    "type": "single",
+    "question": "下列关于运算符重载的描述中，（ ）是正确的。 A. 针对<<、>>运算符不可以采用友元函数进行重载 B. 针对<<、>>运算符既可以采用成员函数也可以采用友元函数进行重载 C. AB说法均正确 D. ABC均不正确",
+    "options": {
+      "A": "针对<<、>>运算符不可以采用友元函数进行重载",
+      "B": "针对<<、>>运算符既可以采用成员函数也可以采用友元函数进行重载",
+      "C": "AB说法均正确",
+      "D": "ABC均不正确"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 2分; 题号: 2-7; 学生结果: 正确"
+  },
+  {
+    "id": 55,
+    "type": "single",
+    "question": "下列哪一项说法是不正确的? A. 运算符重载的实质是函数重载 B. 运算符重载可以重载为普通函数,也成员可以重载为成员函数 C. 运算符被多次重载时,根据实参的类型决定调用哪个运算符重载函数 D. 运算符被多次重载时,根据函数类型决定调用哪个重载函数",
+    "options": {
+      "A": "运算符重载的实质是函数重载",
+      "B": "运算符重载可以重载为普通函数,也成员可以重载为成员函数",
+      "C": "运算符被多次重载时,根据实参的类型决定调用哪个运算符重载函数",
+      "D": "运算符被多次重载时,根据函数类型决定调用哪个重载函数"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 2分; 题号: 2-8; 学生结果: 正确"
+  },
+  {
+    "id": 56,
+    "type": "single",
+    "question": "如何区分自增运算符重载的前置形式和后置形式？ A. 重载时，前置形式的函数名是++operator，后置形式的函数名是operator ++ B. 后置形式比前置形式多一个 int 类型的参数 C. 无法区分，使用时不管前置形式还是后置形式，都调用相同的重载函数 D. 前置形式比后置形式多一个 int 类型的参数",
+    "options": {
+      "A": "重载时，前置形式的函数名是++operator，后置形式的函数名是operator ++",
+      "B": "后置形式比前置形式多一个 int 类型的参数",
+      "C": "无法区分，使用时不管前置形式还是后置形式，都调用相同的重载函数",
+      "D": "前置形式比后置形式多一个 int 类型的参数"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 2分; 题号: 2-9; 学生结果: 正确"
+  },
+  {
+    "id": 57,
+    "type": "single",
+    "question": "下列关于运算符重载的描述正确的是（ ）。 A. 运算符重载可以改变操作数的个数 B. 可以创造新的运算符 C. 运算符可以重载为友元函数 D. 任意运算符都可以重载",
+    "options": {
+      "A": "运算符重载可以改变操作数的个数",
+      "B": "可以创造新的运算符",
+      "C": "运算符可以重载为友元函数",
+      "D": "任意运算符都可以重载"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 2分; 题号: 2-10; 学生结果: 正确"
+  },
+  {
+    "id": 58,
+    "type": "single",
+    "question": "在重载一个运算符时，如果其参数表中有一个参数，则说明该运算符是( )。 A. 一元成员运算符 B. 二元成员运算符 C. 一元友元运算符 D. 二元成员运算符或一元友元运算符",
+    "options": {
+      "A": "一元成员运算符",
+      "B": "二元成员运算符",
+      "C": "一元友元运算符",
+      "D": "二元成员运算符或一元友元运算符"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 2分; 题号: 2-11; 学生结果: 正确"
+  },
+  {
+    "id": 59,
+    "type": "single",
+    "question": "下列关于运算符重载的描述中，错误的是（）。 A. 运算符重载不改变优先级 B. 运算符重载后，原来运算符操作不可再用 C. 运算符重载不改变结合性 D. 运算符重载函数的参数个数与重载方式有关",
+    "options": {
+      "A": "运算符重载不改变优先级",
+      "B": "运算符重载后，原来运算符操作不可再用",
+      "C": "运算符重载不改变结合性",
+      "D": "运算符重载函数的参数个数与重载方式有关"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 2分; 题号: 2-12; 学生结果: 正确"
+  },
+  {
+    "id": 60,
+    "type": "single",
+    "question": "若需要为xv类重载乘法运算符,运算结果为xv类型,在将其声明为类的成员函数时,下列原型声明正确的是 _________。 A. xv*(xv); B. operator*(xv); C. xv operator*(xv); D. xv operator*(xv,xv);",
+    "options": {
+      "A": "xv*(xv);",
+      "B": "operator*(xv);",
+      "C": "xv operator*(xv);",
+      "D": "xv operator*(xv,xv);"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 2分; 题号: 2-13; 学生结果: 正确"
+  },
+  {
+    "id": 61,
+    "type": "single",
+    "question": "下列运算符中，不可以重载的是（ ）。 A. new B. ++ C. .* D. []",
+    "options": {
+      "A": "new",
+      "B": "++",
+      "C": ".*",
+      "D": "[]"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: （21级）面向对象程序设计作业6：运算符重载; 分值: 2分; 题号: 2-14; 学生结果: 正确"
+  },
+  {
+    "id": 62,
+    "type": "single",
+    "question": "关于动态绑定的下列描述中，（ ）是错误的。",
+    "options": {
+      "A": "动态绑定是以虚函数为基础的",
+      "B": "动态绑定在运行时确定所调用的函数代码",
+      "C": "动态绑定调用函数操作是通过指向对象的指针或对象引用来实现的",
+      "D": "动态绑定是在编译时确定操作函数的"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 63,
+    "type": "single",
+    "question": "关于虚函数的描述中，（ ）是正确的。",
+    "options": {
+      "A": "虚函数是一个static类型的成员函数",
+      "B": "虚函数是一个非成员函数",
+      "C": "基类中说明了虚函数后,派生类中与其对应的函数可不必说明为虚函数",
+      "D": "派生类的虚函数与基类的虚函数具有不同的参数个数和类型"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 64,
+    "type": "single",
+    "question": "关于纯虚函数和抽象类的描述中，（ ）是错误的。",
+    "options": {
+      "A": "纯虚函数是一种特殊的虚函数,它没有具体的实现",
+      "B": "抽象类是指具有纯虚函数的类",
+      "C": "一个基类中说明有纯虚函数,该基类的派生类一定不再是抽象类",
+      "D": "抽象类只能作为基类来使用,其纯虚函数的实现由派生类给出"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 65,
+    "type": "single",
+    "question": "下列描述中，（ ）是抽象类的特性。",
+    "options": {
+      "A": "可以说明虚函数",
+      "B": "可以进行构造函数重载",
+      "C": "可以定义友元函数",
+      "D": "不能定义该类对象"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 66,
+    "type": "single",
+    "question": "多继承是指（ ）。",
+    "options": {
+      "A": "一个派生类同时继承多个基类",
+      "B": "多个派生类同时继承一个基类",
+      "C": "基类本身又是一个更高一级基类的派生类",
+      "D": "派生类本身又是更低一级派生类的基类"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 67,
+    "type": "single",
+    "question": "下面对派生类的描述中，错误的是( )",
+    "options": {
+      "A": "一个派生类可以作为另外一个派生类的基类",
+      "B": "派生类至少有一个基类",
+      "C": "派生类的成员除了它自己的成员外,还包含了它的基类的成员",
+      "D": "派生类中继承的基类成员的访问权限到派生类中保持不变"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 68,
+    "type": "single",
+    "question": "下列关于派生类构造函数和析构函数的说法中，错误的是（ ）",
+    "options": {
+      "A": "派生类的构造函数会隐含调用基类的构造函数",
+      "B": "如果基类中有默认构造函数,派生类可以不定义构造函数",
+      "C": "在建立派生类对象时,先调用基类的构造函数,再调用派生类的构造函数",
+      "D": "在销毁派生类对象时,先调用基类的析构函数,再调用派生类的析构函数"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 69,
+    "type": "single",
+    "question": "为了使类中的某个成员不能被类的对象通过成员操作符访问，则不能把该成员的访问权限定义为（ ）",
+    "options": {
+      "A": "public",
+      "B": "protected",
+      "C": "private",
+      "D": "static"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 70,
+    "type": "single",
+    "question": "在创建派生类对象时，构造函数的执行顺序是( )。",
+    "options": {
+      "A": "对象成员构造函数、基类构造函数、派生类本身的构造函数",
+      "B": "基类构造函数、对象成员构造函数、派生类本身的构造函数",
+      "C": "基类构造函数、派生类本身的构造函数、对象成员构造函数",
+      "D": "派生类本身的构造函数、基类构造函数、对象成员构造函数"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 71,
+    "type": "single",
+    "question": "若obj是类D的对象，则下列语句中正确的是 1 class B { 2 private: void fun1() { } 3 protected: void fun2() { } 4 public: void fun3() { } 5 } ; 6 class D : public B { 7 protected: void fun4() { } 8 } ;",
+    "options": {
+      "A": "obj.fun1();",
+      "B": "obj.fun2();",
+      "C": "obj.fun4();",
+      "D": "obj.fun3();"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 72,
+    "type": "single",
+    "question": "下面关于继承和派生的构造函数和析构函数的程序，输出结果是 1\n\n#include<iostream>\nusing namespace std;\nclass AA\n\n{\n\n  4 public: 5 AA()\n\n  {\n\n    cout << \"A\";\n\n  }\n\n  ~AA()\n\n  {\n\n    cout << \"a\";\n\n  }\n\n};\n\nclass BB: public AA\n\n{\n\n  9 AA aa;\n  10 public: 11 BB()\n\n  {\n\n    cout << \"B\";\n\n  }\n\n  ~BB()\n\n  {\n\n    cout << \"b\";\n\n  }\n\n};\n\nint main()\n\n{\n\n  15 BB bb;\n  16 return 0;\n  17\n\n}",
+    "options": {
+      "A": "AABaab",
+      "B": "AABbaa",
+      "C": "BAAaab",
+      "D": "BAAbaa"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 73,
+    "type": "single",
+    "question": "假设Aclass为抽象类，下列正确的说明语句是。",
+    "options": {
+      "A": "Aclass fun( int );",
+      "B": "Aclass * p ;",
+      "C": "int fun( Aclass );",
+      "D": "Aclass Obj ;"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 74,
+    "type": "single",
+    "question": "下面描述中，正确的是( )。",
+    "options": {
+      "A": "虚函数是没有实现的函数",
+      "B": "纯虚函数是返回值等于0的函数",
+      "C": "抽象类是只有纯虚函数的类",
+      "D": "抽象类指针可以指向不同的派生类"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 75,
+    "type": "single",
+    "question": "设有如下代码段: class A { public: void func1() { cout << \"A1\" << endl; } virtual void func2() { cout << \"A2\" << endl; } } ; class B : public A { public: void func1() { cout << \"B1\" << endl; } void func2() { cout << \"B2\" << endl; } } ; int main() { A *a =3D new B; a->func1(); a->func2(); } 则输出结果为:",
+    "options": {
+      "A": "A1 A2",
+      "B": "A1 B2",
+      "C": "B1 A2",
+      "D": "B1 B2"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 76,
+    "type": "single",
+    "question": "如果在基类中将show声明为不带返回值的纯虚函数，正确的写法是（）。",
+    "options": {
+      "A": "virtual show()=3D0;",
+      "B": "virtual void show();",
+      "C": "virtual void show()=3D0;",
+      "D": "void show()=3D0 virtual;"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 77,
+    "type": "single",
+    "question": "下面，有关派生类构造函数的论述，错误的是（ ）",
+    "options": {
+      "A": "派生类构造函数,需要为基类构造函数传递参数;",
+      "B": "派生类构造函数,需要为内嵌子对象的初始化传递参数;",
+      "C": "派生类构造函数,仅对派生类的新增数据成员初始化传递参数;",
+      "D": "派生类构造函数,可以采用初始化列表的方式为常成员函数传递初始化参数."
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 78,
+    "type": "single",
+    "question": "派生类的对象对它的基类成员中（ ）是可以访问的。",
+    "options": {
+      "A": "公有继承的公有成员",
+      "B": "公有继承的私有成员",
+      "C": "公有继承的保护成员",
+      "D": "私有继承的公有成员"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 79,
+    "type": "single",
+    "question": "C++中，设置虚基类的目的是（ ）",
+    "options": {
+      "A": "简化程序",
+      "B": "消除二义性",
+      "C": "提高运行效率",
+      "D": "减少目标代码"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 80,
+    "type": "single",
+    "question": "下列有关类型兼容规则的描述中，错误的是:",
+    "options": {
+      "A": "派生类的对象可以隐含转换为基类对象",
+      "B": "派生类的对象可以初始化基类的引用",
+      "C": "派生类的指针可以隐含转换为基类的指针",
+      "D": "派生类的对象可以被基类的对象初始化"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 81,
+    "type": "single",
+    "question": "以下说法正确的是?",
+    "options": {
+      "A": "子对象都是通过无参构造函数初始化的",
+      "B": "派生类对象的构造函数是先于基类的构造函数被调用的",
+      "C": "由多个基类派生时,基类构造函数的调用顺序,取决于定义派生类时,派生列表中的基类声明顺序",
+      "D": "由多个基类派生时,子对象所属类的构造函数调用顺序,取决于基类的定义顺序"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 82,
+    "type": "single",
+    "question": "以下说法正确的是?",
+    "options": {
+      "A": "派生类对象生成时,派生类的构造函数先于基类的构造函数执行",
+      "B": "派生类对象消亡时,基类的析构函数先于派生类的析构函数执行",
+      "C": "如果基类有无参构造函数,则派生类的构造函数就可以不带初始化列表",
+      "D": "在派生类的构造函数中,可以访问基类的成员变量"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 83,
+    "type": "single",
+    "question": "以下说法不正确的是（假设在公有派生情况）？",
+    "options": {
+      "A": "可以将基类对象赋值给派生类对象",
+      "B": "可以将派生类对象的地址赋值给基类指针",
+      "C": "可以将派生类对象赋值给基类的引用",
+      "D": "可以将派生类对象赋值给基类对象"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 84,
+    "type": "single",
+    "question": "下列哪一项说法是不正确的?",
+    "options": {
+      "A": "抽象类只能做为其他类的基类",
+      "B": "抽象类不能用做参数类型,函数返回类型或显式转换的类型",
+      "C": "可以定义指向抽象类的指针和引用,但不能定义抽象类对象",
+      "D": "使用抽象类指针和引用,不能指向派生类对象"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 85,
+    "type": "single",
+    "question": "在C++中，要实现动态联编,必须使用( )调用虚函数。",
+    "options": {
+      "A": "类名",
+      "B": "派生类指针",
+      "C": "对象名",
+      "D": "基类指针"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 86,
+    "type": "single",
+    "question": "类B是类A的公有派生类，类A和类B中都定义了虚函数func( )，p是一个指向类A对象的指针，则p->A::func( )将（ ）。",
+    "options": {
+      "A": "调用类A中的函数func( )",
+      "B": "调用类B中的函数func( )",
+      "C": "根据p所指的对象类型而确定调用类A中或类B中的函数func( )",
+      "D": "既调用类A中函数,也调用类B中的函数"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 87,
+    "type": "single",
+    "question": "类定义如下: class A { public: virtual void func1( ) { } void func2( ) { } } ; class B:public A { public: void func1( ) { cout<<\"class B func1\"<<endl; } virtual void func2( ) { cout<<\"class B func2\"<<endl; } } ; 则下面正确的叙述是（ ）",
+    "options": {
+      "A": "A::func2( )和B::func1( )都是虚函数",
+      "B": "A::func2( )和B::func1( )都不是虚函数",
+      "C": "B::func1( )是虚函数,而A::func2( )不是虚函数",
+      "D": "B::func1( )不是虚函数,而A::func2( )是虚函数"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 88,
+    "type": "single",
+    "question": "以下哪个基类中的成员函数表示纯虚函数______。",
+    "options": {
+      "A": "virtual void tt( )=3D0;",
+      "B": "void tt(int)=3D0;",
+      "C": "virtual void tt(int);",
+      "D": "virtual void tt(int){ };"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 89,
+    "type": "single",
+    "question": "下面4个选项中，（ ）是用来声明虚函数的。",
+    "options": {
+      "A": "virtual",
+      "B": "public",
+      "C": "using",
+      "D": "false"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 90,
+    "type": "single",
+    "question": "设有基类定义: class Cbase { private: int a; protected: int b; public: int c; } ;派生类采用何种继承方式可以使成员变量b成为自己的私有成员( )",
+    "options": {
+      "A": "保护继承",
+      "B": "公有继承",
+      "C": "私有继承",
+      "D": "私有、保护、公有均可"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 91,
+    "type": "single",
+    "question": "至少有一个顶点的度为1",
+    "options": {
+      "A": "只有1",
+      "B": "只有2",
+      "C": "1和2",
+      "D": "1和3"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 92,
+    "type": "single",
+    "question": "Suppose A is an array of length N with some random numbers. What is the time complexity of the following program in the worst case? void function( int A[], int N ) { int i, j =3D 0, cnt =3D 0; for (i =3D 0; i < N; ++i) { for (; j < N && A[j] <=3D A[i]; ++j); cnt +=3D j - i; } }",
+    "options": {
+      "A": "$$O(N^2)$$",
+      "B": "$$O(N\\log N)$$",
+      "C": "$$O(N)$$",
+      "D": "$$O(N^{1.5})$$"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 93,
+    "type": "single",
+    "question": "在$$N$$个结点的顺序表中，算法的时间复杂度为O(1)的操作是:",
+    "options": {
+      "A": "访问第$$i$$个结点($$1 \\leq i \\leq N$$)和求第$$i$$个结点的直接前驱($$2 \\leq i \\leq N$$)",
+      "B": "访问第i个结点($$1 \\leq i \\leq N$$)和求第i个结点的直接前驱($$2 \\leq i \\leq N$$)",
+      "C": "在第$$i$$个结点后插入一个新结点($$1 \\leq i \\leq N$$)",
+      "D": "在第i个结点后插入一个新结点($$1 \\leq i \\leq N$$)"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 94,
+    "type": "single",
+    "question": "以下程序段,哪个是不正确的?",
+    "options": {
+      "A": "int main() { class A { int v; }; A a; a.v =3D 3; return 0; }",
+      "B": "int main() { class A { public:int v; A *p; }; A a; a.p=3D&a; return 0; }",
+      "C": "int main() { class A { public:int v; }; A *p=3Dnew A; p->v=3D4; delete p; return 0; }",
+      "D": "int main() { class A { public:int v; A *p; }; A a; a.p=3Dnew A; delete a.p; return 0; }"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 95,
+    "type": "single",
+    "question": "下面对静态数据成员的描述中，正确的是（）。",
+    "options": {
+      "A": "静态数据成员可以在类体内进行初始化",
+      "B": "静态数据成员可以被类的对象调用",
+      "C": "静态数据成员不能private控制符的作用",
+      "D": "静态数据成员不能通过类的对象调用"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 96,
+    "type": "single",
+    "question": "对于常数据成员，下面描述正确的是（）。",
+    "options": {
+      "A": "常数据成员可以不初始化,并且不能更新",
+      "B": "常数据成员必须被初始化,并且不能更新",
+      "C": "常数据成员可以不初始化,并且可以被更新",
+      "D": "常数据成员必须被初始化,并且可以被更新"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 97,
+    "type": "single",
+    "question": "在下面有关静态成员函数的描述中，正确的是（）。",
+    "options": {
+      "A": "在建立对象前,就可以为静态数据成员赋值",
+      "B": "静态成员函数在类外定义时要用static前缀",
+      "C": "静态成员函数只能在类外定义",
+      "D": "在静态成员函数中可以使用this指针"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 98,
+    "type": "single",
+    "question": "下列选项中，静态成员函数不能直接访问的是（）。",
+    "options": {
+      "A": "静态数据成员",
+      "B": "静态成员函数",
+      "C": "类以外的函数和数据",
+      "D": "非静态数据成员"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 99,
+    "type": "single",
+    "question": "对于常成员函数，下面描述正确的是（）",
+    "options": {
+      "A": "常成员函数不能修改任何数据成员",
+      "B": "常成员函数只能修改一般数据成员",
+      "C": "常成员函数只能修改常数据成员",
+      "D": "常成员函数只能修改常对象的数据成员"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 100,
+    "type": "single",
+    "question": "已知print()函数是一个类的常成员函数，它无返回值，下列表示中正确的是（）。",
+    "options": {
+      "A": "void print( ) const;",
+      "B": "const void print( );",
+      "C": "void const print( )",
+      "D": "void print(const);"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 101,
+    "type": "single",
+    "question": "类成员默认的访问属性 类成员默认的访问属性为________。",
+    "options": {
+      "A": "private",
+      "B": "protected",
+      "C": "public",
+      "D": "friend"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 102,
+    "type": "single",
+    "question": "关于封装性 在C++中，实现封装性需借助于________。",
+    "options": {
+      "A": "类",
+      "B": "类",
+      "C": "数组",
+      "D": "函数"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 103,
+    "type": "single",
+    "question": "下列关于this指针的叙述中，正确的是（）",
+    "options": {
+      "A": "任何与类相关的函数都有this指针",
+      "B": "类的成员函数都有this指针",
+      "C": "类的友元函数都有this指针",
+      "D": "类非静态成员函数才有this指针"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 104,
+    "type": "single",
+    "question": "对类的构造函数和析构函数描述正确的是（）",
+    "options": {
+      "A": "构造函数可以重载,析构函数不能重载",
+      "B": "构造函数不能重载,析构函数可以重载",
+      "C": "构造函数可以重载,析构函数也可以重载",
+      "D": "构造函数不能重载,析构函数也不能重载"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 105,
+    "type": "single",
+    "question": "假定MyClass为一个类，则该类的复制构造函数的声明语句为（）",
+    "options": {
+      "A": "MyClass(int x)",
+      "B": "MyClass(MyClass x)",
+      "C": "MyClass(const MyClass& x);",
+      "D": "MyClass(MyClass *x)"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 106,
+    "type": "single",
+    "question": "假定MyClass为一个类,则执行MyClass a,b(3),*p; 语句时,自动调用该类构造函数()次。",
+    "options": {
+      "A": "1",
+      "B": "2",
+      "C": "3",
+      "D": "4"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 107,
+    "type": "single",
+    "question": "下面对静态数据成员的描述中，正确的是（ ）",
+    "options": {
+      "A": "静态数据成员是类的所有对象共享的数据",
+      "B": "类的每个对象都有自己的静态数据成员",
+      "C": "类的不同对象有不同的静态数据成员值",
+      "D": "静态数据成员不能通过类的对象调用"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 108,
+    "type": "single",
+    "question": "假设A 是一个类的名字，下面哪段程序不会调用A的复制构造函数？",
+    "options": {
+      "A": "A a1,a2; a1 =3D a2;",
+      "B": "void func( A a) { cout << \"good\" << endl; }",
+      "C": "A func( ) { A tmp; return tmp; }",
+      "D": "A a1; A a2(a1);"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 109,
+    "type": "single",
+    "question": "关于类的析构函数描述正确的是。",
+    "options": {
+      "A": "析构函数可以有参数",
+      "B": "析构函数可以重载",
+      "C": "析构函数可以省略",
+      "D": "析构函数有返回值类型"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 110,
+    "type": "single",
+    "question": "关于常成员的描述中,哪个是错误的?",
+    "options": {
+      "A": "常成员是用关键字const说明的",
+      "B": "常成员有常数据成员和常成员函数两种",
+      "C": "常数据成员的初始化是在类体内定义它时进行的",
+      "D": "常数据成员的值是不可以改变的"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 111,
+    "type": "single",
+    "question": "关于运算符delete的描述中,错误的是( ).",
+    "options": {
+      "A": "使用该运算符可以释放用new运算符创建的对象或对象数组",
+      "B": "使用该运算符可以释放所有对象",
+      "C": "使用delete运算符时会自动调用析构函数",
+      "D": "用它释放对象数组时,它作用的指针名前要加运算符[]"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 112,
+    "type": "single",
+    "question": "如果某函数的返回值是个对象，则该函数被调用时，返回的对象？",
+    "options": {
+      "A": "是通过拷贝构造函数初始化的",
+      "B": "是通过无参数的构造函数初始化的",
+      "C": "用哪个构造函数初始化,取决于函数中return 语句是怎么写的",
+      "D": "不需要初始化"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 113,
+    "type": "single",
+    "question": "以下说法正确的是?",
+    "options": {
+      "A": "在静态成员函数中可以调用同类的其他任何成员函数",
+      "B": "静态成员函数可以访问类的非静态成员",
+      "C": "在静态成员函数中不能使用 this 指针",
+      "D": "静态成员变量每个对象有各自的一份"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 114,
+    "type": "single",
+    "question": "以下对类A的定义,哪个是正确的?",
+    "options": {
+      "A": "class A{ private:int v; public:void fun(){} }",
+      "B": "class A{ int v; A * next; void fun(){} };",
+      "C": "class A{ int v; public: void fun(); }; A::void fun(){}",
+      "D": "class A{ int v; public: A next; void fun(){} };"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 115,
+    "type": "single",
+    "question": "在类体内说明友元使用的关键字是?",
+    "options": {
+      "A": "virtual",
+      "B": "friend",
+      "C": "inline",
+      "D": "static"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 116,
+    "type": "single",
+    "question": "有如下类的定义: class Sample { public: Sample( ); Sample(int x ); ...... } ; 动态申请对象存储单元，调用一个带参构造函数，初值为2的语句是（）。",
+    "options": {
+      "A": "Sample *a=3Dnew Sample(2);",
+      "B": "Sample a=3Dnew Sample(2);",
+      "C": "Sample *a=3Dnew Sample[2];",
+      "D": "Sample a=3Dnew Sample[2];"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 117,
+    "type": "single",
+    "question": "有如下定义: class Sample { public: Sample( ); Sample(int x ); ...... } ; 如果用new创建对象数组，该数组中包含10个对象，则正确的语句为（）。",
+    "options": {
+      "A": "Sample *a=3Dnew Sample[10];",
+      "B": "Sample *a=3Dnew Sample(10);",
+      "C": "Sample *a=3Dnew Sample[ ];",
+      "D": "Sample *a=3Dnew Sample;"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 118,
+    "type": "single",
+    "question": "设A为自定义类，现有普通函数int fun(A& x)。则在该函数被调用时:",
+    "options": {
+      "A": "将执行复制构造函数来初始化形参x",
+      "B": "仅在实参为常量时,才会执行复制构造函数以初始化形参x",
+      "C": "仅在该函数为A类的友元函数时,无需初始化形参x"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 119,
+    "type": "single",
+    "question": "以下哪一个不是正确的成员访问属性。",
+    "options": {
+      "A": "protected",
+      "B": "private",
+      "C": "hidden",
+      "D": "public"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 120,
+    "type": "single",
+    "question": "所有类都应该有: 答案都不对",
+    "options": {
+      "A": "构造函数",
+      "B": "析构函数",
+      "C": "构造函数和析构函数",
+      "D": "以上"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 121,
+    "type": "single",
+    "question": "对于以下关于友元的说法 A. 答案都不对",
+    "options": {
+      "A": "如果函数fun被声明为类A的友元函数,则该函数成为A的成员函数",
+      "B": "如果函数fun被声明为类A的友元函数,则该函数能访问A的保护成员,但不能访问私有成员",
+      "C": "如果函数fun被声明为类A的友元函数,则fun的形参类型不能是",
+      "D": "以上"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 122,
+    "type": "single",
+    "question": "对于类之间的友元关系: 答案都不对.",
+    "options": {
+      "A": "如果类A是类B的友元,则B的成员函数可以访问A的私有成员",
+      "B": "如果类A是类B的友元,则B也是A的友元.",
+      "C": "如果类A是类B的友元,并且类B是类C的友元,则类A也是类C的友元.",
+      "D": "以上"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 123,
+    "type": "single",
+    "question": "给定以下类声明，哪个成员函数可能改变成员变量data? class A { public: void f1 (int d); void f2 (const int &d); void f3 (int d) const; private: int data; } ;【试题选项缺失，请补充】 D.",
+    "options": {
+      "A": "f1",
+      "B": "f2",
+      "C": "f1和f2",
+      "D": "（缺失）"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 124,
+    "type": "single",
+    "question": "在面向对象的软件系统中，不同类对象之间的通信的一种构造称为______。",
+    "options": {
+      "A": "属性",
+      "B": "封装",
+      "C": "类",
+      "D": "消息"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 125,
+    "type": "single",
+    "question": "在面向对象系统中，对象的属性是______。",
+    "options": {
+      "A": "对象的行为特性",
+      "B": "和其他对象相关联的方式",
+      "C": "和其他对象相互区分的特性",
+      "D": "与其他对象交互的方式"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 126,
+    "type": "single",
+    "question": "假定AA为一个类，a()为该类公有的函数成员，x为该类的一个对象，则访问x对象中函数成员a()的格式为（）",
+    "options": {
+      "A": "a()",
+      "B": "x.a()",
+      "C": "x->a()",
+      "D": "(*x).a()"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 127,
+    "type": "single",
+    "question": "某类中有一个无参且无返回值的常成员函数Show，则正确的Show函数原型是",
+    "options": {
+      "A": "const void Show();",
+      "B": "void const Show();",
+      "C": "void Show() const;",
+      "D": "void Show(const);"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 128,
+    "type": "single",
+    "question": "关于成员函数特征的描述中，（ ）是错误的。",
+    "options": {
+      "A": "成员函数可以重载",
+      "B": "成员函数一定是内联函数",
+      "C": "一个类可以没有成员函数",
+      "D": "成员函数可以设置参数的默认值"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 129,
+    "type": "single",
+    "question": "设类AA已定义，假设以下语句全部合法，哪些语句会触发调用拷贝构造函数（ ）。 AA a, b; //1 AA c(10, 20); //2 AA d(c); //3 AA e =3D d; //4",
+    "options": {
+      "A": "2",
+      "B": "3",
+      "C": "4",
+      "D": "3和4"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 130,
+    "type": "single",
+    "question": "类的析构函数是在什么时候调用的？",
+    "options": {
+      "A": "类创建时",
+      "B": "创建对象时",
+      "C": "删除对象时",
+      "D": "不自动调用"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 131,
+    "type": "single",
+    "question": "下列关于构造函数说法不正确的是",
+    "options": {
+      "A": "构造函数必须与类同名",
+      "B": "构造函数可以省略不写",
+      "C": "构造函数必须有返回值",
+      "D": "在构造函数中可以对类中的成员进行初始化"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 132,
+    "type": "single",
+    "question": "C++函数的声明和定义可以分开。函数声明不需要( )。",
+    "options": {
+      "A": "返回类型",
+      "B": "函数名",
+      "C": "参数表",
+      "D": "函数体"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 133,
+    "type": "single",
+    "question": "不能作为函数重载判断依据的是（ ）",
+    "options": {
+      "A": "返回类型",
+      "B": "const",
+      "C": "参数个数",
+      "D": "参数类型"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 134,
+    "type": "single",
+    "question": "下面关于new运算符的描述中错误的是（ ）",
+    "options": {
+      "A": "使用new创建对象时必须定义初始值",
+      "B": "使用new创建对象时会调用类的构造函数",
+      "C": "new可以用来动态创建对象和对象数组",
+      "D": "使用new创建的对象可以使用delete删除"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 135,
+    "type": "single",
+    "question": "不属于类的成员函数的是（ ）。",
+    "options": {
+      "A": "构造函数",
+      "B": "析构函数",
+      "C": "友元函数",
+      "D": "复制构造函数"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 136,
+    "type": "single",
+    "question": "对于C++结构体中定义的成员，其隐含的访问权限为（ ）",
+    "options": {
+      "A": "public",
+      "B": "protected",
+      "C": "private",
+      "D": "static"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 137,
+    "type": "single",
+    "question": "为类提供对外接口的是（ ）",
+    "options": {
+      "A": "公有成员函数",
+      "B": "私有成员函数",
+      "C": "保护成员函数",
+      "D": "友元函数"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 138,
+    "type": "single",
+    "question": "若类A的构造函数定义为 A(int aa=3D1, int bb=3D0) { a =3D aa; b =3D bb; } 则执行: A x(4);后, x.a和x.b的值分别是（ ）",
+    "options": {
+      "A": "1,0",
+      "B": "1,4",
+      "C": "4,0",
+      "D": "4,1"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 139,
+    "type": "single",
+    "question": "已知类A中的一个成员函数说明为void fun(A &a);, 则A &a的含义是（ ）",
+    "options": {
+      "A": "将a的地址值赋给变量fun",
+      "B": "指向类A的指针为a",
+      "C": "a是类A的对象引用, 用来做函数fun()的形参",
+      "D": "变量A与a按位相与运算后作为函数fun()的参数"
+    },
+    "answer": "C",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 140,
+    "type": "single",
+    "question": "下列哪一种情况下, 类的复制构造函数不会被调用",
+    "options": {
+      "A": "用类的一个对象赋值给另一个对象时",
+      "B": "用类的对象作为函数的形参时",
+      "C": "如果函数的形参是类的对象, 调动函数时, 进行形参和实参结合时",
+      "D": "如果函数的返回值是类的对象, 函数执行完成返回调用者时"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 141,
+    "type": "single",
+    "question": "以下关于友元的说法哪个是不正确的?",
+    "options": {
+      "A": "一个类的友元函数可以访问类对象的私有成员",
+      "B": "友元类关系是相互的,即若类A是类B的友元,类B也是类A的友元",
+      "C": "在一个类中可以将另一个类的成员函数声明为友元",
+      "D": "类之间的友元关系不能传递"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 142,
+    "type": "single",
+    "question": "下面对静态数据成员的描述中, 正确的是",
+    "options": {
+      "A": "静态数据成员可以在类体内进行初始化",
+      "B": "静态数据成员不可以被类的对象调用",
+      "C": "静态数据成员不能受private控制符的作用",
+      "D": "静态数据成员可以直接用类名调用"
+    },
+    "answer": "D",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 143,
+    "type": "single",
+    "question": "设一段文本中包含4个对象{a,b,c,d}，其出现次数相应为{4,2,5,1}，则该段文本的哈夫曼编码比采用等长",
+    "options": {
+      "A": "0",
+      "B": "2",
+      "C": "4",
+      "D": "5"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 144,
+    "type": "judge",
+    "question": "虚函数是用virtual关键字说明的成员函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 145,
+    "type": "judge",
+    "question": "将构造函数说明为纯虚函数是没有意义的。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 146,
+    "type": "judge",
+    "question": "抽象类是指一些没有说明对象的类。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 147,
+    "type": "judge",
+    "question": "动态绑定是在运行时选定调用的成员函数的。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 148,
+    "type": "judge",
+    "question": "因为静态成员函数不能是虚函数，所以它们不能实现多态。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 149,
+    "type": "judge",
+    "question": "基类与派生类对象之间具有赋值兼容的关系，可以进行类型间的转换，派生类对象可以直接转换为基类对象，同样基类对象也可以直接转换为派生类对象。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 150,
+    "type": "judge",
+    "question": "如果函数的参数是基类对象或基类对象的引用，函数调用时的实参可以是派生类对象。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 151,
+    "type": "judge",
+    "question": "多重继承派生类的构造函数，需要调用所有的基类构造函数来完成各基类数据成员的初始化。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 152,
+    "type": "judge",
+    "question": "静态成员函数不能是虚函数，所以不能实现动态多态，即运行时多态。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 153,
+    "type": "judge",
+    "question": "面向对象程序设计的继承性鼓励程序员重用被实践验证的高质量软件。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 154,
+    "type": "judge",
+    "question": "在一个成员函数内调用一个虚函数时，对该虚函数的调用进行动态束定。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 155,
+    "type": "judge",
+    "question": "如果派生类的成员函数的原型与基类中被定义为虚函数的成员函数原型相同，那么，这个函数自动继承基类中虚函数的特性。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 156,
+    "type": "judge",
+    "question": "对于从基类继承的虚函数，派生类也可以不进行重定义。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 157,
+    "type": "judge",
+    "question": "在多继承中，派生类的构造函数需要依次调用其基类的构造函数，调用顺序取决于定义派生类时所指定的各基类的顺序。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 158,
+    "type": "judge",
+    "question": "派生类中的虚函数，不仅可以覆盖基类的虚函数，还会隐藏基类中同名函数的所有其它重载形式。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 159,
+    "type": "judge",
+    "question": "类的组合关系可以用“Has-A”描述；类间的继承与派生关系可以用“Is-A”描述。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 160,
+    "type": "judge",
+    "question": "基类中的私有成员不论通过何种派生方式，到了派生类中均变成不可直接访问成员。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 161,
+    "type": "judge",
+    "question": "如果公有派生，则可以用派生类对象给基类对象赋值。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 162,
+    "type": "judge",
+    "question": "在类的定义中，前面有virtual关键字的成员函数就是虚函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 163,
+    "type": "judge",
+    "question": "通过基类指针调用基类和派生类中的同名虚函数时，若该指针指向一个基类的对象，那么被调用的是基类的虚函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 164,
+    "type": "judge",
+    "question": "通过基类引用调用基类和派生类中的同名虚函数时，若该引用引用的是一个基类的对象，那么被调用的是基类的虚函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 165,
+    "type": "judge",
+    "question": "通过基类引用调用基类和派生类中的同名虚函数时，若该引用引用的是一个派生类的对象，那么被调用的是派生类的虚函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 166,
+    "type": "judge",
+    "question": "通过基类的指针删除派生对象时，通常情况下只调用基类的析构函数。但是，删除一个派生类的对象时应该先调派生类析构函数，然后调用基类的析构函数。解决办法：把基类的析构函数声明为虚析构函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 167,
+    "type": "judge",
+    "question": "类的静态成员函数不可以定义为虚函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 168,
+    "type": "judge",
+    "question": "动态联编调用函数操作是指向对象的指针或对象引用。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 169,
+    "type": "judge",
+    "question": "如果一个类至少有一个纯虚函数，那么就称该类为派生类。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 170,
+    "type": "judge",
+    "question": "派生类的虚函数与基类中对应的虚函数具有相同的参数个数和类型。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 171,
+    "type": "judge",
+    "question": "虚函数既可以在函数说明时定义，也可以在函数实现时定义。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 172,
+    "type": "judge",
+    "question": "实现动态联编必须通过对象名来调用虚函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 173,
+    "type": "judge",
+    "question": "动态联编是在运行时确定所调用的函数代码的。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 174,
+    "type": "judge",
+    "question": "含有纯虚函数的类是不可以用来创建对象的，因为它是虚基类。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 175,
+    "type": "judge",
+    "question": "如果一个类的函数全部都是纯虚函数，则这个类不能有自己的实现（包括引用和指针），只能通过派生类继承实现。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 176,
+    "type": "judge",
+    "question": "仅基于比较的算法能得到的最好的“最坏时间复杂度”是$$O(NlogN)$$。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 177,
+    "type": "judge",
+    "question": "$$N \\log N^2$$ and $$N \\log N^3$$ have the same speed of growth.",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 178,
+    "type": "judge",
+    "question": "$$N^2 \\log N$$ and $$N \\log N^2$$ have the same growth speed.",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 179,
+    "type": "judge",
+    "question": "一个类的友元函数是这个类的成员。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 180,
+    "type": "judge",
+    "question": "友元函数不是类的成员函数，只是独立于该类的一般函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 181,
+    "type": "judge",
+    "question": "如果A是B的友元类,那么B的成员函数可以访问A的私有成员。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 182,
+    "type": "judge",
+    "question": "在定义常量成员函数和声明常量成员函数时都应该使用const关键字。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 183,
+    "type": "judge",
+    "question": "当用一个对象去初始化同类的另一个对象时,要调用拷贝构造函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 184,
+    "type": "judge",
+    "question": "对象数组生命周期结束时,对象数组的每个元素的析构函数并不会都被调用。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 185,
+    "type": "judge",
+    "question": "若new一个对象数组,那么用delete释放时应该写[], 否则只delete一个对象(调用一次析构函数)。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 186,
+    "type": "judge",
+    "question": "当一个对象调用其成员函数时,编译器先将该对象的地址赋给 this 指针,然后调用成员函数,这样成员函数对对象的数据成员进行操作时,就隐含使用了 this 指针。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 187,
+    "type": "judge",
+    "question": "静态成员用以解决同一个类的不同对象之间成员，包括数据成员和函数成员的共享问题。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 188,
+    "type": "judge",
+    "question": "静态成员的特点是不管这个类创建了多少个对象,其静态成员在内存中只保留一份副本,这个副本为该类的所有对象共享,或者说静态成员为类所有。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 189,
+    "type": "judge",
+    "question": "已知类A是类B的友元，类B是类C的友元，则类A一定是类C的友元。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 190,
+    "type": "judge",
+    "question": "有下面两种定义: struct stu { char name[8]; int age; char sex; double height; } ; class stu { public: char name[8]; int age; char sex; double height; } ; 它们的含义是完全等价的，都包含了相同的数据项，只不过是两种不同的类型。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 191,
+    "type": "judge",
+    "question": "静态数据成员不能在类中初始化，使用时需要在类体外声明。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 192,
+    "type": "judge",
+    "question": "静态成员变量的访问控制权限没有意义，静态成员变量均作为公有成员使用。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 193,
+    "type": "judge",
+    "question": "如果只定义对象数组不进行初始化，此时调用的是有参构造函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 194,
+    "type": "judge",
+    "question": "对静态数据成员初始化可以在类内进行。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 195,
+    "type": "judge",
+    "question": "静态数据成员不属于某个对象，在给对象分配存储空间时，不包括静态数据成员所占的空间。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 196,
+    "type": "judge",
+    "question": "静态成员函数属于类而不是类的对象，没有this指针，静态成员函数中不能使用this指针。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 197,
+    "type": "judge",
+    "question": "静态成员函数的实现必须在类体外实现，不能在类体内实现。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "B",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 198,
+    "type": "judge",
+    "question": "由于静态成员函数不属于某个特定的对象，因此。不能像一般的成员函数那样随意的访问对象中的非静态数据成员。只能引用类中声明的静态数据成员。如果要引用非静态数据成员，可通过对象引用。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 199,
+    "type": "judge",
+    "question": "常数据成员的值必须初始化，且不能改变。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 200,
+    "type": "judge",
+    "question": "在类中声明常数据成员时，只能通过构造函数成员初始化列表的方式来实现。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 201,
+    "type": "judge",
+    "question": "常成员函数既可以被常对象调用，也可以被非常对象调用。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 202,
+    "type": "judge",
+    "question": "当将一个类S定义为另一个类A的友元类时，类S的所有成员函数都可以直接访问类A的所有成员。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 203,
+    "type": "judge",
+    "question": "每个对象都有一个指向自身的指针，称为this指针，通过使用它来确定其自身的地址。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 204,
+    "type": "judge",
+    "question": "当一个类对象的成员函数被调用时，该成员函数的this指针指向调用它的对象。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  },
+  {
+    "id": 205,
+    "type": "judge",
+    "question": "赋值运算符\"=3D\"只能重载为成员函数。",
+    "options": {
+      "A": "正确",
+      "B": "错误"
+    },
+    "answer": "A",
+    "difficulty": "中",
+    "explanation": "来源: Word题库补充"
+  }
+]
