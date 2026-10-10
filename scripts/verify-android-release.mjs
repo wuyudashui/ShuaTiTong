@@ -17,7 +17,11 @@ if (process.argv[2] === '--previous') {
   if (!dir) throw new Error('APK verification directory is required');
   const signer = fs.readFileSync(path.join(dir, 'apk-signature.txt'), 'utf8');
   const fingerprints = [...signer.matchAll(/Signer #\d+ certificate SHA-256 digest: ([a-f0-9]+)/gi)].map(m => m[1].toLowerCase());
-  if (fingerprints.length !== 1 || fingerprints[0] !== identity.certificateSha256.toLowerCase()) throw new Error('APK certificate differs from the fixed signing key');
+  if (fingerprints.length !== 1 || fingerprints[0] !== identity.certificateSha256.toLowerCase()) {
+    // apksigner prints only public certificate data here, never private signing credentials.
+    console.error(signer);
+    throw new Error(`APK certificate differs from the fixed signing key: found ${JSON.stringify(fingerprints)}, expected ${identity.certificateSha256}`);
+  }
   const pkg = fs.readFileSync(path.join(dir, 'apk-package.txt'), 'utf8');
   const actual = pkg.match(/package: name='([^']+)' versionCode='(\d+)' versionName='([^']+)'/);
   if (!actual || actual[1] !== identity.appId || Number(actual[2]) !== current.versionCode || actual[3] !== current.versionName) throw new Error('APK package or version differs from the release configuration');
