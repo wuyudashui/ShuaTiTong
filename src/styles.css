@@ -557,6 +557,10 @@ h1 .svg-icon, h2 .svg-icon, h3 .svg-icon {
 .details-row { margin: 0 0 16px; }
 .upload-area.collapsed { padding: 12px 18px; }
 .upload-local-note { color: var(--text-secondary); font-size: .75rem; }
+.upload-preprocess-note { max-width: 640px; margin-inline: auto; line-height: 1.7; }
+.upload-preprocess-note a { color: var(--primary); overflow-wrap: anywhere; }
+.upload-area.collapsed { flex-wrap: wrap; }
+.upload-area.collapsed .upload-preprocess-note { display: block; flex-basis: 100%; margin: 2px 0 0; text-align: left; font-size: .76rem; }
 .upload-area.collapsed .upload-local-note { margin-left: 14px; }
 .welcome-panel.compact .eyebrow { display: none; }
 .upload-area.collapsed { margin-bottom: 12px; }
@@ -1443,3 +1447,52 @@ button:active { transform: scale(.97); }
 :root.dark .feedback.ai-exp .exp a { color: var(--primary); }
 input::placeholder, textarea::placeholder { color: var(--text-secondary); opacity: 1; }
 .modal textarea { background: var(--bg); color: var(--text); }
+
+/* The library dialog owns its width and scrolling instead of inheriting the small form modal. */
+#questionPoolModal { padding: 24px; overscroll-behavior: contain; }
+#questionPoolModal .pool-modal {
+  display: grid; grid-template-rows: auto minmax(0, 1fr);
+  width: min(960px, 100%); max-width: 960px; max-height: min(900px, calc(100dvh - 48px));
+  padding: 0; margin: 0; overflow: hidden; border-radius: 16px;
+}
+#questionPoolModal .pool-heading { padding: 20px 24px; border-bottom: 1px solid var(--border); background: var(--card-bg); }
+#questionPoolModal .pool-heading h2 { border: 0; padding: 0; margin: 0; font-size: 1.35rem; }
+.pool-header-actions { display: flex; flex-wrap: wrap; gap: 8px; flex-shrink: 0; }
+.pool-header-actions button { min-height: 40px; }
+.pool-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 20px 24px 24px; }
+.pool-body > .muted { margin: 0 0 18px; }
+#questionPoolModal .pool-card { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: start; padding: 18px; gap: 16px; }
+#questionPoolModal .pool-card-icon { width: 44px; height: 44px; }
+#questionPoolModal .pool-card-content p { line-height: 1.65; overflow-wrap: anywhere; }
+#questionPoolModal .pool-card-content { line-height: 1.5; }
+#questionPoolModal .pool-card-content h3 { margin: 4px 0 7px; font-size: 1rem; }
+.pool-card-content .pool-count { display: block; }
+#questionPoolModal .pool-card-actions { align-self: center; width: auto; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+#questionPoolModal .pool-card-actions button { min-height: 40px; }
+.pool-card-actions .bank-manage { color: var(--primary); }
+.publisher-edit-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding-top: 16px; }
+.publisher-save-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+#publishDelete { color: var(--wrong); border-color: var(--wrong); }
+.developer-note { margin: 20px 0 0; padding-top: 14px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: .78rem; line-height: 1.75; }
+.developer-note a { color: var(--primary); overflow-wrap: anywhere; }
+.download-notice { line-height: 1.8; color: var(--text); margin-bottom: 14px; }
+#appDownloadModal .modal-actions a { padding: 9px 16px; }
+.checkbox-label input { width: 18px; height: 18px; flex: 0 0 18px; padding: 0; }
+@media (max-width: 1000px) {
+  #questionPoolModal .pool-card { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; }
+  #questionPoolModal .pool-card-actions { grid-column: 1 / -1; width: 100%; justify-content: flex-end; }
+  #questionPoolModal .pool-card-content { min-width: 0; }
+  #questionPoolModal .pool-card-actions .btn-primary { flex: 0 1 auto; }
+}
+@media (max-width: 560px) {
+  #questionPoolModal { padding: 12px; }
+  #questionPoolModal .pool-modal { max-height: calc(100dvh - 24px); border-radius: 12px; }
+  #questionPoolModal .pool-heading { padding: 16px; align-items: start; gap: 10px; }
+  #questionPoolModal .pool-heading .eyebrow { font-size: .6rem; }
+  #questionPoolModal .pool-heading h2 { font-size: 1.2rem; }
+  .pool-header-actions { gap: 6px; }
+  .pool-header-actions button { padding: 7px 10px; font-size: .78rem; }
+  .pool-body { padding: 16px; }
+  #questionPoolModal .pool-card { padding: 14px; }
+  #questionPoolModal .pool-card-actions .btn-primary { flex: 1; justify-content: center; }
+}

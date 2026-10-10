@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-浏览器打开终端提示的地址（默认 http://localhost:5173），在题库池中选择科目，或导入自己的 JSON / Excel / Word 题库开始练习。本地导入只保存到自己的浏览器，不影响其他用户；公共题库由开发者发布维护。
+浏览器打开终端提示的地址（默认 http://localhost:5173），在题库池中选择科目，或导入自己的 JSON 题库开始练习。本地导入只保存到自己的浏览器，不影响其他用户；公共题库由开发者发布维护。其他格式先使用配套 `shuatitong-any2json` 技能转换，或联系 2442078047@qq.com 协助处理。
 
 在线地址：[GitHub Pages](https://wuyudashui.github.io/ShuaTiTong/)。Android 下载：[最新测试 APK](https://github.com/wuyudashui/ShuaTiTong/releases/download/android-latest/shuatitong.apk)。发布配置与安装说明见 [部署说明](docs/deployment.md)。
 
@@ -175,6 +175,8 @@ cd android && ./gradlew assembleDebug
 在开发者主机安装服务依赖：`npm ci --prefix server`，将 GitHub 写入令牌配置到 `server/.env`（参考 `server/.env.example`），运行 `npm run publisher`。在本地开发页进入开发者模式，打开“题库池 → 开发者题库维护”，连接发布服务后选择 JSON、填写名称和科目，点击发布。令牌仅保存在开发者主机，网页中不填写 GitHub Token。
 
 题库和目录以同一次 Git 提交更新，GitHub Pages 自动部署后对其他用户生效。覆盖同名题库需明确勾选“更新同名题库”。普通用户导入和答题只操作浏览器本地数据。
+
+登录开发者模式后，每个公共题库卡片显示“管理”。连接发布服务后可修改题库名称、科目和简介，保存时只更新目录，不改题目；需要替换题目时选新 JSON，文件名保持不变。删除需二次确认；新增可点“维护题库 → 新增题库”。所有公共改动仅由开发者服务发布，本地练习数据不会被删除。
 
 `skills/shuatitong-any2json/` 提供适配新版的转换技能，可安装到个人 Codex 技能目录。生成的题库是 JSON 数组，科目、标题等目录信息由发布表单填写。
 

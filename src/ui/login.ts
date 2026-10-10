@@ -35,6 +35,7 @@ export function showDevLogin(callback: () => void): void {
         <button id="devLoginCancel" class="btn-outline">取消</button>
         <button id="devLoginConfirm" class="btn-primary">验证</button>
       </div>
+      <p class="developer-note">此模式用于开发者统一管理平台公共题库。如需共同管理，请联系 <a href="mailto:2442078047@qq.com">2442078047@qq.com</a>。</p>
     </div>
   `;
   document.body.appendChild(overlay);

@@ -16,7 +16,6 @@ import { renderThumbnails, handleThumbnailClick, setThumbnailJumpHandler } from 
 import { showExamSetup, showExamResults, renderExamTypeTabs, onExamTypeTabClick, getCurrentSectionInfo } from './ui/examMode';
 import { showEditModal, showFullEditModal, showInsertModal, exportQuestions } from './ui/editor';
 import { showAdaptModal } from './ui/adapt';
-import { parseFile, showParseConfirm } from './parsers/index';
 import { showDevLogin, isAtLeast } from './ui/login';
 import { initQuestionPool } from './ui/questionPool';
 import { normalizeQuestions } from './questions';
@@ -591,44 +590,21 @@ function setActiveFilterType(type: string): void {
 }
 
 async function handleFileUpload(file: File): Promise<void> {
-  const ext = file.name.split('.').pop()?.toLowerCase() || '';
+  if (!/\.json$/i.test(file.name)) {
+    alert('仅支持 JSON 题库。其他格式请先让 AI 使用配套 shuatitong-any2json 技能转换，或联系 2442078047@qq.com 协助处理。');
+    return;
+  }
   try {
-    const buffer = await file.arrayBuffer();
-    if (ext === 'xlsx' || ext === 'xls') {
-      document.getElementById('uploadArea')?.classList.add('dragover');
-      const qs = await parseFile(buffer, file.name);
-      if (qs && qs.length > 0) loadJSON(qs, file.name.replace(/\.[^.]+$/, ''));
-      return;
-    }
-    if (ext === 'docx') {
-      const action = await showParseConfirm(file);
-      if (action !== 'parse') return;
-      document.getElementById('uploadArea')?.classList.add('dragover');
-      const qs = await parseFile(buffer, file.name);
-      if (qs && qs.length > 0) loadJSON(qs, file.name.replace(/\.[^.]+$/, ''));
-      return;
-    }
+    loadJSON(JSON.parse((await file.text()).replace(/^\uFEFF/, '')), file.name);
   } catch (err) {
-    alert('解析失败: ' + (err as Error).message);
-  } finally {
-    document.getElementById('uploadArea')?.classList.remove('dragover');
+    alert('JSON 解析失败: ' + (err as Error).message);
   }
 }
 
 fileInput.addEventListener('change', async e => {
   const file = (e.target as HTMLInputElement).files?.[0];
   if (!file) return;
-  const ext = file.name.split('.').pop()?.toLowerCase() || '';
-  if (ext === 'json') {
-    const reader = new FileReader();
-    reader.onload = ev => {
-      try { loadJSON(JSON.parse(ev.target?.result as string), file.name); }
-      catch (err) { alert('JSON 解析失败: ' + (err as Error).message); }
-    };
-    reader.readAsText(file, 'UTF-8');
-  } else {
-    handleFileUpload(file);
-  }
+  await handleFileUpload(file);
   fileInput.value = '';
 });
 
@@ -647,17 +623,7 @@ uploadArea.addEventListener('drop', e => {
   uploadArea.classList.remove('dragover');
   const file = e.dataTransfer?.files[0];
   if (!file) return;
-  const ext = file.name.split('.').pop()?.toLowerCase() || '';
-  if (ext === 'json') {
-    const reader = new FileReader();
-    reader.onload = ev => {
-      try { loadJSON(JSON.parse(ev.target?.result as string), file.name); }
-      catch (err) { alert('JSON 解析失败: ' + (err as Error).message); }
-    };
-    reader.readAsText(file, 'UTF-8');
-  } else {
-    handleFileUpload(file);
-  }
+  void handleFileUpload(file);
 });
 
 // ─── Recent files ───

@@ -63,11 +63,42 @@ function validateQuestions(input) {
 function userFile(req) { return path.join(USERS_DIR, req.user.username, 'questions.json'); }
 function jsonResponse(res, status, body) { return res.status(status).json(body); }
 
+function validateBankMetadata(body, partial = false) {
+  if (!body || typeof body !== 'object' || Array.isArray(body)) throw new Error('题库资料格式无效');
+  const has = key => Object.prototype.hasOwnProperty.call(body, key);
+  if (!partial || has('name')) {
+    if (typeof body.name !== 'string' || !body.name.trim() || body.name.length > 200) throw new Error('题库名称需为 1 至 200 个字符');
+  }
+  if (!partial || has('subject')) {
+    if (typeof body.subject !== 'string' || !body.subject.trim() || body.subject.length > 100) throw new Error('科目需为 1 至 100 个字符');
+  }
+  if (has('description') && (typeof body.description !== 'string' || body.description.length > 2000)) throw new Error('题库简介不能超过 2000 个字符');
+  return Object.fromEntries(['name', 'subject', 'description'].filter(has).map(key => [key, body[key].trim()]));
+}
+
+function validateManagementBody(body, allowedKeys) {
+  if (!body || typeof body !== 'object' || Array.isArray(body) || Object.keys(body).some(key => !allowedKeys.includes(key))) throw new Error('请求资料格式无效');
+  validateVersion(body.version);
+}
+
+function validateVersion(version) {
+  if (version !== undefined && (typeof version !== 'string' || !version || version.length > 128)) throw new Error('题库版本格式无效');
+}
+
+function managementError(res, error) {
+  if (error instanceof GithubError) {
+    if (error.status === 404) return jsonResponse(res, 404, { error: '题库不存在' });
+    if (error.status === 409) return jsonResponse(res, 409, { error: '题库版本已更新，请重新加载后重试' });
+    return jsonResponse(res, 502, { error: '题库操作失败，请稍后重试' });
+  }
+  return jsonResponse(res, 400, { error: error.message || '请求格式无效' });
+}
+
 function createApp(options = {}) {
   const app = express();
   const github = options.github || createGithubClient({ env: options.env || process.env, fetch: options.fetch });
   app.disable('x-powered-by');
-  app.use(cors({ origin(origin, callback) { callback(null, isAllowedOrigin(origin) ? origin || false : false); }, methods: ['GET', 'POST', 'PUT', 'OPTIONS'], allowedHeaders: ['Content-Type', 'Authorization'] }));
+  app.use(cors({ origin(origin, callback) { callback(null, isAllowedOrigin(origin) ? origin || false : false); }, methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], allowedHeaders: ['Content-Type', 'Authorization'] }));
   app.use(express.json({ limit: MAX_BODY_BYTES }));
   initData();
 
@@ -111,13 +142,13 @@ function createApp(options = {}) {
     const body = req.body || {};
     try {
       if (!safeFilename(body.filename)) throw new Error('文件名只能使用字母、数字、下划线和连字符，且必须以 .json 结尾');
-      if (typeof body.name !== 'string' || !body.name.trim() || body.name.length > 200) throw new Error('题库名称需为 1 至 200 个字符');
-      if (typeof body.subject !== 'string' || !body.subject.trim() || body.subject.length > 100) throw new Error('科目需为 1 至 100 个字符');
-      if (body.description !== undefined && (typeof body.description !== 'string' || body.description.length > 2000)) throw new Error('题库简介不能超过 2000 个字符');
+      validateBankMetadata(body);
+      validateVersion(body.version);
       if (body.overwrite !== undefined && typeof body.overwrite !== 'boolean') throw new Error('覆盖标记格式无效');
       const questions = validateQuestions(body.questions);
       const size = Buffer.byteLength(JSON.stringify(questions), 'utf8'); if (size > MAX_BODY_BYTES) throw new Error('题库文件不能超过 8 MiB');
       const snapshot = await github.preparePublication(body.filename);
+      if (body.version !== undefined && body.version !== snapshot.parentSha) throw new GithubError(409);
       const catalog = snapshot.catalog;
       const existing = catalog.banks.find(bank => bank && bank.filename === body.filename);
       if ((existing || snapshot.existingFile) && body.overwrite !== true) return jsonResponse(res, 409, { error: '题库已存在，请确认覆盖' });
@@ -131,6 +162,51 @@ function createApp(options = {}) {
       if (error instanceof GithubError) return jsonResponse(res, 502, { error: '题库发布失败，请稍后重试' });
       return jsonResponse(res, 400, { error: error.message || '题库格式无效' });
     }
+  });
+
+  function validBankRoute(req, res, next) {
+    if (!safeFilename(req.params.filename)) return jsonResponse(res, 400, { error: '题库文件名格式无效' });
+    if (!github.config?.token) return jsonResponse(res, 503, { error: 'GitHub 发布未配置' });
+    return next();
+  }
+
+  async function knownBankSnapshot(filename, version) {
+    const snapshot = await github.preparePublication(filename);
+    const bank = snapshot.catalog.banks.find(entry => entry && entry.filename === filename);
+    if (!bank || !snapshot.existingFile) throw new GithubError(404);
+    if (version !== undefined && version !== snapshot.parentSha) throw new GithubError(409);
+    return { snapshot, bank };
+  }
+
+  app.get('/api/question-banks/:filename', requireRoot, validBankRoute, async (req, res) => {
+    try { return res.json(await github.getBank(req.params.filename)); }
+    catch (error) { return managementError(res, error); }
+  });
+
+  app.patch('/api/question-banks/:filename', requireRoot, validBankRoute, async (req, res) => {
+    try {
+      const body = req.body;
+      validateManagementBody(body, ['name', 'subject', 'description', 'version']);
+      const metadata = validateBankMetadata(body, true);
+      if (!Object.keys(metadata).length) throw new Error('至少提供一项题库资料');
+      const { snapshot, bank } = await knownBankSnapshot(req.params.filename, body.version);
+      const updated = { ...bank, ...metadata, updatedAt: new Date().toISOString() };
+      const catalog = { ...snapshot.catalog, banks: snapshot.catalog.banks.map(entry => entry.filename === req.params.filename ? updated : entry) };
+      const result = await github.publish({ filename: req.params.filename, catalog, snapshot, message: `Update question bank metadata ${req.params.filename}` });
+      return res.json({ ...updated, commitSha: result.commitSha });
+    } catch (error) { return managementError(res, error); }
+  });
+
+  app.delete('/api/question-banks/:filename', requireRoot, validBankRoute, async (req, res) => {
+    try {
+      const body = req.body;
+      validateManagementBody(body, ['confirm', 'version']);
+      if (body.confirm !== true) throw new Error('删除题库需要明确确认');
+      const { snapshot } = await knownBankSnapshot(req.params.filename, body.version);
+      const catalog = { ...snapshot.catalog, banks: snapshot.catalog.banks.filter(entry => entry.filename !== req.params.filename) };
+      const result = await github.publish({ filename: req.params.filename, deleteBank: true, catalog, snapshot, message: `Delete question bank ${req.params.filename}` });
+      return res.json({ filename: req.params.filename, deleted: true, commitSha: result.commitSha });
+    } catch (error) { return managementError(res, error); }
   });
 
   app.use((error, req, res, next) => {

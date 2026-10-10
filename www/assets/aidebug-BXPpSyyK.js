@@ -1,4 +1,4 @@
-import{t as e}from"./index-I3H-Vgo4.js";function t(){let t=document.createElement(`div`);t.className=`modal-overlay`,t.id=`aiDebugModal`,t.innerHTML=`
+import{t as e}from"./index-BqhhZbXb.js";function t(){let t=document.createElement(`div`);t.className=`modal-overlay`,t.id=`aiDebugModal`,t.innerHTML=`
     <div class="modal" style="max-width:700px;height:80vh;display:flex;flex-direction:column;padding:20px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
         <h2 style="margin:0;font-size:1.1rem">🤖 AI 调试</h2>

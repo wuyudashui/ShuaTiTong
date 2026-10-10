@@ -4,8 +4,13 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
-const { createApp, start, validateQuestions, safeFilename, isAllowedOrigin, MAX_BODY_BYTES } = require('../server/index');
 const testPassword = process.env.SHUATITONG_TEST_PASSWORD || String.fromCharCode(49, 50, 51, 52, 53, 54);
+// Keep importing the server independent from the developer host's .env values.
+process.env.SHUATITONG_DEV_PASSWORD = testPassword;
+process.env.JWT_SECRET = 'test-only-signing-key';
+process.env.SHUATITONG_GITHUB_TOKEN = 'test-blocked';
+process.env.GITHUB_TOKEN = 'test-blocked';
+const { createApp, start, validateQuestions, safeFilename, isAllowedOrigin, MAX_BODY_BYTES } = require('../server/index');
 
 const validQuestions = () => [
   { id: 1, type: 'single', question: 'Select one', options: { A: 'first', B: 'second' }, answer: 'B', difficulty: '中', explanation: '' },
@@ -14,8 +19,8 @@ const validQuestions = () => [
   { id: 4, type: 'fill', question: 'Fill in', options: { A: '42', B: [{ t: 'text', c: 'answer' }] }, answer: '' },
 ];
 
-function fakeGithub({ catalog = { version: 1, banks: [] }, existing = false, failAt = '', movedHead = false } = {}) {
-  const calls = []; const blobs = new Map(); let visibleHead = 'head-old'; let blobCount = 0;
+function fakeGithub({ catalog = { version: 1, banks: [] }, existing = false, bankText = JSON.stringify(validQuestions()), failAt = '', movedHead = false, largeFile = false } = {}) {
+  const calls = []; const blobs = new Map(); const blobBytes = new Map(); let visibleHead = 'head-old'; let blobCount = 0;
   const fetch = async (url, options = {}) => {
     const method = options.method || 'GET'; const parsed = new URL(url); const apiPath = parsed.pathname.replace('/repos/wuyudashui/ShuaTiTong', '');
     const body = options.body ? JSON.parse(options.body) : undefined; calls.push({ method, path: apiPath, ref: parsed.searchParams.get('ref'), body, headers: options.headers });
@@ -24,8 +29,9 @@ function fakeGithub({ catalog = { version: 1, banks: [] }, existing = false, fai
     if (method === 'GET' && apiPath === '/git/ref/heads/main') return result(200, { object: { sha: visibleHead } });
     if (method === 'GET' && apiPath.startsWith('/git/commits/')) return result(200, { tree: { sha: 'tree-old' } });
     if (method === 'GET' && apiPath === '/contents/public/question-banks/catalog.json') return result(200, { content: Buffer.from(JSON.stringify(catalog)).toString('base64'), encoding: 'base64' });
-    if (method === 'GET' && apiPath.startsWith('/contents/public/question-banks/')) return existing ? result(200, { sha: 'existing-bank' }) : result(404, { message: 'Not found' });
-    if (method === 'POST' && apiPath === '/git/blobs') { const sha = `blob-${++blobCount}`; blobs.set(sha, JSON.parse(Buffer.from(body.content, 'base64').toString())); return result(201, { sha }); }
+    if (method === 'GET' && apiPath.startsWith('/contents/public/question-banks/')) return existing ? result(200, { type: 'file', sha: 'existing-bank', content: largeFile ? '' : Buffer.from(bankText).toString('base64'), encoding: largeFile ? 'none' : 'base64', size: Buffer.byteLength(bankText) }) : result(404, { message: 'Not found' });
+    if (method === 'GET' && apiPath === '/git/blobs/existing-bank') return result(200, { sha: 'existing-bank', content: Buffer.from(bankText).toString('base64'), encoding: 'base64', size: Buffer.byteLength(bankText) });
+    if (method === 'POST' && apiPath === '/git/blobs') { const sha = `blob-${++blobCount}`; const bytes = Buffer.from(body.content, 'base64'); blobBytes.set(sha, bytes); blobs.set(sha, JSON.parse(bytes.toString())); return result(201, { sha }); }
     if (method === 'POST' && apiPath === '/git/trees') return result(201, { sha: 'tree-new' });
     if (method === 'POST' && apiPath === '/git/commits') return result(201, { sha: 'commit-new' });
     if (method === 'PATCH' && apiPath === '/git/refs/heads/main') {
@@ -34,18 +40,19 @@ function fakeGithub({ catalog = { version: 1, banks: [] }, existing = false, fai
     }
     return result(404, { message: `Unexpected fake request ${method} ${apiPath}` });
   };
-  return { fetch, calls, blobs, head: () => visibleHead };
+  return { fetch, calls, blobs, blobBytes, head: () => visibleHead, originalBankBytes: Buffer.from(bankText) };
 }
 
 async function withServer(t, options = {}) {
-  const app = createApp({ env: { SHUATITONG_GITHUB_TOKEN: 'fake-token' }, ...options });
+  const app = createApp({ env: { SHUATITONG_GITHUB_TOKEN: 'fake-token' }, fetch: async () => { throw new Error('Unexpected GitHub access in test'); }, ...options });
   const server = await new Promise(resolve => { const s = app.listen(0, '127.0.0.1', () => resolve(s)); });
   t.after(() => new Promise(resolve => server.close(resolve)));
   const base = `http://127.0.0.1:${server.address().port}`;
   const request = (route, body, token, headers = {}) => fetch(base + route, { method: body === undefined ? 'GET' : 'POST', headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}), ...headers }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
+  const manage = (method, route, body, token, headers = {}) => fetch(base + route, { method, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}), ...headers }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
   const login = await request('/api/auth/root/login', { username: 'yuhao', password: testPassword });
   assert.equal(login.status, 200); const { token } = await login.json();
-  return { request, token, base };
+  return { request, manage, token, base };
 }
 const publication = (extra = {}) => ({ filename: 'calculus.json', name: 'Calculus', subject: 'Math', description: 'Practice', questions: validQuestions(), overwrite: false, ...extra });
 
@@ -200,8 +207,167 @@ test('publication rejects unsafe image sources, blank content and unrenderable c
 
 test('publication rejects invalid metadata before contacting GitHub', async t => {
   const fake = fakeGithub(); const { request, token } = await withServer(t, { fetch: fake.fetch });
-  for (const extra of [{ overwrite: 'yes' }, { filename: 'a'.repeat(200) + '.json' }, { name: 'x'.repeat(201) }, { subject: 'x'.repeat(101) }, { description: 'x'.repeat(2001) }]) {
+  for (const extra of [{ overwrite: 'yes' }, { version: 1 }, { version: '' }, { filename: 'a'.repeat(200) + '.json' }, { name: 'x'.repeat(201) }, { subject: 'x'.repeat(101) }, { description: 'x'.repeat(2001) }]) {
     assert.equal((await request('/api/question-banks', publication(extra), token)).status, 400);
   }
   assert.equal(fake.calls.length, 0);
+});
+
+const existingBank = (extra = {}) => ({ filename: 'calculus.json', name: 'Calculus', subject: 'Math', description: 'Practice', path: 'question-banks/calculus.json', count: 4, types: ['single', 'multi', 'judge', 'fill'], updatedAt: '2026-10-10T00:00:00.000Z', ...extra });
+const indexedGithub = (extra = {}) => fakeGithub({ existing: true, catalog: { version: 1, banks: [existingBank(), existingBank({ filename: 'other.json', path: 'question-banks/other.json', name: 'Other' })] }, ...extra });
+const assertImmutableReads = fake => {
+  for (const read of fake.calls.filter(call => call.method === 'GET' && call.path.startsWith('/contents/'))) assert.equal(read.ref, 'head-old');
+};
+const assertSingleNonforceCommit = fake => {
+  const commits = fake.calls.filter(call => call.method === 'POST' && call.path === '/git/commits'); assert.equal(commits.length, 1); assert.deepEqual(commits[0].body.parents, ['head-old']);
+  const refs = fake.calls.filter(call => call.method === 'PATCH'); assert.equal(refs.length, 1); assert.deepEqual(refs[0].body, { sha: 'commit-new', force: false });
+};
+
+test('management endpoints require root auth before GitHub access', async t => {
+  const fake = indexedGithub(); const { manage, request } = await withServer(t, { fetch: fake.fetch });
+  for (const [method, body] of [['GET', undefined], ['PATCH', { name: 'Edited' }], ['DELETE', { confirm: true }]]) assert.equal((await manage(method, '/api/question-banks/calculus.json', body)).status, 401);
+  const username = `test_${crypto.randomBytes(4).toString('hex')}`;
+  const premium = await request('/api/auth/premium/register', { username, password: 'test-password' });
+  assert.equal(premium.status, 200);
+  const user = await premium.json();
+  t.after(() => {
+    const usersFile = path.resolve(__dirname, '../server/data/premium-users.json');
+    const users = JSON.parse(fs.readFileSync(usersFile, 'utf8'));
+    delete users[username]; fs.writeFileSync(usersFile, JSON.stringify(users));
+    const dir = path.resolve(__dirname, '../server/data/users', username);
+    const allowedRoot = path.resolve(__dirname, '../server/data/users') + path.sep;
+    if (!dir.startsWith(allowedRoot)) throw new Error('Unexpected test cleanup path');
+    fs.rmSync(dir, { recursive: true, force: true });
+  });
+  for (const [method, body] of [['GET', undefined], ['PATCH', { name: 'Edited' }], ['DELETE', { confirm: true }]]) assert.equal((await manage(method, '/api/question-banks/calculus.json', body, user.token)).status, 403);
+  assert.equal(fake.calls.length, 0);
+});
+
+test('GET bank reads metadata and original questions from one immutable commit', async t => {
+  const questions = validQuestions(); const fake = indexedGithub({ bankText: '  ' + JSON.stringify(questions) + '\r\n' }); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  const response = await manage('GET', '/api/question-banks/calculus.json', undefined, token); assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { bank: existingBank(), questions, version: 'head-old' }); assertImmutableReads(fake);
+  assert.equal(fake.calls.some(call => call.method !== 'GET'), false);
+});
+
+test('GET bank falls back to its immutable Git blob for files above Contents inline limit', async t => {
+  const fake = indexedGithub({ largeFile: true }); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  const response = await manage('GET', '/api/question-banks/calculus.json', undefined, token); assert.equal(response.status, 200); assert.deepEqual((await response.json()).questions, validQuestions());
+  assert.equal(fake.calls.filter(call => call.path === '/git/blobs/existing-bank').length, 1); assertImmutableReads(fake);
+});
+
+test('PATCH edits only metadata and preserves exact existing bank JSON bytes', async t => {
+  const bankText = '\ufeff  ' + JSON.stringify(validQuestions(), null, 1) + '\r\n';
+  const fake = indexedGithub({ bankText }); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  const response = await manage('PATCH', '/api/question-banks/calculus.json', { name: '  Renamed  ', subject: '  Algebra ', description: 'Updated description', version: 'head-old' }, token); assert.equal(response.status, 200);
+  const result = await response.json(); assert.equal(result.name, 'Renamed'); assert.equal(result.subject, 'Algebra'); assert.equal(result.commitSha, 'commit-new');
+  const tree = fake.calls.find(call => call.method === 'POST' && call.path === '/git/trees').body;
+  assert.deepEqual(tree.tree.map(item => item.path), ['public/question-banks/catalog.json']); assert.equal(tree.base_tree, 'tree-old');
+  assert.equal(fake.blobBytes.size, 1, 'metadata changes must never re-serialize the bank');
+  const catalog = fake.blobs.get(tree.tree[0].sha); assert.equal(catalog.banks.length, 2); assert.equal(catalog.banks[0].name, 'Renamed'); assert.equal(catalog.banks[0].subject, 'Algebra'); assert.equal(catalog.banks[0].description, 'Updated description');
+  assert.equal(catalog.banks[0].count, 4); assert.deepEqual(catalog.banks[0].types, existingBank().types); assert.equal(catalog.banks[0].filename, 'calculus.json'); assert.equal(catalog.banks[0].path, 'question-banks/calculus.json'); assert.deepEqual(catalog.banks[1], existingBank({ filename: 'other.json', path: 'question-banks/other.json', name: 'Other' }));
+  assertImmutableReads(fake); assertSingleNonforceCommit(fake);
+});
+
+test('PATCH accepts partial metadata without resetting omitted fields', async t => {
+  const fake = indexedGithub(); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  const response = await manage('PATCH', '/api/question-banks/calculus.json', { description: '' }, token); assert.equal(response.status, 200);
+  const result = await response.json(); assert.equal(result.description, ''); assert.equal(result.name, 'Calculus'); assert.equal(result.subject, 'Math');
+});
+
+test('DELETE requires explicit boolean confirmation before GitHub access', async t => {
+  const fake = indexedGithub(); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  for (const body of [undefined, {}, { confirm: false }, { confirm: 'true' }, { confirm: 1 }]) assert.equal((await manage('DELETE', '/api/question-banks/calculus.json', body, token)).status, 400);
+  assert.equal(fake.calls.length, 0);
+});
+
+test('DELETE removes bank and catalog entry in the same atomic commit', async t => {
+  const fake = indexedGithub(); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  const response = await manage('DELETE', '/api/question-banks/calculus.json', { confirm: true, version: 'head-old' }, token); assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { filename: 'calculus.json', deleted: true, commitSha: 'commit-new' });
+  const tree = fake.calls.find(call => call.method === 'POST' && call.path === '/git/trees').body;
+  const deletion = tree.tree.find(entry => entry.path === 'public/question-banks/calculus.json'); assert.deepEqual(deletion, { path: 'public/question-banks/calculus.json', mode: '100644', type: 'blob', sha: null });
+  const catalogEntry = tree.tree.find(entry => entry.path === 'public/question-banks/catalog.json'); const catalog = fake.blobs.get(catalogEntry.sha);
+  assert.deepEqual(catalog, { version: 1, banks: [existingBank({ filename: 'other.json', path: 'question-banks/other.json', name: 'Other' })] }); assert.equal(fake.blobBytes.size, 1); assertImmutableReads(fake); assertSingleNonforceCommit(fake);
+});
+
+test('unknown banks return 404 for GET PATCH DELETE without mutation', async t => {
+  for (const options of [{ existing: false }, { catalog: { version: 1, banks: [] } }]) {
+    const fake = indexedGithub(options); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+    for (const [method, body] of [['GET', undefined], ['PATCH', { name: 'Edited' }], ['DELETE', { confirm: true }]]) assert.equal((await manage(method, '/api/question-banks/calculus.json', body, token)).status, 404);
+    assert.equal(fake.calls.some(call => call.method !== 'GET'), false);
+  }
+});
+
+test('management routes reject reserved filenames and encoded traversal before reads', async t => {
+  const fake = indexedGithub(); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  for (const filename of ['catalog.json', 'CATALOG.json', '..%5Cescape.json', '..%2Fescape.json', 'bank.json%3Fextra=1', 'bad%20name.json']) {
+    for (const [method, body] of [['GET', undefined], ['PATCH', { name: 'Edited' }], ['DELETE', { confirm: true }]]) assert.equal((await manage(method, '/api/question-banks/' + filename, body, token)).status, 400);
+  }
+  assert.equal(fake.calls.length, 0);
+});
+
+test('PATCH rejects invalid metadata and attempts to replace protected fields', async t => {
+  const fake = indexedGithub(); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  for (const body of [{}, [], { name: '' }, { subject: '  ' }, { description: null }, { name: 'x'.repeat(201) }, { subject: 'x'.repeat(101) }, { description: 'x'.repeat(2001) }, { filename: 'escape.json', name: 'Edited' }, { path: '../x.json', name: 'Edited' }, { questions: validQuestions(), name: 'Edited' }, { count: 9, name: 'Edited' }, { name: 'Edited', version: 1 }]) assert.equal((await manage('PATCH', '/api/question-banks/calculus.json', body, token)).status, 400);
+  assert.equal(fake.calls.length, 0);
+});
+
+test('stale client versions reject metadata changes and deletion before mutations', async t => {
+  const fake = indexedGithub(); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  for (const [method, body] of [['PATCH', { name: 'Edited', version: 'stale-head' }], ['DELETE', { confirm: true, version: 'stale-head' }]]) assert.equal((await manage(method, '/api/question-banks/calculus.json', body, token)).status, 409);
+  assert.equal(fake.calls.some(call => call.method !== 'GET'), false);
+});
+
+test('POST overwrite rejects an obsolete editing version before blob creation', async t => {
+  const fake = indexedGithub(); const { request, token } = await withServer(t, { fetch: fake.fetch });
+  const response = await request('/api/question-banks', publication({ overwrite: true, version: 'stale-head' }), token);
+  assert.equal(response.status, 409); assert.equal(fake.calls.some(call => call.method !== 'GET'), false);
+});
+
+test('POST overwrite accepts the current editing version', async t => {
+  const fake = indexedGithub(); const { request, token } = await withServer(t, { fetch: fake.fetch });
+  assert.equal((await request('/api/question-banks', publication({ overwrite: true, version: 'head-old' }), token)).status, 200);
+  assertSingleNonforceCommit(fake);
+});
+
+test('branch moves reject management commits without force or automatic retry', async t => {
+  for (const [method, body] of [['PATCH', { name: 'Edited' }], ['DELETE', { confirm: true }]]) {
+    const fake = indexedGithub({ movedHead: true }); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+    assert.equal((await manage(method, '/api/question-banks/calculus.json', body, token)).status, 409); assert.equal(fake.head(), 'head-old'); assertSingleNonforceCommit(fake);
+  }
+});
+
+test('management upstream failures expose no secret details and never change the branch', async t => {
+  for (const [method, body] of [['GET', undefined], ['PATCH', { name: 'Edited' }], ['DELETE', { confirm: true }]]) {
+    const fake = indexedGithub({ failAt: '/contents/public/question-banks/calculus.json' }); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+    const response = await manage(method, '/api/question-banks/calculus.json', body, token); assert.equal(response.status, 502); assert.doesNotMatch(await response.text(), /remote secret|fake-token/); assert.equal(fake.calls.some(call => call.method !== 'GET'), false);
+  }
+});
+
+test('management requests require configured publishing credentials', async t => {
+  const { manage, token } = await withServer(t, { env: {} });
+  for (const [method, body] of [['GET', undefined], ['PATCH', { name: 'Edited' }], ['DELETE', { confirm: true }]]) assert.equal((await manage(method, '/api/question-banks/calculus.json', body, token)).status, 503);
+});
+
+test('DELETE publication failures never partially remove the bank or its index', async t => {
+  for (const failAt of ['/git/blobs', '/git/trees', '/git/commits', '/git/refs/heads/main']) {
+    const fake = indexedGithub({ failAt }); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+    const response = await manage('DELETE', '/api/question-banks/calculus.json', { confirm: true }, token);
+    assert.equal(response.status, 502); assert.equal(fake.head(), 'head-old'); assert.doesNotMatch(await response.text(), /remote secret|fake-token/);
+  }
+});
+
+test('GET bank rejects malformed JSON without exposing parsing or upstream details', async t => {
+  const fake = indexedGithub({ bankText: '{secret fake-token' }); const { manage, token } = await withServer(t, { fetch: fake.fetch });
+  const response = await manage('GET', '/api/question-banks/calculus.json', undefined, token);
+  assert.equal(response.status, 502); assert.doesNotMatch(await response.text(), /fake-token|secret|JSON/);
+});
+
+test('CORS preflight allows PATCH and DELETE for approved origins', async t => {
+  const { manage } = await withServer(t);
+  for (const method of ['PATCH', 'DELETE']) {
+    const response = await manage('OPTIONS', '/api/question-banks/calculus.json', undefined, undefined, { Origin: 'http://localhost:5173', 'Access-Control-Request-Method': method, 'Access-Control-Request-Headers': 'authorization,content-type' });
+    assert.equal(response.status, 204); assert.match(response.headers.get('access-control-allow-methods'), new RegExp(method));
+  }
 });

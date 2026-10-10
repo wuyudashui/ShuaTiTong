@@ -80,34 +80,63 @@ function createGithubClient(options = {}) {
     const baseTree = commit?.tree?.sha;
     if (!baseTree) throw new GithubError();
     const catalog = await getCatalog(parentSha);
-    let existingFile = false;
+    let fileEntry = null;
     try {
-      const entry = await request(`${repoPrefix}/contents/${encodePath(`${BANK_DIR}/${filename}`)}?ref=${encodeURIComponent(parentSha)}`);
-      existingFile = Boolean(entry);
+      fileEntry = await request(`${repoPrefix}/contents/${encodePath(`${BANK_DIR}/${filename}`)}?ref=${encodeURIComponent(parentSha)}`);
     } catch (error) {
       if (error.status !== 404) throw error;
     }
-    return { parentSha, baseTree, catalog, existingFile };
+    return { parentSha, baseTree, catalog, existingFile: Boolean(fileEntry), fileEntry };
   }
 
-  async function publish({ filename, bankJson, catalog, snapshot, message }) {
+  async function getBank(filename) {
+    const snapshot = await preparePublication(filename);
+    const bank = snapshot.catalog.banks.find(entry => entry && entry.filename === filename);
+    if (!bank || !snapshot.existingFile) throw new GithubError(404);
+    let source = snapshot.fileEntry;
+    // The Contents endpoint omits inline content for files over 1 MiB. Read the
+    // immutable blob SHA rather than a download URL pointing at a moving branch.
+    if (source?.encoding !== 'base64' || typeof source.content !== 'string' || !source.content) {
+      if (!source?.sha) throw new GithubError();
+      source = await request(`${repoPrefix}/git/blobs/${encodeURIComponent(source.sha)}`);
+    }
+    try {
+      if (source.encoding !== 'base64' || typeof source.content !== 'string') throw new Error();
+      const bytes = Buffer.from(source.content, 'base64');
+      if (bytes.length > 8 * 1024 * 1024) throw new Error();
+      const questions = JSON.parse(bytes.toString('utf8').replace(/^\uFEFF/, ''));
+      if (!Array.isArray(questions) || !questions.length) throw new Error();
+      return { bank, questions, version: snapshot.parentSha };
+    } catch { throw new GithubError(); }
+  }
+
+  async function publish({ filename, bankJson, deleteBank = false, catalog, snapshot, message }) {
     if (!snapshot?.parentSha || !snapshot?.baseTree) throw new GithubError();
+    if (deleteBank && bankJson !== undefined) throw new GithubError();
     const encoded = value => Buffer.from(JSON.stringify(value, null, 2) + '\n', 'utf8').toString('base64');
     const blob = value => request(`${repoPrefix}/git/blobs`, {
       method: 'POST', body: JSON.stringify({ content: encoded(value), encoding: 'base64' }),
     });
-    const [bankBlob, catalogBlob] = await Promise.all([blob(bankJson), blob(catalog)]);
-    if (!bankBlob?.sha || !catalogBlob?.sha) throw new GithubError();
-    // Both files enter the branch together through one tree, one commit and one
-    // non-force ref update. Failure before the ref update leaves it untouched.
+    const treeEntries = [];
+    let catalogBlob;
+    if (bankJson !== undefined) {
+      const [bankBlob, createdCatalogBlob] = await Promise.all([blob(bankJson), blob(catalog)]);
+      if (!bankBlob?.sha) throw new GithubError();
+      catalogBlob = createdCatalogBlob;
+      treeEntries.push({ path: `${BANK_DIR}/${filename}`, mode: '100644', type: 'blob', sha: bankBlob.sha });
+    } else {
+      catalogBlob = await blob(catalog);
+      if (deleteBank) treeEntries.push({ path: `${BANK_DIR}/${filename}`, mode: '100644', type: 'blob', sha: null });
+    }
+    if (!catalogBlob?.sha) throw new GithubError();
+    treeEntries.push({ path: CATALOG_PATH, mode: '100644', type: 'blob', sha: catalogBlob.sha });
+    // Metadata edits retain the bank blob from base_tree unchanged. Publication
+    // and deletion update both files through one tree, commit and non-force ref.
     const tree = await request(`${repoPrefix}/git/trees`, {
       method: 'POST',
       body: JSON.stringify({
         base_tree: snapshot.baseTree,
-        tree: [
-          { path: `${BANK_DIR}/${filename}`, mode: '100644', type: 'blob', sha: bankBlob.sha },
-          { path: CATALOG_PATH, mode: '100644', type: 'blob', sha: catalogBlob.sha },
-        ],
+        tree: treeEntries,
       }),
     });
     if (!tree?.sha) throw new GithubError();
@@ -122,7 +151,7 @@ function createGithubClient(options = {}) {
     return { commitSha: commit.sha };
   }
 
-  return { config, getCatalog, preparePublication, publish };
+  return { config, getCatalog, getBank, preparePublication, publish };
 }
 
 module.exports = { createGithubClient, githubConfig, configured, GithubError, CATALOG_PATH, BANK_DIR };

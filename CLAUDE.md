@@ -114,15 +114,9 @@ Local developer UI unlock uses a password digest, with no credentials shown in t
 - 📥 Export modified JSON
 - `</>` AI debug chat
 
-### File Upload (Excel/Word)
+### File Upload (JSON)
 
-Non-JSON files go through a 5-step pipeline:
-
-1. Extract raw text (xlsx via `xlsx` library, docx via `mammoth`)
-2. User reviews/edits text in a modal
-3. AI converts text to structured JSON
-4. User previews the result
-5. Import to app
+The page accepts only JSON question arrays. Both file-picker and drag/drop reject other formats and refer users to the `shuatitong-any2json` skill or developer contact. Older parser modules remain in source for reference but are not imported into the web entry bundle.
 
 ### State (localStorage)
 
