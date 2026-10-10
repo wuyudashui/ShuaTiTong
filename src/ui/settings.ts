@@ -21,7 +21,6 @@ export function initSettings(): void {
   // Feature mapping
   const modelForAISelect = document.getElementById('modelForAI') as HTMLSelectElement;
   const modelForAdaptSelect = document.getElementById('modelForAdapt') as HTMLSelectElement;
-  const modelForParseSelect = document.getElementById('modelForParse') as HTMLSelectElement;
 
   // Preferences
   const autoNextCheck = document.getElementById('autoNextCheck') as HTMLInputElement;
@@ -86,7 +85,6 @@ export function initSettings(): void {
     // Feature mapping
     modelForAISelect.value = s.modelForAI || 'remote';
     modelForAdaptSelect.value = s.modelForAdapt || 'remote';
-    modelForParseSelect.value = s.modelForParse || 'remote';
 
     // Preferences
     if (autoNextCheck) autoNextCheck.checked = s.autoNext ?? false;
@@ -159,7 +157,6 @@ export function initSettings(): void {
       // Feature mapping
       modelForAI: modelForAISelect.value as any || 'remote',
       modelForAdapt: modelForAdaptSelect.value as any || 'remote',
-      modelForParse: modelForParseSelect.value as any || 'remote',
       // Preferences
       autoNext: autoNextCheck ? autoNextCheck.checked : false,
     });
