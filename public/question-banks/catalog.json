@@ -30,21 +30,6 @@
         "fill"
       ],
       "updatedAt": "2026-10-10T08:30:18.095Z"
-    },
-    {
-      "filename": "sample.json",
-      "name": "示例题库",
-      "subject": "示例",
-      "description": "用于熟悉刷题通格式的示例题库",
-      "path": "question-banks/sample.json",
-      "count": 10,
-      "types": [
-        "single",
-        "judge",
-        "multi",
-        "fill"
-      ],
-      "updatedAt": "2026-10-10T04:30:51.834Z"
     }
   ]
 }
