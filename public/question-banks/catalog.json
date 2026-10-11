@@ -47,7 +47,7 @@
     },
     {
       "filename": "OOP.json",
-      "name": "面向对象",
+      "name": "面向对象程序设计",
       "subject": "计算机",
       "description": "面向对象程序设计(之前处理的题库,不保证正常显示凑活用)",
       "path": "question-banks/OOP.json",
@@ -56,7 +56,7 @@
         "judge",
         "single"
       ],
-      "updatedAt": "2026-10-10T08:42:19.822Z"
+      "updatedAt": "2026-10-11T11:20:29.398Z"
     },
     {
       "filename": "DataStructure.json",
